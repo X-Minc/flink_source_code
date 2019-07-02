@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ifugle.rap.mapper.BotTrackDetailDOMapper">
+    <resultMap id="BaseResultMap" type="com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <result column="NODE_ID" property="nodeId" jdbcType="INTEGER"/>
+        <result column="USER_ID" property="userId" jdbcType="BIGINT"/>
+        <result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+        <result column="SESSION_ID" property="sessionId" jdbcType="BIGINT"/>
+        <result column="REQUEST_ID" property="requestId" jdbcType="BIGINT"/>
+        <result column="MESSAGE_ID" property="messageId" jdbcType="VARCHAR"/>
+        <result column="SERVER_ID" property="serverId" jdbcType="BIGINT"/>
+        <result column="SERVER_NAME" property="serverName" jdbcType="VARCHAR"/>
+        <result column="AUTH_VENDOR" property="authVendor" jdbcType="VARCHAR"/>
+        <result column="TRACK_CODE" property="trackCode" jdbcType="VARCHAR"/>
+        <result column="TRACK_DATA" property="trackData" jdbcType="VARCHAR"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, NODE_ID, USER_ID, USER_NAME, SESSION_ID, REQUEST_ID, MESSAGE_ID, SERVER_ID, SERVER_NAME, 
+    AUTH_VENDOR, TRACK_CODE, TRACK_DATA, REMARK, CREATION_DATE
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from BOT_TRACK_DETAIL
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from BOT_TRACK_DETAIL
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO">
+    insert into BOT_TRACK_DETAIL (ID, NODE_ID, USER_ID, 
+      USER_NAME, SESSION_ID, REQUEST_ID, 
+      MESSAGE_ID, SERVER_ID, SERVER_NAME, 
+      AUTH_VENDOR, TRACK_CODE, TRACK_DATA, 
+      REMARK, CREATION_DATE)
+    values (#{id,jdbcType=BIGINT}, #{nodeId,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, 
+      #{userName,jdbcType=VARCHAR}, #{sessionId,jdbcType=BIGINT}, #{requestId,jdbcType=BIGINT}, 
+      #{messageId,jdbcType=VARCHAR}, #{serverId,jdbcType=BIGINT}, #{serverName,jdbcType=VARCHAR}, 
+      #{authVendor,jdbcType=VARCHAR}, #{trackCode,jdbcType=VARCHAR}, #{trackData,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{creationDate,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO">
+        insert into BOT_TRACK_DETAIL
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="nodeId != null">
+                NODE_ID,
+            </if>
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="userName != null">
+                USER_NAME,
+            </if>
+            <if test="sessionId != null">
+                SESSION_ID,
+            </if>
+            <if test="requestId != null">
+                REQUEST_ID,
+            </if>
+            <if test="messageId != null">
+                MESSAGE_ID,
+            </if>
+            <if test="serverId != null">
+                SERVER_ID,
+            </if>
+            <if test="serverName != null">
+                SERVER_NAME,
+            </if>
+            <if test="authVendor != null">
+                AUTH_VENDOR,
+            </if>
+            <if test="trackCode != null">
+                TRACK_CODE,
+            </if>
+            <if test="trackData != null">
+                TRACK_DATA,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="nodeId != null">
+                #{nodeId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="sessionId != null">
+                #{sessionId,jdbcType=BIGINT},
+            </if>
+            <if test="requestId != null">
+                #{requestId,jdbcType=BIGINT},
+            </if>
+            <if test="messageId != null">
+                #{messageId,jdbcType=VARCHAR},
+            </if>
+            <if test="serverId != null">
+                #{serverId,jdbcType=BIGINT},
+            </if>
+            <if test="serverName != null">
+                #{serverName,jdbcType=VARCHAR},
+            </if>
+            <if test="authVendor != null">
+                #{authVendor,jdbcType=VARCHAR},
+            </if>
+            <if test="trackCode != null">
+                #{trackCode,jdbcType=VARCHAR},
+            </if>
+            <if test="trackData != null">
+                #{trackData,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="creationDate != null">
+                #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO">
+        update BOT_TRACK_DETAIL
+        <set>
+            <if test="nodeId != null">
+                NODE_ID = #{nodeId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                USER_ID = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="userName != null">
+                USER_NAME = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="sessionId != null">
+                SESSION_ID = #{sessionId,jdbcType=BIGINT},
+            </if>
+            <if test="requestId != null">
+                REQUEST_ID = #{requestId,jdbcType=BIGINT},
+            </if>
+            <if test="messageId != null">
+                MESSAGE_ID = #{messageId,jdbcType=VARCHAR},
+            </if>
+            <if test="serverId != null">
+                SERVER_ID = #{serverId,jdbcType=BIGINT},
+            </if>
+            <if test="serverName != null">
+                SERVER_NAME = #{serverName,jdbcType=VARCHAR},
+            </if>
+            <if test="authVendor != null">
+                AUTH_VENDOR = #{authVendor,jdbcType=VARCHAR},
+            </if>
+            <if test="trackCode != null">
+                TRACK_CODE = #{trackCode,jdbcType=VARCHAR},
+            </if>
+            <if test="trackData != null">
+                TRACK_DATA = #{trackData,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO">
+    update BOT_TRACK_DETAIL
+    set NODE_ID = #{nodeId,jdbcType=INTEGER},
+      USER_ID = #{userId,jdbcType=BIGINT},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      SESSION_ID = #{sessionId,jdbcType=BIGINT},
+      REQUEST_ID = #{requestId,jdbcType=BIGINT},
+      MESSAGE_ID = #{messageId,jdbcType=VARCHAR},
+      SERVER_ID = #{serverId,jdbcType=BIGINT},
+      SERVER_NAME = #{serverName,jdbcType=VARCHAR},
+      AUTH_VENDOR = #{authVendor,jdbcType=VARCHAR},
+      TRACK_CODE = #{trackCode,jdbcType=VARCHAR},
+      TRACK_DATA = #{trackData,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectBotTrackDetailForInit" resultMap="BaseResultMap">
+        SELECT * FROM BOT_TRACK_DETAIL ORDER BY CREATION_DATE LIMIT ${first}, ${pageSize}
+    </select>
+
+    <select id="selectBotTrackDetailForSync" resultMap="BaseResultMap">
+        SELECT * FROM BOT_TRACK_DETAIL WHERE CREATION_DATE >= #{lastUpdateTime} ORDER BY CREATION_DATE LIMIT ${first},${pageSize}
+    </select>
+</mapper>

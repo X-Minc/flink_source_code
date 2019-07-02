@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ifugle.rap.mapper.BotChatResponseMessageDOMapper">
+    <resultMap id="BaseResultMap" type="com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <result column="NODE_ID" property="nodeId" jdbcType="INTEGER"/>
+        <result column="REQUEST_ID" property="requestId" jdbcType="BIGINT"/>
+        <result column="RESPONSE_ID" property="responseId" jdbcType="BIGINT"/>
+        <result column="USER_ID" property="userId" jdbcType="BIGINT"/>
+        <result column="MESSAGE_TIP" property="messageTip" jdbcType="VARCHAR"/>
+        <result column="ARRAY_INDEX" property="arrayIndex" jdbcType="TINYINT"/>
+        <result column="SUB_INDEX" property="subIndex" jdbcType="TINYINT"/>
+        <result column="TYPE" property="type" jdbcType="VARCHAR"/>
+        <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+        <result column="SUMMARY" property="summary" jdbcType="VARCHAR"/>
+        <result column="CONTENT" property="content" jdbcType="VARCHAR"/>
+        <result column="KNOWLEDGE_ID" property="knowledgeId" jdbcType="VARCHAR"/>
+        <result column="ANSWER_SOURCE" property="answerSource" jdbcType="VARCHAR"/>
+        <result column="SELECTED" property="selected" jdbcType="TINYINT"/>
+        <result column="CLICKED_TIME" property="clickedTime" jdbcType="TIMESTAMP"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="TIMESTAMP"/>
+        <result column="DURATION" property="duration" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, NODE_ID, REQUEST_ID, RESPONSE_ID, USER_ID, MESSAGE_TIP, ARRAY_INDEX, SUB_INDEX, 
+    TYPE, TITLE, SUMMARY, CONTENT, KNOWLEDGE_ID, ANSWER_SOURCE, SELECTED, CLICKED_TIME, 
+    CREATION_DATE, DURATION
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from BOT_CHAT_RESPONSE_MESSAGE
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from BOT_CHAT_RESPONSE_MESSAGE
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO">
+    insert into BOT_CHAT_RESPONSE_MESSAGE (ID, NODE_ID, REQUEST_ID, 
+      RESPONSE_ID, USER_ID, MESSAGE_TIP, 
+      ARRAY_INDEX, SUB_INDEX, TYPE, 
+      TITLE, SUMMARY, CONTENT, 
+      KNOWLEDGE_ID, ANSWER_SOURCE, SELECTED, 
+      CLICKED_TIME, CREATION_DATE, DURATION
+      )
+    values (#{id,jdbcType=BIGINT}, #{nodeId,jdbcType=INTEGER}, #{requestId,jdbcType=BIGINT}, 
+      #{responseId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{messageTip,jdbcType=VARCHAR}, 
+      #{arrayIndex,jdbcType=TINYINT}, #{subIndex,jdbcType=TINYINT}, #{type,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{knowledgeId,jdbcType=VARCHAR}, #{answerSource,jdbcType=VARCHAR}, #{selected,jdbcType=TINYINT}, 
+      #{clickedTime,jdbcType=TIMESTAMP}, #{creationDate,jdbcType=TIMESTAMP}, #{duration,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO">
+        insert into BOT_CHAT_RESPONSE_MESSAGE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="nodeId != null">
+                NODE_ID,
+            </if>
+            <if test="requestId != null">
+                REQUEST_ID,
+            </if>
+            <if test="responseId != null">
+                RESPONSE_ID,
+            </if>
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="messageTip != null">
+                MESSAGE_TIP,
+            </if>
+            <if test="arrayIndex != null">
+                ARRAY_INDEX,
+            </if>
+            <if test="subIndex != null">
+                SUB_INDEX,
+            </if>
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="title != null">
+                TITLE,
+            </if>
+            <if test="summary != null">
+                SUMMARY,
+            </if>
+            <if test="content != null">
+                CONTENT,
+            </if>
+            <if test="knowledgeId != null">
+                KNOWLEDGE_ID,
+            </if>
+            <if test="answerSource != null">
+                ANSWER_SOURCE,
+            </if>
+            <if test="selected != null">
+                SELECTED,
+            </if>
+            <if test="clickedTime != null">
+                CLICKED_TIME,
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE,
+            </if>
+            <if test="duration != null">
+                DURATION,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="nodeId != null">
+                #{nodeId,jdbcType=INTEGER},
+            </if>
+            <if test="requestId != null">
+                #{requestId,jdbcType=BIGINT},
+            </if>
+            <if test="responseId != null">
+                #{responseId,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="messageTip != null">
+                #{messageTip,jdbcType=VARCHAR},
+            </if>
+            <if test="arrayIndex != null">
+                #{arrayIndex,jdbcType=TINYINT},
+            </if>
+            <if test="subIndex != null">
+                #{subIndex,jdbcType=TINYINT},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="summary != null">
+                #{summary,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="knowledgeId != null">
+                #{knowledgeId,jdbcType=VARCHAR},
+            </if>
+            <if test="answerSource != null">
+                #{answerSource,jdbcType=VARCHAR},
+            </if>
+            <if test="selected != null">
+                #{selected,jdbcType=TINYINT},
+            </if>
+            <if test="clickedTime != null">
+                #{clickedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creationDate != null">
+                #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="duration != null">
+                #{duration,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO">
+        update BOT_CHAT_RESPONSE_MESSAGE
+        <set>
+            <if test="nodeId != null">
+                NODE_ID = #{nodeId,jdbcType=INTEGER},
+            </if>
+            <if test="requestId != null">
+                REQUEST_ID = #{requestId,jdbcType=BIGINT},
+            </if>
+            <if test="responseId != null">
+                RESPONSE_ID = #{responseId,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                USER_ID = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="messageTip != null">
+                MESSAGE_TIP = #{messageTip,jdbcType=VARCHAR},
+            </if>
+            <if test="arrayIndex != null">
+                ARRAY_INDEX = #{arrayIndex,jdbcType=TINYINT},
+            </if>
+            <if test="subIndex != null">
+                SUB_INDEX = #{subIndex,jdbcType=TINYINT},
+            </if>
+            <if test="type != null">
+                TYPE = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                TITLE = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="summary != null">
+                SUMMARY = #{summary,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                CONTENT = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="knowledgeId != null">
+                KNOWLEDGE_ID = #{knowledgeId,jdbcType=VARCHAR},
+            </if>
+            <if test="answerSource != null">
+                ANSWER_SOURCE = #{answerSource,jdbcType=VARCHAR},
+            </if>
+            <if test="selected != null">
+                SELECTED = #{selected,jdbcType=TINYINT},
+            </if>
+            <if test="clickedTime != null">
+                CLICKED_TIME = #{clickedTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="duration != null">
+                DURATION = #{duration,jdbcType=INTEGER},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO">
+    update BOT_CHAT_RESPONSE_MESSAGE
+    set NODE_ID = #{nodeId,jdbcType=INTEGER},
+      REQUEST_ID = #{requestId,jdbcType=BIGINT},
+      RESPONSE_ID = #{responseId,jdbcType=BIGINT},
+      USER_ID = #{userId,jdbcType=BIGINT},
+      MESSAGE_TIP = #{messageTip,jdbcType=VARCHAR},
+      ARRAY_INDEX = #{arrayIndex,jdbcType=TINYINT},
+      SUB_INDEX = #{subIndex,jdbcType=TINYINT},
+      TYPE = #{type,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      SUMMARY = #{summary,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      KNOWLEDGE_ID = #{knowledgeId,jdbcType=VARCHAR},
+      ANSWER_SOURCE = #{answerSource,jdbcType=VARCHAR},
+      SELECTED = #{selected,jdbcType=TINYINT},
+      CLICKED_TIME = #{clickedTime,jdbcType=TIMESTAMP},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      DURATION = #{duration,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectBotChatResponseMessageForSync" resultMap="BaseResultMap">
+    SELECT * FROM BOT_CHAT_RESPONSE_MESSAGE WHERE CREATION_DATE >= #{lastCreateTime} ORDER BY CREATION_DATE LIMIT ${first},${pageSize}
+  </select>
+
+    <select id="selectBotChatResponseMessageForInit" resultMap="BaseResultMap">
+        SELECT * FROM  BOT_CHAT_RESPONSE_MESSAGE ORDER by CREATION_DATE LIMIT ${first}, ${pageSize}
+    </select>
+</mapper>

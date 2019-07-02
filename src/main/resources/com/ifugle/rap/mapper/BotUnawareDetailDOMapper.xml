@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ifugle.rap.mapper.BotUnawareDetailDOMapper">
+    <resultMap id="BaseResultMap" type="com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <result column="NODE_ID" property="nodeId" jdbcType="INTEGER"/>
+        <result column="SERVER_ID" property="serverId" jdbcType="BIGINT"/>
+        <result column="SERVER_NAME" property="serverName" jdbcType="VARCHAR"/>
+        <result column="USER_ID" property="userId" jdbcType="BIGINT"/>
+        <result column="REQUEST_ID" property="requestId" jdbcType="BIGINT"/>
+        <result column="AUTH_VENDOR" property="authVendor" jdbcType="VARCHAR"/>
+        <result column="MESSAGE_ID" property="messageId" jdbcType="VARCHAR"/>
+        <result column="UTTERANCE" property="utterance" jdbcType="VARCHAR"/>
+        <result column="TYPE" property="type" jdbcType="TINYINT"/>
+        <result column="SATISFACTION_LEVEL" property="satisfactionLevel" jdbcType="TINYINT"/>
+        <result column="CATEGORY" property="category" jdbcType="VARCHAR"/>
+        <result column="PRIORITY" property="priority" jdbcType="TINYINT"/>
+        <result column="CLUSTER_ID" property="clusterId" jdbcType="BIGINT"/>
+        <result column="TAGS" property="tags" jdbcType="VARCHAR"/>
+        <result column="REASON" property="reason" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="HANDLER" property="handler" jdbcType="VARCHAR"/>
+        <result column="HANDLE_DATE" property="handleDate" jdbcType="TIMESTAMP"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="TIMESTAMP"/>
+        <result column="TRACK_CODE" property="trackCode" jdbcType="VARCHAR"/>
+        <result column="MODIFICATION_DATE" property="modificationDate" jdbcType="TIMESTAMP"/>
+        <result column="DEPT_ID" property="deptId" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, NODE_ID, SERVER_ID, SERVER_NAME, USER_ID, REQUEST_ID, AUTH_VENDOR, MESSAGE_ID, 
+    UTTERANCE, TYPE, SATISFACTION_LEVEL, CATEGORY, PRIORITY, CLUSTER_ID, TAGS, REASON, 
+    STATUS, HANDLER, HANDLE_DATE, REMARK, CREATION_DATE, DEPT_ID
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from BOT_UNAWARE_DETAIL
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from BOT_UNAWARE_DETAIL
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO">
+    insert into BOT_UNAWARE_DETAIL (ID, NODE_ID, SERVER_ID, 
+      SERVER_NAME, USER_ID, REQUEST_ID, 
+      AUTH_VENDOR, MESSAGE_ID, UTTERANCE, 
+      TYPE, SATISFACTION_LEVEL, CATEGORY, 
+      PRIORITY, CLUSTER_ID, TAGS, 
+      REASON, STATUS, HANDLER, 
+      HANDLE_DATE, REMARK, CREATION_DATE, DEPT_ID
+      )
+    values (#{id,jdbcType=BIGINT}, #{nodeId,jdbcType=INTEGER}, #{serverId,jdbcType=BIGINT}, 
+      #{serverName,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{requestId,jdbcType=BIGINT}, 
+      #{authVendor,jdbcType=VARCHAR}, #{messageId,jdbcType=VARCHAR}, #{utterance,jdbcType=VARCHAR}, 
+      #{type,jdbcType=TINYINT}, #{satisfactionLevel,jdbcType=TINYINT}, #{category,jdbcType=VARCHAR}, 
+      #{priority,jdbcType=TINYINT}, #{clusterId,jdbcType=BIGINT}, #{tags,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{handler,jdbcType=VARCHAR}, 
+      #{handleDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{creationDate,jdbcType=TIMESTAMP},
+      #{deptId,jdbcType=BIGINT}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO">
+        insert into BOT_UNAWARE_DETAIL
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="nodeId != null">
+                NODE_ID,
+            </if>
+            <if test="serverId != null">
+                SERVER_ID,
+            </if>
+            <if test="serverName != null">
+                SERVER_NAME,
+            </if>
+            <if test="userId != null">
+                USER_ID,
+            </if>
+            <if test="requestId != null">
+                REQUEST_ID,
+            </if>
+            <if test="authVendor != null">
+                AUTH_VENDOR,
+            </if>
+            <if test="messageId != null">
+                MESSAGE_ID,
+            </if>
+            <if test="utterance != null">
+                UTTERANCE,
+            </if>
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="satisfactionLevel != null">
+                SATISFACTION_LEVEL,
+            </if>
+            <if test="category != null">
+                CATEGORY,
+            </if>
+            <if test="priority != null">
+                PRIORITY,
+            </if>
+            <if test="clusterId != null">
+                CLUSTER_ID,
+            </if>
+            <if test="tags != null">
+                TAGS,
+            </if>
+            <if test="reason != null">
+                REASON,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="handler != null">
+                HANDLER,
+            </if>
+            <if test="handleDate != null">
+                HANDLE_DATE,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE,
+            </if>
+            <if test="deptId !=null ">
+                DEPT_ID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="nodeId != null">
+                #{nodeId,jdbcType=INTEGER},
+            </if>
+            <if test="serverId != null">
+                #{serverId,jdbcType=BIGINT},
+            </if>
+            <if test="serverName != null">
+                #{serverName,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="requestId != null">
+                #{requestId,jdbcType=BIGINT},
+            </if>
+            <if test="authVendor != null">
+                #{authVendor,jdbcType=VARCHAR},
+            </if>
+            <if test="messageId != null">
+                #{messageId,jdbcType=VARCHAR},
+            </if>
+            <if test="utterance != null">
+                #{utterance,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="satisfactionLevel != null">
+                #{satisfactionLevel,jdbcType=TINYINT},
+            </if>
+            <if test="category != null">
+                #{category,jdbcType=VARCHAR},
+            </if>
+            <if test="priority != null">
+                #{priority,jdbcType=TINYINT},
+            </if>
+            <if test="clusterId != null">
+                #{clusterId,jdbcType=BIGINT},
+            </if>
+            <if test="tags != null">
+                #{tags,jdbcType=VARCHAR},
+            </if>
+            <if test="reason != null">
+                #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="handler != null">
+                #{handler,jdbcType=VARCHAR},
+            </if>
+            <if test="handleDate != null">
+                #{handleDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="creationDate != null">
+                #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deptId != null">
+                #{deptId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO">
+        update BOT_UNAWARE_DETAIL
+        <set>
+            <if test="nodeId != null">
+                NODE_ID = #{nodeId,jdbcType=INTEGER},
+            </if>
+            <if test="serverId != null">
+                SERVER_ID = #{serverId,jdbcType=BIGINT},
+            </if>
+            <if test="serverName != null">
+                SERVER_NAME = #{serverName,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                USER_ID = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="requestId != null">
+                REQUEST_ID = #{requestId,jdbcType=BIGINT},
+            </if>
+            <if test="authVendor != null">
+                AUTH_VENDOR = #{authVendor,jdbcType=VARCHAR},
+            </if>
+            <if test="messageId != null">
+                MESSAGE_ID = #{messageId,jdbcType=VARCHAR},
+            </if>
+            <if test="utterance != null">
+                UTTERANCE = #{utterance,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                TYPE = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="satisfactionLevel != null">
+                SATISFACTION_LEVEL = #{satisfactionLevel,jdbcType=TINYINT},
+            </if>
+            <if test="category != null">
+                CATEGORY = #{category,jdbcType=VARCHAR},
+            </if>
+            <if test="priority != null">
+                PRIORITY = #{priority,jdbcType=TINYINT},
+            </if>
+            <if test="clusterId != null">
+                CLUSTER_ID = #{clusterId,jdbcType=BIGINT},
+            </if>
+            <if test="tags != null">
+                TAGS = #{tags,jdbcType=VARCHAR},
+            </if>
+            <if test="reason != null">
+                REASON = #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="handler != null">
+                HANDLER = #{handler,jdbcType=VARCHAR},
+            </if>
+            <if test="handleDate != null">
+                HANDLE_DATE = #{handleDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deptId != null">
+                DEPT_ID = #{deptId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO">
+    update BOT_UNAWARE_DETAIL
+    set NODE_ID = #{nodeId,jdbcType=INTEGER},
+      SERVER_ID = #{serverId,jdbcType=BIGINT},
+      SERVER_NAME = #{serverName,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=BIGINT},
+      REQUEST_ID = #{requestId,jdbcType=BIGINT},
+      AUTH_VENDOR = #{authVendor,jdbcType=VARCHAR},
+      MESSAGE_ID = #{messageId,jdbcType=VARCHAR},
+      UTTERANCE = #{utterance,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=TINYINT},
+      SATISFACTION_LEVEL = #{satisfactionLevel,jdbcType=TINYINT},
+      CATEGORY = #{category,jdbcType=VARCHAR},
+      PRIORITY = #{priority,jdbcType=TINYINT},
+      CLUSTER_ID = #{clusterId,jdbcType=BIGINT},
+      TAGS = #{tags,jdbcType=VARCHAR},
+      REASON = #{reason,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      HANDLER = #{handler,jdbcType=VARCHAR},
+      HANDLE_DATE = #{handleDate,jdbcType=TIMESTAMP},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      DEPT_ID = #{deptId,jdbcType=BIGINT}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectBotUnawareDetailForInit" resultMap="BaseResultMap">
+    SELECT * FROM BOT_UNAWARE_DETAIL ORDER BY CREATION_DATE LIMIT ${first}, ${pageSize}
+  </select>
+
+    <select id="selectBotUnawareDetailForSync" resultMap="BaseResultMap">
+    SELECT * FROM BOT_UNAWARE_DETAIL WHERE CREATION_DATE >= #{lastCreateTime} ORDER BY CREATION_DATE LIMIT ${first},${pageSize}
+  </select>
+
+    <select id="selectBotUnawareDetailWithLastUpdateTime" resultMap="BaseResultMap">
+    SELECT * FROM BOT_UNAWARE_DETAIL WHERE MODIFICATION_DATE >= #{lastUpdateTime} LIMIT #{first }, #{pageSize};
+  </select>
+
+    <select id="selectBotUnawareDetailWitOuthLastUpdateTime" resultMap="BaseResultMap">
+    SELECT * FROM BOT_UNAWARE_DETAIL WHERE MODIFICATION_DATE > CREATION_DATE LIMIT #{first }, #{pageSize};
+  </select>
+
+</mapper>

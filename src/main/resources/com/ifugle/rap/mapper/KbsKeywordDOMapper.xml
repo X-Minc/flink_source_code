@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifugle.rap.mapper.KbsKeywordDOMapper">
+    <resultMap id="BaseResultMap" type="com.ifugle.rap.model.shuixiaomi.KbsKeywordDO">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="ORG_ID" jdbcType="BIGINT" property="orgId" />
+        <result column="KEYWORD_NAME" jdbcType="VARCHAR" property="keywordName"/>
+        <result column="KEYWORD_PINYIN" jdbcType="VARCHAR" property="keywordPinyin"/>
+        <result column="ABBREV" jdbcType="VARCHAR" property="abbrev"/>
+        <result column="SYNONYMS" jdbcType="VARCHAR" property="synonyms"/>
+        <result column="NEAR" jdbcType="VARCHAR" property="near"/>
+        <result column="TYPOS" jdbcType="VARCHAR" property="typos"/>
+        <result column="HYPERNYM" jdbcType="VARCHAR" property="hypernym"/>
+        <result column="HYPONYM" jdbcType="VARCHAR" property="hyponym"/>
+        <result column="RELATED" jdbcType="VARCHAR" property="related"/>
+        <result column="DOMAIN" jdbcType="TINYINT" property="domain"/>
+        <result column="TYPE" jdbcType="TINYINT" property="type"/>
+        <result column="DEFINITION" jdbcType="VARCHAR" property="definition"/>
+        <result column="SCORE" jdbcType="INTEGER" property="score"/>
+        <result column="WEIGHT" jdbcType="INTEGER" property="weight"/>
+        <result column="SENSITIVITY" jdbcType="INTEGER" property="sensitivity"/>
+        <result column="POPULARITY" jdbcType="INTEGER" property="popularity"/>
+        <result column="ENABLED" jdbcType="TINYINT" property="enabled"/>
+        <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate"/>
+        <result column="CREATOR" jdbcType="VARCHAR" property="creator"/>
+        <result column="MODIFICATION_DATE" jdbcType="TIMESTAMP" property="modificationDate"/>
+        <result column="MODIFIER" jdbcType="VARCHAR" property="modifier"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, KEYWORD_NAME, KEYWORD_PINYIN, ABBREV, SYNONYMS, NEAR, TYPOS, HYPERNYM, HYPONYM, 
+    RELATED, DOMAIN, TYPE, DEFINITION, SCORE, WEIGHT, SENSITIVITY, POPULARITY, ENABLED, 
+    CREATION_DATE, CREATOR, MODIFICATION_DATE, MODIFIER
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from KBS_KEYWORD
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from KBS_KEYWORD
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.ifugle.rap.model.shuixiaomi.KbsKeywordDO">
+    insert into KBS_KEYWORD (ID, KEYWORD_NAME, KEYWORD_PINYIN, 
+      ABBREV, SYNONYMS, NEAR, 
+      TYPOS, HYPERNYM, HYPONYM, 
+      RELATED, DOMAIN, TYPE, 
+      DEFINITION, SCORE, WEIGHT, 
+      SENSITIVITY, POPULARITY, ENABLED, 
+      CREATION_DATE, CREATOR, MODIFICATION_DATE, 
+      MODIFIER)
+    values (#{id,jdbcType=BIGINT}, #{keywordName,jdbcType=VARCHAR}, #{keywordPinyin,jdbcType=VARCHAR}, 
+      #{abbrev,jdbcType=VARCHAR}, #{synonyms,jdbcType=VARCHAR}, #{near,jdbcType=VARCHAR}, 
+      #{typos,jdbcType=VARCHAR}, #{hypernym,jdbcType=VARCHAR}, #{hyponym,jdbcType=VARCHAR}, 
+      #{related,jdbcType=VARCHAR}, #{domain,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, 
+      #{definition,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, 
+      #{sensitivity,jdbcType=INTEGER}, #{popularity,jdbcType=INTEGER}, #{enabled,jdbcType=TINYINT}, 
+      #{creationDate,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{modificationDate,jdbcType=TIMESTAMP}, 
+      #{modifier,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.ifugle.rap.model.shuixiaomi.KbsKeywordDO">
+        insert into KBS_KEYWORD
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="keywordName != null">
+                KEYWORD_NAME,
+            </if>
+            <if test="keywordPinyin != null">
+                KEYWORD_PINYIN,
+            </if>
+            <if test="abbrev != null">
+                ABBREV,
+            </if>
+            <if test="synonyms != null">
+                SYNONYMS,
+            </if>
+            <if test="near != null">
+                NEAR,
+            </if>
+            <if test="typos != null">
+                TYPOS,
+            </if>
+            <if test="hypernym != null">
+                HYPERNYM,
+            </if>
+            <if test="hyponym != null">
+                HYPONYM,
+            </if>
+            <if test="related != null">
+                RELATED,
+            </if>
+            <if test="domain != null">
+                DOMAIN,
+            </if>
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="definition != null">
+                DEFINITION,
+            </if>
+            <if test="score != null">
+                SCORE,
+            </if>
+            <if test="weight != null">
+                WEIGHT,
+            </if>
+            <if test="sensitivity != null">
+                SENSITIVITY,
+            </if>
+            <if test="popularity != null">
+                POPULARITY,
+            </if>
+            <if test="enabled != null">
+                ENABLED,
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE,
+            </if>
+            <if test="creator != null">
+                CREATOR,
+            </if>
+            <if test="modificationDate != null">
+                MODIFICATION_DATE,
+            </if>
+            <if test="modifier != null">
+                MODIFIER,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="keywordName != null">
+                #{keywordName,jdbcType=VARCHAR},
+            </if>
+            <if test="keywordPinyin != null">
+                #{keywordPinyin,jdbcType=VARCHAR},
+            </if>
+            <if test="abbrev != null">
+                #{abbrev,jdbcType=VARCHAR},
+            </if>
+            <if test="synonyms != null">
+                #{synonyms,jdbcType=VARCHAR},
+            </if>
+            <if test="near != null">
+                #{near,jdbcType=VARCHAR},
+            </if>
+            <if test="typos != null">
+                #{typos,jdbcType=VARCHAR},
+            </if>
+            <if test="hypernym != null">
+                #{hypernym,jdbcType=VARCHAR},
+            </if>
+            <if test="hyponym != null">
+                #{hyponym,jdbcType=VARCHAR},
+            </if>
+            <if test="related != null">
+                #{related,jdbcType=VARCHAR},
+            </if>
+            <if test="domain != null">
+                #{domain,jdbcType=TINYINT},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="definition != null">
+                #{definition,jdbcType=VARCHAR},
+            </if>
+            <if test="score != null">
+                #{score,jdbcType=INTEGER},
+            </if>
+            <if test="weight != null">
+                #{weight,jdbcType=INTEGER},
+            </if>
+            <if test="sensitivity != null">
+                #{sensitivity,jdbcType=INTEGER},
+            </if>
+            <if test="popularity != null">
+                #{popularity,jdbcType=INTEGER},
+            </if>
+            <if test="enabled != null">
+                #{enabled,jdbcType=TINYINT},
+            </if>
+            <if test="creationDate != null">
+                #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="modificationDate != null">
+                #{modificationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null">
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ifugle.rap.model.shuixiaomi.KbsKeywordDO">
+        update KBS_KEYWORD
+        <set>
+            <if test="keywordName != null">
+                KEYWORD_NAME = #{keywordName,jdbcType=VARCHAR},
+            </if>
+            <if test="keywordPinyin != null">
+                KEYWORD_PINYIN = #{keywordPinyin,jdbcType=VARCHAR},
+            </if>
+            <if test="abbrev != null">
+                ABBREV = #{abbrev,jdbcType=VARCHAR},
+            </if>
+            <if test="synonyms != null">
+                SYNONYMS = #{synonyms,jdbcType=VARCHAR},
+            </if>
+            <if test="near != null">
+                NEAR = #{near,jdbcType=VARCHAR},
+            </if>
+            <if test="typos != null">
+                TYPOS = #{typos,jdbcType=VARCHAR},
+            </if>
+            <if test="hypernym != null">
+                HYPERNYM = #{hypernym,jdbcType=VARCHAR},
+            </if>
+            <if test="hyponym != null">
+                HYPONYM = #{hyponym,jdbcType=VARCHAR},
+            </if>
+            <if test="related != null">
+                RELATED = #{related,jdbcType=VARCHAR},
+            </if>
+            <if test="domain != null">
+                DOMAIN = #{domain,jdbcType=TINYINT},
+            </if>
+            <if test="type != null">
+                TYPE = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="definition != null">
+                DEFINITION = #{definition,jdbcType=VARCHAR},
+            </if>
+            <if test="score != null">
+                SCORE = #{score,jdbcType=INTEGER},
+            </if>
+            <if test="weight != null">
+                WEIGHT = #{weight,jdbcType=INTEGER},
+            </if>
+            <if test="sensitivity != null">
+                SENSITIVITY = #{sensitivity,jdbcType=INTEGER},
+            </if>
+            <if test="popularity != null">
+                POPULARITY = #{popularity,jdbcType=INTEGER},
+            </if>
+            <if test="enabled != null">
+                ENABLED = #{enabled,jdbcType=TINYINT},
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                CREATOR = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="modificationDate != null">
+                MODIFICATION_DATE = #{modificationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null">
+                MODIFIER = #{modifier,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ifugle.rap.model.shuixiaomi.KbsKeywordDO">
+    update KBS_KEYWORD
+    set KEYWORD_NAME = #{keywordName,jdbcType=VARCHAR},
+      KEYWORD_PINYIN = #{keywordPinyin,jdbcType=VARCHAR},
+      ABBREV = #{abbrev,jdbcType=VARCHAR},
+      SYNONYMS = #{synonyms,jdbcType=VARCHAR},
+      NEAR = #{near,jdbcType=VARCHAR},
+      TYPOS = #{typos,jdbcType=VARCHAR},
+      HYPERNYM = #{hypernym,jdbcType=VARCHAR},
+      HYPONYM = #{hyponym,jdbcType=VARCHAR},
+      RELATED = #{related,jdbcType=VARCHAR},
+      DOMAIN = #{domain,jdbcType=TINYINT},
+      TYPE = #{type,jdbcType=TINYINT},
+      DEFINITION = #{definition,jdbcType=VARCHAR},
+      SCORE = #{score,jdbcType=INTEGER},
+      WEIGHT = #{weight,jdbcType=INTEGER},
+      SENSITIVITY = #{sensitivity,jdbcType=INTEGER},
+      POPULARITY = #{popularity,jdbcType=INTEGER},
+      ENABLED = #{enabled,jdbcType=TINYINT},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      MODIFICATION_DATE = #{modificationDate,jdbcType=TIMESTAMP},
+      MODIFIER = #{modifier,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectKbsKeywordForInit" resultMap="BaseResultMap">
+      SELECT * FROM  KBS_KEYWORD ORDER BY CREATION_DATE LIMIT ${first}, ${pageSize}
+  </select>
+
+    <select id="selectKbsKeywordForSync" resultMap="BaseResultMap">
+        SELECT * FROM KBS_KEYWORD WHERE CREATION_DATE >= #{lastCreateTime} ORDER BY CREATION_DATE LIMIT ${first},${pageSize}
+    </select>
+
+    <select id="selectKbsKeywordForUpdateSyncWithoutLastUpdateTime" resultMap="BaseResultMap">
+        SELECT * FROM KBS_KEYWORD WHERE MODIFICATION_DATE > CREATION_DATE  LIMIT ${first},${pageSize}
+    </select>
+
+    <select id="selectKbsKeywordForUpdateSyncWithLastUpdateTime" resultMap="BaseResultMap">
+        SELECT * FROM KBS_KEYWORD WHERE MODIFICATION_DATE >= #{lastUpdateTime}  LIMIT ${first},${pageSize}
+    </select>
+
+</mapper>

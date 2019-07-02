@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ifugle.rap.mapper.KbsArticleDOMapper">
+    <resultMap id="BaseResultMap" type="com.ifugle.rap.model.shuixiaomi.KbsArticleDO">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <result column="PARENT_ID" property="parentId" jdbcType="BIGINT"/>
+        <result column="AREA_ID" property="areaId" jdbcType="VARCHAR"/>
+        <result column="ARTICLE_TYPE" property="articleType" jdbcType="VARCHAR"/>
+        <result column="BIZ_TYPE" property="bizType" jdbcType="VARCHAR"/>
+        <result column="CATEGORY" property="category" jdbcType="VARCHAR"/>
+        <result column="KEYWORD" property="keyword" jdbcType="VARCHAR"/>
+        <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="TINYINT"/>
+        <result column="VALID_FLAG" property="validFlag" jdbcType="TINYINT"/>
+        <result column="VALID_DATE" property="validDate" jdbcType="TIMESTAMP"/>
+        <result column="INVALID_DATE" property="invalidDate" jdbcType="TIMESTAMP"/>
+        <result column="ORIGINAL" property="original" jdbcType="VARCHAR"/>
+        <result column="ISSUE_NO" property="issueNo" jdbcType="VARCHAR"/>
+        <result column="ISSUE_ORG" property="issueOrg" jdbcType="VARCHAR"/>
+        <result column="ISSUE_DATE" property="issueDate" jdbcType="TIMESTAMP"/>
+        <result column="MAP_SOURCE" property="mapSource" jdbcType="VARCHAR"/>
+        <result column="MAP_ID" property="mapId" jdbcType="VARCHAR"/>
+        <result column="SYNC_FLAG" property="syncFlag" jdbcType="INTEGER"/>
+        <result column="SYNC_TIME" property="syncTime" jdbcType="TIMESTAMP"/>
+        <result column="CREATOR" property="creator" jdbcType="VARCHAR"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="TIMESTAMP"/>
+        <result column="MODIFIER" property="modifier" jdbcType="VARCHAR"/>
+        <result column="MODIFICATION_DATE" property="modificationDate" jdbcType="TIMESTAMP"/>
+        <result column="INVALID_REASON" property="invalidReason" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs" extends="BaseResultMap">
+        <result column="CONTENT" property="content" jdbcType="LONGVARCHAR"/>
+        <result column="CONTENT_TEXT" property="contentText" jdbcType="LONGVARCHAR"/>
+        <result column="CONTENT_HTML" property="contentHtml" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, PARENT_ID, AREA_ID, ARTICLE_TYPE, BIZ_TYPE, CATEGORY, KEYWORD, TITLE, REMARK, 
+    STATUS, VALID_FLAG, VALID_DATE, INVALID_DATE, ORIGINAL, ISSUE_NO, ISSUE_ORG, ISSUE_DATE, 
+    MAP_SOURCE, MAP_ID, SYNC_FLAG, SYNC_TIME, CREATOR, CREATION_DATE, MODIFIER, MODIFICATION_DATE, 
+    INVALID_REASON
+  </sql>
+    <sql id="Blob_Column_List">
+    CONTENT, CONTENT_TEXT, CONTENT_HTML
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from KBS_ARTICLE
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from KBS_ARTICLE
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs">
+    insert into KBS_ARTICLE (ID, PARENT_ID, AREA_ID, 
+      ARTICLE_TYPE, BIZ_TYPE, CATEGORY, 
+      KEYWORD, TITLE, REMARK, 
+      STATUS, VALID_FLAG, VALID_DATE, 
+      INVALID_DATE, ORIGINAL, ISSUE_NO, 
+      ISSUE_ORG, ISSUE_DATE, MAP_SOURCE, 
+      MAP_ID, SYNC_FLAG, SYNC_TIME, 
+      CREATOR, CREATION_DATE, MODIFIER, 
+      MODIFICATION_DATE, INVALID_REASON, CONTENT, 
+      CONTENT_TEXT, CONTENT_HTML)
+    values (#{id,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{areaId,jdbcType=VARCHAR}, 
+      #{articleType,jdbcType=VARCHAR}, #{bizType,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, 
+      #{keyword,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{validFlag,jdbcType=TINYINT}, #{validDate,jdbcType=TIMESTAMP}, 
+      #{invalidDate,jdbcType=TIMESTAMP}, #{original,jdbcType=VARCHAR}, #{issueNo,jdbcType=VARCHAR}, 
+      #{issueOrg,jdbcType=VARCHAR}, #{issueDate,jdbcType=TIMESTAMP}, #{mapSource,jdbcType=VARCHAR}, 
+      #{mapId,jdbcType=VARCHAR}, #{syncFlag,jdbcType=INTEGER}, #{syncTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{creationDate,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}, 
+      #{modificationDate,jdbcType=TIMESTAMP}, #{invalidReason,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, 
+      #{contentText,jdbcType=LONGVARCHAR}, #{contentHtml,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs">
+        insert into KBS_ARTICLE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="parentId != null">
+                PARENT_ID,
+            </if>
+            <if test="areaId != null">
+                AREA_ID,
+            </if>
+            <if test="articleType != null">
+                ARTICLE_TYPE,
+            </if>
+            <if test="bizType != null">
+                BIZ_TYPE,
+            </if>
+            <if test="category != null">
+                CATEGORY,
+            </if>
+            <if test="keyword != null">
+                KEYWORD,
+            </if>
+            <if test="title != null">
+                TITLE,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="validFlag != null">
+                VALID_FLAG,
+            </if>
+            <if test="validDate != null">
+                VALID_DATE,
+            </if>
+            <if test="invalidDate != null">
+                INVALID_DATE,
+            </if>
+            <if test="original != null">
+                ORIGINAL,
+            </if>
+            <if test="issueNo != null">
+                ISSUE_NO,
+            </if>
+            <if test="issueOrg != null">
+                ISSUE_ORG,
+            </if>
+            <if test="issueDate != null">
+                ISSUE_DATE,
+            </if>
+            <if test="mapSource != null">
+                MAP_SOURCE,
+            </if>
+            <if test="mapId != null">
+                MAP_ID,
+            </if>
+            <if test="syncFlag != null">
+                SYNC_FLAG,
+            </if>
+            <if test="syncTime != null">
+                SYNC_TIME,
+            </if>
+            <if test="creator != null">
+                CREATOR,
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE,
+            </if>
+            <if test="modifier != null">
+                MODIFIER,
+            </if>
+            <if test="modificationDate != null">
+                MODIFICATION_DATE,
+            </if>
+            <if test="invalidReason != null">
+                INVALID_REASON,
+            </if>
+            <if test="content != null">
+                CONTENT,
+            </if>
+            <if test="contentText != null">
+                CONTENT_TEXT,
+            </if>
+            <if test="contentHtml != null">
+                CONTENT_HTML,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="areaId != null">
+                #{areaId,jdbcType=VARCHAR},
+            </if>
+            <if test="articleType != null">
+                #{articleType,jdbcType=VARCHAR},
+            </if>
+            <if test="bizType != null">
+                #{bizType,jdbcType=VARCHAR},
+            </if>
+            <if test="category != null">
+                #{category,jdbcType=VARCHAR},
+            </if>
+            <if test="keyword != null">
+                #{keyword,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="validFlag != null">
+                #{validFlag,jdbcType=TINYINT},
+            </if>
+            <if test="validDate != null">
+                #{validDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="invalidDate != null">
+                #{invalidDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="original != null">
+                #{original,jdbcType=VARCHAR},
+            </if>
+            <if test="issueNo != null">
+                #{issueNo,jdbcType=VARCHAR},
+            </if>
+            <if test="issueOrg != null">
+                #{issueOrg,jdbcType=VARCHAR},
+            </if>
+            <if test="issueDate != null">
+                #{issueDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="mapSource != null">
+                #{mapSource,jdbcType=VARCHAR},
+            </if>
+            <if test="mapId != null">
+                #{mapId,jdbcType=VARCHAR},
+            </if>
+            <if test="syncFlag != null">
+                #{syncFlag,jdbcType=INTEGER},
+            </if>
+            <if test="syncTime != null">
+                #{syncTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creationDate != null">
+                #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null">
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modificationDate != null">
+                #{modificationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="invalidReason != null">
+                #{invalidReason,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="contentText != null">
+                #{contentText,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="contentHtml != null">
+                #{contentHtml,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs">
+        update KBS_ARTICLE
+        <set>
+            <if test="parentId != null">
+                PARENT_ID = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="areaId != null">
+                AREA_ID = #{areaId,jdbcType=VARCHAR},
+            </if>
+            <if test="articleType != null">
+                ARTICLE_TYPE = #{articleType,jdbcType=VARCHAR},
+            </if>
+            <if test="bizType != null">
+                BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+            </if>
+            <if test="category != null">
+                CATEGORY = #{category,jdbcType=VARCHAR},
+            </if>
+            <if test="keyword != null">
+                KEYWORD = #{keyword,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                TITLE = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="validFlag != null">
+                VALID_FLAG = #{validFlag,jdbcType=TINYINT},
+            </if>
+            <if test="validDate != null">
+                VALID_DATE = #{validDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="invalidDate != null">
+                INVALID_DATE = #{invalidDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="original != null">
+                ORIGINAL = #{original,jdbcType=VARCHAR},
+            </if>
+            <if test="issueNo != null">
+                ISSUE_NO = #{issueNo,jdbcType=VARCHAR},
+            </if>
+            <if test="issueOrg != null">
+                ISSUE_ORG = #{issueOrg,jdbcType=VARCHAR},
+            </if>
+            <if test="issueDate != null">
+                ISSUE_DATE = #{issueDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="mapSource != null">
+                MAP_SOURCE = #{mapSource,jdbcType=VARCHAR},
+            </if>
+            <if test="mapId != null">
+                MAP_ID = #{mapId,jdbcType=VARCHAR},
+            </if>
+            <if test="syncFlag != null">
+                SYNC_FLAG = #{syncFlag,jdbcType=INTEGER},
+            </if>
+            <if test="syncTime != null">
+                SYNC_TIME = #{syncTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creator != null">
+                CREATOR = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null">
+                MODIFIER = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modificationDate != null">
+                MODIFICATION_DATE = #{modificationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="invalidReason != null">
+                INVALID_REASON = #{invalidReason,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                CONTENT = #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="contentText != null">
+                CONTENT_TEXT = #{contentText,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="contentHtml != null">
+                CONTENT_HTML = #{contentHtml,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs">
+    update KBS_ARTICLE
+    set PARENT_ID = #{parentId,jdbcType=BIGINT},
+      AREA_ID = #{areaId,jdbcType=VARCHAR},
+      ARTICLE_TYPE = #{articleType,jdbcType=VARCHAR},
+      BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+      CATEGORY = #{category,jdbcType=VARCHAR},
+      KEYWORD = #{keyword,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=TINYINT},
+      VALID_FLAG = #{validFlag,jdbcType=TINYINT},
+      VALID_DATE = #{validDate,jdbcType=TIMESTAMP},
+      INVALID_DATE = #{invalidDate,jdbcType=TIMESTAMP},
+      ORIGINAL = #{original,jdbcType=VARCHAR},
+      ISSUE_NO = #{issueNo,jdbcType=VARCHAR},
+      ISSUE_ORG = #{issueOrg,jdbcType=VARCHAR},
+      ISSUE_DATE = #{issueDate,jdbcType=TIMESTAMP},
+      MAP_SOURCE = #{mapSource,jdbcType=VARCHAR},
+      MAP_ID = #{mapId,jdbcType=VARCHAR},
+      SYNC_FLAG = #{syncFlag,jdbcType=INTEGER},
+      SYNC_TIME = #{syncTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      MODIFIER = #{modifier,jdbcType=VARCHAR},
+      MODIFICATION_DATE = #{modificationDate,jdbcType=TIMESTAMP},
+      INVALID_REASON = #{invalidReason,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=LONGVARCHAR},
+      CONTENT_TEXT = #{contentText,jdbcType=LONGVARCHAR},
+      CONTENT_HTML = #{contentHtml,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.ifugle.rap.model.shuixiaomi.KbsArticleDO">
+    update KBS_ARTICLE
+    set PARENT_ID = #{parentId,jdbcType=BIGINT},
+      AREA_ID = #{areaId,jdbcType=VARCHAR},
+      ARTICLE_TYPE = #{articleType,jdbcType=VARCHAR},
+      BIZ_TYPE = #{bizType,jdbcType=VARCHAR},
+      CATEGORY = #{category,jdbcType=VARCHAR},
+      KEYWORD = #{keyword,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=TINYINT},
+      VALID_FLAG = #{validFlag,jdbcType=TINYINT},
+      VALID_DATE = #{validDate,jdbcType=TIMESTAMP},
+      INVALID_DATE = #{invalidDate,jdbcType=TIMESTAMP},
+      ORIGINAL = #{original,jdbcType=VARCHAR},
+      ISSUE_NO = #{issueNo,jdbcType=VARCHAR},
+      ISSUE_ORG = #{issueOrg,jdbcType=VARCHAR},
+      ISSUE_DATE = #{issueDate,jdbcType=TIMESTAMP},
+      MAP_SOURCE = #{mapSource,jdbcType=VARCHAR},
+      MAP_ID = #{mapId,jdbcType=VARCHAR},
+      SYNC_FLAG = #{syncFlag,jdbcType=INTEGER},
+      SYNC_TIME = #{syncTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      MODIFIER = #{modifier,jdbcType=VARCHAR},
+      MODIFICATION_DATE = #{modificationDate,jdbcType=TIMESTAMP},
+      INVALID_REASON = #{invalidReason,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectKbsArticleForInit" resultMap="ResultMapWithBLOBs">
+    SELECT * FROM  KBS_ARTICLE ORDER BY CREATION_DATE LIMIT ${first}, ${pageSize}
+  </select>
+
+    <select id="selectKbsArticleForSync" resultMap="ResultMapWithBLOBs">
+        SELECT * FROM KBS_ARTICLE WHERE CREATION_DATE >= #{lastCreateTime} ORDER BY CREATION_DATE LIMIT ${first},${pageSize}
+    </select>
+
+    <select id="selectKbsArticleForUpdateSyncWithoutLastUpdateTime" resultMap="ResultMapWithBLOBs">
+        SELECT * FROM KBS_ARTICLE WHERE MODIFICATION_DATE > CREATION_DATE  ORDER BY ID LIMIT ${first},${pageSize}
+    </select>
+
+    <select id="selectKbsArticleForUpdateSyncWithLastUpdateTime" resultMap="ResultMapWithBLOBs">
+        SELECT * FROM KBS_ARTICLE WHERE MODIFICATION_DATE >= #{lastUpdateTime} LIMIT ${first},${pageSize}
+    </select>
+
+
+</mapper>

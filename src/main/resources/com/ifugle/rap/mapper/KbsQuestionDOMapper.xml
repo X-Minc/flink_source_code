@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ifugle.rap.mapper.KbsQuestionDOMapper" >
+  <resultMap id="BaseResultMap" type="com.ifugle.rap.model.shuixiaomi.KbsQuestionDO" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="QUESTION" property="question" jdbcType="VARCHAR" />
+    <result column="QUESTION_TYPE" property="questionType" jdbcType="VARCHAR" />
+    <result column="GRADE" property="grade" jdbcType="TINYINT" />
+    <result column="CATEGORY" property="category" jdbcType="VARCHAR" />
+    <result column="PRIMARY_KEYWORD" property="primaryKeyword" jdbcType="VARCHAR" />
+    <result column="ALTERNATE_KEYWORD" property="alternateKeyword" jdbcType="VARCHAR" />
+    <result column="SEARCH_KEYWORD" property="searchKeyword" jdbcType="VARCHAR" />
+    <result column="KEYWORD_OPTION" property="keywordOption" jdbcType="TINYINT" />
+    <result column="SYNONYMS" property="synonyms" jdbcType="VARCHAR" />
+    <result column="ANSWER" property="answer" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="TINYINT" />
+    <result column="VALID_DATE" property="validDate" jdbcType="TIMESTAMP" />
+    <result column="INVALID_DATE" property="invalidDate" jdbcType="TIMESTAMP" />
+    <result column="INVALID_REASON" property="invalidReason" jdbcType="VARCHAR" />
+    <result column="ADD_MODE" property="addMode" jdbcType="TINYINT" />
+    <result column="ORIGINAL" property="original" jdbcType="VARCHAR" />
+    <result column="MAP_SOURCE" property="mapSource" jdbcType="VARCHAR" />
+    <result column="MAP_ID" property="mapId" jdbcType="VARCHAR" />
+    <result column="SYNC_FLAG" property="syncFlag" jdbcType="INTEGER" />
+    <result column="SYNC_TIME" property="syncTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATION_DATE" property="creationDate" jdbcType="TIMESTAMP" />
+    <result column="MODIFIER" property="modifier" jdbcType="VARCHAR" />
+    <result column="MODIFICATION_DATE" property="modificationDate" jdbcType="TIMESTAMP" />
+    <result column="APPROVAL_STATUS" property="approvalStatus" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, QUESTION, QUESTION_TYPE, GRADE, CATEGORY, PRIMARY_KEYWORD, ALTERNATE_KEYWORD, 
+    SEARCH_KEYWORD, KEYWORD_OPTION, SYNONYMS, ANSWER, REMARK, STATUS, ORIGINAL, MAP_SOURCE, 
+    MAP_ID, SYNC_FLAG, SYNC_TIME, CREATOR, CREATION_DATE, MODIFIER, MODIFICATION_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from KBS_QUESTION
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from KBS_QUESTION
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ifugle.rap.model.shuixiaomi.KbsQuestionDO" >
+    insert into KBS_QUESTION (ID, QUESTION, QUESTION_TYPE, 
+      GRADE, CATEGORY, PRIMARY_KEYWORD, 
+      ALTERNATE_KEYWORD, SEARCH_KEYWORD, KEYWORD_OPTION, 
+      SYNONYMS, ANSWER, REMARK, 
+      STATUS, ORIGINAL, MAP_SOURCE, 
+      MAP_ID, SYNC_FLAG, SYNC_TIME, 
+      CREATOR, CREATION_DATE, MODIFIER, 
+      MODIFICATION_DATE)
+    values (#{id,jdbcType=BIGINT}, #{question,jdbcType=VARCHAR}, #{questionType,jdbcType=VARCHAR}, 
+      #{grade,jdbcType=TINYINT}, #{category,jdbcType=VARCHAR}, #{primaryKeyword,jdbcType=VARCHAR}, 
+      #{alternateKeyword,jdbcType=VARCHAR}, #{searchKeyword,jdbcType=VARCHAR}, #{keywordOption,jdbcType=TINYINT}, 
+      #{synonyms,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{original,jdbcType=VARCHAR}, #{mapSource,jdbcType=VARCHAR}, 
+      #{mapId,jdbcType=VARCHAR}, #{syncFlag,jdbcType=INTEGER}, #{syncTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{creationDate,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}, 
+      #{modificationDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ifugle.rap.model.shuixiaomi.KbsQuestionDO" >
+    insert into KBS_QUESTION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="question != null" >
+        QUESTION,
+      </if>
+      <if test="questionType != null" >
+        QUESTION_TYPE,
+      </if>
+      <if test="grade != null" >
+        GRADE,
+      </if>
+      <if test="category != null" >
+        CATEGORY,
+      </if>
+      <if test="primaryKeyword != null" >
+        PRIMARY_KEYWORD,
+      </if>
+      <if test="alternateKeyword != null" >
+        ALTERNATE_KEYWORD,
+      </if>
+      <if test="searchKeyword != null" >
+        SEARCH_KEYWORD,
+      </if>
+      <if test="keywordOption != null" >
+        KEYWORD_OPTION,
+      </if>
+      <if test="synonyms != null" >
+        SYNONYMS,
+      </if>
+      <if test="answer != null" >
+        ANSWER,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="original != null" >
+        ORIGINAL,
+      </if>
+      <if test="mapSource != null" >
+        MAP_SOURCE,
+      </if>
+      <if test="mapId != null" >
+        MAP_ID,
+      </if>
+      <if test="syncFlag != null" >
+        SYNC_FLAG,
+      </if>
+      <if test="syncTime != null" >
+        SYNC_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="creationDate != null" >
+        CREATION_DATE,
+      </if>
+      <if test="modifier != null" >
+        MODIFIER,
+      </if>
+      <if test="modificationDate != null" >
+        MODIFICATION_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="question != null" >
+        #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="questionType != null" >
+        #{questionType,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=TINYINT},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="primaryKeyword != null" >
+        #{primaryKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="alternateKeyword != null" >
+        #{alternateKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="searchKeyword != null" >
+        #{searchKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="keywordOption != null" >
+        #{keywordOption,jdbcType=TINYINT},
+      </if>
+      <if test="synonyms != null" >
+        #{synonyms,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="original != null" >
+        #{original,jdbcType=VARCHAR},
+      </if>
+      <if test="mapSource != null" >
+        #{mapSource,jdbcType=VARCHAR},
+      </if>
+      <if test="mapId != null" >
+        #{mapId,jdbcType=VARCHAR},
+      </if>
+      <if test="syncFlag != null" >
+        #{syncFlag,jdbcType=INTEGER},
+      </if>
+      <if test="syncTime != null" >
+        #{syncTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="creationDate != null" >
+        #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modificationDate != null" >
+        #{modificationDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ifugle.rap.model.shuixiaomi.KbsQuestionDO" >
+    update KBS_QUESTION
+    <set >
+      <if test="question != null" >
+        QUESTION = #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="questionType != null" >
+        QUESTION_TYPE = #{questionType,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        GRADE = #{grade,jdbcType=TINYINT},
+      </if>
+      <if test="category != null" >
+        CATEGORY = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="primaryKeyword != null" >
+        PRIMARY_KEYWORD = #{primaryKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="alternateKeyword != null" >
+        ALTERNATE_KEYWORD = #{alternateKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="searchKeyword != null" >
+        SEARCH_KEYWORD = #{searchKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="keywordOption != null" >
+        KEYWORD_OPTION = #{keywordOption,jdbcType=TINYINT},
+      </if>
+      <if test="synonyms != null" >
+        SYNONYMS = #{synonyms,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        ANSWER = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="original != null" >
+        ORIGINAL = #{original,jdbcType=VARCHAR},
+      </if>
+      <if test="mapSource != null" >
+        MAP_SOURCE = #{mapSource,jdbcType=VARCHAR},
+      </if>
+      <if test="mapId != null" >
+        MAP_ID = #{mapId,jdbcType=VARCHAR},
+      </if>
+      <if test="syncFlag != null" >
+        SYNC_FLAG = #{syncFlag,jdbcType=INTEGER},
+      </if>
+      <if test="syncTime != null" >
+        SYNC_TIME = #{syncTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="creationDate != null" >
+        CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        MODIFIER = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modificationDate != null" >
+        MODIFICATION_DATE = #{modificationDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ifugle.rap.model.shuixiaomi.KbsQuestionDO" >
+    update KBS_QUESTION
+    set QUESTION = #{question,jdbcType=VARCHAR},
+      QUESTION_TYPE = #{questionType,jdbcType=VARCHAR},
+      GRADE = #{grade,jdbcType=TINYINT},
+      CATEGORY = #{category,jdbcType=VARCHAR},
+      PRIMARY_KEYWORD = #{primaryKeyword,jdbcType=VARCHAR},
+      ALTERNATE_KEYWORD = #{alternateKeyword,jdbcType=VARCHAR},
+      SEARCH_KEYWORD = #{searchKeyword,jdbcType=VARCHAR},
+      KEYWORD_OPTION = #{keywordOption,jdbcType=TINYINT},
+      SYNONYMS = #{synonyms,jdbcType=VARCHAR},
+      ANSWER = #{answer,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=TINYINT},
+      ORIGINAL = #{original,jdbcType=VARCHAR},
+      MAP_SOURCE = #{mapSource,jdbcType=VARCHAR},
+      MAP_ID = #{mapId,jdbcType=VARCHAR},
+      SYNC_FLAG = #{syncFlag,jdbcType=INTEGER},
+      SYNC_TIME = #{syncTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      MODIFIER = #{modifier,jdbcType=VARCHAR},
+      MODIFICATION_DATE = #{modificationDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectKbsQuestionForInit" resultMap="BaseResultMap">
+        SELECT  * FROM KBS_QUESTION  ORDER BY CREATION_DATE LIMIT ${first}, ${pageSize}
+    </select>
+
+    <select id="selectKbsQuestionForSync" resultMap="BaseResultMap">
+        SELECT * FROM KBS_QUESTION WHERE CREATION_DATE >= #{lastCreateTime} LIMIT ${first},${pageSize}
+    </select>
+  
+   <select id="selectKbsQuestionForUpdateWithoutLastUpdateTime" resultMap="BaseResultMap">
+        SELECT * FROM KBS_QUESTION WHERE MODIFICATION_DATE > CREATION_DATE  LIMIT ${first},${pageSize}
+   </select>
+
+  <select id="selectKbsQuestionForUpdateWithLastUpdateTime" resultMap="BaseResultMap">
+      SELECT * FROM KBS_QUESTION WHERE MODIFICATION_DATE >= #{lastUpdateTime}  LIMIT ${first},${pageSize}
+  </select>
+</mapper>

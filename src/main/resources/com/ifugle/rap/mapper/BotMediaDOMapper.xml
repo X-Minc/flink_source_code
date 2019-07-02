@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifugle.rap.mapper.BotMediaDOMapper">
+    <resultMap id="BaseResultMap" type="com.ifugle.rap.model.shuixiaomi.BotMediaDO">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="NODE_ID" jdbcType="INTEGER" property="nodeId"/>
+        <result column="REQUEST_ID" jdbcType="BIGINT" property="requestId"/>
+        <result column="RESPONSE_MESSAGE_ID" jdbcType="BIGINT" property="responseMessageId"/>
+        <result column="ORG_ID" jdbcType="BIGINT" property="orgId"/>
+        <result column="SERVER_ID" jdbcType="BIGINT" property="serverId"/>
+        <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName"/>
+        <result column="FILE_TYPE" jdbcType="TINYINT" property="fileType"/>
+        <result column="FILE_SIZE" jdbcType="BIGINT" property="fileSize"/>
+        <result column="RECOGNITION_ID" jdbcType="VARCHAR" property="recognitionId"/>
+        <result column="RECOGNITION_TEXT" jdbcType="VARCHAR" property="recognitionText"/>
+        <result column="CORRECTION_TEXT" jdbcType="VARCHAR" property="correctionText"/>
+        <result column="CORRECTION_DATE" jdbcType="TIMESTAMP" property="correctionDate"/>
+        <result column="OSS_KEY" jdbcType="VARCHAR" property="ossKey"/>
+        <result column="MEDIA_ID" jdbcType="VARCHAR" property="mediaId"/>
+        <result column="MEDIA_TYPE" jdbcType="TINYINT" property="mediaType"/>
+        <result column="MEDIA_SOURCE" jdbcType="VARCHAR" property="mediaSource"/>
+        <result column="STATUS" jdbcType="BIGINT" property="status"/>
+        <result column="DURATION" jdbcType="INTEGER" property="duration"/>
+        <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, NODE_ID, REQUEST_ID, RESPONSE_MESSAGE_ID, ORG_ID, SERVER_ID, FILE_NAME, FILE_TYPE, 
+    FILE_SIZE, RECOGNITION_ID, RECOGNITION_TEXT, CORRECTION_TEXT, CORRECTION_DATE, OSS_KEY, 
+    MEDIA_ID, MEDIA_TYPE, MEDIA_SOURCE, STATUS, DURATION, CREATION_DATE
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from BOT_MEDIA
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from BOT_MEDIA
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.ifugle.rap.model.shuixiaomi.BotMediaDO">
+    insert into BOT_MEDIA (ID, NODE_ID, REQUEST_ID, 
+      RESPONSE_MESSAGE_ID, ORG_ID, SERVER_ID, 
+      FILE_NAME, FILE_TYPE, FILE_SIZE, 
+      RECOGNITION_ID, RECOGNITION_TEXT, CORRECTION_TEXT, 
+      CORRECTION_DATE, OSS_KEY, MEDIA_ID, 
+      MEDIA_TYPE, DURATION, CREATION_DATE
+      )
+    values (#{id,jdbcType=BIGINT}, #{nodeId,jdbcType=INTEGER}, #{requestId,jdbcType=BIGINT}, 
+      #{responseMessageId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, #{serverId,jdbcType=BIGINT}, 
+      #{fileName,jdbcType=VARCHAR}, #{fileType,jdbcType=TINYINT}, #{fileSize,jdbcType=BIGINT}, 
+      #{recognitionId,jdbcType=VARCHAR}, #{recognitionText,jdbcType=VARCHAR}, #{correctionText,jdbcType=VARCHAR}, 
+      #{correctionDate,jdbcType=TIMESTAMP}, #{ossKey,jdbcType=VARCHAR}, #{mediaId,jdbcType=VARCHAR}, 
+      #{mediaType,jdbcType=TINYINT}, #{duration,jdbcType=INTEGER}, #{creationDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.ifugle.rap.model.shuixiaomi.BotMediaDO">
+        insert into BOT_MEDIA
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="nodeId != null">
+                NODE_ID,
+            </if>
+            <if test="requestId != null">
+                REQUEST_ID,
+            </if>
+            <if test="responseMessageId != null">
+                RESPONSE_MESSAGE_ID,
+            </if>
+            <if test="orgId != null">
+                ORG_ID,
+            </if>
+            <if test="serverId != null">
+                SERVER_ID,
+            </if>
+            <if test="fileName != null">
+                FILE_NAME,
+            </if>
+            <if test="fileType != null">
+                FILE_TYPE,
+            </if>
+            <if test="fileSize != null">
+                FILE_SIZE,
+            </if>
+            <if test="recognitionId != null">
+                RECOGNITION_ID,
+            </if>
+            <if test="recognitionText != null">
+                RECOGNITION_TEXT,
+            </if>
+            <if test="correctionText != null">
+                CORRECTION_TEXT,
+            </if>
+            <if test="correctionDate != null">
+                CORRECTION_DATE,
+            </if>
+            <if test="ossKey != null">
+                OSS_KEY,
+            </if>
+            <if test="mediaId != null">
+                MEDIA_ID,
+            </if>
+            <if test="mediaType != null">
+                MEDIA_TYPE,
+            </if>
+            <if test="duration != null">
+                DURATION,
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="nodeId != null">
+                #{nodeId,jdbcType=INTEGER},
+            </if>
+            <if test="requestId != null">
+                #{requestId,jdbcType=BIGINT},
+            </if>
+            <if test="responseMessageId != null">
+                #{responseMessageId,jdbcType=BIGINT},
+            </if>
+            <if test="orgId != null">
+                #{orgId,jdbcType=BIGINT},
+            </if>
+            <if test="serverId != null">
+                #{serverId,jdbcType=BIGINT},
+            </if>
+            <if test="fileName != null">
+                #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="fileType != null">
+                #{fileType,jdbcType=TINYINT},
+            </if>
+            <if test="fileSize != null">
+                #{fileSize,jdbcType=BIGINT},
+            </if>
+            <if test="recognitionId != null">
+                #{recognitionId,jdbcType=VARCHAR},
+            </if>
+            <if test="recognitionText != null">
+                #{recognitionText,jdbcType=VARCHAR},
+            </if>
+            <if test="correctionText != null">
+                #{correctionText,jdbcType=VARCHAR},
+            </if>
+            <if test="correctionDate != null">
+                #{correctionDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ossKey != null">
+                #{ossKey,jdbcType=VARCHAR},
+            </if>
+            <if test="mediaId != null">
+                #{mediaId,jdbcType=VARCHAR},
+            </if>
+            <if test="mediaType != null">
+                #{mediaType,jdbcType=TINYINT},
+            </if>
+            <if test="duration != null">
+                #{duration,jdbcType=INTEGER},
+            </if>
+            <if test="creationDate != null">
+                #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ifugle.rap.model.shuixiaomi.BotMediaDO">
+        update BOT_MEDIA
+        <set>
+            <if test="nodeId != null">
+                NODE_ID = #{nodeId,jdbcType=INTEGER},
+            </if>
+            <if test="requestId != null">
+                REQUEST_ID = #{requestId,jdbcType=BIGINT},
+            </if>
+            <if test="responseMessageId != null">
+                RESPONSE_MESSAGE_ID = #{responseMessageId,jdbcType=BIGINT},
+            </if>
+            <if test="orgId != null">
+                ORG_ID = #{orgId,jdbcType=BIGINT},
+            </if>
+            <if test="serverId != null">
+                SERVER_ID = #{serverId,jdbcType=BIGINT},
+            </if>
+            <if test="fileName != null">
+                FILE_NAME = #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="fileType != null">
+                FILE_TYPE = #{fileType,jdbcType=TINYINT},
+            </if>
+            <if test="fileSize != null">
+                FILE_SIZE = #{fileSize,jdbcType=BIGINT},
+            </if>
+            <if test="recognitionId != null">
+                RECOGNITION_ID = #{recognitionId,jdbcType=VARCHAR},
+            </if>
+            <if test="recognitionText != null">
+                RECOGNITION_TEXT = #{recognitionText,jdbcType=VARCHAR},
+            </if>
+            <if test="correctionText != null">
+                CORRECTION_TEXT = #{correctionText,jdbcType=VARCHAR},
+            </if>
+            <if test="correctionDate != null">
+                CORRECTION_DATE = #{correctionDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ossKey != null">
+                OSS_KEY = #{ossKey,jdbcType=VARCHAR},
+            </if>
+            <if test="mediaId != null">
+                MEDIA_ID = #{mediaId,jdbcType=VARCHAR},
+            </if>
+            <if test="mediaType != null">
+                MEDIA_TYPE = #{mediaType,jdbcType=TINYINT},
+            </if>
+            <if test="duration != null">
+                DURATION = #{duration,jdbcType=INTEGER},
+            </if>
+            <if test="creationDate != null">
+                CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ifugle.rap.model.shuixiaomi.BotMediaDO">
+    update BOT_MEDIA
+    set NODE_ID = #{nodeId,jdbcType=INTEGER},
+      REQUEST_ID = #{requestId,jdbcType=BIGINT},
+      RESPONSE_MESSAGE_ID = #{responseMessageId,jdbcType=BIGINT},
+      ORG_ID = #{orgId,jdbcType=BIGINT},
+      SERVER_ID = #{serverId,jdbcType=BIGINT},
+      FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      FILE_TYPE = #{fileType,jdbcType=TINYINT},
+      FILE_SIZE = #{fileSize,jdbcType=BIGINT},
+      RECOGNITION_ID = #{recognitionId,jdbcType=VARCHAR},
+      RECOGNITION_TEXT = #{recognitionText,jdbcType=VARCHAR},
+      CORRECTION_TEXT = #{correctionText,jdbcType=VARCHAR},
+      CORRECTION_DATE = #{correctionDate,jdbcType=TIMESTAMP},
+      OSS_KEY = #{ossKey,jdbcType=VARCHAR},
+      MEDIA_ID = #{mediaId,jdbcType=VARCHAR},
+      MEDIA_TYPE = #{mediaType,jdbcType=TINYINT},
+      DURATION = #{duration,jdbcType=INTEGER},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectBotMediaForInit" resultMap="BaseResultMap">
+    SELECT * FROM BOT_MEDIA WHERE FILE_TYPE = 2 ORDER BY CREATION_DATE LIMIT #{first},#{pageSize}
+  </select>
+
+    <select id="selectBotMediaForSync" resultMap="BaseResultMap">
+    SELECT * FROM BOT_MEDIA WHERE CREATION_DATE >= #{lastCreateTime} AND FILE_TYPE = 2  ORDER BY CREATION_DATE LIMIT ${first},${pageSize}
+  </select>
+
+    <select id="selectBotMediaWithLastUpdateTime" resultMap="BaseResultMap">
+    SELECT * FROM BOT_MEDIA WHERE CORRECTION_DATE >= #{lastUpdateTime} AND FILE_TYPE = 2 LIMIT #{first }, #{pageSize};
+  </select>
+
+    <select id="selectBotMediaWithOutLastUpdateTime" resultMap="BaseResultMap">
+        SELECT * FROM BOT_MEDIA WHERE CORRECTION_DATE > CREATION_DATE AND FILE_TYPE = 2 LIMIT #{first }, #{pageSize};
+    </select>
+
+
+</mapper>

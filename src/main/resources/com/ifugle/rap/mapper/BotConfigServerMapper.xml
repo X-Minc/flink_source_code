@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifugle.rap.mapper.BotConfigServerMapper">
+    <resultMap id="BaseResultMap" type="com.ifugle.rap.model.shuixiaomi.BotConfigServer">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        <id column="ID" javaType="java.lang.Long" jdbcType="BIGINT" property="id"/>
+        <result column="TYPE" javaType="java.lang.Byte" jdbcType="TINYINT" property="type"/>
+        <result column="NAME" javaType="java.lang.String" jdbcType="VARCHAR" property="name"/>
+        <result column="KBS_TYPE" javaType="java.lang.String" jdbcType="TINYINT" property="kbsType"/>
+        <result column="SHORT_NAME" javaType="java.lang.String" jdbcType="VARCHAR" property="shortName"/>
+        <result column="PARENT_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="parentId"/>
+        <result column="DEFAULT_NODE_ID" javaType="java.lang.Integer" jdbcType="INTEGER" property="defaultNodeId"/>
+        <result column="ORG_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="orgId"/>
+        <result column="ALLOW_GUEST" javaType="java.lang.Byte" jdbcType="TINYINT" property="allowGuest"/>
+        <result column="AUTH_VENDOR" javaType="java.lang.String" jdbcType="VARCHAR" property="authVendor"/>
+        <result column="APP_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="appId"/>
+        <result column="APP_KEY" javaType="java.lang.String" jdbcType="VARCHAR" property="appKey"/>
+        <result column="APP_SECRET" javaType="java.lang.String" jdbcType="VARCHAR" property="appSecret"/>
+        <result column="ACCESS_TOKEN" javaType="java.lang.String" jdbcType="VARCHAR" property="accessToken"/>
+        <result column="BASE_URL" javaType="java.lang.String" jdbcType="VARCHAR" property="baseUrl"/>
+        <result column="AUTH_URL" javaType="java.lang.String" jdbcType="VARCHAR" property="authUrl"/>
+        <result column="ENABLED_FORECAST" javaType="java.lang.Byte" jdbcType="TINYINT" property="enabledForecast"/>
+        <result column="MESSAGE_LEVEL" javaType="java.lang.Byte" jdbcType="TINYINT" property="level"/>
+        <result column="RECOMMEND_TIPS" javaType="java.lang.String" jdbcType="VARCHAR" property="recommendTips"/>
+        <result column="KNOWLEDGE_TIPS" javaType="java.lang.String" jdbcType="VARCHAR" property="knowledgeTips"/>
+        <result column="REMARK" javaType="java.lang.String" jdbcType="VARCHAR" property="remark"/>
+        <result column="VISIBLE" javaType="java.lang.Byte" jdbcType="TINYINT" property="visible"/>
+        <result column="ENABLED" javaType="java.lang.Byte" jdbcType="TINYINT" property="enabled"/>
+        <result column="CREATION_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP" property="creationDate"/>
+        <result column="CREATOR" javaType="java.lang.String" jdbcType="VARCHAR" property="creator"/>
+        <result column="MODIFICATION_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP" property="modificationDate"/>
+        <result column="MODIFIER" javaType="java.lang.String" jdbcType="VARCHAR" property="modifier"/>
+        <result column="REVISION" javaType="java.lang.Integer" jdbcType="INTEGER" property="revision"/>
+        <result column="NEXT_SERVER_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="nextServerId"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        ID, TYPE, NAME, KBS_TYPE,SHORT_NAME, PARENT_ID, DEFAULT_NODE_ID, ORG_ID, ALLOW_GUEST, AUTH_VENDOR,
+        APP_ID, APP_KEY, APP_SECRET, ACCESS_TOKEN, BASE_URL, AUTH_URL, ENABLED_FORECAST, MESSAGE_LEVEL,
+        RECOMMEND_TIPS, KNOWLEDGE_TIPS, REMARK, VISIBLE, ENABLED, CREATION_DATE, CREATOR,
+        MODIFICATION_DATE, MODIFIER, REVISION
+    </sql>
+
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        select
+        <include refid="Base_Column_List"/>
+        from BOT_CONFIG_SERVER
+        where ID = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+    </select>
+
+    <!--数据初始化同步时,BOT_CONFIG_SERVER 的相关查询,（order by create_time）-->
+    <select id="selectBotConfigServerForInit" resultMap="BaseResultMap">
+        SELECT * FROM BOT_CONFIG_SERVER  ORDER BY CREATION_DATE LIMIT #{first},#{pageSize}
+    </select>
+
+    <!--数据实时同步调用，BOT_CONFIG_SERVER 的相关查询, lastCreateTime 是时间查询基点-->
+    <select id="selectBotConfigServerForSync" resultMap="BaseResultMap">
+        SELECT * FROM BOT_CONFIG_SERVER WHERE CREATION_DATE >= #{lastCreateTime} ORDER BY CREATION_DATE LIMIT ${first},${pageSize}
+    </select>
+
+    <!--数据更新同步调用， BOT_CONFIG_SERVER 的相关查询 ， 查找所有更新时间大于服务器本地时间的数据-->
+    <select id="selectBotConfigServerWithLastUpdateTime" resultMap="BaseResultMap">
+        SELECT * FROM BOT_CONFIG_SERVER WHERE MODIFICATION_DATE > #{lastUpdateTime} ORDER BY CREATION_DATE LIMIT ${first},${pageSize}
+    </select>
+
+    <!--数据更新同步初始化时调用，BOT_CONFIG_SERVER 的相关查询 ，查找所有更新时间大于创建时间的数据-->
+    <select id="selectBotConfigServerWithOutLastUpdateTime" resultMap="BaseResultMap">
+        SELECT * FROM BOT_CONFIG_SERVER WHERE MODIFICATION_DATE >= CREATION_DATE ORDER BY CREATION_DATE LIMIT ${first},${pageSize}
+    </select>
+
+
+    <update id="deleteById" parameterType="java.lang.Long">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        update BOT_CONFIG_SERVER
+        set ENABLED = 0
+        where ID = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+    </update>
+
+    <insert id="insert" parameterType="com.ifugle.rap.model.shuixiaomi.BotConfigServer">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into BOT_CONFIG_SERVER (TYPE, NAME, SHORT_NAME,
+        PARENT_ID, DEFAULT_NODE_ID, ORG_ID, ALLOW_GUEST,
+        AUTH_VENDOR, APP_ID, APP_KEY, ACCESS_TOKEN,
+        APP_SECRET, BASE_URL, AUTH_URL,
+        ENABLED_FORECAST, MESSAGE_LEVEL, RECOMMEND_TIPS,
+        KNOWLEDGE_TIPS, REMARK, VISIBLE,
+        ENABLED, CREATION_DATE, CREATOR,
+        MODIFICATION_DATE, MODIFIER, REVISION
+        )
+        values (
+        #{type,jdbcType=TINYINT,javaType=java.lang.Byte},
+        #{name,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{shortName,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{parentId,jdbcType=BIGINT,javaType=java.lang.Long},
+        #{defaultNodeId,jdbcType=INTEGER,javaType=java.lang.Integer},
+        #{orgId,jdbcType=BIGINT,javaType=java.lang.Long},
+        #{allowGuest,jdbcType=TINYINT,javaType=java.lang.Byte},
+        #{authVendor,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{appId,jdbcType=BIGINT,javaType=java.lang.Long},
+        #{appKey,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{appSecret,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{accessToken,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{baseUrl,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{authUrl,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{enabledForecast,jdbcType=TINYINT,javaType=java.lang.Byte},
+        #{level,jdbcType=TINYINT,javaType=java.lang.Byte},
+        #{recommendTips,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{knowledgeTips,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{remark,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{visible,jdbcType=TINYINT,javaType=java.lang.Byte},
+        #{enabled,jdbcType=TINYINT,javaType=java.lang.Byte},
+        #{nowTimestamp,jdbcType=TIMESTAMP,javaType=java.sql.Timestamp},
+        #{userFullName,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{nowTimestamp,jdbcType=TIMESTAMP,javaType=java.sql.Timestamp},
+        #{userFullName,jdbcType=VARCHAR,javaType=java.lang.String},
+        0
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ifugle.rap.model.shuixiaomi.BotConfigServer">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into BOT_CONFIG_SERVER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="name != null">
+                NAME,
+            </if>
+            <if test="kbsType != null">
+                KBS_TYPE,
+            </if>
+            <if test="shortName != null">
+                SHORT_NAME,
+            </if>
+            <if test="parentId != null">
+                PARENT_ID,
+            </if>
+            <if test="defaultNodeId != null">
+                DEFAULT_NODE_ID,
+            </if>
+            <if test="orgId != null">
+                ORG_ID,
+            </if>
+            <if test="allowGuest != null">
+                ALLOW_GUEST,
+            </if>
+            <if test="authVendor != null">
+                AUTH_VENDOR,
+            </if>
+            <if test="appId != null">
+                APP_ID,
+            </if>
+            <if test="appKey != null">
+                APP_KEY,
+            </if>
+            <if test="appSecret != null">
+                APP_SECRET,
+            </if>
+            <if test="accessToken != null">
+                ACCESS_TOKEN,
+            </if>
+            <if test="baseUrl != null">
+                BASE_URL,
+            </if>
+            <if test="authUrl != null">
+                AUTH_URL,
+            </if>
+            <if test="enabledForecast != null">
+                ENABLED_FORECAST,
+            </if>
+            <if test="level != null">
+                MESSAGE_LEVEL,
+            </if>
+            <if test="recommendTips != null">
+                RECOMMEND_TIPS,
+            </if>
+            <if test="knowledgeTips != null">
+                KNOWLEDGE_TIPS,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="visible != null">
+                VISIBLE,
+            </if>
+            <if test="enabled != null">
+                ENABLED,
+            </if>
+            CREATION_DATE,
+            CREATOR,
+            MODIFICATION_DATE,
+            MODIFIER,
+            REVISION,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">
+                #{type,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="kbsType != null">
+                #{kbsType,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="shortName != null">
+                #{shortName,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <if test="defaultNodeId != null">
+                #{defaultNodeId,jdbcType=INTEGER,javaType=java.lang.Integer},
+            </if>
+            <if test="orgId != null">
+                #{orgId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <if test="allowGuest != null">
+                #{allowGuest,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            <if test="authVendor != null">
+                #{authVendor,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="appId != null">
+                #{appId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <if test="appKey != null">
+                #{appKey,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="appSecret != null">
+                #{appSecret,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="accessToken != null">
+                #{accessToken,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="baseUrl != null">
+                #{baseUrl,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="authUrl != null">
+                #{authUrl,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="enabledForecast != null">
+                #{enabledForecast,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            <if test="level != null">
+                #{level,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            <if test="recommendTips != null">
+                #{recommendTips,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="knowledgeTips != null">
+                #{knowledgeTips,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="visible != null">
+                #{visible,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            <if test="enabled != null">
+                #{enabled,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            #{nowTimestamp,jdbcType=TIMESTAMP,javaType=java.sql.Timestamp},
+            #{userFullName,jdbcType=VARCHAR,javaType=java.lang.String},
+            #{nowTimestamp,jdbcType=TIMESTAMP,javaType=java.sql.Timestamp},
+            #{userFullName,jdbcType=VARCHAR,javaType=java.lang.String},
+            0,
+        </trim>
+    </insert>
+
+
+
+</mapper>

@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifugle.rap.mapper.YhzxxnzzcyDOMapper">
+  <resultMap id="BaseResultMap" type="com.ifugle.rap.model.dingtax.YhzxxnzzcyDO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="xnzz_id" jdbcType="BIGINT" property="xnzzId" />
+    <result column="bm_id" jdbcType="BIGINT" property="bmId" />
+    <result column="nsr_id" jdbcType="BIGINT" property="nsrId" />
+    <result column="dingid" jdbcType="VARCHAR" property="dingid" />
+    <result column="userid" jdbcType="VARCHAR" property="userid" />
+    <result column="XM" jdbcType="VARCHAR" property="xm" />
+    <result column="SJHM" jdbcType="VARCHAR" property="sjhm" />
+    <result column="rylx_dm" jdbcType="CHAR" property="rylxDm" />
+    <result column="cysx" jdbcType="TINYINT" property="cysx" />
+    <result column="glybj" jdbcType="TINYINT" property="glybj" />
+    <result column="zbrybj" jdbcType="TINYINT" property="zbrybj" />
+    <result column="bz" jdbcType="VARCHAR" property="bz" />
+    <result column="cyzt" jdbcType="TINYINT" property="cyzt" />
+    <result column="dxzt" jdbcType="TINYINT" property="dxzt" />
+    <result column="dxfssj" jdbcType="DATE" property="dxfssj" />
+    <result column="dxcwxx" jdbcType="VARCHAR" property="dxcwxx" />
+    <result column="cjsj" jdbcType="TIMESTAMP" property="cjsj" />
+    <result column="cjr" jdbcType="VARCHAR" property="cjr" />
+    <result column="xgsj" jdbcType="TIMESTAMP" property="xgsj" />
+    <result column="xgr" jdbcType="VARCHAR" property="xgr" />
+    <result column="ZW" jdbcType="VARCHAR" property="zw" />
+    <result column="zcfsbj" jdbcType="TINYINT" property="zcfsbj" />
+    <result column="zcrzjb" jdbcType="TINYINT" property="zcrzjb" />
+    <result column="qyglybj" jdbcType="TINYINT" property="qyglybj" />
+    <result column="xssx" jdbcType="BIGINT" property="xssx" />
+    <result column="zjlx" jdbcType="VARCHAR" property="zjlx" />
+    <result column="zjhm" jdbcType="VARCHAR" property="zjhm" />
+    <result column="gpy_id" jdbcType="VARCHAR" property="gpyId" />
+    <result column="jhsj" jdbcType="TIMESTAMP" property="jhsj" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, xnzz_id, bm_id, nsr_id, dingid, userid, XM, SJHM, rylx_dm, cysx, glybj, zbrybj, 
+    bz, cyzt, dxzt, dxfssj, dxcwxx, cjsj, cjr, xgsj, xgr, ZW, zcfsbj, zcrzjb, qyglybj, 
+    xssx, zjlx, zjhm, gpy_id, jhsj
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from yhzx_xnzz_cy
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from yhzx_xnzz_cy
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ifugle.rap.model.dingtax.YhzxxnzzcyDO">
+    insert into yhzx_xnzz_cy (id, xnzz_id, bm_id, 
+      nsr_id, dingid, userid, 
+      XM, SJHM, rylx_dm, cysx, 
+      glybj, zbrybj, bz, 
+      cyzt, dxzt, dxfssj, dxcwxx, 
+      cjsj, cjr, xgsj, 
+      xgr, ZW, zcfsbj, zcrzjb, 
+      qyglybj, xssx, zjlx, 
+      zjhm, gpy_id, jhsj
+      )
+    values (#{id,jdbcType=BIGINT}, #{xnzzId,jdbcType=BIGINT}, #{bmId,jdbcType=BIGINT}, 
+      #{nsrId,jdbcType=BIGINT}, #{dingid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, 
+      #{xm,jdbcType=VARCHAR}, #{sjhm,jdbcType=VARCHAR}, #{rylxDm,jdbcType=CHAR}, #{cysx,jdbcType=TINYINT}, 
+      #{glybj,jdbcType=TINYINT}, #{zbrybj,jdbcType=TINYINT}, #{bz,jdbcType=VARCHAR}, 
+      #{cyzt,jdbcType=TINYINT}, #{dxzt,jdbcType=TINYINT}, #{dxfssj,jdbcType=DATE}, #{dxcwxx,jdbcType=VARCHAR}, 
+      #{cjsj,jdbcType=TIMESTAMP}, #{cjr,jdbcType=VARCHAR}, #{xgsj,jdbcType=TIMESTAMP}, 
+      #{xgr,jdbcType=VARCHAR}, #{zw,jdbcType=VARCHAR}, #{zcfsbj,jdbcType=TINYINT}, #{zcrzjb,jdbcType=TINYINT}, 
+      #{qyglybj,jdbcType=TINYINT}, #{xssx,jdbcType=BIGINT}, #{zjlx,jdbcType=VARCHAR}, 
+      #{zjhm,jdbcType=VARCHAR}, #{gpyId,jdbcType=VARCHAR}, #{jhsj,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ifugle.rap.model.dingtax.YhzxxnzzcyDO">
+    insert into yhzx_xnzz_cy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="xnzzId != null">
+        xnzz_id,
+      </if>
+      <if test="bmId != null">
+        bm_id,
+      </if>
+      <if test="nsrId != null">
+        nsr_id,
+      </if>
+      <if test="dingid != null">
+        dingid,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="xm != null">
+        XM,
+      </if>
+      <if test="sjhm != null">
+        SJHM,
+      </if>
+      <if test="rylxDm != null">
+        rylx_dm,
+      </if>
+      <if test="cysx != null">
+        cysx,
+      </if>
+      <if test="glybj != null">
+        glybj,
+      </if>
+      <if test="zbrybj != null">
+        zbrybj,
+      </if>
+      <if test="bz != null">
+        bz,
+      </if>
+      <if test="cyzt != null">
+        cyzt,
+      </if>
+      <if test="dxzt != null">
+        dxzt,
+      </if>
+      <if test="dxfssj != null">
+        dxfssj,
+      </if>
+      <if test="dxcwxx != null">
+        dxcwxx,
+      </if>
+      <if test="cjsj != null">
+        cjsj,
+      </if>
+      <if test="cjr != null">
+        cjr,
+      </if>
+      <if test="xgsj != null">
+        xgsj,
+      </if>
+      <if test="xgr != null">
+        xgr,
+      </if>
+      <if test="zw != null">
+        ZW,
+      </if>
+      <if test="zcfsbj != null">
+        zcfsbj,
+      </if>
+      <if test="zcrzjb != null">
+        zcrzjb,
+      </if>
+      <if test="qyglybj != null">
+        qyglybj,
+      </if>
+      <if test="xssx != null">
+        xssx,
+      </if>
+      <if test="zjlx != null">
+        zjlx,
+      </if>
+      <if test="zjhm != null">
+        zjhm,
+      </if>
+      <if test="gpyId != null">
+        gpy_id,
+      </if>
+      <if test="jhsj != null">
+        jhsj,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="xnzzId != null">
+        #{xnzzId,jdbcType=BIGINT},
+      </if>
+      <if test="bmId != null">
+        #{bmId,jdbcType=BIGINT},
+      </if>
+      <if test="nsrId != null">
+        #{nsrId,jdbcType=BIGINT},
+      </if>
+      <if test="dingid != null">
+        #{dingid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="xm != null">
+        #{xm,jdbcType=VARCHAR},
+      </if>
+      <if test="sjhm != null">
+        #{sjhm,jdbcType=VARCHAR},
+      </if>
+      <if test="rylxDm != null">
+        #{rylxDm,jdbcType=CHAR},
+      </if>
+      <if test="cysx != null">
+        #{cysx,jdbcType=TINYINT},
+      </if>
+      <if test="glybj != null">
+        #{glybj,jdbcType=TINYINT},
+      </if>
+      <if test="zbrybj != null">
+        #{zbrybj,jdbcType=TINYINT},
+      </if>
+      <if test="bz != null">
+        #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="cyzt != null">
+        #{cyzt,jdbcType=TINYINT},
+      </if>
+      <if test="dxzt != null">
+        #{dxzt,jdbcType=TINYINT},
+      </if>
+      <if test="dxfssj != null">
+        #{dxfssj,jdbcType=DATE},
+      </if>
+      <if test="dxcwxx != null">
+        #{dxcwxx,jdbcType=VARCHAR},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cjr != null">
+        #{cjr,jdbcType=VARCHAR},
+      </if>
+      <if test="xgsj != null">
+        #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgr != null">
+        #{xgr,jdbcType=VARCHAR},
+      </if>
+      <if test="zw != null">
+        #{zw,jdbcType=VARCHAR},
+      </if>
+      <if test="zcfsbj != null">
+        #{zcfsbj,jdbcType=TINYINT},
+      </if>
+      <if test="zcrzjb != null">
+        #{zcrzjb,jdbcType=TINYINT},
+      </if>
+      <if test="qyglybj != null">
+        #{qyglybj,jdbcType=TINYINT},
+      </if>
+      <if test="xssx != null">
+        #{xssx,jdbcType=BIGINT},
+      </if>
+      <if test="zjlx != null">
+        #{zjlx,jdbcType=VARCHAR},
+      </if>
+      <if test="zjhm != null">
+        #{zjhm,jdbcType=VARCHAR},
+      </if>
+      <if test="gpyId != null">
+        #{gpyId,jdbcType=VARCHAR},
+      </if>
+      <if test="jhsj != null">
+        #{jhsj,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ifugle.rap.model.dingtax.YhzxxnzzcyDO">
+    update yhzx_xnzz_cy
+    <set>
+      <if test="xnzzId != null">
+        xnzz_id = #{xnzzId,jdbcType=BIGINT},
+      </if>
+      <if test="bmId != null">
+        bm_id = #{bmId,jdbcType=BIGINT},
+      </if>
+      <if test="nsrId != null">
+        nsr_id = #{nsrId,jdbcType=BIGINT},
+      </if>
+      <if test="dingid != null">
+        dingid = #{dingid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="xm != null">
+        XM = #{xm,jdbcType=VARCHAR},
+      </if>
+      <if test="sjhm != null">
+        SJHM = #{sjhm,jdbcType=VARCHAR},
+      </if>
+      <if test="rylxDm != null">
+        rylx_dm = #{rylxDm,jdbcType=CHAR},
+      </if>
+      <if test="cysx != null">
+        cysx = #{cysx,jdbcType=TINYINT},
+      </if>
+      <if test="glybj != null">
+        glybj = #{glybj,jdbcType=TINYINT},
+      </if>
+      <if test="zbrybj != null">
+        zbrybj = #{zbrybj,jdbcType=TINYINT},
+      </if>
+      <if test="bz != null">
+        bz = #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="cyzt != null">
+        cyzt = #{cyzt,jdbcType=TINYINT},
+      </if>
+      <if test="dxzt != null">
+        dxzt = #{dxzt,jdbcType=TINYINT},
+      </if>
+      <if test="dxfssj != null">
+        dxfssj = #{dxfssj,jdbcType=DATE},
+      </if>
+      <if test="dxcwxx != null">
+        dxcwxx = #{dxcwxx,jdbcType=VARCHAR},
+      </if>
+      <if test="cjsj != null">
+        cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cjr != null">
+        cjr = #{cjr,jdbcType=VARCHAR},
+      </if>
+      <if test="xgsj != null">
+        xgsj = #{xgsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xgr != null">
+        xgr = #{xgr,jdbcType=VARCHAR},
+      </if>
+      <if test="zw != null">
+        ZW = #{zw,jdbcType=VARCHAR},
+      </if>
+      <if test="zcfsbj != null">
+        zcfsbj = #{zcfsbj,jdbcType=TINYINT},
+      </if>
+      <if test="zcrzjb != null">
+        zcrzjb = #{zcrzjb,jdbcType=TINYINT},
+      </if>
+      <if test="qyglybj != null">
+        qyglybj = #{qyglybj,jdbcType=TINYINT},
+      </if>
+      <if test="xssx != null">
+        xssx = #{xssx,jdbcType=BIGINT},
+      </if>
+      <if test="zjlx != null">
+        zjlx = #{zjlx,jdbcType=VARCHAR},
+      </if>
+      <if test="zjhm != null">
+        zjhm = #{zjhm,jdbcType=VARCHAR},
+      </if>
+      <if test="gpyId != null">
+        gpy_id = #{gpyId,jdbcType=VARCHAR},
+      </if>
+      <if test="jhsj != null">
+        jhsj = #{jhsj,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ifugle.rap.model.dingtax.YhzxxnzzcyDO">
+    update yhzx_xnzz_cy
+    set xnzz_id = #{xnzzId,jdbcType=BIGINT},
+      bm_id = #{bmId,jdbcType=BIGINT},
+      nsr_id = #{nsrId,jdbcType=BIGINT},
+      dingid = #{dingid,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=VARCHAR},
+      XM = #{xm,jdbcType=VARCHAR},
+      SJHM = #{sjhm,jdbcType=VARCHAR},
+      rylx_dm = #{rylxDm,jdbcType=CHAR},
+      cysx = #{cysx,jdbcType=TINYINT},
+      glybj = #{glybj,jdbcType=TINYINT},
+      zbrybj = #{zbrybj,jdbcType=TINYINT},
+      bz = #{bz,jdbcType=VARCHAR},
+      cyzt = #{cyzt,jdbcType=TINYINT},
+      dxzt = #{dxzt,jdbcType=TINYINT},
+      dxfssj = #{dxfssj,jdbcType=DATE},
+      dxcwxx = #{dxcwxx,jdbcType=VARCHAR},
+      cjsj = #{cjsj,jdbcType=TIMESTAMP},
+      cjr = #{cjr,jdbcType=VARCHAR},
+      xgsj = #{xgsj,jdbcType=TIMESTAMP},
+      xgr = #{xgr,jdbcType=VARCHAR},
+      ZW = #{zw,jdbcType=VARCHAR},
+      zcfsbj = #{zcfsbj,jdbcType=TINYINT},
+      zcrzjb = #{zcrzjb,jdbcType=TINYINT},
+      qyglybj = #{qyglybj,jdbcType=TINYINT},
+      xssx = #{xssx,jdbcType=BIGINT},
+      zjlx = #{zjlx,jdbcType=VARCHAR},
+      zjhm = #{zjhm,jdbcType=VARCHAR},
+      gpy_id = #{gpyId,jdbcType=VARCHAR},
+      jhsj = #{jhsj,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectYhzxxnzzcyForInit" resultMap="BaseResultMap">
+    SELECT * FROM  yhzx_xnzz_cy ORDER BY cjsj LIMIT ${first}, ${pageSize};
+  </select>
+
+  <select id="selectYhzxxnzzcyForSync" resultMap="BaseResultMap">
+    SELECT * FROM yhzx_xnzz_cy WHERE cjsj >= #{lastCreateTime} ORDER BY cjsj LIMIT ${first},${pageSize};
+  </select>
+
+  <select id="selectYhzxxnzzcyForUpdateSyncWithoutLastUpdateTime" resultMap="BaseResultMap">
+    SELECT * FROM yhzx_xnzz_cy WHERE xgsj > cjsj LIMIT #{first }, #{pageSize};
+  </select>
+
+  <select id="selectYhzxxnzzcyForUpdateSyncWithLastUpdateTime"  resultMap="BaseResultMap">
+    SELECT * FROM yhzx_xnzz_cy WHERE xgsj >= #{lastUpdateTime} LIMIT #{first }, #{pageSize};
+  </select>
+
+</mapper>

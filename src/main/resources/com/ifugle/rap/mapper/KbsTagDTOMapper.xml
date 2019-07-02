@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ifugle.rap.mapper.KbsTagDTOMapper">
+    <resultMap id="BaseResultMap" type="com.ifugle.rap.model.shuixiaomi.dto.KbsTagDTO">
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="LINK_ID" property="linkId" jdbcType="BIGINT"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="TIMESTAMP"/>
+        <result column="MODIFICATION_DATE" property="modificationDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="selectKbsTagForInit" resultMap="BaseResultMap">
+        SELECT
+	      tag. NAME,link.LINK_ID,tag.CREATION_DATE,tag.MODIFICATION_DATE
+        FROM
+	      BOT_TAG_LINK AS link
+        INNER JOIN BOT_TAG AS tag ON link.tag_id = tag.id
+        WHERE
+	        link.LINK_SOURCE = 'KBS_QUESTION'
+        AND link.ENABLED = 1
+        AND tag.ENABLED = 1
+        ORDER BY tag.CREATION_DATE LIMIT #{first},#{pageSize}
+    </select>
+
+    <select id="selectKbsTagForSync" resultMap="BaseResultMap">
+        SELECT
+	      tag. NAME,link.LINK_ID,tag.CREATION_DATE,tag.MODIFICATION_DATE
+        FROM
+	      BOT_TAG_LINK AS link
+        INNER JOIN BOT_TAG AS tag ON link.tag_id = tag.id
+        WHERE
+	        link.LINK_SOURCE = 'KBS_QUESTION'
+        AND link.ENABLED = 1
+        AND tag.ENABLED = 1
+        AND tag.CREATION_DATE > #{lastCreateTime}
+        ORDER BY tag.CREATION_DATE LIMIT #{first},#{pageSize}
+    </select>
+
+    <select id="selectKbsTagForUpdateWithoutLastUpdateTime" resultMap="BaseResultMap">
+
+    </select>
+</mapper>

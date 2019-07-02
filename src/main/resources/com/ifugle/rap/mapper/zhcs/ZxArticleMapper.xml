@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifugle.rap.mapper.zhcs.ZxArticleMapper">
+  <resultMap id="BaseResultMap" type="com.ifugle.rap.model.zhcs.ZxArticle">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="USER_ID" jdbcType="BIGINT" property="userId" />
+    <result column="NODE_ID" jdbcType="INTEGER" property="nodeId" />
+    <result column="MAP_SOURCE" jdbcType="TINYINT" property="mapSource" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="AUTHOR" jdbcType="VARCHAR" property="author" />
+    <result column="SORT_ID" jdbcType="BIGINT" property="sortId" />
+    <result column="KEY_WORD" jdbcType="VARCHAR" property="keyWord" />
+    <result column="PUBLISH_TYPE" jdbcType="TINYINT" property="publishType" />
+    <result column="COVER_TYPE" jdbcType="TINYINT" property="coverType" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="ALLOW" jdbcType="TINYINT" property="allow" />
+    <result column="FREE_STAT" jdbcType="TINYINT" property="freeStat" />
+    <result column="PUBLISH_DATE" jdbcType="TIMESTAMP" property="publishDate" />
+    <result column="ENABLED" jdbcType="TINYINT" property="enabled" />
+    <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
+    <result column="MODIFICATION_DATE" jdbcType="TIMESTAMP" property="modificationDate" />
+    <result column="REVISION" jdbcType="INTEGER" property="revision" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, USER_ID, NODE_ID, MAP_SOURCE, TITLE, AUTHOR, SORT_ID, KEY_WORD, PUBLISH_TYPE, 
+    COVER_TYPE, CONTENT, ALLOW, FREE_STAT, PUBLISH_DATE, ENABLED, CREATION_DATE, MODIFICATION_DATE, 
+    REVISION
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zhcs_zx_article
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from zhcs_zx_article
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ifugle.rap.model.zhcs.ZxArticle">
+    insert into zhcs_zx_article (ID, USER_ID, NODE_ID, 
+      MAP_SOURCE, TITLE, AUTHOR, 
+      SORT_ID, KEY_WORD, PUBLISH_TYPE, 
+      COVER_TYPE, CONTENT, ALLOW, 
+      FREE_STAT, PUBLISH_DATE, ENABLED, 
+      CREATION_DATE, MODIFICATION_DATE, REVISION
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{nodeId,jdbcType=INTEGER}, 
+      #{mapSource,jdbcType=TINYINT}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{sortId,jdbcType=BIGINT}, #{keyWord,jdbcType=VARCHAR}, #{publishType,jdbcType=TINYINT}, 
+      #{coverType,jdbcType=TINYINT}, #{content,jdbcType=VARCHAR}, #{allow,jdbcType=TINYINT}, 
+      #{freeStat,jdbcType=TINYINT}, #{publishDate,jdbcType=TIMESTAMP}, #{enabled,jdbcType=TINYINT}, 
+      #{creationDate,jdbcType=TIMESTAMP}, #{modificationDate,jdbcType=TIMESTAMP}, #{revision,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ifugle.rap.model.zhcs.ZxArticle">
+    insert into zhcs_zx_article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="nodeId != null">
+        NODE_ID,
+      </if>
+      <if test="mapSource != null">
+        MAP_SOURCE,
+      </if>
+      <if test="title != null">
+        TITLE,
+      </if>
+      <if test="author != null">
+        AUTHOR,
+      </if>
+      <if test="sortId != null">
+        SORT_ID,
+      </if>
+      <if test="keyWord != null">
+        KEY_WORD,
+      </if>
+      <if test="publishType != null">
+        PUBLISH_TYPE,
+      </if>
+      <if test="coverType != null">
+        COVER_TYPE,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="allow != null">
+        ALLOW,
+      </if>
+      <if test="freeStat != null">
+        FREE_STAT,
+      </if>
+      <if test="publishDate != null">
+        PUBLISH_DATE,
+      </if>
+      <if test="enabled != null">
+        ENABLED,
+      </if>
+      <if test="creationDate != null">
+        CREATION_DATE,
+      </if>
+      <if test="modificationDate != null">
+        MODIFICATION_DATE,
+      </if>
+      <if test="revision != null">
+        REVISION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="nodeId != null">
+        #{nodeId,jdbcType=INTEGER},
+      </if>
+      <if test="mapSource != null">
+        #{mapSource,jdbcType=TINYINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="sortId != null">
+        #{sortId,jdbcType=BIGINT},
+      </if>
+      <if test="keyWord != null">
+        #{keyWord,jdbcType=VARCHAR},
+      </if>
+      <if test="publishType != null">
+        #{publishType,jdbcType=TINYINT},
+      </if>
+      <if test="coverType != null">
+        #{coverType,jdbcType=TINYINT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="allow != null">
+        #{allow,jdbcType=TINYINT},
+      </if>
+      <if test="freeStat != null">
+        #{freeStat,jdbcType=TINYINT},
+      </if>
+      <if test="publishDate != null">
+        #{publishDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enabled != null">
+        #{enabled,jdbcType=TINYINT},
+      </if>
+      <if test="creationDate != null">
+        #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modificationDate != null">
+        #{modificationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revision != null">
+        #{revision,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ifugle.rap.model.zhcs.ZxArticle">
+    update zhcs_zx_article
+    <set>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="nodeId != null">
+        NODE_ID = #{nodeId,jdbcType=INTEGER},
+      </if>
+      <if test="mapSource != null">
+        MAP_SOURCE = #{mapSource,jdbcType=TINYINT},
+      </if>
+      <if test="title != null">
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        AUTHOR = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="sortId != null">
+        SORT_ID = #{sortId,jdbcType=BIGINT},
+      </if>
+      <if test="keyWord != null">
+        KEY_WORD = #{keyWord,jdbcType=VARCHAR},
+      </if>
+      <if test="publishType != null">
+        PUBLISH_TYPE = #{publishType,jdbcType=TINYINT},
+      </if>
+      <if test="coverType != null">
+        COVER_TYPE = #{coverType,jdbcType=TINYINT},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="allow != null">
+        ALLOW = #{allow,jdbcType=TINYINT},
+      </if>
+      <if test="freeStat != null">
+        FREE_STAT = #{freeStat,jdbcType=TINYINT},
+      </if>
+      <if test="publishDate != null">
+        PUBLISH_DATE = #{publishDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enabled != null">
+        ENABLED = #{enabled,jdbcType=TINYINT},
+      </if>
+      <if test="creationDate != null">
+        CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modificationDate != null">
+        MODIFICATION_DATE = #{modificationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revision != null">
+        REVISION = #{revision,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ifugle.rap.model.zhcs.ZxArticle">
+    update zhcs_zx_article
+    set USER_ID = #{userId,jdbcType=BIGINT},
+      NODE_ID = #{nodeId,jdbcType=INTEGER},
+      MAP_SOURCE = #{mapSource,jdbcType=TINYINT},
+      TITLE = #{title,jdbcType=VARCHAR},
+      AUTHOR = #{author,jdbcType=VARCHAR},
+      SORT_ID = #{sortId,jdbcType=BIGINT},
+      KEY_WORD = #{keyWord,jdbcType=VARCHAR},
+      PUBLISH_TYPE = #{publishType,jdbcType=TINYINT},
+      COVER_TYPE = #{coverType,jdbcType=TINYINT},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      ALLOW = #{allow,jdbcType=TINYINT},
+      FREE_STAT = #{freeStat,jdbcType=TINYINT},
+      PUBLISH_DATE = #{publishDate,jdbcType=TIMESTAMP},
+      ENABLED = #{enabled,jdbcType=TINYINT},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      MODIFICATION_DATE = #{modificationDate,jdbcType=TIMESTAMP},
+      REVISION = #{revision,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="selectZxArticleForInit" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from zhcs_zx_article
+    ORDER BY CREATION_DATE LIMIT ${first}, ${pageSize}
+  </select>
+
+  <select id="selectZxArticleForSync" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from zhcs_zx_article
+    where CREATION_DATE > #{lastCreateTime} LIMIT ${first},${pageSize}
+  </select>
+
+  <select id="selectZxArticleForUpdateWithoutLastUpdateTime" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from zhcs_zx_article
+    WHERE MODIFICATION_DATE > CREATION_DATE  LIMIT ${first},${pageSize}
+  </select>
+
+  <select id="selectZxArticleForUpdateWithLastUpdateTime" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from zhcs_zx_article
+    WHERE MODIFICATION_DATE > #{lastUpdateTime}  LIMIT ${first},${pageSize}
+  </select>
+
+</mapper>
