@@ -3,6 +3,8 @@
  */
 package com.ifugle.rap.test;
 
+import java.util.Set;
+
 import org.junit.runner.RunWith;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -49,6 +51,8 @@ public class BaseTest {
         System.setProperty("rap.es.username", "elastic");
         System.setProperty("rap.es.password", "acUkc8kjpuLAFuqJzB4MHNdRGXpw6N");
         System.setProperty("log4j.logger.com.ifugle.rap.bot.summary.mapper", "error");
+        System.setProperty("rap.mvc.config.default","false");
+        System.setProperty("rap.config.datasource.default","false");
         System.setProperty("rap.service.config.default", "true");
     }
 

@@ -50,13 +50,15 @@ public class MessageConsumer extends Thread {
         while (true) {
             try {
                 logger.info("[PackageConsumer start running ........]");
-                String curData = dataContainer.poll(2, TimeUnit.SECONDS);//从仓库获取待消费的数据
+                //从仓库获取待消费的数据
+                String curData = dataContainer.poll(2, TimeUnit.SECONDS);
                 try {
                     if(StringUtils.isBlank(curData)){
                         continue;
                     }
                     requestData(curData);
-                    Thread.sleep(sleepTime);//拉包休息1s
+                    //拉包休息1s
+                    Thread.sleep(sleepTime);
                 } catch (Exception e) {
                     logger.error("MessageConsumer run error", e);
                 }
@@ -70,17 +72,17 @@ public class MessageConsumer extends Thread {
         ChangedPropertyData changedPropertyData = new Gson().fromJson(message,ChangedPropertyData.class);
         //获取要更新的id的list
         List<Long> list = changedPropertyData.getIds();
-        StringBuffer DSL = new StringBuffer(256);
+        StringBuilder dsl = new StringBuilder(256);
         String docName =changedPropertyData.getDocName();
         for (Long id: list ) {
             DataRequest request = compriseDataRequest(id, changedPropertyData.getProperties(), TablesEnum.TABLES.get(docName.toLowerCase()));
             logger.debug(MessageFormat.format("转化DataRequest成功,{0}", request));
             ChannelType channelType = TablesEnum.TABLE_CHANNEL.get(docName.toLowerCase());
-            DSL.append(formatUpdateDSL(channelType, request));
+            dsl.append(formatUpdateDSL(channelType, request));
         }
-        if (DSL.length() > 0) {
-            logger.debug(String.format("订阅服务发送ES信息，%s", DSL.toString()));
-            elasticSearchBusinessService.bulkOperation(DSL.toString());
+        if (dsl.length() > 0) {
+            logger.debug(String.format("订阅服务发送ES信息，%s", dsl.toString()));
+            elasticSearchBusinessService.bulkOperation(dsl.toString());
         }
     }
 
@@ -94,7 +96,7 @@ public class MessageConsumer extends Thread {
     private DataRequest compriseDataRequest(Long id, Map<String, Object> attrs, TablesEnum tables) {
         DataRequest request = new DataRequest();
         request.setCatalogType(tables.getTableName());
-        Map<String, Object> hashMap = new HashMap<String, Object>(16);
+        Map<String, Object> hashMap = new HashMap<>(16);
         hashMap.put("ID", id);
         for (String key : attrs.keySet()) {
             Object object = attrs.get(key);
@@ -113,13 +115,12 @@ public class MessageConsumer extends Thread {
      *
      * @return
      */
-    public String formatUpdateDSL(ChannelType channelType, DataRequest request) {
-        String SAMPLE_UPDATE_DSL = "{ \"update\": { \"_index\": \"%s\", \"_type\": \"%s\", \"_id\": \"%s\"} } \n\r" + "{ \"doc\" : %s }\n\r";
+    private String formatUpdateDSL(ChannelType channelType, DataRequest request) {
+        String sampleUpdateDsl = "{ \"update\": { \"_index\": \"%s\", \"_type\": \"%s\", \"_id\": \"%s\"} } \n\r" + "{ \"doc\" : %s }\n\r";
         Map<String, Object> map = request.getMap();
         String ids = request.getMap().containsKey("ID") ? request.getMap().get("ID").toString() : request.getMap().get("id").toString();
         String data = JSONUtil.toJSON(map);
-        StringBuffer DSL = new StringBuffer(String.format(SAMPLE_UPDATE_DSL, channelType.getCode(), request.getCatalogType(), ids, data));
-        return DSL.toString();
+        return String.format(sampleUpdateDsl, channelType.getCode(), request.getCatalogType(), ids, data);
     }
 
     /**
