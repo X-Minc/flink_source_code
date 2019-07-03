@@ -69,7 +69,7 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table BOT_UNAWARE_DETAIL to es .... ");
         StringBuffer DSL = new StringBuffer(32);
         for (BotUnawareDetailDO botUnawareDetailDO : botUnawareDetailDOS) {
-            if(!botUnawareDetailDO.isNew()){
+            if(botUnawareDetailDO.isNew()){
                 continue;
             }
             logger.debug(MessageFormat.format("[DataSyncServiceImpl] insertBotUnawareDetailAndCheckListSize botUnawareDetailDO {0}", botUnawareDetailDO.toString()));
@@ -136,7 +136,7 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table KBS_ARTICLE to es .... ");
         StringBuffer DSL = new StringBuffer(32);
         for (KbsArticleDOWithBLOBs kbsArticleDO : kbsArticleDOS) {
-            if(!kbsArticleDO.isNew()){
+            if(kbsArticleDO.isNew()){
                 continue;
             }
             DataRequest request = compriseUtils.kbsArticleDOCompriseDataRequest(kbsArticleDO);
@@ -183,7 +183,7 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table BOT_BIZ_DATA to es .... ");
         StringBuffer DSL = new StringBuffer(32);
         for (BizData bizData : bizDataList) {
-            if(!bizData.isNew()){
+            if(bizData.isNew()){
                 continue;
             }
             DataRequest request = compriseUtils.botBizDataCompriseDataRequest(bizData);
@@ -228,7 +228,7 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table KBS_QUESTION_ARTICLE to es .... ");
         StringBuffer DSL = new StringBuffer(32);
         for (KbsQuestionArticleDO kbsQuestionArticleDO : kbsQuestionArticleDOS) {
-            if(!kbsQuestionArticleDO.isNew()){
+            if(kbsQuestionArticleDO.isNew()){
                 continue;
             }
             DataRequest request = compriseUtils.kbsQuestionArticleCompriseDataRequest(kbsQuestionArticleDO);
@@ -253,7 +253,7 @@ public class SyncServiceImpl implements SyncService {
         StringBuffer DSL = new StringBuffer(32);
         List<String> messages = new ArrayList<String>();
         for (int i = 0;i<kbsQuestionDOS.size();i++) {
-            if(!kbsQuestionDOS.get(i).isNew()){
+            if(kbsQuestionDOS.get(i).isNew()){
                 continue;
             }
             DataRequest request = compriseUtils.kbsQuestionCompriseDataRequest(kbsQuestionDOS.get(i));
@@ -299,7 +299,7 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table KBS_READING to es ....");
         StringBuffer DSL = new StringBuffer(32);
         for (KbsReadingDOWithBLOBs kbsReadingDO : kbsReadingDOS) {
-            if(!kbsReadingDO.isNew()){
+            if(kbsReadingDO.isNew()){
                 continue;
             }
             DataRequest request = compriseUtils.kbsReadingCompriseDataRequest(kbsReadingDO);
@@ -323,7 +323,7 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table KBS_KEYWORD to es ....");
         StringBuffer DSL = new StringBuffer(32);
         for (KbsKeywordDO kbsKeywordDO : kbsKeywordDOS) {
-            if(!kbsKeywordDO.isNew()){
+            if(kbsKeywordDO.isNew()){
                 continue;
             }
             DataRequest request = compriseUtils.kbsKeywordCompriseDataRequest(kbsKeywordDO);
@@ -366,7 +366,7 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table BOT_MEDIA to es ....");
         StringBuffer DSL = new StringBuffer(32);
         for (BotMediaDO botMediaDO : botMediaDOS) {
-            if(!botMediaDO.isNew()){
+            if(botMediaDO.isNew()){
                 continue;
             }
             DataRequest request = compriseUtils.botMediaCompriseDataRequest(botMediaDO);
