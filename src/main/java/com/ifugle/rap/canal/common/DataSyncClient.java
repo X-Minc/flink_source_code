@@ -34,7 +34,7 @@ public class DataSyncClient {
         }
         while(true){
             try {
-                Thread.sleep(2000);
+                Thread.sleep(10000);
                 //从文件读取初始化运行状态，判断是否已经执行过数据初始化全量更新
                 String status = CommonUtils.readlocalTimeFile("status");
                 //如果已经运行过,那么就开始执行增量更新操作
