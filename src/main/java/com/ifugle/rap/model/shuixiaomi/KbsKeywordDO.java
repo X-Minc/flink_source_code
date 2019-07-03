@@ -48,6 +48,10 @@ public class KbsKeywordDO {
     private Date modificationDate;
 
     private String modifier;
+    /***
+     * 判断是新增还是更新
+     */
+    private boolean isNew;
 
     public Long getId() {
         return id;
@@ -241,5 +245,13 @@ public class KbsKeywordDO {
                 + definition + '\'' + ", score=" + score + ", weight=" + weight + ", sensitivity=" + sensitivity + ", popularity=" + popularity + ", enabled="
                 + enabled + ", creationDate=" + creationDate + ", creator='" + creator + '\'' + ", modificationDate=" + modificationDate + ", modifier='"
                 + modifier + '\'' + '}';
+    }
+
+    /***
+     * 返回true，修改时间大于创建时间；反之返回false
+     * @return
+     */
+    public boolean isNew() {
+        return modificationDate.compareTo(creationDate) > 0 ? true : false;
     }
 }

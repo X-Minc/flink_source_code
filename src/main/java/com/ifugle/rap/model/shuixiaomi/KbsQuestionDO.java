@@ -57,6 +57,11 @@ public class KbsQuestionDO {
 
     private Byte approvalStatus;
 
+    /***
+     * 判断是新增还是更新
+     */
+    private boolean isNew;
+
     public Long getId() {
         return id;
     }
@@ -288,5 +293,13 @@ public class KbsQuestionDO {
     public String toString2() {
         return "KbsQuestionDO{" + "id=" + id + ", validDate=" + validDate + ", invalidDate=" + invalidDate + ", invalidReason='" + invalidReason + '\''
                 + ", approvalStatus=" + approvalStatus + '}';
+    }
+
+    /***
+     * 返回true，修改时间大于创建时间；反之返回false
+     * @return
+     */
+    public boolean isNew() {
+        return modificationDate.compareTo(creationDate) > 0 ? true : false;
     }
 }

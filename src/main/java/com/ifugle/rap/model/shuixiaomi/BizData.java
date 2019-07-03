@@ -41,6 +41,11 @@ public class BizData {
 
     private Date modificationDate;
 
+    /***
+     * 判断是新增还是更新
+     */
+    private boolean isNew;
+
     public Long getId() {
         return id;
     }
@@ -191,5 +196,13 @@ public class BizData {
 
     public void setModificationDate(Date modificationDate) {
         this.modificationDate = modificationDate;
+    }
+
+    /***
+     * 返回true，修改时间大于创建时间；反之返回false
+     * @return
+     */
+    public boolean isNew() {
+        return modificationDate.compareTo(creationDate) > 0 ? true : false;
     }
 }

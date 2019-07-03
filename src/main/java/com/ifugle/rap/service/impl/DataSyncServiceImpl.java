@@ -749,7 +749,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info(MessageFormat.format("BotUnawareDetail last createTime : {0}", lastCreateTime));
         int pageIndex = 1;
         Integer first = (pageIndex - 1) * pageSize;
-        List<BotUnawareDetailDO> botUnawareDetailDOS = botUnawareDetailDOMapper.selectBotUnawareDetailForSync(lastCreateTime, first, pageSize);
+        List<BotUnawareDetailDO> botUnawareDetailDOS = botUnawareDetailDOMapper.selectBotUnawareDetailWithLastUpdateTime(first, pageSize,lastCreateTime);
         if (!CollectionUtils.isEmpty(botUnawareDetailDOS)) {
             syncService.insertBotUnawareDetailAndCheckListSize(botUnawareDetailDOS, pageSize);
             Date createDate = botUnawareDetailDOS.get(botUnawareDetailDOS.size() - 1).getCreationDate();
@@ -774,7 +774,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info(MessageFormat.format("KbsQuestionArticle last createTime : {0}", lastCreateTime));
         int pageIndex = 1;
         Integer first = (pageIndex - 1) * pageSize;
-        List<KbsQuestionArticleDO> kbsQuestionArticleDOS = kbsQuestionArticleDOMapper.selectKbsQuestionArticleForSync(lastCreateTime, first, pageSize);
+        List<KbsQuestionArticleDO> kbsQuestionArticleDOS = kbsQuestionArticleDOMapper.selectKbsQuestionArticleForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
         if (!CollectionUtils.isEmpty(kbsQuestionArticleDOS)) {
             syncService.insertKbsQuestionArticleAndCheckListSize(kbsQuestionArticleDOS, pageSize);
             Date createDate = kbsQuestionArticleDOS.get(kbsQuestionArticleDOS.size() - 1).getCreationDate();
@@ -850,7 +850,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info(MessageFormat.format("KbsQuestion lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         Integer first = (pageIndex - 1) * pageSize;
-        List<KbsQuestionDO> kbsQuestionDOS = kbsQuestionDOMapper.selectKbsQuestionForSync(lastCreateTime, first, pageSize);
+        List<KbsQuestionDO> kbsQuestionDOS = kbsQuestionDOMapper.selectKbsQuestionForUpdateWithLastUpdateTime(lastCreateTime,first, pageSize);
         if (!CollectionUtils.isEmpty(kbsQuestionDOS)) {
             syncService.insertKbsQuestionAndCheckListSize(kbsQuestionDOS, pageSize);
             Date createDate = kbsQuestionDOS.get(kbsQuestionDOS.size() - 1).getCreationDate();
@@ -871,7 +871,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info(MessageFormat.format("BOT_BIZ_DATA lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         Integer first = (pageIndex - 1) * pageSize;
-        List<BizData> bizDataList = bizDataMapper.selectBotBizDataForSync(lastCreateTime, first, pageSize);
+        List<BizData> bizDataList = bizDataMapper.selectBotBizDataForUpdateWithLastUpdateTime(lastCreateTime, first, pageSize);
         if (!CollectionUtils.isEmpty(bizDataList)) {
             syncService.insertBotBizDataAndCheckListSize(bizDataList, pageSize);
             Date createDate = bizDataList.get(bizDataList.size() - 1).getCreationDate();
@@ -960,7 +960,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("KbsArticle lastCreateTime : {0}", lastCreateTime));
         Integer first = (pageIndex - 1) * pageSize;
-        List<KbsArticleDOWithBLOBs> kbsArticleDOS = kbsArticleDOMapper.selectKbsArticleForSync(lastCreateTime, first, pageSize);
+        List<KbsArticleDOWithBLOBs> kbsArticleDOS = kbsArticleDOMapper.selectKbsArticleForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
         if (!CollectionUtils.isEmpty(kbsArticleDOS)) {
             syncService.insertKbsArticleAndCheckListSize(kbsArticleDOS, pageSize);
             Date createDate = kbsArticleDOS.get(kbsArticleDOS.size() - 1).getCreationDate();
@@ -985,7 +985,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info(MessageFormat.format("KbsReading lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         Integer first = (pageIndex - 1) * pageSize;
-        List<KbsReadingDOWithBLOBs> kbsReadingDOS = kbsReadingDOMapper.selectKbsReadingForSync(lastCreateTime, first, pageSize);
+        List<KbsReadingDOWithBLOBs> kbsReadingDOS = kbsReadingDOMapper.selectKbsReadingForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
         if (!CollectionUtils.isEmpty(kbsReadingDOS)) {
             syncService.insertKbsReadingAndCheckListSize(kbsReadingDOS, pageSize);
             Date createDate = kbsReadingDOS.get(kbsReadingDOS.size() - 1).getCreationDate();
@@ -1010,7 +1010,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info(MessageFormat.format("KbsKeyword lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         Integer first = (pageIndex - 1) * pageSize;
-        List<KbsKeywordDO> kbsKeywordDOS = kbsKeywordDOMapper.selectKbsKeywordForSync(lastCreateTime, first, pageSize);
+        List<KbsKeywordDO> kbsKeywordDOS = kbsKeywordDOMapper.selectKbsKeywordForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
         if (!CollectionUtils.isEmpty(kbsKeywordDOS)) {
             syncService.insertKbsKeywordAndCheckListSize(kbsKeywordDOS, pageSize);
             Date createDate = kbsKeywordDOS.get(kbsKeywordDOS.size() - 1).getCreationDate();
@@ -1052,7 +1052,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info(MessageFormat.format("BotMedia lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         Integer first = (pageIndex - 1) * pageSize;
-        List<BotMediaDO> botMediaDOS = botMediaDOMapper.selectBotMediaForSync(lastCreateTime, first, pageSize);
+        List<BotMediaDO> botMediaDOS = botMediaDOMapper.selectBotMediaWithLastUpdateTime(first, pageSize,lastCreateTime);
         if (!CollectionUtils.isEmpty(botMediaDOS)) {
             syncService.insertBotMediaAndCheckListSize(botMediaDOS, pageSize);
             Date createTime = botMediaDOS.get(botMediaDOS.size() - 1).getCreationDate();
@@ -1073,8 +1073,10 @@ public class DataSyncServiceImpl implements DataSyncService {
     private boolean updateKbsQuestionArticleAndCheckListSize(List<KbsQuestionArticleDO> kbsQuestionArticleDOS, Integer pageSize) {
         StringBuilder dsl = new StringBuilder(32);
         for (KbsQuestionArticleDO kbsQuestionArticleDO : kbsQuestionArticleDOS) {
-            DataRequest request = compriseUtils.kbsQuestionArticleCompriseDataRequest(kbsQuestionArticleDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if(kbsQuestionArticleDO.isNew()) {
+                DataRequest request = compriseUtils.kbsQuestionArticleCompriseDataRequest(kbsQuestionArticleDO);
+                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsQuestionArticleDOS.size() < pageSize;
@@ -1086,8 +1088,10 @@ public class DataSyncServiceImpl implements DataSyncService {
     public boolean updateKbsQuestionAndCheckListSize(List<KbsQuestionDO> kbsQuestionDOS, Integer pageSize) {
         StringBuilder dsl = new StringBuilder(32);
         for (KbsQuestionDO kbsQuestionDO : kbsQuestionDOS) {
-            DataRequest request = compriseUtils.kbsQuestionCompriseDataRequest(kbsQuestionDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if(kbsQuestionDO.isNew()) {
+                DataRequest request = compriseUtils.kbsQuestionCompriseDataRequest(kbsQuestionDO);
+                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsQuestionDOS.size() < pageSize;
@@ -1130,8 +1134,10 @@ public class DataSyncServiceImpl implements DataSyncService {
     private boolean updateKbsArticleAndCheckListSize(List<KbsArticleDOWithBLOBs> kbsArticleDOS, Integer pageSize) {
         StringBuilder dsl = new StringBuilder(32);
         for (KbsArticleDOWithBLOBs kbsArticleDO : kbsArticleDOS) {
-            DataRequest request = compriseUtils.kbsArticleDOCompriseDataRequest(kbsArticleDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if(kbsArticleDO.isNew()) {
+                DataRequest request = compriseUtils.kbsArticleDOCompriseDataRequest(kbsArticleDO);
+                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsArticleDOS.size() < pageSize;
@@ -1145,8 +1151,10 @@ public class DataSyncServiceImpl implements DataSyncService {
         CryptBase62 cryptBase62 = new CryptBase62();
         DecodeUtils.initCryptBase62Reverse6(cryptBase62);
         for (BizData bizData : bizDataList) {
-            DataRequest request = compriseUtils.botBizDataCompriseDataRequest(bizData);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if(bizData.isNew()) {
+                DataRequest request = compriseUtils.botBizDataCompriseDataRequest(bizData);
+                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return bizDataList.size() < pageSize;
@@ -1158,8 +1166,10 @@ public class DataSyncServiceImpl implements DataSyncService {
     private boolean updateKbsReadingAndCheckListSize(List<KbsReadingDOWithBLOBs> kbsReadingDOS, Integer pageSize) {
         StringBuilder dsl = new StringBuilder(32);
         for (KbsReadingDOWithBLOBs kbsReadingDO : kbsReadingDOS) {
-            DataRequest request = compriseUtils.kbsReadingCompriseDataRequest(kbsReadingDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if(kbsReadingDO.isNew()){
+                DataRequest request = compriseUtils.kbsReadingCompriseDataRequest(kbsReadingDO);
+                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsReadingDOS.size() < pageSize;
@@ -1171,8 +1181,10 @@ public class DataSyncServiceImpl implements DataSyncService {
     private boolean updateKbsKeywordAndCheckListSize(List<KbsKeywordDO> kbsKeywordDOS, Integer pageSize) {
         StringBuilder dsl = new StringBuilder(32);
         for (KbsKeywordDO kbsKeywordDO : kbsKeywordDOS) {
-            DataRequest request = compriseUtils.kbsKeywordCompriseDataRequest(kbsKeywordDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if(kbsKeywordDO.isNew()) {
+                DataRequest request = compriseUtils.kbsKeywordCompriseDataRequest(kbsKeywordDO);
+                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsKeywordDOS.size() < pageSize;
@@ -1200,8 +1212,10 @@ public class DataSyncServiceImpl implements DataSyncService {
     private boolean updateBotUnawareDetailAndCheckListSize(List<BotUnawareDetailDO> botUnawareDetailDOS, Integer pageSize) {
         StringBuilder dsl = new StringBuilder(32);
         for (BotUnawareDetailDO botUnawareDetailDO : botUnawareDetailDOS) {
-            DataRequest request = compriseUtils.botUnawareDetailCompriseDataRequest(botUnawareDetailDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if(botUnawareDetailDO.isNew()) {
+                DataRequest request = compriseUtils.botUnawareDetailCompriseDataRequest(botUnawareDetailDO);
+                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return botUnawareDetailDOS.size() < pageSize;
@@ -1216,8 +1230,10 @@ public class DataSyncServiceImpl implements DataSyncService {
     private boolean updateBotMediaAndCheckListSize(List<BotMediaDO> botMediaDOS, Integer pageSize) {
         StringBuilder dsl = new StringBuilder(32);
         for (BotMediaDO botMediaDO : botMediaDOS) {
-            DataRequest request = compriseUtils.botMediaCompriseDataRequest(botMediaDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if(botMediaDO.isNew()) {
+                DataRequest request = compriseUtils.botMediaCompriseDataRequest(botMediaDO);
+                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return botMediaDOS.size() < pageSize;

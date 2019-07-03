@@ -43,6 +43,12 @@ public class BotMediaDO {
 
     private Long status;
 
+    private Date modificationDate;
+
+    /***
+     * 判断是新增还是更新
+     */
+    private boolean isNew;
 
     public Long getId() {
         return id;
@@ -202,5 +208,21 @@ public class BotMediaDO {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Date getModificationDate() {
+        return modificationDate;
+    }
+
+    public void setModificationDate(Date modificationDate) {
+        this.modificationDate = modificationDate;
+    }
+
+    /***
+     * 返回true，修改时间大于创建时间；反之返回false
+     * @return
+     */
+    public boolean isNew() {
+        return modificationDate.compareTo(creationDate) > 0 ? true : false;
     }
 }
