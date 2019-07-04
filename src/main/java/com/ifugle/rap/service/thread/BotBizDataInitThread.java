@@ -3,7 +3,6 @@
  */
 package com.ifugle.rap.service.thread;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,12 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import com.ifugle.rap.mapper.BizDataMapper;
-import com.ifugle.rap.mapper.KbsArticleDOMapper;
 import com.ifugle.rap.model.shuixiaomi.BizData;
-import com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs;
 import com.ifugle.rap.service.SyncService;
 import com.ifugle.rap.service.utils.BizListCheckUtils;
-import com.ifugle.rap.service.utils.CompriseUtils;
 import com.ifugle.rap.service.utils.TimeDelayUtils;
 import com.ifugle.rap.utils.CommonUtils;
 
@@ -33,12 +29,13 @@ public class BotBizDataInitThread extends BaseInitThread implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(BotBizDataInitThread.class);
 
+    @Override
     public void run() {
         if (checkExist()) {
             return;
         }
         int pageIndex = 1;
-        List<BizData> bizDataList = new ArrayList<BizData>();
+        List<BizData> bizDataList;
         while (true) {
             Integer first = (pageIndex - 1) * pageSize;
             try {
@@ -57,7 +54,7 @@ public class BotBizDataInitThread extends BaseInitThread implements Runnable {
     }
 
     public BotBizDataInitThread(Integer pageSize, SyncService syncService, BizDataMapper bizDataMapper) {
-        super(pageSize, syncService);
+        super(5, syncService);
         this.bizDataMapper = bizDataMapper;
     }
 

@@ -6,7 +6,8 @@
         <result column="NODE_ID" javaType="java.lang.Integer" jdbcType="INTEGER" property="nodeId"/>
         <result column="ORG_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="orgId"/>
         <result column="DEFINE_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="defineId"/>
-        <result column="ID1" javaType="java.lang.String" jdbcType="VARCHAR" property="id1"/>
+        <result column="ID1" javaType="java.lang.String" jdbcType="VARCHAR" property="id1"
+                typeHandler="com.ifugle.rap.sql.mybatis.type.CryptBase62Reverse6StringTypeHandler"/>
         <result column="ID2" javaType="java.lang.String" jdbcType="VARCHAR" property="id2"
                 typeHandler="com.ifugle.rap.sql.mybatis.type.CryptBase62Reverse6StringTypeHandler"/>
         <result column="ID3" javaType="java.lang.String" jdbcType="VARCHAR" property="id3"

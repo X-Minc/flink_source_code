@@ -11,6 +11,13 @@ import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import com.ifugle.rap.elasticsearch.model.DataRequest;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
@@ -28,18 +35,10 @@ import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
 import com.ifugle.rap.model.shuixiaomi.KbsReadingDOWithBLOBs;
 import com.ifugle.rap.model.zhcs.ZxArticle;
 import com.ifugle.rap.security.crypto.CryptBase36;
-import com.ifugle.rap.security.crypto.CryptBase62;
 import com.ifugle.rap.security.crypto.CryptSimple;
 import com.ifugle.rap.security.crypto.CryptZip;
 import com.ifugle.rap.utils.DecodeUtils;
 import com.ifugle.rap.utils.MyHttpRequest;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 /**
  * @author LiuZhengyang
@@ -60,7 +59,7 @@ public class CompriseUtils {
     public DataRequest kbsArticleDOCompriseDataRequest(KbsArticleDOWithBLOBs kbsArticleDO) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.KBS_ARTICLE.getTableName());
-        Map<String, Object> hashMap = new HashMap<String, Object>();
+        Map<String, Object> hashMap = new HashMap<>(32);
         hashMap.put("ID", kbsArticleDO.getId());
         hashMap.put("PARENT_ID", kbsArticleDO.getParentId());
         hashMap.put("AREA_ID", kbsArticleDO.getAreaId());
@@ -97,7 +96,7 @@ public class CompriseUtils {
     public DataRequest yhzxXnzzNsrCompriseDataRequest(YhzxXnzzNsr yhzxXnzzNsr, CryptSimple cryptSimple, CryptBase36 cryptBase36) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.YHZX_XNZZ_NSR.getTableName());
-        Map<String, Object> hashMap = new HashMap<String, Object>();
+        Map<String, Object> hashMap = new HashMap<>(16);
         hashMap.put("ID", yhzxXnzzNsr.getId());
         hashMap.put("XNZZ_ID", yhzxXnzzNsr.getXnzzId());
         hashMap.put("BM_ID", yhzxXnzzNsr.getBmId());
@@ -148,7 +147,7 @@ public class CompriseUtils {
     public DataRequest yhzxxnzzcyCompriseDataRequest(YhzxxnzzcyDO yhzxxnzzcyDO) {
         DataRequest request = new DataRequest();
         request.setCatalogType("yhzx_xnzz_cy");
-        Map<String, Object> hashMap = new HashMap<String, Object>(100);
+        Map<String, Object> hashMap = new HashMap<>(32);
         hashMap.put("id", yhzxxnzzcyDO.getId());
         hashMap.put("xnzz_id", yhzxxnzzcyDO.getXnzzId());
         hashMap.put("bm_id", yhzxxnzzcyDO.getBmId());
@@ -186,7 +185,7 @@ public class CompriseUtils {
     public DataRequest botUnawareDetailCompriseDataRequest(BotUnawareDetailDO botUnawareDetailDO) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.BOT_UNAWARE_DETAIL.getTableName());
-        Map<String, Object> hashMap = new HashMap<String, Object>(100);
+        Map<String, Object> hashMap = new HashMap<>(32);
         hashMap.put("ID", botUnawareDetailDO.getId());
         hashMap.put("NODE_ID", botUnawareDetailDO.getNodeId());
         hashMap.put("SERVER_ID", botUnawareDetailDO.getServerId());
@@ -218,7 +217,7 @@ public class CompriseUtils {
     public DataRequest botTrackDetailCompriseDataRequest(BotTrackDetailDO botTrackDetailDO) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.BOT_TRACK_DETAIL.getTableName());
-        Map<String, Object> hashMap = new HashMap<String, Object>(100);
+        Map<String, Object> hashMap = new HashMap<>(16);
         hashMap.put("ID", botTrackDetailDO.getId());
         hashMap.put("NODE_ID", botTrackDetailDO.getNodeId());
         hashMap.put("USER_ID", botTrackDetailDO.getUserId());
@@ -240,7 +239,7 @@ public class CompriseUtils {
     public DataRequest botChatResponseMessageCompriseDatarequest(BotChatResponseMessageDO botChatResponseMessageDO) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.BOT_CHAT_RESPONSE_MESSAGE.getTableName());
-        Map<String, Object> hashMap = new HashMap<String, Object>(100);
+        Map<String, Object> hashMap = new HashMap<>(32);
         hashMap.put("ID", botChatResponseMessageDO.getId());
         hashMap.put("NODE_ID", botChatResponseMessageDO.getNodeId());
         hashMap.put("REQUEST_ID", botChatResponseMessageDO.getRequestId());
@@ -266,7 +265,7 @@ public class CompriseUtils {
     public DataRequest kbsQuestionArticleCompriseDataRequest(KbsQuestionArticleDO kbsQuestionArticleDO) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.KBS_QUESTION_ARTICLE.getTableName());
-        Map<String, Object> hashMap = new HashMap<String, Object>(100);
+        Map<String, Object> hashMap = new HashMap<>(32);
         hashMap.put("ID", kbsQuestionArticleDO.getId());
         hashMap.put("QUESTION_ID", kbsQuestionArticleDO.getQuestionId());
         hashMap.put("ARTICLE_ID", kbsQuestionArticleDO.getArticleId());
@@ -291,7 +290,7 @@ public class CompriseUtils {
     public DataRequest botBizDataCompriseDataRequest(BizData bizData) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.BOT_BIZ_DATA.getTableName());
-        Map<String, Object> hashMap = new HashMap<String, Object>(100);
+        Map<String, Object> hashMap = new HashMap<>(32);
         hashMap.put("ID", bizData.getId());
         hashMap.put("NODE_ID", bizData.getNodeId());
         hashMap.put("ORG_ID", bizData.getOrgId());
@@ -318,7 +317,7 @@ public class CompriseUtils {
     public DataRequest kbsQuestionCompriseDataRequest(KbsQuestionDO kbsQuestionDO) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.KBS_QUESTION.getTableName());
-        Map<String, Object> hashMap = new HashMap<String, Object>(100);
+        Map<String, Object> hashMap = new HashMap<>(32);
         hashMap.put("ID", kbsQuestionDO.getId());
         hashMap.put("QUESTION", kbsQuestionDO.getQuestion());
         hashMap.put("GRADE", kbsQuestionDO.getGrade());
@@ -353,7 +352,7 @@ public class CompriseUtils {
     public static DataRequest zxArticleCompriseDataRequest(ZxArticle zxArticle) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.ZX_ARTICLE.getTableName());
-        Map<String, Object> hashMap = new HashMap<String, Object>(100);
+        Map<String, Object> hashMap = new HashMap<>(32);
         hashMap.put("ID", zxArticle.getId());
         hashMap.put("USER_ID", zxArticle.getUserId());
         hashMap.put("NODE_ID", zxArticle.getNodeId());
@@ -380,7 +379,7 @@ public class CompriseUtils {
     public static DataRequest kbsTagsCompriseDataRequest(Long id, LinkedList<String> tags) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.KBS_QUESTION.getTableName());
-        Map<String, Object> hashMap = new HashMap<String, Object>(16);
+        Map<String, Object> hashMap = new HashMap<>(16);
         hashMap.put("ID", id);
         hashMap.put("TAGS", tags);
         request.setMap(hashMap);
@@ -390,7 +389,7 @@ public class CompriseUtils {
     public DataRequest kbsKeywordCompriseDataRequest(KbsKeywordDO kbsKeywordDO) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.KBS_KEYWORD.getTableName());
-        Map<String, Object> hashMap = new HashMap<String, Object>(100);
+        Map<String, Object> hashMap = new HashMap<>(32);
         hashMap.put("ID", kbsKeywordDO.getId());
         hashMap.put("ORG_ID", kbsKeywordDO.getOrgId());
         hashMap.put("keywordName", kbsKeywordDO.getKeywordName());
@@ -427,7 +426,7 @@ public class CompriseUtils {
     public DataRequest botConfigServerCompriseDataRequest(BotConfigServer botConfigServer) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.BOT_CONFIG_SERVER.getTableName());
-        Map<String, Object> hashMap = new HashMap<String, Object>(100);
+        Map<String, Object> hashMap = new HashMap<>(32);
         hashMap.put("ID", botConfigServer.getId());
         hashMap.put("BOT_TYPE", botConfigServer.getType());
         hashMap.put("KBS_TYPE_STRING", botConfigServer.getKbsType());
@@ -463,7 +462,7 @@ public class CompriseUtils {
     public DataRequest kbsReadingCompriseDataRequest(KbsReadingDOWithBLOBs kbsReadingDO) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.KBS_READING.getTableName());
-        Map<String, Object> hashMap = new HashMap<String, Object>(16);
+        Map<String, Object> hashMap = new HashMap<>(16);
         hashMap.put("ID", kbsReadingDO.getId());
         hashMap.put("KEYWORD", kbsReadingDO.getKeyword());
         hashMap.put("SYNONYMS", kbsReadingDO.getSynonyms());
@@ -485,7 +484,7 @@ public class CompriseUtils {
     public DataRequest botMediaCompriseDataRequest(BotMediaDO botMediaDO) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.BOT_MEDIA.getTableName());
-        Map<String, Object> hashMap = new HashMap<String, Object>(16);
+        Map<String, Object> hashMap = new HashMap<>(32);
         hashMap.put("ID", botMediaDO.getId());
         hashMap.put("NODE_ID", botMediaDO.getNodeId());
         hashMap.put("REQUEST_ID", botMediaDO.getRequestId());
@@ -520,7 +519,7 @@ public class CompriseUtils {
         }
     }
 
-    public static long getLongData(Date date) {
+    private static long getLongData(Date date) {
         if (date == null) {
             return System.currentTimeMillis();
         } else {
