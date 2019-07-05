@@ -285,6 +285,6 @@
     <select id="selectBotBizDataForUpdateWithLastUpdateTime" resultMap="BaseResultMap">
       SELECT
       <include refid="Base_Column_List"/>
-      FROM BOT_BIZ_DATA WHERE MODIFICATION_DATE >= #{lastUpdateTime}  LIMIT ${first},${pageSize}
+      FROM BOT_BIZ_DATA WHERE MODIFICATION_DATE >= #{lastUpdateTime} ORDER BY MODIFICATION_DATE  LIMIT ${first},${pageSize}
   </select>
 </mapper>

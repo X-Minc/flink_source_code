@@ -231,6 +231,6 @@
     </select>
 
     <select id="selectKbsReadingForUpdateSyncWithLastUpdateTime" resultMap="ResultMapWithBLOBs">
-      SELECT * FROM KBS_READING WHERE MODIFICATION_DATE >= #{lastUpdateTime} LIMIT  ${first}, ${pageSize}
+      SELECT * FROM KBS_READING WHERE MODIFICATION_DATE >= #{lastUpdateTime}  ORDER BY MODIFICATION_DATE  LIMIT  ${first}, ${pageSize}
     </select>
 </mapper>

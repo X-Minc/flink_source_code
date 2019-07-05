@@ -423,7 +423,9 @@
     </select>
 
     <select id="selectKbsArticleForUpdateSyncWithLastUpdateTime" resultMap="ResultMapWithBLOBs">
-        SELECT * FROM KBS_ARTICLE WHERE MODIFICATION_DATE >= #{lastUpdateTime} LIMIT ${first},${pageSize}
+        SELECT * FROM KBS_ARTICLE WHERE MODIFICATION_DATE >= #{lastUpdateTime} SELECT
+        <include refid="Base_Column_List"/>
+        FROM BOT_BIZ_DATA WHERE MODIFICATION_DATE >= #{lastUpdateTime} ORDER BY MODIFICATION_DATE  LIMIT ${first},${pageSize}LIMIT ${first},${pageSize}
     </select>
 
 

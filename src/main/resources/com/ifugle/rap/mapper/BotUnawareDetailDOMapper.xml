@@ -307,7 +307,7 @@
   </select>
 
     <select id="selectBotUnawareDetailWithLastUpdateTime" resultMap="BaseResultMap">
-    SELECT * FROM BOT_UNAWARE_DETAIL WHERE MODIFICATION_DATE >= #{lastUpdateTime} LIMIT #{first }, #{pageSize};
+    SELECT * FROM BOT_UNAWARE_DETAIL WHERE MODIFICATION_DATE >= #{lastUpdateTime} ORDER BY MODIFICATION_DATE LIMIT #{first }, #{pageSize};
   </select>
 
     <select id="selectBotUnawareDetailWitOuthLastUpdateTime" resultMap="BaseResultMap">
