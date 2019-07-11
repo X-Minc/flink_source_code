@@ -304,7 +304,7 @@ public class CompriseUtils {
         hashMap.put("DATA2", bizData.getData2());
         hashMap.put("DATA3", bizData.getData3());
         hashMap.put("DATA4", bizData.getData4());
-        hashMap.put("DATA4_NO_INDEX",bizData.getData4());
+        hashMap.put("DATA4_NO_INDEX1",bizData.getData4());
         hashMap.put("DATA5", bizData.getData5());
         hashMap.put("BOT_BIZ_DATA_STATUS", bizData.getStatus());
         hashMap.put("CREATOR", bizData.getCreator());
