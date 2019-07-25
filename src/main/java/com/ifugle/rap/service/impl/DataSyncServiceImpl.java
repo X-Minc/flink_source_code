@@ -73,6 +73,7 @@ import com.ifugle.rap.elasticsearch.enums.ChannelType;
 import com.ifugle.rap.security.crypto.CryptZip;
 import com.ifugle.rap.utils.DecodeUtils;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1312,4 +1313,51 @@ public class DataSyncServiceImpl implements DataSyncService {
         return botConfigServers.size() < pageSize;
     }
 
+    @Override
+    public void initLocalTime() {
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_BIZ_DATA");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_CHAT_RESPONSE_MESSAGE");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_CONFIG_SERVER");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_MEDIA");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_TAG");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_TRACK_DETAIL");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_UNAWARE_DETAIL");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_ARTICLE");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_KEYWORD");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_QUESTION");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_QUESTION_ARTICLE");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_READING");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "YHZX_XNZZ_NSR");
+
+
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "BOT_BIZ_DATA_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "BOT_CHAT_RESPONSE_MESSAGE_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "BOT_CONFIG_SERVER_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "BOT_MEDIA_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "BOT_TAG_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "BOT_TRACK_DETAIL_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "BOT_UNAWARE_DETAIL_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "KBS_ARTICLE_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "KBS_KEYWORD_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "KBS_QUESTION_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "KBS_QUESTION_ARTICLE_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "KBS_READING_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "YHZX_XNZZ_NSR_UPDATE");
+
+
+        CommonUtils.writeLocalTimeFile("1", "BOT_BIZ_DATA_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "BOT_CHAT_RESPONSE_MESSAGE_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "BOT_CONFIG_SERVER_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "BOT_MEDIA_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "BOT_TAG_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "BOT_TRACK_DETAIL_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "BOT_UNAWARE_DETAIL_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "KBS_ARTICLE_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "KBS_KEYWORD_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "KBS_QUESTION_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "KBS_QUESTION_ARTICLE_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "KBS_READING_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "YHZX_XNZZ_NSR_UPDATE_STATUS");
+
+    }
 }
