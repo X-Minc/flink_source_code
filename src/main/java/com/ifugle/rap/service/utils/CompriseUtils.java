@@ -111,13 +111,13 @@ public class CompriseUtils {
         hashMap.put("XGR", yhzxXnzzNsr.getXgr());
         hashMap.put("NSRMC",yhzxXnzzNsr.getNsrmc());
         hashMap.put("SHXYDM", yhzxXnzzNsr.getShxydm());
-//        if (StringUtils.equals(env, "prod")) {
-//            hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzNsr.getNsrmc(), cryptSimple));
-//            hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(yhzxXnzzNsr.getShxydm(), cryptBase36));
-//        } else {
-//            hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getNsrmc(), cryptSimple));
-//            hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(yhzxXnzzNsr.getShxydm(), cryptBase36));
-//        }
+        if (StringUtils.equals(env, "prod")) {
+            hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzNsr.getNsrmc(), cryptSimple));
+            hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(yhzxXnzzNsr.getShxydm(), cryptBase36));
+        } else {
+            hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getNsrmc(), cryptSimple));
+            hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(yhzxXnzzNsr.getShxydm(), cryptBase36));
+        }
 
         hashMap.put("NSRJC", yhzxXnzzNsr.getNsrjc());
         hashMap.put("SHXYDM6", yhzxXnzzNsr.getShxydm6());

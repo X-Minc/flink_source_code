@@ -156,6 +156,9 @@ public class DataSyncServiceImpl implements DataSyncService {
     @Autowired
     private ElasticSearchBusinessApi elasticSearchBusinessApi;
 
+    @Value("${profiles.active}")
+    String env;
+
     private final static Logger logger = LoggerFactory.getLogger(DataSyncServiceImpl.class);
 
     /**
@@ -1141,7 +1144,14 @@ public class DataSyncServiceImpl implements DataSyncService {
      */
     private boolean updateYhzxXnzzNsrAndCheckListSize(List<YhzxXnzzNsr> yhzxXnzzNsrs, Integer pageSize) {
         CryptSimple cryptSimple = new CryptSimple();
+        if(StringUtils.equalsIgnoreCase(env,"prod")) {
+            DecodeUtils.initCryptSimpleProd(cryptSimple);
+        }
+
         CryptBase36 cryptBase36 = new CryptBase36();
+        if(StringUtils.equalsIgnoreCase(env,"prod")) {
+            DecodeUtils.initCryptBase36(cryptBase36);
+        }
         StringBuilder dsl = new StringBuilder(32);
         for (YhzxXnzzNsr yhzxXnzzNsr : yhzxXnzzNsrs) {
             DataRequest request = compriseUtils.yhzxXnzzNsrCompriseDataRequest(yhzxXnzzNsr, cryptSimple, cryptBase36);

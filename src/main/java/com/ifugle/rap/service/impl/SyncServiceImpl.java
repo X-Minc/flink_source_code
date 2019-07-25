@@ -9,9 +9,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.ifugle.rap.elasticsearch.enums.ChannelType;
@@ -55,6 +57,9 @@ public class SyncServiceImpl implements SyncService {
 
     @Autowired
     RedisMessageSubscriber redisMessageSubscriber;
+
+    @Value("${profiles.active}")
+    String env;
 
     /**
      * 批量插入BOT_UNAWARE_DETAIL
@@ -164,10 +169,14 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table YhzxXnzzNsr to es .... ");
         StringBuffer DSL = new StringBuffer(32);
         CryptSimple cryptSimple = new CryptSimple();
-        DecodeUtils.initCryptSimpleProd(cryptSimple);
+        if(StringUtils.equalsIgnoreCase(env,"prod")) {
+            DecodeUtils.initCryptSimpleProd(cryptSimple);
+        }
 
         CryptBase36 cryptBase36 = new CryptBase36();
-        DecodeUtils.initCryptBase36(cryptBase36);
+        if(StringUtils.equalsIgnoreCase(env,"prod")) {
+            DecodeUtils.initCryptBase36(cryptBase36);
+        }
         for (YhzxXnzzNsr yhzxXnzzNsr : yhzxXnzzNsrs) {
             DataRequest request = compriseUtils.yhzxXnzzNsrCompriseDataRequest(yhzxXnzzNsr, cryptSimple, cryptBase36);
             if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.DINGTAX, request)) {
