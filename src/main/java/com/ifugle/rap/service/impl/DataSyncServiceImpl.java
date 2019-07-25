@@ -9,9 +9,12 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.ifugle.rap.constants.SystemConstants;
+import com.ifugle.rap.elasticsearch.api.BusinessCommonApi;
 import com.ifugle.rap.elasticsearch.model.DataRequest;
+import com.ifugle.rap.elasticsearch.service.ElasticSearchBusinessApi;
 import com.ifugle.rap.elasticsearch.service.ElasticSearchBusinessService;
 import com.ifugle.rap.mapper.BizDataMapper;
 import com.ifugle.rap.mapper.BotChatResponseMessageDOMapper;
@@ -30,6 +33,7 @@ import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrMapper;
 import com.ifugle.rap.mapper.zhcs.ZxArticleMapper;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
+import com.ifugle.rap.model.enums.TablesEnum;
 import com.ifugle.rap.model.shuixiaomi.BizData;
 import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
@@ -147,6 +151,9 @@ public class DataSyncServiceImpl implements DataSyncService {
 
     @Autowired
     private BizDataMapper bizDataMapper;
+
+    @Autowired
+    private ElasticSearchBusinessApi elasticSearchBusinessApi;
 
     private final static Logger logger = LoggerFactory.getLogger(DataSyncServiceImpl.class);
 
@@ -1066,6 +1073,10 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
     }
 
+    /***
+     * 更新操作，增量操作，改成可插入的修改
+     */
+
     /**
      * 向ES中插入KbsQuestionArticle相关数据,并判断是否是最后一组List，如果是最后一组，返回true ,数据更新同步时使用
      *
@@ -1077,10 +1088,14 @@ public class DataSyncServiceImpl implements DataSyncService {
         for (KbsQuestionArticleDO kbsQuestionArticleDO : kbsQuestionArticleDOS) {
             if (kbsQuestionArticleDO.isNew()) {
                 DataRequest request = compriseUtils.kbsQuestionArticleCompriseDataRequest(kbsQuestionArticleDO);
-                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isInfoEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export KBS_QUESTION_ARTICLE to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+                }
             }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsQuestionArticleDOS.size() < pageSize;
     }
 
@@ -1092,10 +1107,14 @@ public class DataSyncServiceImpl implements DataSyncService {
         for (KbsQuestionDO kbsQuestionDO : kbsQuestionDOS) {
             if (kbsQuestionDO.isNew()) {
                 DataRequest request = compriseUtils.kbsQuestionCompriseDataRequest(kbsQuestionDO);
-                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isInfoEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export KBS_QUESTION to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+                }
             }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsQuestionDOS.size() < pageSize;
     }
 
@@ -1106,9 +1125,13 @@ public class DataSyncServiceImpl implements DataSyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (ZxArticle zxArticle : zxArticles) {
             DataRequest request = CompriseUtils.zxArticleCompriseDataRequest(zxArticle);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.ZHCS, request));
+            //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.ZHCS, request));
+            boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+            if (logger.isInfoEnabled()) {
+                logger.info("[DataSyncServiceImpl] start export ZX_ARTICLE to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return zxArticles.size() < pageSize;
     }
 
@@ -1121,9 +1144,13 @@ public class DataSyncServiceImpl implements DataSyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (YhzxXnzzNsr yhzxXnzzNsr : yhzxXnzzNsrs) {
             DataRequest request = compriseUtils.yhzxXnzzNsrCompriseDataRequest(yhzxXnzzNsr, cryptSimple, cryptBase36);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.DINGTAX, request));
+            //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.DINGTAX, request));
+            boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+            if (logger.isInfoEnabled()) {
+                logger.info("[DataSyncServiceImpl] start export ZX_ARTICLE to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return yhzxXnzzNsrs.size() < pageSize;
     }
 
@@ -1138,10 +1165,14 @@ public class DataSyncServiceImpl implements DataSyncService {
         for (KbsArticleDOWithBLOBs kbsArticleDO : kbsArticleDOS) {
             if (kbsArticleDO.isNew()) {
                 DataRequest request = compriseUtils.kbsArticleDOCompriseDataRequest(kbsArticleDO);
-                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isInfoEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export KBS_ARTICLE , ID=" + request.getMap().get("ID") + ",result=" + result);
+                }
             }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsArticleDOS.size() < pageSize;
     }
 
@@ -1150,10 +1181,14 @@ public class DataSyncServiceImpl implements DataSyncService {
         for (BizData bizData : bizDataList) {
             if (bizData.isNew()) {
                 DataRequest request = compriseUtils.botBizDataCompriseDataRequest(bizData);
-                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isInfoEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export BOT_BIZ_DATA to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+                }
             }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return bizDataList.size() < pageSize;
     }
 
@@ -1165,10 +1200,14 @@ public class DataSyncServiceImpl implements DataSyncService {
         for (KbsReadingDOWithBLOBs kbsReadingDO : kbsReadingDOS) {
             if (kbsReadingDO.isNew()) {
                 DataRequest request = compriseUtils.kbsReadingCompriseDataRequest(kbsReadingDO);
-                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isInfoEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export KBS_READING to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+                }
             }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsReadingDOS.size() < pageSize;
     }
 
@@ -1180,10 +1219,14 @@ public class DataSyncServiceImpl implements DataSyncService {
         for (KbsKeywordDO kbsKeywordDO : kbsKeywordDOS) {
             if (kbsKeywordDO.isNew()) {
                 DataRequest request = compriseUtils.kbsKeywordCompriseDataRequest(kbsKeywordDO);
-                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isInfoEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export KBS_KEYWORD to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+                }
             }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsKeywordDOS.size() < pageSize;
     }
 
@@ -1194,9 +1237,13 @@ public class DataSyncServiceImpl implements DataSyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (YhzxxnzzcyDO yhzxxnzzcyDO : yhzxxnzzcyDOS) {
             DataRequest request = compriseUtils.yhzxxnzzcyCompriseDataRequest(yhzxxnzzcyDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.DINGTAX, request);
+            if (logger.isInfoEnabled()) {
+                logger.info("[DataSyncServiceImpl] start export Yhzxxnbzzcy to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return yhzxxnzzcyDOS.size() < pageSize;
     }
 
@@ -1211,10 +1258,14 @@ public class DataSyncServiceImpl implements DataSyncService {
         for (BotUnawareDetailDO botUnawareDetailDO : botUnawareDetailDOS) {
             if (botUnawareDetailDO.isNew()) {
                 DataRequest request = compriseUtils.botUnawareDetailCompriseDataRequest(botUnawareDetailDO);
-                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isDebugEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export BotUnawareDetail to es request = ...." + JSON.toJSONString(request) + ", result = " + result);
+                }
             }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return botUnawareDetailDOS.size() < pageSize;
     }
 
@@ -1229,10 +1280,14 @@ public class DataSyncServiceImpl implements DataSyncService {
         for (BotMediaDO botMediaDO : botMediaDOS) {
             if (botMediaDO.isNew()) {
                 DataRequest request = compriseUtils.botMediaCompriseDataRequest(botMediaDO);
-                dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isDebugEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export BotMediaDO to es request = ...." + JSON.toJSONString(request) + ", result = " + result);
+                }
             }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return botMediaDOS.size() < pageSize;
 
     }
@@ -1247,9 +1302,13 @@ public class DataSyncServiceImpl implements DataSyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (BotConfigServer botConfigServer : botConfigServers) {
             DataRequest request = compriseUtils.botConfigServerCompriseDataRequest(botConfigServer);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+            if (logger.isDebugEnabled()) {
+                logger.info("[DataSyncServiceImpl] start export BotConfigServer to es request = ...." + JSON.toJSONString(request) + ", result = " + result);
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return botConfigServers.size() < pageSize;
     }
 
