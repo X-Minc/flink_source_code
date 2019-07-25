@@ -242,7 +242,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         updateBotConfigServerForSync();
         if (Boolean.valueOf(System.getProperty(SystemConstants.DSB_ON))) {
             //丁税宝企业导入
-            //updateYhzxXnzzNsrForSync(); TODO优化性能瓶颈
+            updateYhzxXnzzNsrForSync(); //TODO优化性能瓶颈
         }
     }
 
@@ -1121,7 +1121,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (YhzxXnzzNsr yhzxXnzzNsr : yhzxXnzzNsrs) {
             DataRequest request = compriseUtils.yhzxXnzzNsrCompriseDataRequest(yhzxXnzzNsr, cryptSimple, cryptBase36);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.ZHCS, request));
+            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.DINGTAX, request));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return yhzxXnzzNsrs.size() < pageSize;
