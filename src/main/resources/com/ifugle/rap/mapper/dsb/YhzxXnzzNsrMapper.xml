@@ -15,9 +15,9 @@
     <result column="cjr" jdbcType="VARCHAR" property="cjr" />
     <result column="xgsj" jdbcType="TIMESTAMP" property="xgsj" />
     <result column="xgr" jdbcType="VARCHAR" property="xgr" />
-    <result column="NSRMC" jdbcType="VARCHAR" property="nsrmc" />
+    <result column="NSRMC" jdbcType="VARCHAR" property="nsrmc" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler" />
     <result column="NSRJC" jdbcType="VARCHAR" property="nsrjc" />
-    <result column="shxydm" jdbcType="VARCHAR" property="shxydm" />
+    <result column="shxydm" jdbcType="VARCHAR" property="shxydm" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler" />
     <result column="shxydm6" jdbcType="CHAR" property="shxydm6" />
     <result column="sjshxydm" jdbcType="VARCHAR" property="sjshxydm" />
     <result column="zggsjg_dm" jdbcType="VARCHAR" property="zggsjgDm" />
