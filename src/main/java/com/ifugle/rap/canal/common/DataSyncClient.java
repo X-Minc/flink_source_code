@@ -31,8 +31,7 @@ public class DataSyncClient {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("[DataSyncClient] execute sync ... ");
         }
-        //初始化本地文件
-        dataSyncService.initLocalTime();
+
         while (true) {
             try {
                 Thread.sleep(10000);

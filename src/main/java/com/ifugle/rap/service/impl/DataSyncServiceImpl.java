@@ -1315,6 +1315,8 @@ public class DataSyncServiceImpl implements DataSyncService {
 
     @Override
     public void initLocalTime() {
+        CommonUtils.writeLocalTimeFile("1", "status");
+
         CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_BIZ_DATA");
         CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_CHAT_RESPONSE_MESSAGE");
         CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_CONFIG_SERVER");

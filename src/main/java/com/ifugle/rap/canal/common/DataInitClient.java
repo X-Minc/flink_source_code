@@ -30,6 +30,8 @@ public class DataInitClient {
      * 用于数据全量同步,应用启动时自动调用
      */
     public void init() {
+        //初始化本地文件
+        dataSyncService.initLocalTime();
         //从文件读取运行状态，判断是否已经执行过
         String status = CommonUtils.readlocalTimeFile("status");
         //表示已经运行过
