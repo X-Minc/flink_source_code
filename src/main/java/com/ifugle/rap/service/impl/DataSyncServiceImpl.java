@@ -1146,9 +1146,9 @@ public class DataSyncServiceImpl implements DataSyncService {
         for (YhzxXnzzNsr yhzxXnzzNsr : yhzxXnzzNsrs) {
             DataRequest request = compriseUtils.yhzxXnzzNsrCompriseDataRequest(yhzxXnzzNsr, cryptSimple, cryptBase36);
             //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.DINGTAX, request));
-            boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+            boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.DINGTAX, request);
             if (logger.isInfoEnabled()) {
-                logger.info("[DataSyncServiceImpl] start export ZX_ARTICLE to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+                logger.info("[DataSyncServiceImpl] start export YhzxXnzzNsr to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
             }
         }
         //elasticSearchBusinessService.bulkOperation(dsl.toString());

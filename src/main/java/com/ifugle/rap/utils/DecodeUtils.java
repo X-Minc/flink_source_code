@@ -143,6 +143,6 @@ public class DecodeUtils {
         //System.out.println(decodeCryptBase62Reverse6Prod("94GN4Bs3ztkM6OL",new CryptBase62(6)));
         CryptBase36 cryptBase36 = new CryptBase36();
         CryptSimple cryptSimple =new CryptSimple();
-        System.out.println(decodeCryptSimpleTest("瞛硖槓軮投姩椏棤",cryptSimple));
+        System.out.println(decodeCryptSimpleTest("邥塚炀怌铮哌",cryptSimple));
     }
 }
