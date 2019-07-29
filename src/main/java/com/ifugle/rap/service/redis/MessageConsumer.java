@@ -93,7 +93,7 @@ public class MessageConsumer extends Thread {
      * @param tables
      * @return
      */
-    private DataRequest compriseDataRequest(Long id, Map<String, Object> attrs, TablesEnum tables) {
+    public static DataRequest compriseDataRequest(Long id, Map<String, Object> attrs, TablesEnum tables) {
         DataRequest request = new DataRequest();
         request.setCatalogType(tables.getTableName());
         Map<String, Object> hashMap = new HashMap<>(16);
@@ -115,7 +115,7 @@ public class MessageConsumer extends Thread {
      *
      * @return
      */
-    private String formatUpdateDSL(ChannelType channelType, DataRequest request) {
+    public static String formatUpdateDSL(ChannelType channelType, DataRequest request) {
         String sampleUpdateDsl = "{ \"update\": { \"_index\": \"%s\", \"_type\": \"%s\", \"_id\": \"%s\"} } \n\r" + "{ \"doc\" : %s }\n\r";
         Map<String, Object> map = request.getMap();
         String ids = request.getMap().containsKey("ID") ? request.getMap().get("ID").toString() : request.getMap().get("id").toString();

@@ -21,11 +21,8 @@ public class DsbDelOrUpdateServiceImpl implements DsbDelOrUpdateService {
     @Autowired
     private BusinessCommonService businessCommonService;
 
-    public boolean deleteYhzxXnzzNsr(String id) {
-        return businessCommonService.delete(ChannelType.DINGTAX, "YHZX_XNZZ_NSR", id);
+    public boolean deleteYhzxXnzzNsr(String id,String tableName) {
+        return businessCommonService.delete(ChannelType.DINGTAX, tableName, id);
     }
 
-    public String updateYhzxXnzzNsr(String id, Map<String, Object> map) {
-        return businessCommonService.insertOrUpdate(ChannelType.DINGTAX, "YHZX_XNZZ_NSR", id, map);
-    }
 }

@@ -16,11 +16,6 @@ public interface DsbDelOrUpdateService {
      * 处理丁税宝用户中心虚拟组织纳税人删除操作
      * @return
      */
-    boolean deleteYhzxXnzzNsr(String id);
+    boolean deleteYhzxXnzzNsr(String id,String tableName);
 
-    /***
-     * 处理丁税宝用户中心虚拟组织纳税人操作
-     * @return
-     */
-    String updateYhzxXnzzNsr(String id, Map<String, Object> map);
 }
