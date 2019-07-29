@@ -20,6 +20,7 @@ import com.ifugle.rap.canalconfig.ProfileSpringConfig;
 import com.ifugle.rap.canalconfig.TaskConfig;
 import com.ifugle.rap.canalconfig.ZhcsDalConfig;
 import com.ifugle.rap.constants.SystemConstants;
+import com.ifugle.rap.service.dsb.message.DsbSubThread;
 
 /***
  * 启动主入口，加载spring容器
@@ -72,6 +73,9 @@ public class StartUp extends AbstractIdleService {
             context.refresh();
             context.start();
             context.registerShutdownHook();
+
+            final DsbSubThread dsbSubThread = context.getBean(DsbSubThread.class);
+            dsbSubThread.start();
 
             final DataInitClient dataInitClient = context.getBean(DataInitClient.class);
             logger.info("dataInit start");
