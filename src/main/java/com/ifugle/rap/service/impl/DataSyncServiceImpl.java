@@ -515,7 +515,7 @@ public class DataSyncServiceImpl implements DataSyncService {
 
     private void insertBotMediaForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_MEDIA");
-        if (!StringUtils.isEmpty(lastCreateTime)) {
+        if (StringUtils.isEmpty(lastCreateTime)) {
             logger.info("insertBotMediaForSync lastCreateTime is null");
             return;
         }
@@ -537,7 +537,7 @@ public class DataSyncServiceImpl implements DataSyncService {
 
     private void insertBotOutoundTaskDetailForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_OUTBOUND_TASK_DETAIL");
-        if (!StringUtils.isEmpty(lastCreateTime)) {
+        if (StringUtils.isEmpty(lastCreateTime)) {
             logger.info("insertBotOutoundTaskDetailForSync lastCreateTime is null");
             return;
         }
