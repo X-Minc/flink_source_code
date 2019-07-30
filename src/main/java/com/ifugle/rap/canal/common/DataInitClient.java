@@ -1,13 +1,11 @@
 package com.ifugle.rap.canal.common;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ifugle.rap.service.DataSyncService;
-import com.ifugle.rap.utils.CommonUtils;
 
 /**
  *
@@ -32,24 +30,6 @@ public class DataInitClient {
     public void init() {
         //初始化本地文件
         dataSyncService.initLocalTime();
-        //从文件读取运行状态，判断是否已经执行过
-        String status = CommonUtils.readlocalTimeFile("status");
-        //表示已经运行过
-        if (StringUtils.isNotBlank(status) && StringUtils.equals(status, "1")) {
-            if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("[DataSyncClient] already execute init data ... ");
-            }
-        } else {
-            try {
-                dataSyncService.dataSyncInit();
-            } catch (Exception e) {
-                if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("[DataSyncClient] init thread exception = ", e);
-                }
-            }
-            CommonUtils.writeLocalTimeFile("1", "status");
-        }
-
     }
 
 }

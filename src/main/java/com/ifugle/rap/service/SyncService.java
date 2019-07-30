@@ -37,7 +37,7 @@ public interface SyncService {
      *
      * @return
      */
-    public boolean insertBotUnawareDetailAndCheckListSize(List<BotUnawareDetailDO> botUnawareDetailDOS, Integer pageSize);
+    boolean insertBotUnawareDetailAndCheckListSize(List<BotUnawareDetailDO> botUnawareDetailDOS, Integer pageSize);
 
     /**
      * 向ES中插入Yhzxxnzzcy相关数据,并判断是否是最后一组List，如果是最后一组，返回true
@@ -47,62 +47,62 @@ public interface SyncService {
      *
      * @return
      */
-    public boolean insertYhzxxnzzcyAndCheckListSize(List<YhzxxnzzcyDO> yhzxxnzzcyDOs, Integer pageSize);
+    boolean insertYhzxxnzzcyAndCheckListSize(List<YhzxxnzzcyDO> yhzxxnzzcyDOs, Integer pageSize);
 
     /**
      * 向ES中插入BotTrackDetail相关数据,并判断是否是最后一组List，如果是最后一组，返回true
      */
-    public boolean insertBotTrackDetailAndCheckListSize(List<BotTrackDetailDO> botTrackDetailDOS, Integer pageSize);
+    boolean insertBotTrackDetailAndCheckListSize(List<BotTrackDetailDO> botTrackDetailDOS, Integer pageSize);
 
     /**
      * 向ES中插入KbsArticle相关数据,并判断是否是最后一组List，如果是最后一组，返回true
      */
-    public boolean insertKbsArticleAndCheckListSize(List<KbsArticleDOWithBLOBs> kbsArticleDOS, Integer pageSize);
+    boolean insertKbsArticleAndCheckListSize(List<KbsArticleDOWithBLOBs> kbsArticleDOS, Integer pageSize);
 
     /**
      * 向ES中插入KbsArticle相关数据,并判断是否是最后一组List，如果是最后一组，返回true
      */
-    public boolean insertYhzxXnzzNsrAndCheckListSize(List<YhzxXnzzNsr> yhzxXnzzNsrs, Integer pageSize);
+    boolean insertYhzxXnzzNsrAndCheckListSize(List<YhzxXnzzNsr> yhzxXnzzNsrs, Integer pageSize);
 
     /**
      * 向ES中插入BotBizData相关数据,并判断是否是最后一组List，如果是最后一组，返回true
      */
-    public boolean insertBotBizDataAndCheckListSize(List<BizData> bizDataList, Integer pageSize);
+    boolean insertBotBizDataAndCheckListSize(List<BizData> bizDataList, Integer pageSize);
 
     /**
      * 向ES中插入BotChatResponseMessage相关数据,并判断是否是最后一组List，如果是最后一组，返回true
      */
-    public boolean insertBotChatResponseMessageAndCheckListSize(List<BotChatResponseMessageDO> botChatResponseMessageDOS, Integer pageSize);
+    boolean insertBotChatResponseMessageAndCheckListSize(List<BotChatResponseMessageDO> botChatResponseMessageDOS, Integer pageSize);
 
     /**
      * 向ES中插入KbsQuestionArticle相关数据,并判断是否是最后一组List，如果是最后一组，返回true
      */
-    public boolean insertKbsQuestionArticleAndCheckListSize(List<KbsQuestionArticleDO> kbsQuestionArticleDOS, Integer pageSize);
+    boolean insertKbsQuestionArticleAndCheckListSize(List<KbsQuestionArticleDO> kbsQuestionArticleDOS, Integer pageSize);
 
     /**
      * 向ES中插入KbsQuestion相关数据,并判断是否是最后一组List，如果是最后一组，返回true
      */
-    public boolean insertKbsQuestionAndCheckListSize(List<KbsQuestionDO> kbsQuestionDOS, Integer pageSize);
+    boolean insertKbsQuestionAndCheckListSize(List<KbsQuestionDO> kbsQuestionDOS, Integer pageSize);
 
     /**
      * 向ES中插入KbsQuestion相关数据,并判断是否是最后一组List，如果是最后一组，返回true
      */
-    public boolean insertZxArticleAndCheckListSize(List<ZxArticle> articles, Integer pageSize);
+    boolean insertZxArticleAndCheckListSize(List<ZxArticle> articles, Integer pageSize);
 
     /**
      * 向ES中插入KbsReading相关数据,并判断是否是最后一组List，如果是最后一组，返回true
      */
-    public boolean insertKbsReadingAndCheckListSize(List<KbsReadingDOWithBLOBs> kbsReadingDOS, Integer pageSize);
+    boolean insertKbsReadingAndCheckListSize(List<KbsReadingDOWithBLOBs> kbsReadingDOS, Integer pageSize);
 
     /**
      * 向ES中插入kbsKeyword相关数据,并判断是否是最后一组List，如果是最后一组，返回true
      */
-    public boolean insertKbsKeywordAndCheckListSize(List<KbsKeywordDO> kbsKeywordDOS, Integer pageSize);
+    boolean insertKbsKeywordAndCheckListSize(List<KbsKeywordDO> kbsKeywordDOS, Integer pageSize);
 
     /**
      * 向ES中插入botConfigServer相关数据,并判断是否是最后一组,如果是最后一组,返回true
      */
-    public boolean insertBotConfigServerAndCheckListSize(List<BotConfigServer> botConfigServers, Integer pageSize);
+    boolean insertBotConfigServerAndCheckListSize(List<BotConfigServer> botConfigServers, Integer pageSize);
 
     /**
      * 向ES 中插入kbsKeyword相关数据，并判断是否是最后一组List，如果是最后一组，返回true
@@ -112,7 +112,7 @@ public interface SyncService {
      *
      * @return
      */
-    public boolean insertBotMediaAndCheckListSize(List<BotMediaDO> botMediaDOS, Integer pageSize);
+    boolean insertBotMediaAndCheckListSize(List<BotMediaDO> botMediaDOS, Integer pageSize);
 
     /**
      * 批量向 KBS_QUESTION 插入 tags
@@ -121,6 +121,6 @@ public interface SyncService {
      *
      * @return
      */
-    public boolean insertKbsTags(Map<Long, LinkedList<String>> tags);
+    boolean insertKbsTags(Map<Long, LinkedList<String>> tags);
 
 }

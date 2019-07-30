@@ -74,13 +74,10 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table BOT_UNAWARE_DETAIL to es .... ");
         StringBuilder dsl = new StringBuilder(32);
         for (BotUnawareDetailDO botUnawareDetailDO : botUnawareDetailDOS) {
-//            if (botUnawareDetailDO.isNew()) {
-//                continue;
-//            }
             logger.debug(MessageFormat.format("[DataSyncServiceImpl] insertBotUnawareDetailAndCheckListSize botUnawareDetailDO {0}", botUnawareDetailDO.toString()));
             DataRequest request = compriseUtils.botUnawareDetailCompriseDataRequest(botUnawareDetailDO);
             if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.SHUIXIAOMI, request));
+                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
             }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
@@ -102,7 +99,7 @@ public class SyncServiceImpl implements SyncService {
         for (YhzxxnzzcyDO yhzxxnzzcyDO : yhzxxnzzcyDOs) {
             DataRequest request = compriseUtils.yhzxxnzzcyCompriseDataRequest(yhzxxnzzcyDO);
             if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.DINGTAX, request)) {
-                dsl.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.DINGTAX, request));
+                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.DINGTAX, request));
             }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
@@ -124,7 +121,7 @@ public class SyncServiceImpl implements SyncService {
         for (BotTrackDetailDO botTrackDetailDO : botTrackDetailDOS) {
             DataRequest request = compriseUtils.botTrackDetailCompriseDataRequest(botTrackDetailDO);
             if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.SHUIXIAOMI, request));
+                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
             }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
@@ -144,12 +141,9 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table KBS_ARTICLE to es .... ");
         StringBuilder dsl = new StringBuilder(32);
         for (KbsArticleDOWithBLOBs kbsArticleDO : kbsArticleDOS) {
-//            if (kbsArticleDO.isNew()) {
-//                continue;
-//            }
             DataRequest request = compriseUtils.kbsArticleDOCompriseDataRequest(kbsArticleDO);
             if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.SHUIXIAOMI, request));
+                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
             }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
@@ -180,7 +174,7 @@ public class SyncServiceImpl implements SyncService {
         for (YhzxXnzzNsr yhzxXnzzNsr : yhzxXnzzNsrs) {
             DataRequest request = compriseUtils.yhzxXnzzNsrCompriseDataRequest(yhzxXnzzNsr, cryptSimple, cryptBase36);
             if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.DINGTAX, request)) {
-                DSL.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.DINGTAX, request));
+                DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.DINGTAX, request));
             }
         }
         elasticSearchBusinessService.bulkOperation(DSL.toString());
@@ -196,12 +190,9 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table BOT_BIZ_DATA to es .... ");
         StringBuilder dsl = new StringBuilder(32);
         for (BizData bizData : bizDataList) {
-//            if (bizData.isNew()) {
-//                continue;
-//            }
             DataRequest request = compriseUtils.botBizDataCompriseDataRequest(bizData);
             if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.SHUIXIAOMI, request));
+                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
             }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
@@ -223,7 +214,7 @@ public class SyncServiceImpl implements SyncService {
         for (BotChatResponseMessageDO botChatResponseMessageDO : botChatResponseMessageDOS) {
             DataRequest request = compriseUtils.botChatResponseMessageCompriseDatarequest(botChatResponseMessageDO);
             if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.SHUIXIAOMI, request));
+                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
             }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
@@ -243,12 +234,9 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table KBS_QUESTION_ARTICLE to es .... ");
         StringBuilder dsl = new StringBuilder(32);
         for (KbsQuestionArticleDO kbsQuestionArticleDO : kbsQuestionArticleDOS) {
-//            if (kbsQuestionArticleDO.isNew()) {
-//                continue;
-//            }
             DataRequest request = compriseUtils.kbsQuestionArticleCompriseDataRequest(kbsQuestionArticleDO);
             if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.SHUIXIAOMI, request));
+                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
             }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
@@ -269,12 +257,9 @@ public class SyncServiceImpl implements SyncService {
         StringBuilder dsl = new StringBuilder(32);
         List<String> messages = new ArrayList<>();
         for (KbsQuestionDO kbsQuestionDO : kbsQuestionDOS) {
-//            if (kbsQuestionDO.isNew()) {
-//                continue;
-//            }
             DataRequest request = compriseUtils.kbsQuestionCompriseDataRequest(kbsQuestionDO);
             if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.SHUIXIAOMI, request));
+                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
                 messages.add(String.valueOf(kbsQuestionDO.getId()));
             }
         }
@@ -297,7 +282,7 @@ public class SyncServiceImpl implements SyncService {
         for (ZxArticle zxArticle : articles) {
             DataRequest request = CompriseUtils.zxArticleCompriseDataRequest(zxArticle);
             if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.ZHCS, request)) {
-                dsl.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.ZHCS, request));
+                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.ZHCS, request));
             }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
@@ -317,12 +302,9 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table KBS_READING to es ....");
         StringBuilder dsl = new StringBuilder(32);
         for (KbsReadingDOWithBLOBs kbsReadingDO : kbsReadingDOS) {
-//            if (kbsReadingDO.isNew()) {
-//                continue;
-//            }
             DataRequest request = compriseUtils.kbsReadingCompriseDataRequest(kbsReadingDO);
             if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.SHUIXIAOMI, request));
+                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
             }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
@@ -342,12 +324,9 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table KBS_KEYWORD to es ....");
         StringBuilder dsl = new StringBuilder(32);
         for (KbsKeywordDO kbsKeywordDO : kbsKeywordDOS) {
-//            if (kbsKeywordDO.isNew()) {
-//                continue;
-//            }
             DataRequest request = compriseUtils.kbsKeywordCompriseDataRequest(kbsKeywordDO);
             if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.SHUIXIAOMI, request));
+                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
             }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
@@ -367,7 +346,7 @@ public class SyncServiceImpl implements SyncService {
         for (BotConfigServer botConfigServer : botConfigServers) {
             DataRequest request = compriseUtils.botConfigServerCompriseDataRequest(botConfigServer);
             if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.SHUIXIAOMI, request));
+                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
             }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
@@ -387,12 +366,9 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table BOT_MEDIA to es ....");
         StringBuilder dsl = new StringBuilder(32);
         for (BotMediaDO botMediaDO : botMediaDOS) {
-//            if (botMediaDO.isNew()) {
-//                continue;
-//            }
             DataRequest request = compriseUtils.botMediaCompriseDataRequest(botMediaDO);
             if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.SHUIXIAOMI, request));
+                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
             }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
