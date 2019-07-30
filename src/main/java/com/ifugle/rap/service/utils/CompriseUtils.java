@@ -26,6 +26,8 @@ import com.ifugle.rap.model.shuixiaomi.BizData;
 import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
 import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
+import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetail;
+import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
 import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
 import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
 import com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs;
@@ -142,6 +144,47 @@ public class CompriseUtils {
         hashMap.put("XXWLQY_BJ", yhzxXnzzNsr.getXxwlqyBj());
         hashMap.put("NSXYDJ", yhzxXnzzNsr.getNsxydj());
         request.setMap(hashMap);
+        return request;
+    }
+
+    public DataRequest botOutoundTaskDetailCompriseDataRequest(BotOutoundTaskDetailWithBLOBs botOutoundTaskDetail, CryptSimple cryptSimple, CryptBase36 cryptBase36) {
+        DataRequest request = new DataRequest();
+        request.setCatalogType(TablesEnum.BOT_OUTBOUND_TASK_DETAIL.getTableName());
+        Map<String, Object> hashMap = new HashMap<>(16);
+        hashMap.put("ID", botOutoundTaskDetail.getId());
+        hashMap.put("NODE_ID", botOutoundTaskDetail.getNodeId());
+        hashMap.put("ORG_ID", botOutoundTaskDetail.getOrgId());
+        hashMap.put("TASK_ID", botOutoundTaskDetail.getTaskId());
+        hashMap.put("MESSAGE_ID", botOutoundTaskDetail.getMessageId());
+        hashMap.put("DIALOGUE_ID", botOutoundTaskDetail.getDialogueId());
+        hashMap.put("RECEIVER", botOutoundTaskDetail.getReceiver());
+        hashMap.put("RECEIVER_MOBILE", botOutoundTaskDetail.getReceiverMobile());
+        hashMap.put("CONTENT", botOutoundTaskDetail.getContent());
+        hashMap.put("CALL_RECORD", botOutoundTaskDetail.getCallRecord());
+        hashMap.put("CALL_RECORD_URL", botOutoundTaskDetail.getCallRecordUrl());
+        hashMap.put("CALL_TIME", botOutoundTaskDetail.getCallTime()== null ? null : getLongData(botOutoundTaskDetail.getCallTime()));
+        hashMap.put("ANSWER_TIME",botOutoundTaskDetail.getAnswerTime()== null ? null : getLongData(botOutoundTaskDetail.getAnswerTime()));
+        hashMap.put("HANGUP_TIME", botOutoundTaskDetail.getHangupTime()== null ? null : getLongData(botOutoundTaskDetail.getHangupTime()));
+        hashMap.put("DURATION", botOutoundTaskDetail.getDuration());
+        hashMap.put("STATUS", botOutoundTaskDetail.getStatus());
+        hashMap.put("FEEDBACK_STATUS", botOutoundTaskDetail.getFeedbackStatus());
+        hashMap.put("FEEDBACK_CONTENT", botOutoundTaskDetail.getFeedbackContent());
+        hashMap.put("DJXH", botOutoundTaskDetail.getDjxh());
+        if (StringUtils.equals(env, "prod")) {
+            hashMap.put("QYMC", DecodeUtils.decodeCryptSimpleProd(botOutoundTaskDetail.getQymc(), cryptSimple));
+            hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(botOutoundTaskDetail.getShxydm(), cryptBase36));
+        } else {
+            hashMap.put("QYMC", DecodeUtils.decodeCryptSimpleTest(botOutoundTaskDetail.getQymc(), cryptSimple));
+            hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(botOutoundTaskDetail.getShxydm(), cryptBase36));
+        }
+        hashMap.put("SWSMC", botOutoundTaskDetail.getSwsmc());
+        hashMap.put("SGYMC", botOutoundTaskDetail.getSgymc());
+        hashMap.put("EXCEL_COLUMN", botOutoundTaskDetail.getExcelColumn());
+        hashMap.put("REMARK", botOutoundTaskDetail.getRemark());
+        hashMap.put("CREATOR", botOutoundTaskDetail.getCreator());
+        hashMap.put("CREATION_DATE", botOutoundTaskDetail.getCreationDate()== null ? null : getLongData(botOutoundTaskDetail.getCreationDate()));
+        hashMap.put("MODIFIER", botOutoundTaskDetail.getModifier());
+        hashMap.put("MODIFICATION_DATE", botOutoundTaskDetail.getModificationDate()== null ? null : getLongData(botOutoundTaskDetail.getModificationDate()));
         return request;
     }
 

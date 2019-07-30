@@ -17,5 +17,6 @@
         <mapper resource="com/ifugle/rap/mapper/KbsTagDTOMapper.xml"/>
         <mapper resource="com/ifugle/rap/mapper/BizDataMapper.xml"/>
         <mapper resource="com/ifugle/rap/mapper/BotConfigServerMapper.xml"/>
+        <mapper resource="com/ifugle/rap/mapper/BotOutoundTaskDetailMapper.xml"/>
     </mappers>
 </configuration>

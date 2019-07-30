@@ -13,6 +13,7 @@ import com.ifugle.rap.model.shuixiaomi.BizData;
 import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
 import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
+import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
 import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
 import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
 import com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs;
@@ -122,5 +123,13 @@ public interface SyncService {
      * @return
      */
     boolean insertKbsTags(Map<Long, LinkedList<String>> tags);
+
+    /***
+     * 批量插入BotOutoundTaskDetailWithBLOBs
+     * @param botOutoundTaskDetails
+     * @param pageSize
+     * @return
+     */
+    boolean insertBotOutBoundTaskDetailAndCheckListSize(List<BotOutoundTaskDetailWithBLOBs> botOutoundTaskDetails, Integer pageSize);
 
 }

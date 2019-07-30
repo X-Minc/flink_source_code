@@ -46,6 +46,9 @@ public enum TablesEnum {
 
     YHZX_XNZZ_NSR("YHZX_XNZZ_NSR", ChannelType.DINGTAX),
 
+
+    BOT_OUTBOUND_TASK_DETAIL("BOT_OUTBOUND_TASK_DETAIL",ChannelType.SHUIXIAOMI),
+
     ;
 
     private String tableName;

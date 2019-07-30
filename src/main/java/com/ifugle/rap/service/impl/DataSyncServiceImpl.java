@@ -20,6 +20,7 @@ import com.ifugle.rap.mapper.BizDataMapper;
 import com.ifugle.rap.mapper.BotChatResponseMessageDOMapper;
 import com.ifugle.rap.mapper.BotConfigServerMapper;
 import com.ifugle.rap.mapper.BotMediaDOMapper;
+import com.ifugle.rap.mapper.BotOutoundTaskDetailMapper;
 import com.ifugle.rap.mapper.BotTrackDetailDOMapper;
 import com.ifugle.rap.mapper.BotUnawareDetailDOMapper;
 import com.ifugle.rap.mapper.KbsArticleDOMapper;
@@ -38,6 +39,8 @@ import com.ifugle.rap.model.shuixiaomi.BizData;
 import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
 import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
+import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetail;
+import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
 import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
 import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
 import com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs;
@@ -135,12 +138,14 @@ public class DataSyncServiceImpl implements DataSyncService {
     @Autowired
     private SyncService syncService;
 
-
     @Autowired
     private CompriseUtils compriseUtils;
 
     @Autowired
     private BizDataMapper bizDataMapper;
+
+    @Autowired
+    private BotOutoundTaskDetailMapper botOutoundTaskDetailMapper;
 
 
     @Value("${profiles.active}")
@@ -153,23 +158,31 @@ public class DataSyncServiceImpl implements DataSyncService {
      */
     @Override
     public void dataSyncInsertIncrementData() {
+        /***
+         * 税小蜜同步操作
+         */
         insertBotUnawareDetailForSync();
         insertBotTrackDetailForSync();
         insertBotChatResponseMessageForSync();
         insertKbsQuestionArticleForSync();
         insertKbsQuestionForSync();
-        //智慧财税导入
-        if (Boolean.valueOf(System.getProperty(SystemConstants.ZHCS_ON))) {
-            insertZxArticleForSync();
-        }
         insertKbsArticleForSync();
         insertKbsReadingForSync();
         insertKbsKeywordForSync();
         insertBotMediaForSync();
         insertBotBizDataForSync();  //特别注意存在加解密的问题，容易引起线程阻塞
         insertBotConfigServerForSync();
+        insertBotOutoundTaskDetailForSync();
+        /***
+         *  智慧财税导入
+         */
+        if (Boolean.valueOf(System.getProperty(SystemConstants.ZHCS_ON))) {
+            insertZxArticleForSync();
+        }
+        /***
+         *  丁税宝导入
+         */
         if (Boolean.valueOf(System.getProperty(SystemConstants.DSB_ON))) {
-            //丁税宝企业导入
             insertYhzxXnzzNsrForSync();
         }
 
@@ -505,6 +518,27 @@ public class DataSyncServiceImpl implements DataSyncService {
                 createTime = TimeDelayUtils.getNextMilliDate(createTime);
             }
             CommonUtils.writeLocalTimeFile(createTime.toString(), "BOT_MEDIA");
+        }
+    }
+
+    private void insertBotOutoundTaskDetailForSync() {
+        String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_OUTBOUND_TASK_DETAIL");
+        if (!StringUtils.isEmpty(lastCreateTime)) {
+            return;
+        }
+        lastCreateTime = compriseUtils.transportData(lastCreateTime);
+        logger.info(MessageFormat.format("BotMedia lastCreateTime : {0}", lastCreateTime));
+        int pageIndex = 1;
+        Integer first = (pageIndex - 1) * pageSize;
+        List<BotOutoundTaskDetailWithBLOBs> botOutoundTaskDetailWithBLOBs = botOutoundTaskDetailMapper.selectBotOutoundTaskDetailForSync(lastCreateTime,first, pageSize);
+        if (!CollectionUtils.isEmpty(botOutoundTaskDetailWithBLOBs)) {
+            syncService.insertBotOutBoundTaskDetailAndCheckListSize(botOutoundTaskDetailWithBLOBs, pageSize);
+            Date createTime = botOutoundTaskDetailWithBLOBs.get(botOutoundTaskDetailWithBLOBs.size() - 1).getCreationDate();
+            //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
+            if (BizListCheckUtils.checkBotOutoundTaskDetailEquals(botOutoundTaskDetailWithBLOBs)) {
+                createTime = TimeDelayUtils.getNextMilliDate(createTime);
+            }
+            CommonUtils.writeLocalTimeFile(createTime.toString(), "BOT_OUTBOUND_TASK_DETAIL");
         }
     }
 

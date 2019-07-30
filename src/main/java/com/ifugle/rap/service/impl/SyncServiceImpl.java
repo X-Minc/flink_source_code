@@ -25,6 +25,8 @@ import com.ifugle.rap.model.shuixiaomi.BizData;
 import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
 import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
+import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetail;
+import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
 import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
 import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
 import com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs;
@@ -396,5 +398,37 @@ public class SyncServiceImpl implements SyncService {
             return false;
         }
         return true;
+    }
+
+    /**
+     * BotOutoundTaskDetail
+     *
+     * @param botOutoundTaskDetails
+     * @param pageSize
+     *
+     * @return
+     */
+    @Override
+    public boolean insertBotOutBoundTaskDetailAndCheckListSize(List<BotOutoundTaskDetailWithBLOBs> botOutoundTaskDetails, Integer pageSize) {
+        logger.info("[SyncServiceImpl] start export table BotOutoundTaskDetail to es .... ");
+        StringBuffer DSL = new StringBuffer(32);
+        CryptSimple cryptSimple = new CryptSimple();
+        if(StringUtils.equalsIgnoreCase(env,"prod")) {
+            DecodeUtils.initCryptSimpleProd(cryptSimple);
+        }
+
+        CryptBase36 cryptBase36 = new CryptBase36();
+        if(StringUtils.equalsIgnoreCase(env,"prod")) {
+            DecodeUtils.initCryptBase36(cryptBase36);
+        }
+        for (BotOutoundTaskDetailWithBLOBs botOutoundTaskDetail : botOutoundTaskDetails) {
+            DataRequest request = compriseUtils.botOutoundTaskDetailCompriseDataRequest(botOutoundTaskDetail, cryptSimple, cryptBase36);
+            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
+                DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            }
+        }
+        elasticSearchBusinessService.bulkOperation(DSL.toString());
+        logger.info("[SyncServiceImpl] pageSize=" + pageSize + "," + botOutoundTaskDetails.size());
+        return botOutoundTaskDetails.size() < pageSize;
     }
 }
