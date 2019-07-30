@@ -89,7 +89,7 @@ public class ElasticSearchTest extends  BaseTest{
 
     @Test
     public void updateKbsArticleForSyncTest(){
-        dataSyncServiceImpl.updateKbsArticleForSync();
+//        dataSyncServiceImpl.updateKbsArticleForSync();
     }
 
     @Test
@@ -97,7 +97,7 @@ public class ElasticSearchTest extends  BaseTest{
         KbsQuestionDO kbsQuestionDO = kbsQuestionDOMapper.selectByPrimaryKey(378867l);
         List<KbsQuestionDO> kbsQuestionDOS = new ArrayList<KbsQuestionDO>();
         kbsQuestionDOS.add(kbsQuestionDO);
-        dataSyncServiceImpl.updateKbsQuestionAndCheckListSize(kbsQuestionDOS,100);
+//        dataSyncServiceImpl.updateKbsQuestionAndCheckListSize(kbsQuestionDOS,100);
     }
 
     @Autowired
@@ -133,7 +133,7 @@ public class ElasticSearchTest extends  BaseTest{
 
     @Test
     public void botMedisUpdate(){
-        dataSyncServiceImpl.updateBotMediaForSync();
+//        dataSyncServiceImpl.updateBotMediaForSync();
     }
 
     @Autowired

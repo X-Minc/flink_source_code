@@ -158,33 +158,33 @@ public class DataSyncServiceImpl implements DataSyncService {
      */
     @Override
     public void dataSyncInsertIncrementData() {
-        /***
-         * 税小蜜同步操作
-         */
-        insertBotUnawareDetailForSync();
-        insertBotTrackDetailForSync();
-        insertBotChatResponseMessageForSync();
-        insertKbsQuestionArticleForSync();
-        insertKbsQuestionForSync();
-        insertKbsArticleForSync();
-        insertKbsReadingForSync();
-        insertKbsKeywordForSync();
-        insertBotMediaForSync();
-        insertBotBizDataForSync();  //特别注意存在加解密的问题，容易引起线程阻塞
-        insertBotConfigServerForSync();
+//        /***
+//         * 税小蜜同步操作
+//         */
+//        insertBotUnawareDetailForSync();
+//        insertBotTrackDetailForSync();
+//        insertBotChatResponseMessageForSync();
+//        insertKbsQuestionArticleForSync();
+//        insertKbsQuestionForSync();
+//        insertKbsArticleForSync();
+//        insertKbsReadingForSync();
+//        insertKbsKeywordForSync();
+//        insertBotMediaForSync();
+//        insertBotBizDataForSync();  //特别注意存在加解密的问题，容易引起线程阻塞
+//        insertBotConfigServerForSync();
         insertBotOutoundTaskDetailForSync();
-        /***
-         *  智慧财税导入
-         */
-        if (Boolean.valueOf(System.getProperty(SystemConstants.ZHCS_ON))) {
-            insertZxArticleForSync();
-        }
-        /***
-         *  丁税宝导入
-         */
-        if (Boolean.valueOf(System.getProperty(SystemConstants.DSB_ON))) {
-            insertYhzxXnzzNsrForSync();
-        }
+//        /***
+//         *  智慧财税导入
+//         */
+//        if (Boolean.valueOf(System.getProperty(SystemConstants.ZHCS_ON))) {
+//            insertZxArticleForSync();
+//        }
+//        /***
+//         *  丁税宝导入
+//         */
+//        if (Boolean.valueOf(System.getProperty(SystemConstants.DSB_ON))) {
+//            insertYhzxXnzzNsrForSync();
+//        }
 
     }
 

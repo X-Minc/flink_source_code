@@ -6,6 +6,7 @@ import com.ifugle.rap.mapper.BizDataMapper;
 import com.ifugle.rap.mapper.BotChatResponseMessageDOMapper;
 import com.ifugle.rap.mapper.BotConfigServerMapper;
 import com.ifugle.rap.mapper.BotMediaDOMapper;
+import com.ifugle.rap.mapper.BotOutoundTaskDetailMapper;
 import com.ifugle.rap.mapper.BotTrackDetailDOMapper;
 import com.ifugle.rap.mapper.BotUnawareDetailDOMapper;
 import com.ifugle.rap.mapper.KbsArticleDOMapper;
@@ -109,6 +110,11 @@ public class DalConfig {
     @Bean
     public BotConfigServerMapper botConfigServerMapper() throws Exception {
         return newMapperFactoryBean(BotConfigServerMapper.class).getObject();
+    }
+
+    @Bean
+    public BotOutoundTaskDetailMapper botOutoundTaskDetailMapper() throws Exception {
+        return newMapperFactoryBean(BotOutoundTaskDetailMapper.class).getObject();
     }
 
     <T> MapperFactoryBean<T> newMapperFactoryBean(Class<T> clazz) throws Exception {

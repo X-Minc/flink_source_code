@@ -195,7 +195,7 @@
         <dependency>
             <groupId>com.ifugle.rap</groupId>
             <artifactId>rap-core-context</artifactId>
-            <version>3.0.8-SNAPSHOT</version>
+            <version>3.5.1</version>
         </dependency>
 
         <dependency>

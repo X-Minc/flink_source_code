@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.google.gson.reflect.TypeToken;
 import com.ifugle.rap.elasticsearch.model.DataRequest;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
@@ -155,36 +157,42 @@ public class CompriseUtils {
         hashMap.put("NODE_ID", botOutoundTaskDetail.getNodeId());
         hashMap.put("ORG_ID", botOutoundTaskDetail.getOrgId());
         hashMap.put("TASK_ID", botOutoundTaskDetail.getTaskId());
-        hashMap.put("MESSAGE_ID", botOutoundTaskDetail.getMessageId());
+        hashMap.put("OUTBOUND_MESSAGE_ID", botOutoundTaskDetail.getMessageId());
         hashMap.put("DIALOGUE_ID", botOutoundTaskDetail.getDialogueId());
         hashMap.put("RECEIVER", botOutoundTaskDetail.getReceiver());
         hashMap.put("RECEIVER_MOBILE", botOutoundTaskDetail.getReceiverMobile());
-        hashMap.put("CONTENT", botOutoundTaskDetail.getContent());
-        hashMap.put("CALL_RECORD", botOutoundTaskDetail.getCallRecord());
-        hashMap.put("CALL_RECORD_URL", botOutoundTaskDetail.getCallRecordUrl());
+        //        hashMap.put("CONTENT", botOutoundTaskDetail.getContent());
+        //        hashMap.put("CALL_RECORD", botOutoundTaskDetail.getCallRecord());
+        //        hashMap.put("CALL_RECORD_URL", botOutoundTaskDetail.getCallRecordUrl());
+        //        hashMap.put("FEEDBACK_CONTENT", botOutoundTaskDetail.getFeedbackContent());
+        //        hashMap.put("ANSWER_TIME",botOutoundTaskDetail.getAnswerTime()== null ? null : getLongData(botOutoundTaskDetail.getAnswerTime()));
+        //        hashMap.put("HANGUP_TIME", botOutoundTaskDetail.getHangupTime()== null ? null : getLongData(botOutoundTaskDetail.getHangupTime()));
+        //        hashMap.put("DURATION", botOutoundTaskDetail.getDuration());
+        //        hashMap.put("REMARK", botOutoundTaskDetail.getRemark());
+        //        hashMap.put("CREATOR", botOutoundTaskDetail.getCreator());
+        //        hashMap.put("MODIFIER", botOutoundTaskDetail.getModifier());
         hashMap.put("CALL_TIME", botOutoundTaskDetail.getCallTime()== null ? null : getLongData(botOutoundTaskDetail.getCallTime()));
-        hashMap.put("ANSWER_TIME",botOutoundTaskDetail.getAnswerTime()== null ? null : getLongData(botOutoundTaskDetail.getAnswerTime()));
-        hashMap.put("HANGUP_TIME", botOutoundTaskDetail.getHangupTime()== null ? null : getLongData(botOutoundTaskDetail.getHangupTime()));
-        hashMap.put("DURATION", botOutoundTaskDetail.getDuration());
-        hashMap.put("STATUS", botOutoundTaskDetail.getStatus());
+
+        hashMap.put("OUTBOUND_STATUS", botOutoundTaskDetail.getStatus());
         hashMap.put("FEEDBACK_STATUS", botOutoundTaskDetail.getFeedbackStatus());
-        hashMap.put("FEEDBACK_CONTENT", botOutoundTaskDetail.getFeedbackContent());
-        hashMap.put("DJXH", botOutoundTaskDetail.getDjxh());
-        if (StringUtils.equals(env, "prod")) {
-            hashMap.put("QYMC", DecodeUtils.decodeCryptSimpleProd(botOutoundTaskDetail.getQymc(), cryptSimple));
-            hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(botOutoundTaskDetail.getShxydm(), cryptBase36));
-        } else {
-            hashMap.put("QYMC", DecodeUtils.decodeCryptSimpleTest(botOutoundTaskDetail.getQymc(), cryptSimple));
-            hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(botOutoundTaskDetail.getShxydm(), cryptBase36));
-        }
+        hashMap.put("QYMC", botOutoundTaskDetail.getQymc());
+        hashMap.put("BOT_OUTBOUND_TASK_DETAIL_SHXYDM", botOutoundTaskDetail.getShxydm());
         hashMap.put("SWSMC", botOutoundTaskDetail.getSwsmc());
-        hashMap.put("SGYMC", botOutoundTaskDetail.getSgymc());
-        hashMap.put("EXCEL_COLUMN", botOutoundTaskDetail.getExcelColumn());
-        hashMap.put("REMARK", botOutoundTaskDetail.getRemark());
-        hashMap.put("CREATOR", botOutoundTaskDetail.getCreator());
+        if(botOutoundTaskDetail.getSgymc()!=null) {
+            List<String> sgymcs = GsonUtil.getBean(botOutoundTaskDetail.getSgymc(), new TypeToken<List<String>>() {
+            }.getType());
+            hashMap.put("SGYMC", sgymcs);
+        }
+        if(botOutoundTaskDetail.getExcelColumn()!=null) {
+            List<String> excelColumn = GsonUtil.getBean(botOutoundTaskDetail.getExcelColumn(), new TypeToken<List<String>>() {
+            }.getType());
+            hashMap.put("EXCEL_COLUMN", excelColumn);
+        }
+
         hashMap.put("CREATION_DATE", botOutoundTaskDetail.getCreationDate()== null ? null : getLongData(botOutoundTaskDetail.getCreationDate()));
-        hashMap.put("MODIFIER", botOutoundTaskDetail.getModifier());
+
         hashMap.put("MODIFICATION_DATE", botOutoundTaskDetail.getModificationDate()== null ? null : getLongData(botOutoundTaskDetail.getModificationDate()));
+        request.setMap(hashMap);
         return request;
     }
 
@@ -556,6 +564,9 @@ public class CompriseUtils {
 
     public String transportData(String lastUpdateTime) {
         try {
+            if(StringUtils.isBlank(lastUpdateTime)){
+                return "0";
+            }
             SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
             SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             return sdf2.format(sdf1.parse(lastUpdateTime));

@@ -3,10 +3,12 @@ package com.ifugle.rap.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetail;
 import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
 
+@Component
 public interface BotOutoundTaskDetailMapper {
 
 

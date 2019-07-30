@@ -21,6 +21,5 @@ public class BotConfigServerTest extends NewBaseTest {
 
     @Test
     public void testUpdate(){
-        dataSyncService.dataUpdateSync();
     }
 }

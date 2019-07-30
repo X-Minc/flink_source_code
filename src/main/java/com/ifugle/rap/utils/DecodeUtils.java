@@ -11,6 +11,7 @@ import javax.crypto.SecretKey;
 import com.google.common.io.BaseEncoding;
 import com.ifugle.rap.security.crypto.CryptBase36;
 import com.ifugle.rap.security.crypto.CryptBase62;
+import com.ifugle.rap.security.crypto.CryptNumber;
 import com.ifugle.rap.security.crypto.CryptSimple;
 import com.ifugle.util.CipherUtil;
 import com.ifugle.util.PwdUtil;
@@ -135,6 +136,16 @@ public class DecodeUtils {
         }catch (IllegalAccessException e){
 
         }
+    }
+
+
+
+    public static String decodeCryptNumberTest(String data, CryptNumber cryptNumber){
+        return cryptNumber.decrypt(data);
+    }
+
+    public static String decodeCryptSimpleTest(String data, CryptBase36 cryptNumber){
+        return cryptNumber.decrypt(data);
     }
 
     public static void main(String[] args) {

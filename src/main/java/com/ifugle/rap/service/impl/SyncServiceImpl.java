@@ -76,11 +76,10 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table BOT_UNAWARE_DETAIL to es .... ");
         StringBuilder dsl = new StringBuilder(32);
         for (BotUnawareDetailDO botUnawareDetailDO : botUnawareDetailDOS) {
-            logger.debug(MessageFormat.format("[DataSyncServiceImpl] insertBotUnawareDetailAndCheckListSize botUnawareDetailDO {0}", botUnawareDetailDO.toString()));
+            logger.debug(
+                    MessageFormat.format("[DataSyncServiceImpl] insertBotUnawareDetailAndCheckListSize botUnawareDetailDO {0}", botUnawareDetailDO.toString()));
             DataRequest request = compriseUtils.botUnawareDetailCompriseDataRequest(botUnawareDetailDO);
-            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
-            }
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return botUnawareDetailDOS.size() < pageSize;
@@ -100,9 +99,7 @@ public class SyncServiceImpl implements SyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (YhzxxnzzcyDO yhzxxnzzcyDO : yhzxxnzzcyDOs) {
             DataRequest request = compriseUtils.yhzxxnzzcyCompriseDataRequest(yhzxxnzzcyDO);
-            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.DINGTAX, request)) {
-                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.DINGTAX, request));
-            }
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.DINGTAX, request));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return yhzxxnzzcyDOs.size() < pageSize;
@@ -122,9 +119,7 @@ public class SyncServiceImpl implements SyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (BotTrackDetailDO botTrackDetailDO : botTrackDetailDOS) {
             DataRequest request = compriseUtils.botTrackDetailCompriseDataRequest(botTrackDetailDO);
-            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
-            }
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return botTrackDetailDOS.size() < pageSize;
@@ -144,9 +139,7 @@ public class SyncServiceImpl implements SyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (KbsArticleDOWithBLOBs kbsArticleDO : kbsArticleDOS) {
             DataRequest request = compriseUtils.kbsArticleDOCompriseDataRequest(kbsArticleDO);
-            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
-            }
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsArticleDOS.size() < pageSize;
@@ -165,19 +158,17 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table YhzxXnzzNsr to es .... ");
         StringBuffer DSL = new StringBuffer(32);
         CryptSimple cryptSimple = new CryptSimple();
-        if(StringUtils.equalsIgnoreCase(env,"prod")) {
+        if (StringUtils.equalsIgnoreCase(env, "prod")) {
             DecodeUtils.initCryptSimpleProd(cryptSimple);
         }
 
         CryptBase36 cryptBase36 = new CryptBase36();
-        if(StringUtils.equalsIgnoreCase(env,"prod")) {
+        if (StringUtils.equalsIgnoreCase(env, "prod")) {
             DecodeUtils.initCryptBase36(cryptBase36);
         }
         for (YhzxXnzzNsr yhzxXnzzNsr : yhzxXnzzNsrs) {
             DataRequest request = compriseUtils.yhzxXnzzNsrCompriseDataRequest(yhzxXnzzNsr, cryptSimple, cryptBase36);
-            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.DINGTAX, request)) {
-                DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.DINGTAX, request));
-            }
+            DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.DINGTAX, request));
         }
         elasticSearchBusinessService.bulkOperation(DSL.toString());
         logger.info("[SyncServiceImpl] pageSize=" + pageSize + "," + yhzxXnzzNsrs.size());
@@ -193,9 +184,7 @@ public class SyncServiceImpl implements SyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (BizData bizData : bizDataList) {
             DataRequest request = compriseUtils.botBizDataCompriseDataRequest(bizData);
-            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
-            }
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return bizDataList.size() < pageSize;
@@ -215,9 +204,7 @@ public class SyncServiceImpl implements SyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (BotChatResponseMessageDO botChatResponseMessageDO : botChatResponseMessageDOS) {
             DataRequest request = compriseUtils.botChatResponseMessageCompriseDatarequest(botChatResponseMessageDO);
-            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
-            }
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return botChatResponseMessageDOS.size() < pageSize;
@@ -237,9 +224,7 @@ public class SyncServiceImpl implements SyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (KbsQuestionArticleDO kbsQuestionArticleDO : kbsQuestionArticleDOS) {
             DataRequest request = compriseUtils.kbsQuestionArticleCompriseDataRequest(kbsQuestionArticleDO);
-            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
-            }
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsQuestionArticleDOS.size() < pageSize;
@@ -260,10 +245,8 @@ public class SyncServiceImpl implements SyncService {
         List<String> messages = new ArrayList<>();
         for (KbsQuestionDO kbsQuestionDO : kbsQuestionDOS) {
             DataRequest request = compriseUtils.kbsQuestionCompriseDataRequest(kbsQuestionDO);
-            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
-                messages.add(String.valueOf(kbsQuestionDO.getId()));
-            }
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            messages.add(String.valueOf(kbsQuestionDO.getId()));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         // 发送消息给税小蜜业务
@@ -283,9 +266,7 @@ public class SyncServiceImpl implements SyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (ZxArticle zxArticle : articles) {
             DataRequest request = CompriseUtils.zxArticleCompriseDataRequest(zxArticle);
-            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.ZHCS, request)) {
-                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.ZHCS, request));
-            }
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.ZHCS, request));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return articles.size() < pageSize;
@@ -305,9 +286,7 @@ public class SyncServiceImpl implements SyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (KbsReadingDOWithBLOBs kbsReadingDO : kbsReadingDOS) {
             DataRequest request = compriseUtils.kbsReadingCompriseDataRequest(kbsReadingDO);
-            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
-            }
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsReadingDOS.size() < pageSize;
@@ -327,9 +306,7 @@ public class SyncServiceImpl implements SyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (KbsKeywordDO kbsKeywordDO : kbsKeywordDOS) {
             DataRequest request = compriseUtils.kbsKeywordCompriseDataRequest(kbsKeywordDO);
-            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
-            }
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsKeywordDOS.size() < pageSize;
@@ -338,8 +315,10 @@ public class SyncServiceImpl implements SyncService {
     /**
      * 批量插入 BOT_CONFIG_SERVER
      *
-     * @param botConfigServers BOT_CONFIG_SERVER的集合
-     * @param pageSize pageSize
+     * @param botConfigServers
+     *         BOT_CONFIG_SERVER的集合
+     * @param pageSize
+     *         pageSize
      */
     @Override
     public boolean insertBotConfigServerAndCheckListSize(List<BotConfigServer> botConfigServers, Integer pageSize) {
@@ -347,9 +326,7 @@ public class SyncServiceImpl implements SyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (BotConfigServer botConfigServer : botConfigServers) {
             DataRequest request = compriseUtils.botConfigServerCompriseDataRequest(botConfigServer);
-            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
-            }
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return botConfigServers.size() < pageSize;
@@ -369,9 +346,7 @@ public class SyncServiceImpl implements SyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (BotMediaDO botMediaDO : botMediaDOS) {
             DataRequest request = compriseUtils.botMediaCompriseDataRequest(botMediaDO);
-            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
-            }
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         return botMediaDOS.size() < pageSize;
@@ -413,19 +388,17 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] start export table BotOutoundTaskDetail to es .... ");
         StringBuffer DSL = new StringBuffer(32);
         CryptSimple cryptSimple = new CryptSimple();
-        if(StringUtils.equalsIgnoreCase(env,"prod")) {
+        if (StringUtils.equalsIgnoreCase(env, "prod")) {
             DecodeUtils.initCryptSimpleProd(cryptSimple);
         }
 
         CryptBase36 cryptBase36 = new CryptBase36();
-        if(StringUtils.equalsIgnoreCase(env,"prod")) {
+        if (StringUtils.equalsIgnoreCase(env, "prod")) {
             DecodeUtils.initCryptBase36(cryptBase36);
         }
         for (BotOutoundTaskDetailWithBLOBs botOutoundTaskDetail : botOutoundTaskDetails) {
             DataRequest request = compriseUtils.botOutoundTaskDetailCompriseDataRequest(botOutoundTaskDetail, cryptSimple, cryptBase36);
-            if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-                DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
-            }
+            DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
         }
         elasticSearchBusinessService.bulkOperation(DSL.toString());
         logger.info("[SyncServiceImpl] pageSize=" + pageSize + "," + botOutoundTaskDetails.size());
