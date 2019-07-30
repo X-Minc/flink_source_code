@@ -127,6 +127,11 @@ public class ElasticSearchTest extends  BaseTest{
     }
 
     @Test
+    public void execBulk(){
+        elasticSearchBusinessService.bulkOperation("{ \"index\": {  \"_index\": \"dingtax\",\"_type\": \"test_type\",  \"_id\": \"1\" }}{ \"name\": \"huanglei\",\"age\": \"38\"}{ \"index\": {  \"_index\": \"dingtax\",\"_type\": \"test_type\",  \"_id\": \"2\" }}{ \"name\": \"huyu\",\"age\": \"24\"}{ \"index\": {  \"_index\": \"dingtax\",\"_type\": \"test_type\",  \"_id\": \"3\" }}{ \"name\": \"laozhu\",\"age\": \"48\"}");
+    }
+
+    @Test
     public void botMedisUpdate(){
         dataSyncServiceImpl.updateBotMediaForSync();
     }
@@ -135,7 +140,7 @@ public class ElasticSearchTest extends  BaseTest{
     private ElasticSearchBusinessService elasticSearchBusinessService;
 
     static {
-        System.setProperty("rap.redis.server","172.16.16.5:16379");
+        System.setProperty("rap.redis.server","127.0.0.1:16379");
         System.setProperty("rap.redis.auth.password","dsbwansui");
         System.setProperty("rap.redis.channels","KBS_QUESTION");
     }
