@@ -55,6 +55,11 @@ public class KbsArticleDO {
 
     private String invalidReason;
 
+    /***
+     * 判断是新增还是更新
+     */
+    private boolean isNew;
+
     public Long getId() {
         return id;
     }
@@ -293,5 +298,13 @@ public class KbsArticleDO {
                 ", modificationDate=" + modificationDate +
                 ", invalidReason='" + invalidReason + '\'' +
                 '}';
+    }
+
+    /***
+     * 返回true，修改时间大于创建时间；反之返回false
+     * @return
+     */
+    public boolean isNew() {
+        return modificationDate.compareTo(creationDate) > 0 ? true : false;
     }
 }

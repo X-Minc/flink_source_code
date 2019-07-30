@@ -36,6 +36,10 @@ public class KbsQuestionArticleDO {
     private Date modificationDate;
 
     private String articleBlock;
+    /***
+     * 判断是新增还是更新
+     */
+    private boolean isNew;
 
     public Long getId() {
         return id;
@@ -194,5 +198,13 @@ public class KbsQuestionArticleDO {
                 ", modificationDate=" + modificationDate +
                 ", articleBlock='" + articleBlock + '\'' +
                 '}';
+    }
+
+    /***
+     * 返回true，修改时间大于创建时间；反之返回false
+     * @return
+     */
+    public boolean isNew() {
+        return modificationDate.compareTo(creationDate) > 0 ? true : false;
     }
 }

@@ -142,6 +142,7 @@ public class DecodeUtils {
         //System.out.println(deodeCryptBase36Test("HV5XA5VXAZMDYX4",new CryptBase36()));
         //System.out.println(decodeCryptBase62Reverse6Prod("94GN4Bs3ztkM6OL",new CryptBase62(6)));
         CryptBase36 cryptBase36 = new CryptBase36();
-        System.out.println(deodeCryptBase36Prod("2PHK2CG6M7QHYLR4QM",cryptBase36));
+        CryptSimple cryptSimple =new CryptSimple();
+        System.out.println(new CryptSimple().encrypt("锡林浩特市德牧牧民养殖专业合作社"));
     }
 }

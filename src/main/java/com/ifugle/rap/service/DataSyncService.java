@@ -20,4 +20,9 @@ public interface DataSyncService {
 	 */
 	 void dataUpdateSync();
 
+	/***
+	 * 初始化本地文件
+	 */
+	void initLocalTime();
+
 }

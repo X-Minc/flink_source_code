@@ -3,6 +3,8 @@
  */
 package com.ifugle.rap.test;
 
+import java.util.Set;
+
 import org.junit.runner.RunWith;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -40,7 +42,7 @@ public class BaseTest {
         //测试库
         //System.setProperty("bot_test", "mysql://bot_test:rap1bpm2ifm3qrm4Test@172.16.16.5:35066/bot_test");
         //System.setProperty("rap.defaultJDBC", "bot_test");
-        System.setProperty("dsbtest", "mysql://dsbtest:rap1bpm2ifm3qrm4Test@172.16.16.5:33066/dsbtest");
+        System.setProperty("dsbtest", "mysql://dsbtest:rap1bpm2ifm3qrm4Test@127.0.0.1:33066/dsbtest");
         System.setProperty("rap.defaultJDBC", "dsbtest");
         // 隧道开发库
         //System.setProperty("dsbtest", "mysql://dsbtest:rap1bpm2ifm3qrm4Test@127.0.0.1:33066/dsbtest");
@@ -49,6 +51,8 @@ public class BaseTest {
         System.setProperty("rap.es.username", "elastic");
         System.setProperty("rap.es.password", "acUkc8kjpuLAFuqJzB4MHNdRGXpw6N");
         System.setProperty("log4j.logger.com.ifugle.rap.bot.summary.mapper", "error");
+        System.setProperty("rap.mvc.config.default","false");
+        System.setProperty("rap.config.datasource.default","false");
         System.setProperty("rap.service.config.default", "true");
     }
 

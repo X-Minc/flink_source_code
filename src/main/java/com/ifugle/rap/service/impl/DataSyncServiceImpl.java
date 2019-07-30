@@ -9,9 +9,12 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.ifugle.rap.constants.SystemConstants;
+import com.ifugle.rap.elasticsearch.api.BusinessCommonApi;
 import com.ifugle.rap.elasticsearch.model.DataRequest;
+import com.ifugle.rap.elasticsearch.service.ElasticSearchBusinessApi;
 import com.ifugle.rap.elasticsearch.service.ElasticSearchBusinessService;
 import com.ifugle.rap.mapper.BizDataMapper;
 import com.ifugle.rap.mapper.BotChatResponseMessageDOMapper;
@@ -30,6 +33,7 @@ import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrMapper;
 import com.ifugle.rap.mapper.zhcs.ZxArticleMapper;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
+import com.ifugle.rap.model.enums.TablesEnum;
 import com.ifugle.rap.model.shuixiaomi.BizData;
 import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
@@ -69,6 +73,7 @@ import com.ifugle.rap.elasticsearch.enums.ChannelType;
 import com.ifugle.rap.security.crypto.CryptZip;
 import com.ifugle.rap.utils.DecodeUtils;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -147,6 +152,12 @@ public class DataSyncServiceImpl implements DataSyncService {
 
     @Autowired
     private BizDataMapper bizDataMapper;
+
+    @Autowired
+    private ElasticSearchBusinessApi elasticSearchBusinessApi;
+
+    @Value("${profiles.active}")
+    String env;
 
     private final static Logger logger = LoggerFactory.getLogger(DataSyncServiceImpl.class);
 
@@ -242,7 +253,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         updateBotConfigServerForSync();
         if (Boolean.valueOf(System.getProperty(SystemConstants.DSB_ON))) {
             //丁税宝企业导入
-            //updateYhzxXnzzNsrForSync(); TODO优化性能瓶颈
+            updateYhzxXnzzNsrForSync(); //TODO优化性能瓶颈
         }
     }
 
@@ -416,7 +427,9 @@ public class DataSyncServiceImpl implements DataSyncService {
     /**
      * 同步 BOT_BIZ_DATA 表的内容,更新同步的时候
      */
-    private void updateBotBizDataForSync() {
+    public void updateBotBizDataForSync() {
+        // 该表需要解密,且每行数据量庞大,故每次只查询500条
+        int pageSize = 500;
         String lastUpdateTime = CommonUtils.readlocalTimeFile("BOT_BIZ_DATA_UPDATE");
         //当读取不到时间的时候，默认存取当前时间，如果读取不到list的数据，那么该时间以后不会变化，只到读取list的数据才变化
         if (StringUtils.isBlank(lastUpdateTime)) {
@@ -427,7 +440,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         try {
             while (true) {
                 Integer first = (pageIndex - 1) * pageSize;
-                List<BizData> bizDataList = checkBotBizDataWithLastUpdateTime(lastUpdateTime, first);
+                List<BizData> bizDataList = checkBotBizDataWithLastUpdateTime(lastUpdateTime, first,pageSize);
                 if (!CollectionUtils.isEmpty(bizDataList)) {
                     CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "BOT_BIZ_DATA_UPDATE");
                 }
@@ -445,7 +458,7 @@ public class DataSyncServiceImpl implements DataSyncService {
 
     }
 
-    private List<BizData> checkBotBizDataWithLastUpdateTime(String lastUpdateTime, Integer first) {
+    private List<BizData> checkBotBizDataWithLastUpdateTime(String lastUpdateTime, Integer first, Integer pageSize) {
         lastUpdateTime = compriseUtils.transportData(lastUpdateTime);
         if (StringUtils.isNotBlank(lastUpdateTime) && StringUtils.isNotBlank(CommonUtils.readlocalTimeFile("BOT_BIZ_DATA_UPDATE_STATUS"))) {
             return bizDataMapper.selectBotBizDataForUpdateWithLastUpdateTime(lastUpdateTime, first, pageSize);
@@ -749,15 +762,15 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info(MessageFormat.format("BotUnawareDetail last createTime : {0}", lastCreateTime));
         int pageIndex = 1;
         Integer first = (pageIndex - 1) * pageSize;
-        List<BotUnawareDetailDO> botUnawareDetailDOS = botUnawareDetailDOMapper.selectBotUnawareDetailForSync(lastCreateTime, first, pageSize);
+        List<BotUnawareDetailDO> botUnawareDetailDOS = botUnawareDetailDOMapper.selectBotUnawareDetailWithLastUpdateTime(first, pageSize, lastCreateTime);
         if (!CollectionUtils.isEmpty(botUnawareDetailDOS)) {
             syncService.insertBotUnawareDetailAndCheckListSize(botUnawareDetailDOS, pageSize);
-            Date createDate = botUnawareDetailDOS.get(botUnawareDetailDOS.size() - 1).getCreationDate();
+            Date modificationDate = botUnawareDetailDOS.get(botUnawareDetailDOS.size() - 1).getModificationDate();
             //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
             if (BizListCheckUtils.checkBotUnawareDetailTimeEquals(botUnawareDetailDOS)) {
-                createDate = TimeDelayUtils.getNextMilliDate(createDate);
+                modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
             }
-            CommonUtils.writeLocalTimeFile(createDate.toString(), "BOT_UNAWARE_DETAIL");
+            CommonUtils.writeLocalTimeFile(modificationDate.toString(), "BOT_UNAWARE_DETAIL");
         }
     }
 
@@ -774,15 +787,15 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info(MessageFormat.format("KbsQuestionArticle last createTime : {0}", lastCreateTime));
         int pageIndex = 1;
         Integer first = (pageIndex - 1) * pageSize;
-        List<KbsQuestionArticleDO> kbsQuestionArticleDOS = kbsQuestionArticleDOMapper.selectKbsQuestionArticleForSync(lastCreateTime, first, pageSize);
+        List<KbsQuestionArticleDO> kbsQuestionArticleDOS = kbsQuestionArticleDOMapper.selectKbsQuestionArticleForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
         if (!CollectionUtils.isEmpty(kbsQuestionArticleDOS)) {
             syncService.insertKbsQuestionArticleAndCheckListSize(kbsQuestionArticleDOS, pageSize);
-            Date createDate = kbsQuestionArticleDOS.get(kbsQuestionArticleDOS.size() - 1).getCreationDate();
+            Date modificationDate = kbsQuestionArticleDOS.get(kbsQuestionArticleDOS.size() - 1).getModificationDate();
             //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
             if (BizListCheckUtils.checkKbsQuestionArticleTimeEquals(kbsQuestionArticleDOS)) {
-                createDate = TimeDelayUtils.getNextMilliDate(createDate);
+                modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
             }
-            CommonUtils.writeLocalTimeFile(createDate.toString(), "KBS_QUESTION_ARTICLE");
+            CommonUtils.writeLocalTimeFile(modificationDate.toString(), "KBS_QUESTION_ARTICLE");
         }
     }
 
@@ -850,15 +863,15 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info(MessageFormat.format("KbsQuestion lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         Integer first = (pageIndex - 1) * pageSize;
-        List<KbsQuestionDO> kbsQuestionDOS = kbsQuestionDOMapper.selectKbsQuestionForSync(lastCreateTime, first, pageSize);
+        List<KbsQuestionDO> kbsQuestionDOS = kbsQuestionDOMapper.selectKbsQuestionForUpdateWithLastUpdateTime(lastCreateTime, first, pageSize);
         if (!CollectionUtils.isEmpty(kbsQuestionDOS)) {
             syncService.insertKbsQuestionAndCheckListSize(kbsQuestionDOS, pageSize);
-            Date createDate = kbsQuestionDOS.get(kbsQuestionDOS.size() - 1).getCreationDate();
+            Date modificationDate = kbsQuestionDOS.get(kbsQuestionDOS.size() - 1).getModificationDate();
             //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
             if (BizListCheckUtils.checkQuestionTimeEquals(kbsQuestionDOS)) {
-                createDate = TimeDelayUtils.getNextMilliDate(createDate);
+                modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
             }
-            CommonUtils.writeLocalTimeFile(createDate.toString(), "KBS_QUESTION");
+            CommonUtils.writeLocalTimeFile(modificationDate.toString(), "KBS_QUESTION");
         }
     }
 
@@ -871,15 +884,15 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info(MessageFormat.format("BOT_BIZ_DATA lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         Integer first = (pageIndex - 1) * pageSize;
-        List<BizData> bizDataList = bizDataMapper.selectBotBizDataForSync(lastCreateTime, first, pageSize);
+        List<BizData> bizDataList = bizDataMapper.selectBotBizDataForUpdateWithLastUpdateTime(lastCreateTime, first, pageSize);
         if (!CollectionUtils.isEmpty(bizDataList)) {
             syncService.insertBotBizDataAndCheckListSize(bizDataList, pageSize);
-            Date createDate = bizDataList.get(bizDataList.size() - 1).getCreationDate();
+            Date modificationDate = bizDataList.get(bizDataList.size() - 1).getModificationDate();
             //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
             if (BizListCheckUtils.checkBizDataTimeEquals(bizDataList)) {
-                createDate = TimeDelayUtils.getNextMilliDate(createDate);
+                modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
             }
-            CommonUtils.writeLocalTimeFile(createDate.toString(), "BOT_BIZ_DATA");
+            CommonUtils.writeLocalTimeFile(modificationDate.toString(), "BOT_BIZ_DATA");
         }
     }
 
@@ -960,15 +973,15 @@ public class DataSyncServiceImpl implements DataSyncService {
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("KbsArticle lastCreateTime : {0}", lastCreateTime));
         Integer first = (pageIndex - 1) * pageSize;
-        List<KbsArticleDOWithBLOBs> kbsArticleDOS = kbsArticleDOMapper.selectKbsArticleForSync(lastCreateTime, first, pageSize);
+        List<KbsArticleDOWithBLOBs> kbsArticleDOS = kbsArticleDOMapper.selectKbsArticleForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
         if (!CollectionUtils.isEmpty(kbsArticleDOS)) {
             syncService.insertKbsArticleAndCheckListSize(kbsArticleDOS, pageSize);
-            Date createDate = kbsArticleDOS.get(kbsArticleDOS.size() - 1).getCreationDate();
+            Date modificationDate = kbsArticleDOS.get(kbsArticleDOS.size() - 1).getModificationDate();
             //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
             if (BizListCheckUtils.checkArticleTimeEquals(kbsArticleDOS)) {
-                createDate = TimeDelayUtils.getNextMilliDate(createDate);
+                modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
             }
-            CommonUtils.writeLocalTimeFile(createDate.toString(), "KBS_ARTICLE");
+            CommonUtils.writeLocalTimeFile(modificationDate.toString(), "KBS_ARTICLE");
         }
     }
 
@@ -985,15 +998,15 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info(MessageFormat.format("KbsReading lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         Integer first = (pageIndex - 1) * pageSize;
-        List<KbsReadingDOWithBLOBs> kbsReadingDOS = kbsReadingDOMapper.selectKbsReadingForSync(lastCreateTime, first, pageSize);
+        List<KbsReadingDOWithBLOBs> kbsReadingDOS = kbsReadingDOMapper.selectKbsReadingForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
         if (!CollectionUtils.isEmpty(kbsReadingDOS)) {
             syncService.insertKbsReadingAndCheckListSize(kbsReadingDOS, pageSize);
-            Date createDate = kbsReadingDOS.get(kbsReadingDOS.size() - 1).getCreationDate();
+            Date modificationDate = kbsReadingDOS.get(kbsReadingDOS.size() - 1).getModificationDate();
             //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
             if (BizListCheckUtils.checkKbsReadingTimeEquals(kbsReadingDOS)) {
-                createDate = TimeDelayUtils.getNextMilliDate(createDate);
+                modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
             }
-            CommonUtils.writeLocalTimeFile(createDate.toString(), "KBS_READING");
+            CommonUtils.writeLocalTimeFile(modificationDate.toString(), "KBS_READING");
         }
     }
 
@@ -1010,15 +1023,15 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info(MessageFormat.format("KbsKeyword lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         Integer first = (pageIndex - 1) * pageSize;
-        List<KbsKeywordDO> kbsKeywordDOS = kbsKeywordDOMapper.selectKbsKeywordForSync(lastCreateTime, first, pageSize);
+        List<KbsKeywordDO> kbsKeywordDOS = kbsKeywordDOMapper.selectKbsKeywordForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
         if (!CollectionUtils.isEmpty(kbsKeywordDOS)) {
             syncService.insertKbsKeywordAndCheckListSize(kbsKeywordDOS, pageSize);
-            Date createDate = kbsKeywordDOS.get(kbsKeywordDOS.size() - 1).getCreationDate();
+            Date modificationDate = kbsKeywordDOS.get(kbsKeywordDOS.size() - 1).getModificationDate();
             //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
             if (BizListCheckUtils.checkKbsKeywordTimeEquals(kbsKeywordDOS)) {
-                createDate = TimeDelayUtils.getNextMilliDate(createDate);
+                modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
             }
-            CommonUtils.writeLocalTimeFile(createDate.toString(), "KBS_KEYWORD");
+            CommonUtils.writeLocalTimeFile(modificationDate.toString(), "KBS_KEYWORD");
         }
     }
 
@@ -1052,7 +1065,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info(MessageFormat.format("BotMedia lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         Integer first = (pageIndex - 1) * pageSize;
-        List<BotMediaDO> botMediaDOS = botMediaDOMapper.selectBotMediaForSync(lastCreateTime, first, pageSize);
+        List<BotMediaDO> botMediaDOS = botMediaDOMapper.selectBotMediaWithLastUpdateTime(first, pageSize, lastCreateTime);
         if (!CollectionUtils.isEmpty(botMediaDOS)) {
             syncService.insertBotMediaAndCheckListSize(botMediaDOS, pageSize);
             Date createTime = botMediaDOS.get(botMediaDOS.size() - 1).getCreationDate();
@@ -1064,6 +1077,10 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
     }
 
+    /***
+     * 更新操作，增量操作，改成可插入的修改
+     */
+
     /**
      * 向ES中插入KbsQuestionArticle相关数据,并判断是否是最后一组List，如果是最后一组，返回true ,数据更新同步时使用
      *
@@ -1073,10 +1090,16 @@ public class DataSyncServiceImpl implements DataSyncService {
     private boolean updateKbsQuestionArticleAndCheckListSize(List<KbsQuestionArticleDO> kbsQuestionArticleDOS, Integer pageSize) {
         StringBuilder dsl = new StringBuilder(32);
         for (KbsQuestionArticleDO kbsQuestionArticleDO : kbsQuestionArticleDOS) {
-            DataRequest request = compriseUtils.kbsQuestionArticleCompriseDataRequest(kbsQuestionArticleDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if (kbsQuestionArticleDO.isNew()) {
+                DataRequest request = compriseUtils.kbsQuestionArticleCompriseDataRequest(kbsQuestionArticleDO);
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isInfoEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export KBS_QUESTION_ARTICLE to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+                }
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsQuestionArticleDOS.size() < pageSize;
     }
 
@@ -1086,10 +1109,16 @@ public class DataSyncServiceImpl implements DataSyncService {
     public boolean updateKbsQuestionAndCheckListSize(List<KbsQuestionDO> kbsQuestionDOS, Integer pageSize) {
         StringBuilder dsl = new StringBuilder(32);
         for (KbsQuestionDO kbsQuestionDO : kbsQuestionDOS) {
-            DataRequest request = compriseUtils.kbsQuestionCompriseDataRequest(kbsQuestionDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if (kbsQuestionDO.isNew()) {
+                DataRequest request = compriseUtils.kbsQuestionCompriseDataRequest(kbsQuestionDO);
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isInfoEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export KBS_QUESTION to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+                }
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsQuestionDOS.size() < pageSize;
     }
 
@@ -1100,9 +1129,13 @@ public class DataSyncServiceImpl implements DataSyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (ZxArticle zxArticle : zxArticles) {
             DataRequest request = CompriseUtils.zxArticleCompriseDataRequest(zxArticle);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.ZHCS, request));
+            //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.ZHCS, request));
+            boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+            if (logger.isInfoEnabled()) {
+                logger.info("[DataSyncServiceImpl] start export ZX_ARTICLE to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return zxArticles.size() < pageSize;
     }
 
@@ -1111,13 +1144,24 @@ public class DataSyncServiceImpl implements DataSyncService {
      */
     private boolean updateYhzxXnzzNsrAndCheckListSize(List<YhzxXnzzNsr> yhzxXnzzNsrs, Integer pageSize) {
         CryptSimple cryptSimple = new CryptSimple();
+        if(StringUtils.equalsIgnoreCase(env,"prod")) {
+            DecodeUtils.initCryptSimpleProd(cryptSimple);
+        }
+
         CryptBase36 cryptBase36 = new CryptBase36();
+        if(StringUtils.equalsIgnoreCase(env,"prod")) {
+            DecodeUtils.initCryptBase36(cryptBase36);
+        }
         StringBuilder dsl = new StringBuilder(32);
         for (YhzxXnzzNsr yhzxXnzzNsr : yhzxXnzzNsrs) {
             DataRequest request = compriseUtils.yhzxXnzzNsrCompriseDataRequest(yhzxXnzzNsr, cryptSimple, cryptBase36);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.ZHCS, request));
+            //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.DINGTAX, request));
+            boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.DINGTAX, request);
+            if (logger.isInfoEnabled()) {
+                logger.info("[DataSyncServiceImpl] start export YhzxXnzzNsr to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return yhzxXnzzNsrs.size() < pageSize;
     }
 
@@ -1130,25 +1174,32 @@ public class DataSyncServiceImpl implements DataSyncService {
     private boolean updateKbsArticleAndCheckListSize(List<KbsArticleDOWithBLOBs> kbsArticleDOS, Integer pageSize) {
         StringBuilder dsl = new StringBuilder(32);
         for (KbsArticleDOWithBLOBs kbsArticleDO : kbsArticleDOS) {
-            DataRequest request = compriseUtils.kbsArticleDOCompriseDataRequest(kbsArticleDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if (kbsArticleDO.isNew()) {
+                DataRequest request = compriseUtils.kbsArticleDOCompriseDataRequest(kbsArticleDO);
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isInfoEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export KBS_ARTICLE , ID=" + request.getMap().get("ID") + ",result=" + result);
+                }
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsArticleDOS.size() < pageSize;
     }
 
     private boolean updateBotBizDataAndCheckListSize(List<BizData> bizDataList, Integer pageSize) {
         StringBuilder dsl = new StringBuilder(32);
-        CryptSimple cryptSimple = new CryptSimple();
-        DecodeUtils.initCryptSimpleProd(cryptSimple);
-
-        CryptBase62 cryptBase62 = new CryptBase62();
-        DecodeUtils.initCryptBase62Reverse6(cryptBase62);
         for (BizData bizData : bizDataList) {
-            DataRequest request = compriseUtils.botBizDataCompriseDataRequest(bizData);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if (bizData.isNew()) {
+                DataRequest request = compriseUtils.botBizDataCompriseDataRequest(bizData);
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isInfoEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export BOT_BIZ_DATA to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+                }
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return bizDataList.size() < pageSize;
     }
 
@@ -1158,10 +1209,16 @@ public class DataSyncServiceImpl implements DataSyncService {
     private boolean updateKbsReadingAndCheckListSize(List<KbsReadingDOWithBLOBs> kbsReadingDOS, Integer pageSize) {
         StringBuilder dsl = new StringBuilder(32);
         for (KbsReadingDOWithBLOBs kbsReadingDO : kbsReadingDOS) {
-            DataRequest request = compriseUtils.kbsReadingCompriseDataRequest(kbsReadingDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if (kbsReadingDO.isNew()) {
+                DataRequest request = compriseUtils.kbsReadingCompriseDataRequest(kbsReadingDO);
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isInfoEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export KBS_READING to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+                }
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsReadingDOS.size() < pageSize;
     }
 
@@ -1171,10 +1228,16 @@ public class DataSyncServiceImpl implements DataSyncService {
     private boolean updateKbsKeywordAndCheckListSize(List<KbsKeywordDO> kbsKeywordDOS, Integer pageSize) {
         StringBuilder dsl = new StringBuilder(32);
         for (KbsKeywordDO kbsKeywordDO : kbsKeywordDOS) {
-            DataRequest request = compriseUtils.kbsKeywordCompriseDataRequest(kbsKeywordDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if (kbsKeywordDO.isNew()) {
+                DataRequest request = compriseUtils.kbsKeywordCompriseDataRequest(kbsKeywordDO);
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isInfoEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export KBS_KEYWORD to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+                }
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return kbsKeywordDOS.size() < pageSize;
     }
 
@@ -1185,9 +1248,13 @@ public class DataSyncServiceImpl implements DataSyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (YhzxxnzzcyDO yhzxxnzzcyDO : yhzxxnzzcyDOS) {
             DataRequest request = compriseUtils.yhzxxnzzcyCompriseDataRequest(yhzxxnzzcyDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.DINGTAX, request);
+            if (logger.isInfoEnabled()) {
+                logger.info("[DataSyncServiceImpl] start export Yhzxxnbzzcy to es request = .... " + JSON.toJSONString(request) + ",result=" + result);
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return yhzxxnzzcyDOS.size() < pageSize;
     }
 
@@ -1200,10 +1267,16 @@ public class DataSyncServiceImpl implements DataSyncService {
     private boolean updateBotUnawareDetailAndCheckListSize(List<BotUnawareDetailDO> botUnawareDetailDOS, Integer pageSize) {
         StringBuilder dsl = new StringBuilder(32);
         for (BotUnawareDetailDO botUnawareDetailDO : botUnawareDetailDOS) {
-            DataRequest request = compriseUtils.botUnawareDetailCompriseDataRequest(botUnawareDetailDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if (botUnawareDetailDO.isNew()) {
+                DataRequest request = compriseUtils.botUnawareDetailCompriseDataRequest(botUnawareDetailDO);
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isDebugEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export BotUnawareDetail to es request = ...." + JSON.toJSONString(request) + ", result = " + result);
+                }
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return botUnawareDetailDOS.size() < pageSize;
     }
 
@@ -1216,10 +1289,16 @@ public class DataSyncServiceImpl implements DataSyncService {
     private boolean updateBotMediaAndCheckListSize(List<BotMediaDO> botMediaDOS, Integer pageSize) {
         StringBuilder dsl = new StringBuilder(32);
         for (BotMediaDO botMediaDO : botMediaDOS) {
-            DataRequest request = compriseUtils.botMediaCompriseDataRequest(botMediaDO);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            if (botMediaDO.isNew()) {
+                DataRequest request = compriseUtils.botMediaCompriseDataRequest(botMediaDO);
+                //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+                boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+                if (logger.isDebugEnabled()) {
+                    logger.info("[DataSyncServiceImpl] start export BotMediaDO to es request = ...." + JSON.toJSONString(request) + ", result = " + result);
+                }
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return botMediaDOS.size() < pageSize;
 
     }
@@ -1234,10 +1313,63 @@ public class DataSyncServiceImpl implements DataSyncService {
         StringBuilder dsl = new StringBuilder(32);
         for (BotConfigServer botConfigServer : botConfigServers) {
             DataRequest request = compriseUtils.botConfigServerCompriseDataRequest(botConfigServer);
-            dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            //dsl.append(elasticSearchBusinessService.formatUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            boolean result = elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI, request);
+            if (logger.isDebugEnabled()) {
+                logger.info("[DataSyncServiceImpl] start export BotConfigServer to es request = ...." + JSON.toJSONString(request) + ", result = " + result);
+            }
         }
-        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        //elasticSearchBusinessService.bulkOperation(dsl.toString());
         return botConfigServers.size() < pageSize;
     }
 
+    @Override
+    public void initLocalTime() {
+        CommonUtils.writeLocalTimeFile("1", "status");
+
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_BIZ_DATA");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_CHAT_RESPONSE_MESSAGE");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_CONFIG_SERVER");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_MEDIA");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_TAG");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_TRACK_DETAIL");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_UNAWARE_DETAIL");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_ARTICLE");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_KEYWORD");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_QUESTION");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_QUESTION_ARTICLE");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_READING");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "YHZX_XNZZ_NSR");
+
+
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "BOT_BIZ_DATA_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "BOT_CHAT_RESPONSE_MESSAGE_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "BOT_CONFIG_SERVER_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "BOT_MEDIA_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "BOT_TAG_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "BOT_TRACK_DETAIL_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "BOT_UNAWARE_DETAIL_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "KBS_ARTICLE_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "KBS_KEYWORD_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "KBS_QUESTION_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "KBS_QUESTION_ARTICLE_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "KBS_READING_UPDATE");
+        CommonUtils.writeLocalTimeFile(compriseUtils.transportData(new Date().toString()), "YHZX_XNZZ_NSR_UPDATE");
+
+
+        CommonUtils.writeLocalTimeFile("1", "BOT_BIZ_DATA_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "BOT_CHAT_RESPONSE_MESSAGE_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "BOT_CONFIG_SERVER_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "BOT_MEDIA_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "BOT_TAG_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "BOT_TRACK_DETAIL_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "BOT_UNAWARE_DETAIL_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "KBS_ARTICLE_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "KBS_KEYWORD_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "KBS_QUESTION_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "KBS_QUESTION_ARTICLE_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "KBS_READING_UPDATE_STATUS");
+        CommonUtils.writeLocalTimeFile("1", "YHZX_XNZZ_NSR_UPDATE_STATUS");
+
+    }
 }

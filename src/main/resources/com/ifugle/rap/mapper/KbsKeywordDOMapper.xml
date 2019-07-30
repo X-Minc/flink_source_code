@@ -306,7 +306,7 @@
     </select>
 
     <select id="selectKbsKeywordForUpdateSyncWithLastUpdateTime" resultMap="BaseResultMap">
-        SELECT * FROM KBS_KEYWORD WHERE MODIFICATION_DATE >= #{lastUpdateTime}  LIMIT ${first},${pageSize}
+        SELECT * FROM KBS_KEYWORD WHERE MODIFICATION_DATE >= #{lastUpdateTime}  ORDER BY MODIFICATION_DATE  LIMIT ${first},${pageSize}
     </select>
 
 </mapper>

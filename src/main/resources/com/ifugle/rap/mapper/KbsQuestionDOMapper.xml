@@ -310,6 +310,6 @@
    </select>
 
   <select id="selectKbsQuestionForUpdateWithLastUpdateTime" resultMap="BaseResultMap">
-      SELECT * FROM KBS_QUESTION WHERE MODIFICATION_DATE >= #{lastUpdateTime}  LIMIT ${first},${pageSize}
+      SELECT * FROM KBS_QUESTION WHERE MODIFICATION_DATE >= #{lastUpdateTime}  ORDER BY MODIFICATION_DATE  LIMIT ${first},${pageSize}
   </select>
 </mapper>

@@ -467,29 +467,28 @@
   <select id="selectYhzxXnzzNsrForInit" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from yhzx_xnzz_nsr where nsrzt_dm='03'
-    ORDER BY cjsj LIMIT ${first}, ${pageSize}
+    from yhzx_xnzz_nsr ORDER BY cjsj LIMIT ${first}, ${pageSize}
   </select>
 
   <select id="selectYhzxXnzzNsrForSync" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from yhzx_xnzz_nsr
-    where cjsj > #{lastCreateTime} and nsrzt_dm='03' LIMIT ${first},${pageSize}
+    where cjsj > #{lastCreateTime}  LIMIT ${first},${pageSize}
   </select>
 
   <select id="selectYhzxXnzzNsrForUpdateWithoutLastUpdateTime" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from yhzx_xnzz_nsr
-    WHERE xgsj > cjsj  and nsrzt_dm='03' LIMIT ${first},${pageSize}
+    WHERE xgsj > cjsj  LIMIT ${first},${pageSize}
   </select>
 
   <select id="selectYhzxXnzzNsrForUpdateWithLastUpdateTime" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from yhzx_xnzz_nsr
-    WHERE xgsj > #{lastUpdateTime}  and nsrzt_dm='03' LIMIT ${first},${pageSize}
+    WHERE xgsj > #{lastUpdateTime} LIMIT ${first},${pageSize}
   </select>
 
 </mapper>

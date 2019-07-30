@@ -18,6 +18,7 @@ import com.ifugle.rap.elasticsearch.api.BusinessCommonApi;
 import com.ifugle.rap.elasticsearch.core.ClusterNode;
 import com.ifugle.rap.elasticsearch.enums.ChannelType;
 import com.ifugle.util.JSONUtil;
+
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
@@ -46,12 +47,18 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
     /**
      * 批量更新的DSL模板
      */
-    private static final String SAMPLE_UPDATE_DSL = "{ \"update\": { \"_index\": \"%s\", \"_type\": \"%s\", \"_id\": \"%s\"} } \n\r" + "{ \"doc\" : %s }\n\r";
+    private static final String SAMPLE_UPDATE_DSL = "{ \"update\": { \"_index\": \"%s\", \"_type\": \"%s\", \"_id\": \"%s\"} } \n\r" + "{ \"doc\" : %s }\n";
 
     /**
      * 批量插入的DSL模板
      */
-    private static final String SAMPLE_INSERT_DSL = "{ \"create\": { \"_index\": \"%s\", \"_type\": \"%s\", \"_id\": \"%s\" }} \n\r";
+    private static final String SAMPLE_INSERT_DSL = "{ \"create\": { \"_index\": \"%s\", \"_type\": \"%s\", \"_id\": \"%s\" }} \n";
+
+    /***
+     * 批量插入或者更新的模板
+     */
+    private static final String SAMPLE_UPDATE_OR_INSERT_DSL = "{ \"update\": { \"_index\": \"%s\", \"_type\": \"%s\", \"_id\": \"%s\"} } \n\r" + "{ \"doc\" : %s }\n";
+
 
     @Autowired
     private ClusterNode clusterNode;
@@ -59,6 +66,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
     @Autowired
     private BusinessCommonApi businessCommonApi;
 
+    @Override
     public boolean exportDataMysqlToEs(ChannelType channelType, DataRequest request) {
         String keyId = businessCommonApi.insertOrUpdate(channelType, request.getCatalogType(), getId(request), request.getMap());
         if (StringUtils.isNotBlank(keyId)) {
@@ -69,8 +77,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
 
     }
 
-
-
+    @Override
     public boolean checkDataExistsInEs(ChannelType channelType, DataRequest request) {
         Map<String, Object> map = null;
         try {
@@ -78,10 +85,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
         } catch (Exception ex) {
             logger.error("查询数据是否存在出错");
         }
-        if (StringUtils.isNotBlank(ObjectUtils.toString(map, ""))) {
-            return true;
-        }
-        return false;
+        return StringUtils.isNotBlank(ObjectUtils.toString(map, ""));
     }
 
     /**
@@ -90,7 +94,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
      * @param query
      */
     public void bulkOperation(String query) {
-        if(StringUtils.isBlank(query)){
+        if (StringUtils.isBlank(query)) {
             return;
         }
         RestClient restClient = clusterNode.getRestClient();
@@ -98,7 +102,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
             // 拼接URL
             String url = "/_bulk";
             // 配置请求参数
-            Map<String, String> paramMap = new HashMap<String, String>();
+            Map<String, String> paramMap = new HashMap<>(2);
             String method = "POST";
             HttpEntity entity = new NStringEntity(query, ContentType.APPLICATION_JSON);
             Response response = restClient.performRequest(method, url, paramMap, entity);
@@ -119,8 +123,22 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
     public String formatUpdateDSL(ChannelType channelType, DataRequest request) {
         Map<String, Object> map = request.getMap();
         String data = JSONUtil.toJSON(map);
-        StringBuffer DSL = new StringBuffer(String.format(SAMPLE_UPDATE_DSL, channelType.getCode(), request.getCatalogType(), getId(request), data));
-        return DSL.toString();
+        return String.format(SAMPLE_UPDATE_DSL, channelType.getCode(), request.getCatalogType(), getId(request), data);
+    }
+
+
+    /**
+     * 得到更新的DSL
+     *
+     * @param channelType
+     * @param request
+     *
+     * @return
+     */
+    public String formatSaveOrUpdateDSL(ChannelType channelType, DataRequest request) {
+        Map<String, Object> map = request.getMap();
+        String data = JSONUtil.toJSON(map);
+        return String.format(SAMPLE_UPDATE_DSL, channelType.getCode(), request.getCatalogType(), getId(request), data);
     }
 
     /**
@@ -132,12 +150,12 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
      * @return
      */
     public String formatInsertDSL(ChannelType channelType, DataRequest request) {
-        StringBuffer DSL = new StringBuffer(String.format(SAMPLE_INSERT_DSL, channelType.getCode(), request.getCatalogType(), getId(request)));
+        StringBuilder dsl = new StringBuilder(String.format(SAMPLE_INSERT_DSL, channelType.getCode(), request.getCatalogType(), getId(request)));
         Map<String, Object> map = request.getMap();
         String data = JSONUtil.toJSON(map);
-        DSL.append(data);
-        DSL.append(" \n\r");
-        return DSL.toString();
+        dsl.append(data);
+        dsl.append(" \n");
+        return dsl.toString();
     }
 
     private String getId(DataRequest request) {
@@ -146,7 +164,9 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
 
     /**
      * 分析返回数据,判断是否成功执行
+     *
      * @param response
+     *
      * @return
      */
     private void AnalyzeResponse(Response response) {
@@ -154,15 +174,13 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
         try {
             String queryResult = EntityUtils.toString(httpEntityRes);
             Gson gson = new Gson();
-            ElasticSearchResponseVO vo = gson.fromJson(queryResult,ElasticSearchResponseVO.class);
-            if(vo.isErrors()){
+            ElasticSearchResponseVO vo = gson.fromJson(queryResult, ElasticSearchResponseVO.class);
+            if (vo.isErrors()) {
                 getErrorInstance(vo);
-            }else{
+            } else {
                 logger.debug("成功发送");
             }
-        } catch (ParseException e) {
-            logger.error("", e);
-        } catch (IOException e) {
+        } catch (ParseException | IOException e) {
             logger.error("", e);
         }
     }
@@ -170,15 +188,13 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
     /**
      * 找到错误的执行实例
      */
-    private void getErrorInstance(ElasticSearchResponseVO vo){
-        for(Map<String,InstanceDTO> instances:vo.getItems()){
-            for(String key:instances.keySet()){
+    private void getErrorInstance(ElasticSearchResponseVO vo) {
+        for (Map<String, InstanceDTO> instances : vo.getItems()) {
+            for (String key : instances.keySet()) {
                 InstanceDTO instance = instances.get(key);
-                logger.error(MessageFormat.format("{0}操作执行失败,失败原因为{1}",key,instance.getError()));
+                logger.error(MessageFormat.format("{0}操作执行失败,失败原因为{1}", key, instance.getError()));
             }
         }
     }
-
-
 
 }

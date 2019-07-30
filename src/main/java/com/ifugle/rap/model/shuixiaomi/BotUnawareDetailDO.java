@@ -28,6 +28,10 @@ public class BotUnawareDetailDO {
     private Date creationDate;
     private Date modificationDate;
     private Long deptId;
+    /***
+     * 判断是新增还是更新
+     */
+    private boolean isNew;
 
     public Long getDeptId() {
         return deptId;
@@ -233,5 +237,13 @@ public class BotUnawareDetailDO {
                 + '\'' + ", handler='" + handler + '\'' + ", handleDate=" + handleDate
                 + ", remark='" + remark + '\'' + ", creationDate=" + creationDate
                 + ", modificationDate=" + modificationDate + ", deptId='" + deptId + '\'' + '}';
+    }
+
+    /***
+     * 返回true，修改时间大于创建时间；反之返回false
+     * @return
+     */
+    public boolean isNew() {
+        return modificationDate.compareTo(creationDate) > 0 ? true : false;
     }
 }

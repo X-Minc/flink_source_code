@@ -80,4 +80,6 @@ public class ChangedPropertyData implements Serializable {
     public ChangedPropertyData(List<Long> ids) {
         this.ids = Collections.unmodifiableList(ids);
     }
+    public ChangedPropertyData() {
+    }
 }

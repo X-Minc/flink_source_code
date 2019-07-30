@@ -22,11 +22,12 @@
         <result column="STATUS" jdbcType="BIGINT" property="status"/>
         <result column="DURATION" jdbcType="INTEGER" property="duration"/>
         <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate"/>
+        <result column="MODIFICATION_DATE" property="modificationDate" jdbcType="TIMESTAMP"/>
     </resultMap>
     <sql id="Base_Column_List">
     ID, NODE_ID, REQUEST_ID, RESPONSE_MESSAGE_ID, ORG_ID, SERVER_ID, FILE_NAME, FILE_TYPE, 
     FILE_SIZE, RECOGNITION_ID, RECOGNITION_TEXT, CORRECTION_TEXT, CORRECTION_DATE, OSS_KEY, 
-    MEDIA_ID, MEDIA_TYPE, MEDIA_SOURCE, STATUS, DURATION, CREATION_DATE
+    MEDIA_ID, MEDIA_TYPE, MEDIA_SOURCE, STATUS, DURATION, CREATION_DATE, MODIFICATION_DATE
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -44,14 +45,14 @@
       FILE_NAME, FILE_TYPE, FILE_SIZE, 
       RECOGNITION_ID, RECOGNITION_TEXT, CORRECTION_TEXT, 
       CORRECTION_DATE, OSS_KEY, MEDIA_ID, 
-      MEDIA_TYPE, DURATION, CREATION_DATE
+      MEDIA_TYPE, DURATION, CREATION_DATE, MODIFICATION_DATE
       )
     values (#{id,jdbcType=BIGINT}, #{nodeId,jdbcType=INTEGER}, #{requestId,jdbcType=BIGINT}, 
       #{responseMessageId,jdbcType=BIGINT}, #{orgId,jdbcType=BIGINT}, #{serverId,jdbcType=BIGINT}, 
       #{fileName,jdbcType=VARCHAR}, #{fileType,jdbcType=TINYINT}, #{fileSize,jdbcType=BIGINT}, 
       #{recognitionId,jdbcType=VARCHAR}, #{recognitionText,jdbcType=VARCHAR}, #{correctionText,jdbcType=VARCHAR}, 
       #{correctionDate,jdbcType=TIMESTAMP}, #{ossKey,jdbcType=VARCHAR}, #{mediaId,jdbcType=VARCHAR}, 
-      #{mediaType,jdbcType=TINYINT}, #{duration,jdbcType=INTEGER}, #{creationDate,jdbcType=TIMESTAMP}
+      #{mediaType,jdbcType=TINYINT}, #{duration,jdbcType=INTEGER}, #{creationDate,jdbcType=TIMESTAMP}, #{modificationDate,jdbcType=TIMESTAMP}
       )
   </insert>
     <insert id="insertSelective" parameterType="com.ifugle.rap.model.shuixiaomi.BotMediaDO">
