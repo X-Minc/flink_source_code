@@ -573,6 +573,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_QUESTION_ARTICLE");
         CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_READING");
         CommonUtils.writeLocalTimeFile(new Date().toString(), "YHZX_XNZZ_NSR");
+        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_OUTBOUND_TASK_DETAIL");
         logger.info("init data localhost file end");
     }
 }
