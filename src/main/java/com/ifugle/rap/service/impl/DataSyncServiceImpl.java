@@ -158,33 +158,33 @@ public class DataSyncServiceImpl implements DataSyncService {
      */
     @Override
     public void dataSyncInsertIncrementData() {
-//        /***
-//         * 税小蜜同步操作
-//         */
-//        insertBotUnawareDetailForSync();
-//        insertBotTrackDetailForSync();
-//        insertBotChatResponseMessageForSync();
-//        insertKbsQuestionArticleForSync();
-//        insertKbsQuestionForSync();
-//        insertKbsArticleForSync();
-//        insertKbsReadingForSync();
-//        insertKbsKeywordForSync();
-//        insertBotMediaForSync();
-//        insertBotBizDataForSync();  //特别注意存在加解密的问题，容易引起线程阻塞
-//        insertBotConfigServerForSync();
+        /***
+         * 税小蜜同步操作
+         */
+        insertBotUnawareDetailForSync();
+        insertBotTrackDetailForSync();
+        insertBotChatResponseMessageForSync();
+        insertKbsQuestionArticleForSync();
+        insertKbsQuestionForSync();
+        insertKbsArticleForSync();
+        insertKbsReadingForSync();
+        insertKbsKeywordForSync();
+        insertBotMediaForSync();
+        insertBotBizDataForSync();  //特别注意存在加解密的问题，容易引起线程阻塞
+        insertBotConfigServerForSync();
         insertBotOutoundTaskDetailForSync();
-//        /***
-//         *  智慧财税导入
-//         */
-//        if (Boolean.valueOf(System.getProperty(SystemConstants.ZHCS_ON))) {
-//            insertZxArticleForSync();
-//        }
-//        /***
-//         *  丁税宝导入
-//         */
-//        if (Boolean.valueOf(System.getProperty(SystemConstants.DSB_ON))) {
-//            insertYhzxXnzzNsrForSync();
-//        }
+        /***
+         *  智慧财税导入
+         */
+        if (Boolean.valueOf(System.getProperty(SystemConstants.ZHCS_ON))) {
+            insertZxArticleForSync();
+        }
+        /***
+         *  丁税宝导入
+         */
+        if (Boolean.valueOf(System.getProperty(SystemConstants.DSB_ON))) {
+            insertYhzxXnzzNsrForSync();
+        }
 
     }
 
@@ -200,6 +200,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     private void insertBotUnawareDetailForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_UNAWARE_DETAIL");
         if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertBotUnawareDetailForSync lastCreateTime is null");
             return;
         }
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
@@ -225,6 +226,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     private void insertKbsQuestionArticleForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("KBS_QUESTION_ARTICLE");
         if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertKbsQuestionArticleForSync lastCreateTime is null");
             return;
         }
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
@@ -250,6 +252,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     private void insertBotTrackDetailForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_TRACK_DETAIL");
         if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertBotTrackDetailForSync lastCreateTime is null");
             return;
         }
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
@@ -276,6 +279,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     private void insertBotChatResponseMessageForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_CHAT_RESPONSE_MESSAGE");
         if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertBotChatResponseMessageForSync lastCreateTime is null");
             return;
         }
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
@@ -301,6 +305,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     private void insertKbsQuestionForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("KBS_QUESTION");
         if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertKbsQuestionForSync lastCreateTime is null");
             return;
         }
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
@@ -322,6 +327,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     private void insertBotBizDataForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_BIZ_DATA");
         if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertBotBizDataForSync lastCreateTime is null");
             return;
         }
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
@@ -346,6 +352,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     private void insertBotConfigServerForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_CONFIG_SERVER");
         if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertBotConfigServerForSync lastCreateTime is null");
             return;
         }
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
@@ -370,6 +377,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     private void insertZxArticleForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("ZX_ARTICLE");
         if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertZxArticleForSync lastCreateTime is null");
             return;
         }
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
@@ -390,6 +398,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     private void insertYhzxXnzzNsrForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("YHZX_XNZZ_NSR");
         if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertYhzxXnzzNsrForSync lastCreateTime is null");
             return;
         }
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
@@ -411,6 +420,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     private void insertKbsArticleForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("KBS_ARTICLE");
         if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertKbsArticleForSync lastCreateTime is null");
             return;
         }
         int pageIndex = 1;
@@ -436,6 +446,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     private void insertKbsReadingForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("KBS_READING");
         if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertKbsReadingForSync lastCreateTime is null");
             return;
         }
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
@@ -461,6 +472,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     private void insertKbsKeywordForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("KBS_KEYWORD");
         if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertKbsKeywordForSync lastCreateTime is null");
             return;
         }
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
@@ -486,6 +498,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     private void insertYhzxxnzzcyForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("yhzx_xnzz_cy");
         if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertYhzxxnzzcyForSync lastCreateTime is null");
             return;
         }
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
@@ -503,6 +516,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     private void insertBotMediaForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_MEDIA");
         if (!StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertBotMediaForSync lastCreateTime is null");
             return;
         }
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
@@ -524,6 +538,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     private void insertBotOutoundTaskDetailForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_OUTBOUND_TASK_DETAIL");
         if (!StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertBotOutoundTaskDetailForSync lastCreateTime is null");
             return;
         }
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
@@ -544,6 +559,7 @@ public class DataSyncServiceImpl implements DataSyncService {
 
     @Override
     public void initLocalTime() {
+        logger.info("init data localhost file start");
         CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_BIZ_DATA");
         CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_CHAT_RESPONSE_MESSAGE");
         CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_CONFIG_SERVER");
@@ -557,5 +573,6 @@ public class DataSyncServiceImpl implements DataSyncService {
         CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_QUESTION_ARTICLE");
         CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_READING");
         CommonUtils.writeLocalTimeFile(new Date().toString(), "YHZX_XNZZ_NSR");
+        logger.info("init data localhost file end");
     }
 }

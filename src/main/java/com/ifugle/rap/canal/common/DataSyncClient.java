@@ -29,9 +29,10 @@ public class DataSyncClient {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("[DataSyncClient] execute sync ... ");
         }
-
+        int i=0;
         while (true) {
             try {
+                LOGGER.error("Thread excute sync data start i= "+i);
                 Thread.sleep(10000);
                 //从文件读取初始化运行状态，判断是否已经执行过数据初始化全量更新
                 // 处理不断增加的数据的线程；初始化后的添加数据同步过来，该线程不存在问题。处理正常
@@ -39,7 +40,7 @@ public class DataSyncClient {
             } catch (Exception e) {
                 LOGGER.error("Thread excute sync data error e = ", e);
             }
-
+        i++;
         }
     }
 
