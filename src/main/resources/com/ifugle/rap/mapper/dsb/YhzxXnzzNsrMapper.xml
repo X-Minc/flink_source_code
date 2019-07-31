@@ -474,7 +474,7 @@
     select
     <include refid="Base_Column_List" />
     from yhzx_xnzz_nsr
-    where xgsj > #{lastCreateTime}  LIMIT ${first},${pageSize}
+    where xgsj > #{lastCreateTime} order by xgsj LIMIT ${first},${pageSize}
   </select>
 
   <select id="selectYhzxXnzzNsrForUpdateWithoutLastUpdateTime" resultMap="BaseResultMap">
