@@ -162,7 +162,7 @@ public class DataSyncServiceImpl implements DataSyncService {
          * 税小蜜同步操作
          */
         insertBotUnawareDetailForSync();
-        insertBotTrackDetailForSync();
+        //insertBotTrackDetailForSync();
         insertBotChatResponseMessageForSync();
         insertKbsQuestionArticleForSync();
         insertKbsQuestionForSync();
