@@ -408,7 +408,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         List<YhzxXnzzNsr> yhzxXnzzNsrs = yhzxXnzzNsrMapper.selectYhzxXnzzNsrForSync(lastCreateTime, first, pageSize);
         if (!CollectionUtils.isEmpty(yhzxXnzzNsrs)) {
             syncService.insertYhzxXnzzNsrAndCheckListSize(yhzxXnzzNsrs, pageSize);
-            Date createDate = yhzxXnzzNsrs.get(yhzxXnzzNsrs.size() - 1).getCjsj();
+            Date createDate = yhzxXnzzNsrs.get(yhzxXnzzNsrs.size() - 1).getXgsj();
             CommonUtils.writeLocalTimeFile(createDate.toString(), "YHZX_XNZZ_NSR");
         }
     }
