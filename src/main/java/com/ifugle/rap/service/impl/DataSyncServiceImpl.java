@@ -162,7 +162,7 @@ public class DataSyncServiceImpl implements DataSyncService {
          * 税小蜜同步操作
          */
         insertBotUnawareDetailForSync();
-        //insertBotTrackDetailForSync();
+        insertBotTrackDetailForSync();
         insertBotChatResponseMessageForSync();
         insertKbsQuestionArticleForSync();
         insertKbsQuestionForSync();
@@ -404,12 +404,17 @@ public class DataSyncServiceImpl implements DataSyncService {
         lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("YhzxXnzzNsr lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
-        Integer first = (pageIndex - 1) * pageSize;
-        List<YhzxXnzzNsr> yhzxXnzzNsrs = yhzxXnzzNsrMapper.selectYhzxXnzzNsrForSync(lastCreateTime, first, pageSize);
-        if (!CollectionUtils.isEmpty(yhzxXnzzNsrs)) {
-            syncService.insertYhzxXnzzNsrAndCheckListSize(yhzxXnzzNsrs, pageSize);
-            Date createDate = yhzxXnzzNsrs.get(yhzxXnzzNsrs.size() - 1).getXgsj();
-            CommonUtils.writeLocalTimeFile(createDate.toString(), "YHZX_XNZZ_NSR");
+        while(true) {
+            Integer first = (pageIndex - 1) * pageSize;
+            List<YhzxXnzzNsr> yhzxXnzzNsrs = yhzxXnzzNsrMapper.selectYhzxXnzzNsrForSync(lastCreateTime, first, pageSize);
+            if (!CollectionUtils.isEmpty(yhzxXnzzNsrs)) {
+                syncService.insertYhzxXnzzNsrAndCheckListSize(yhzxXnzzNsrs, pageSize);
+                Date createDate = yhzxXnzzNsrs.get(yhzxXnzzNsrs.size() - 1).getXgsj();
+                CommonUtils.writeLocalTimeFile(createDate.toString(), "YHZX_XNZZ_NSR");
+            }else{
+                break;
+            }
+            pageIndex++;
         }
     }
 
