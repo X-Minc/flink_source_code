@@ -245,7 +245,7 @@ public class SyncServiceImpl implements SyncService {
         List<String> messages = new ArrayList<>();
         for (KbsQuestionDO kbsQuestionDO : kbsQuestionDOS) {
             DataRequest request = compriseUtils.kbsQuestionCompriseDataRequest(kbsQuestionDO);
-            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.KBS_QUESTION, request));
             messages.add(String.valueOf(kbsQuestionDO.getId()));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());

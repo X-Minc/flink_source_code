@@ -19,4 +19,9 @@ public class SystemConstants {
      * 开启丁税宝同步
      */
     public final static String DSB_ON = "dsb.on";
+
+    /***
+     * 为了支持6.0以后 版本创建的doc
+     */
+    public final static String DEFAULT_TYPE = "doc";
 }

@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.reflect.TypeToken;
+import com.ifugle.rap.constants.SystemConstants;
 import com.ifugle.rap.elasticsearch.model.DataRequest;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
@@ -369,7 +370,7 @@ public class CompriseUtils {
 
     public DataRequest kbsQuestionCompriseDataRequest(KbsQuestionDO kbsQuestionDO) {
         DataRequest request = new DataRequest();
-        request.setCatalogType(TablesEnum.KBS_QUESTION.getTableName());
+        request.setCatalogType(SystemConstants.DEFAULT_TYPE);
         Map<String, Object> hashMap = new HashMap<>(32);
         hashMap.put("ID", kbsQuestionDO.getId());
         hashMap.put("QUESTION", kbsQuestionDO.getQuestion());
