@@ -15,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.ifugle.rap.elasticsearch.enums.ChannelType;
 import com.ifugle.rap.elasticsearch.model.DataRequest;
@@ -74,11 +76,24 @@ public class MessageConsumer extends Thread {
         List<Long> list = changedPropertyData.getIds();
         StringBuilder dsl = new StringBuilder(256);
         String docName =changedPropertyData.getDocName();
+        //执行到5.0之前的索引库
         for (Long id: list ) {
             DataRequest request = compriseDataRequest(id, changedPropertyData.getProperties(), TablesEnum.TABLES.get(docName.toLowerCase()));
             logger.debug(MessageFormat.format("转化DataRequest成功,{0}", request));
             ChannelType channelType = TablesEnum.TABLE_CHANNEL.get(docName.toLowerCase());
             dsl.append(formatUpdateDSL(channelType, request));
+        }
+        if (dsl.length() > 0) {
+            logger.debug(String.format("订阅服务发送ES信息，%s", dsl.toString()));
+            elasticSearchBusinessService.bulkOperation(dsl.toString());
+        }
+
+        //执行到6.0模式下的新的索引库
+        logger.info("6.0 request data is data="+ message);
+        for (Long id: list ) {
+            DataRequest request = compriseDataRequestByCode(id, changedPropertyData.getProperties(),docName);
+            logger.debug(MessageFormat.format("转化DataRequest成功,{0}", request));
+            dsl.append(formatUpdateDSL(ChannelType.getByCode(docName.toLowerCase()), request));
         }
         if (dsl.length() > 0) {
             logger.debug(String.format("订阅服务发送ES信息，%s", dsl.toString()));
@@ -106,6 +121,25 @@ public class MessageConsumer extends Thread {
         return request;
     }
 
+    /***
+     * 构建请求request
+     * @param id
+     * @param attrs
+     * @param type
+     * @return
+     */
+    public static DataRequest compriseDataRequestByCode(Long id, Map<String, Object> attrs, String type) {
+        DataRequest request = new DataRequest();
+        request.setCatalogType(type);
+        Map<String, Object> hashMap = new HashMap<>(16);
+        hashMap.put("ID", id);
+        for (String key : attrs.keySet()) {
+            Object object = attrs.get(key);
+            hashMap.put(key, object);
+        }
+        request.setMap(hashMap);
+        return request;
+    }
 
     /**
      * 得到更新的DSL
