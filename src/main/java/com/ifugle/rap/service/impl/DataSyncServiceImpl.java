@@ -424,8 +424,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                  */
                 Date startDate = new Date(lastCreateTime);
                 if (modifyDate.compareTo(startDate) > 0) {
-                    lastCreateTimeDate = compriseUtils.transportData(modifyDate.toString());
-                    pageIndex = 0;
+                    break;
                 }
                 //end
                 CommonUtils.writeLocalTimeFile(modifyDate.toString(), "YHZX_XNZZ_NSR");
