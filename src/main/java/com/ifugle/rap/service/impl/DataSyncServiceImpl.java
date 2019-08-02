@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -421,6 +422,14 @@ public class DataSyncServiceImpl implements DataSyncService {
                 }
                 //end
             }else{
+                break;
+            }
+            /***
+             * 做系统保护，超过10次的循环就中断，跳过这种循环
+             */
+            if(pageIndex>10){
+                String stopTime = CommonUtils.readlocalTimeFile("YHZX_XNZZ_NSR");
+                CommonUtils.writeLocalTimeFile(TimeDelayUtils.getNextMilli(stopTime), "YHZX_XNZZ_NSR");
                 break;
             }
             pageIndex++;
