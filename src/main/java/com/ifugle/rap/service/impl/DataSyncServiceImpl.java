@@ -424,15 +424,16 @@ public class DataSyncServiceImpl implements DataSyncService {
             }else{
                 break;
             }
+            pageIndex++;
             /***
-             * 做系统保护，超过10次的循环就中断，跳过这种循环
+             * 做系统保护，超过5次的循环就中断，跳过这种循环
              */
-            if(pageIndex>10){
+            if (pageIndex >= 5) {
                 String stopTime = CommonUtils.readlocalTimeFile("YHZX_XNZZ_NSR");
                 CommonUtils.writeLocalTimeFile(TimeDelayUtils.getNextMilli(stopTime), "YHZX_XNZZ_NSR");
                 break;
             }
-            pageIndex++;
+
         }
     }
 
