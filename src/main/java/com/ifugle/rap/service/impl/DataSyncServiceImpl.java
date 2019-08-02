@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.ifugle.rap.common.lang.util.DateUtils;
 import com.ifugle.rap.constants.SystemConstants;
 import com.ifugle.rap.mapper.BizDataMapper;
 import com.ifugle.rap.mapper.BotChatResponseMessageDOMapper;
@@ -49,6 +50,7 @@ import com.ifugle.rap.service.utils.BizListCheckUtils;
 import com.ifugle.rap.service.utils.CompriseUtils;
 import com.ifugle.rap.service.utils.TimeDelayUtils;
 import com.ifugle.rap.utils.CommonUtils;
+import com.ifugle.util.DateUtil;
 
 /**
  * @author LiuZhengyang
@@ -408,16 +410,25 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertYhzxXnzzNsrForSync lastCreateTime is null");
             return;
         }
-        lastCreateTime = compriseUtils.transportData(lastCreateTime);
+        String lastCreateTimeDate = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("YhzxXnzzNsr lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while(true) {
             Integer first = (pageIndex - 1) * pageSize;
-            List<YhzxXnzzNsr> yhzxXnzzNsrs = yhzxXnzzNsrMapper.selectYhzxXnzzNsrForSync(lastCreateTime, first, pageSize);
+            List<YhzxXnzzNsr> yhzxXnzzNsrs = yhzxXnzzNsrMapper.selectYhzxXnzzNsrForSync(lastCreateTimeDate, first, pageSize);
             if (!CollectionUtils.isEmpty(yhzxXnzzNsrs)) {
                 syncService.insertYhzxXnzzNsrAndCheckListSize(yhzxXnzzNsrs, pageSize);
-                Date createDate = yhzxXnzzNsrs.get(yhzxXnzzNsrs.size() - 1).getXgsj();
-                CommonUtils.writeLocalTimeFile(createDate.toString(), "YHZX_XNZZ_NSR");
+                Date modifyDate = yhzxXnzzNsrs.get(yhzxXnzzNsrs.size() - 1).getXgsj();
+                /***
+                 * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
+                 */
+                Date startDate = new Date(lastCreateTime);
+                if (modifyDate.compareTo(startDate) > 0) {
+                    lastCreateTimeDate = compriseUtils.transportData(modifyDate.toString());
+                    pageIndex = 0;
+                }
+                //end
+                CommonUtils.writeLocalTimeFile(modifyDate.toString(), "YHZX_XNZZ_NSR");
             }else{
                 break;
             }
@@ -618,5 +629,10 @@ public class DataSyncServiceImpl implements DataSyncService {
         CommonUtils.writeLocalTimeFile(new Date().toString(), "YHZX_XNZZ_NSR");
         CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_OUTBOUND_TASK_DETAIL");
         logger.info("init data localhost file end");
+    }
+
+    public static void main(String[] args) throws  Exception{
+        Date startDate = new Date(CommonUtils.readlocalTimeFile("YHZX_XNZZ_NSR"));
+        System.out.println(startDate);
     }
 }
