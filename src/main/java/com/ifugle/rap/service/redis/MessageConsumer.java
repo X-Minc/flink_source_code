@@ -70,7 +70,7 @@ public class MessageConsumer extends Thread {
         }
     }
 
-    private void requestData(String message) {
+    public void requestData(String message) {
         ChangedPropertyData changedPropertyData = new Gson().fromJson(message,ChangedPropertyData.class);
         //获取要更新的id的list
         List<Long> list = changedPropertyData.getIds();
@@ -82,7 +82,7 @@ public class MessageConsumer extends Thread {
             for (Long id: list ) {
                 DataRequest request = compriseDataRequestByCode(id, changedPropertyData.getProperties(),docName);
                 logger.debug(MessageFormat.format("转化DataRequest成功,{0}", request));
-                dsl.append(formatUpdateDSL(ChannelType.getByCode(docName.toLowerCase()), request));
+                dsl.append(formatUpdateDSL(ChannelType.getByCode(changedPropertyData.getIndexName()), request));
             }
             if (dsl.length() > 0) {
                 logger.debug(String.format("订阅服务发送ES信息，%s", dsl.toString()));
