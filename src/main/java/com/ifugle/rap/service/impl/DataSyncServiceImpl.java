@@ -170,7 +170,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertBotUnawareDetailForSync lastCreateTime is null");
             return;
         }
-        lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("BotUnawareDetail last createTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while(true) {
@@ -183,7 +182,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 if (BizListCheckUtils.checkBotUnawareDetailTimeEquals(botUnawareDetailDOS)) {
                     modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
                 }
-                CommonUtils.writeLocalTimeFile(modificationDate.toString(), "BOT_UNAWARE_DETAIL");
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "BOT_UNAWARE_DETAIL");
             }else {
                 break;
             }
@@ -201,7 +200,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertKbsQuestionArticleForSync lastCreateTime is null");
             return;
         }
-        lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("KbsQuestionArticle last createTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while(true) {
@@ -215,7 +213,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 if (BizListCheckUtils.checkKbsQuestionArticleTimeEquals(kbsQuestionArticleDOS)) {
                     modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
                 }
-                CommonUtils.writeLocalTimeFile(modificationDate.toString(), "KBS_QUESTION_ARTICLE");
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_QUESTION_ARTICLE");
             }else {
                 break;
             }
@@ -233,7 +231,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertBotTrackDetailForSync lastCreateTime is null");
             return;
         }
-        lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("BotTrackDetail lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while(true) {
@@ -246,7 +243,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 if (BizListCheckUtils.checkBotTrackDetailTimeEquals(botTrackDetailDOS)) {
                     createDate = TimeDelayUtils.getNextMilliDate(createDate);
                 }
-                CommonUtils.writeLocalTimeFile(createDate.toString(), "BOT_TRACK_DETAIL");
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "BOT_TRACK_DETAIL");
             } else {
                 break;
             }
@@ -265,7 +262,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertBotChatResponseMessageForSync lastCreateTime is null");
             return;
         }
-        lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("BotChatResponseMessage lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while(true) {
@@ -279,7 +275,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 if (BizListCheckUtils.checkBotChatResponseMessageTimeEquals(botChatResponseMessageDOS)) {
                     createDate = TimeDelayUtils.getNextMilliDate(createDate);
                 }
-                CommonUtils.writeLocalTimeFile(createDate.toString(), "BOT_CHAT_RESPONSE_MESSAGE");
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "BOT_CHAT_RESPONSE_MESSAGE");
             }else{
                 break;
             }
@@ -297,7 +293,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertKbsQuestionForSync lastCreateTime is null");
             return;
         }
-        lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("KbsQuestion lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while(true) {
@@ -310,7 +305,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 if (BizListCheckUtils.checkQuestionTimeEquals(kbsQuestionDOS)) {
                     modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
                 }
-                CommonUtils.writeLocalTimeFile(modificationDate.toString(), "KBS_QUESTION");
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_QUESTION");
             }else{
                 break;
             }
@@ -324,7 +319,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertBotBizDataForSync lastCreateTime is null");
             return;
         }
-        lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("BOT_BIZ_DATA lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while(true) {
@@ -337,7 +331,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 if (BizListCheckUtils.checkBizDataTimeEquals(bizDataList)) {
                     modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
                 }
-                CommonUtils.writeLocalTimeFile(modificationDate.toString(), "BOT_BIZ_DATA");
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "BOT_BIZ_DATA");
             }else{
                 break;
             }
@@ -354,7 +348,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertBotConfigServerForSync lastCreateTime is null");
             return;
         }
-        lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info("BOT_CONFIG_SERVER lastCreateTIme : {}", lastCreateTime);
         int pageIndex = 1;
         while(true) {
@@ -367,7 +360,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 if (BizListCheckUtils.checkBotConfigServerTimeEquals(botConfigServers)) {
                     createDate = TimeDelayUtils.getNextMilliDate(createDate);
                 }
-                CommonUtils.writeLocalTimeFile(createDate.toString(), "BOT_CONFIG_SERVER");
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "BOT_CONFIG_SERVER");
             }else{
                 break;
             }
@@ -384,7 +377,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertZxArticleForSync lastCreateTime is null");
             return;
         }
-        lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("zxArticle lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while(true) {
@@ -393,7 +385,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             if (!CollectionUtils.isEmpty(zxArticles)) {
                 syncService.insertZxArticleAndCheckListSize(zxArticles, pageSize);
                 Date createDate = zxArticles.get(zxArticles.size() - 1).getCreationDate();
-                CommonUtils.writeLocalTimeFile(createDate.toString(), "ZX_ARTICLE");
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "ZX_ARTICLE");
             }else{
                 break;
             }
@@ -410,26 +402,24 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertYhzxXnzzNsrForSync lastCreateTime is null");
             return;
         }
-        String lastCreateTimeDate = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("YhzxXnzzNsr lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while(true) {
             Integer first = (pageIndex - 1) * pageSize;
-            List<YhzxXnzzNsr> yhzxXnzzNsrs = yhzxXnzzNsrMapper.selectYhzxXnzzNsrForSync(lastCreateTimeDate, first, pageSize);
+            List<YhzxXnzzNsr> yhzxXnzzNsrs = yhzxXnzzNsrMapper.selectYhzxXnzzNsrForSync(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(yhzxXnzzNsrs)) {
                 syncService.insertYhzxXnzzNsrAndCheckListSize(yhzxXnzzNsrs, pageSize);
                 Date modifyDate = yhzxXnzzNsrs.get(yhzxXnzzNsrs.size() - 1).getXgsj();
                 //注意该本地时间一定要在break之前写入。
-                CommonUtils.writeLocalTimeFile(modifyDate.toString(), "YHZX_XNZZ_NSR");
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modifyDate), "YHZX_XNZZ_NSR");
                 /***
                  * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
                  */
-                Date startDate = new Date(lastCreateTime);
-                if (modifyDate.compareTo(startDate) > 0) {
+                Date startDate = DateUtils.string2Date(lastCreateTime,DateUtils.simple);
+                if (modifyDate.compareTo(startDate) > 0 || yhzxXnzzNsrs.size() < pageSize) {
                     break;
                 }
                 //end
-
             }else{
                 break;
             }
@@ -449,7 +439,6 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         int pageIndex = 1;
         while(true) {
-            lastCreateTime = compriseUtils.transportData(lastCreateTime);
             logger.info(MessageFormat.format("KbsArticle lastCreateTime : {0}", lastCreateTime));
             Integer first = (pageIndex - 1) * pageSize;
             List<KbsArticleDOWithBLOBs> kbsArticleDOS = kbsArticleDOMapper.selectKbsArticleForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
@@ -460,7 +449,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 if (BizListCheckUtils.checkArticleTimeEquals(kbsArticleDOS)) {
                     modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
                 }
-                CommonUtils.writeLocalTimeFile(modificationDate.toString(), "KBS_ARTICLE");
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_ARTICLE");
             }else{
                 break;
             }
@@ -478,7 +467,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertKbsReadingForSync lastCreateTime is null");
             return;
         }
-        lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("KbsReading lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while(true) {
@@ -491,7 +479,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 if (BizListCheckUtils.checkKbsReadingTimeEquals(kbsReadingDOS)) {
                     modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
                 }
-                CommonUtils.writeLocalTimeFile(modificationDate.toString(), "KBS_READING");
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_READING");
             } else {
                 break;
             }
@@ -509,7 +497,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertKbsKeywordForSync lastCreateTime is null");
             return;
         }
-        lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("KbsKeyword lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while(true) {
@@ -522,7 +509,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 if (BizListCheckUtils.checkKbsKeywordTimeEquals(kbsKeywordDOS)) {
                     modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
                 }
-                CommonUtils.writeLocalTimeFile(modificationDate.toString(), "KBS_KEYWORD");
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_KEYWORD");
             }else {
                 break;
             }
@@ -540,7 +527,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertYhzxxnzzcyForSync lastCreateTime is null");
             return;
         }
-        lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("yhzx_xnzz_cy lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while(true) {
@@ -549,7 +535,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             if (!CollectionUtils.isEmpty(yhzxxnzzcyDOs)) {
                 syncService.insertYhzxxnzzcyAndCheckListSize(yhzxxnzzcyDOs, pageSize);
                 Date createDate = yhzxxnzzcyDOs.get(yhzxxnzzcyDOs.size() - 1).getCjsj();
-                CommonUtils.writeLocalTimeFile(createDate.toString(), "yhzx_xnzz_cy");
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "yhzx_xnzz_cy");
             }else {
                 break;
             }
@@ -563,7 +549,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertBotMediaForSync lastCreateTime is null");
             return;
         }
-        lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("BotMedia lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while(true) {
@@ -576,7 +561,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 if (BizListCheckUtils.checkBotMediaTimeEquals(botMediaDOS)) {
                     createTime = TimeDelayUtils.getNextMilliDate(createTime);
                 }
-                CommonUtils.writeLocalTimeFile(createTime.toString(), "BOT_MEDIA");
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createTime), "BOT_MEDIA");
             }else {
                 break;
             }
@@ -590,7 +575,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertBotOutoundTaskDetailForSync lastCreateTime is null");
             return;
         }
-        lastCreateTime = compriseUtils.transportData(lastCreateTime);
         logger.info(MessageFormat.format("BotMedia lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while(true) {
@@ -604,7 +588,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 if (BizListCheckUtils.checkBotOutoundTaskDetailEquals(botOutoundTaskDetailWithBLOBs)) {
                     createTime = TimeDelayUtils.getNextMilliDate(createTime);
                 }
-                CommonUtils.writeLocalTimeFile(createTime.toString(), "BOT_OUTBOUND_TASK_DETAIL");
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createTime), "BOT_OUTBOUND_TASK_DETAIL");
             }else {
                 break;
             }
@@ -615,25 +599,25 @@ public class DataSyncServiceImpl implements DataSyncService {
     @Override
     public void initLocalTime() {
         logger.info("init data localhost file start");
-        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_BIZ_DATA");
-        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_CHAT_RESPONSE_MESSAGE");
-        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_CONFIG_SERVER");
-        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_MEDIA");
-        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_TAG");
-        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_TRACK_DETAIL");
-        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_UNAWARE_DETAIL");
-        CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_ARTICLE");
-        CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_KEYWORD");
-        CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_QUESTION");
-        CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_QUESTION_ARTICLE");
-        CommonUtils.writeLocalTimeFile(new Date().toString(), "KBS_READING");
-        CommonUtils.writeLocalTimeFile(new Date().toString(), "YHZX_XNZZ_NSR");
-        CommonUtils.writeLocalTimeFile(new Date().toString(), "BOT_OUTBOUND_TASK_DETAIL");
+        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_BIZ_DATA");
+        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_CHAT_RESPONSE_MESSAGE");
+        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_CONFIG_SERVER");
+        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_MEDIA");
+        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_TAG");
+        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_TRACK_DETAIL");
+        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_UNAWARE_DETAIL");
+        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_ARTICLE");
+        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_KEYWORD");
+        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_QUESTION");
+        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_QUESTION_ARTICLE");
+        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_READING");
+        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "YHZX_XNZZ_NSR");
+        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_OUTBOUND_TASK_DETAIL");
         logger.info("init data localhost file end");
     }
 
     public static void main(String[] args) throws  Exception{
-        Date startDate = new Date(CommonUtils.readlocalTimeFile("YHZX_XNZZ_NSR"));
+        Date startDate = DateUtils.strToDtSimpleFormat("Fri Aug 02 14:37:41 CST 2019");
         System.out.println(startDate);
     }
 }
