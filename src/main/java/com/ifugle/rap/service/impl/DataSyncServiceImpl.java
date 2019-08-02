@@ -419,6 +419,8 @@ public class DataSyncServiceImpl implements DataSyncService {
             if (!CollectionUtils.isEmpty(yhzxXnzzNsrs)) {
                 syncService.insertYhzxXnzzNsrAndCheckListSize(yhzxXnzzNsrs, pageSize);
                 Date modifyDate = yhzxXnzzNsrs.get(yhzxXnzzNsrs.size() - 1).getXgsj();
+                //注意该本地时间一定要在break之前写入。
+                CommonUtils.writeLocalTimeFile(modifyDate.toString(), "YHZX_XNZZ_NSR");
                 /***
                  * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
                  */
@@ -427,7 +429,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                     break;
                 }
                 //end
-                CommonUtils.writeLocalTimeFile(modifyDate.toString(), "YHZX_XNZZ_NSR");
+
             }else{
                 break;
             }
