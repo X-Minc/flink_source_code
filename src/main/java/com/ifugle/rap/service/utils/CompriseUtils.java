@@ -383,7 +383,7 @@ public class CompriseUtils {
         hashMap.put("SYNONYMS", kbsQuestionDO.getSynonyms());
         hashMap.put("ANSWER", kbsQuestionDO.getAnswer());
         hashMap.put("REMARK", kbsQuestionDO.getRemark());
-        hashMap.put("KBS_QUESTION_STATUS", kbsQuestionDO.getStatus());
+        hashMap.put("STATUS", kbsQuestionDO.getStatus());
         hashMap.put("VALID_DATE", kbsQuestionDO.getValidDate() == null ? null : getLongData(kbsQuestionDO.getValidDate()));
         hashMap.put("INVALID_DATE", kbsQuestionDO.getInvalidDate() == null ? null : getLongData(kbsQuestionDO.getInvalidDate()));
         hashMap.put("INVALID_REASON", kbsQuestionDO.getInvalidReason());
