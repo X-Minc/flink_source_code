@@ -65,7 +65,7 @@ else
 	JAVA_OPTS="-server -Xms1024m -Xmx1024m -XX:NewSize=256m -XX:MaxNewSize=256m -XX:MaxPermSize=128m "
 fi
 if [ "$YAML_ENV" == "" ]; then
-    YAML_ENV="-Ddsb.on=true -Drap.redis.server=192.168.19.4:6379 -Drap.redis.auth.password=CQC7RxN3ND0zhjwMUBXvtwvNSiQFgnq1 -Drap.config.datasource=false -Drap.mvc.config=false -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dfile.encoding=UTF-8 -Drap.es.url=es-cn-v0h0m1w6e0003cjlw.elasticsearch.aliyuncs.com:9200 -Drap.es.username=elastic -Drap.es.password=JB%3nozMCSAdgC3h"
+    YAML_ENV=" -Drap.profile=production -Ddsb.on=true -Drap.redis.server=192.168.19.4:6379 -Drap.redis.auth.password=CQC7RxN3ND0zhjwMUBXvtwvNSiQFgnq1 -Drap.config.datasource=false -Drap.mvc.config=false -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dfile.encoding=UTF-8 -Drap.es.url=es-cn-v0h0m1w6e0003cjlw.elasticsearch.aliyuncs.com:9200 -Drap.es.username=elastic -Drap.es.password=JB%3nozMCSAdgC3h"
 fi
 JAVA_OPTS="$JAVA_OPTS $YAML_ENV"
 CANAL_OPTS="-DappName=otter-canal-example -Dlogback.configurationFile=$logback_configurationFile"
