@@ -40,7 +40,7 @@ public class DalConfig {
     Resource mybatisMapperConfig;
 
     @Autowired
-    DataSource dataSource;
+    DataSource dataSourceBot;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
@@ -128,7 +128,7 @@ public class DalConfig {
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         final SqlSessionFactoryBean fb = new SqlSessionFactoryBean();
         fb.setConfigLocation(mybatisMapperConfig);
-        fb.setDataSource(dataSource);
+        fb.setDataSource(dataSourceBot);
         fb.setTypeAliases(new Class<?>[] {});
         return fb.getObject();
     }

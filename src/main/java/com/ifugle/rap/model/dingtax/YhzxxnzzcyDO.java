@@ -2,7 +2,9 @@ package com.ifugle.rap.model.dingtax;
 
 import java.util.Date;
 
-public class YhzxxnzzcyDO {
+import com.ifugle.rap.core.model.impl.EnhanceModel;
+
+public class YhzxxnzzcyDO extends EnhanceModel<Long> {
     private Long id;
 
     private Long xnzzId;

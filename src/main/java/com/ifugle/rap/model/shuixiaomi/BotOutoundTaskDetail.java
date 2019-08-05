@@ -2,7 +2,9 @@ package com.ifugle.rap.model.shuixiaomi;
 
 import java.util.Date;
 
-public class BotOutoundTaskDetail {
+import com.ifugle.rap.core.model.impl.EnhanceModel;
+
+public class BotOutoundTaskDetail extends EnhanceModel<Long> {
     private Long id;
 
     private Integer nodeId;

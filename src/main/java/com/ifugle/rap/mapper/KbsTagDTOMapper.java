@@ -4,17 +4,20 @@
 package com.ifugle.rap.mapper;
 
 import java.util.List;
+
+import com.ifugle.rap.core.mapper.BaseMapper;
+import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 import com.ifugle.rap.model.shuixiaomi.dto.KbsTagDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author LiuZhengyang
  * @version $Id: KbsTagDTOMapper.java 84708 2018-11-09 08:12:37Z HuangLei $
  * @since 2018年10月15日 14:12
  */
-@Component
-public interface KbsTagDTOMapper {
+public interface KbsTagDTOMapper  extends BaseMapper<KbsTagDTO, Long> {
 
     /**
      * 数据初始化同步时,查出KBS_TAG里面的标签

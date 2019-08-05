@@ -1,23 +1,18 @@
 package com.ifugle.rap.mapper;
 
-
-import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.ifugle.rap.core.mapper.BaseMapper;
+import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 
 /**
  * @auther: Liuzhengyang
  */
-@Component
-public interface BotChatResponseMessageDOMapper {
+public interface BotChatResponseMessageDOMapper  extends BaseMapper<BotChatResponseMessageDO, Long> {
 
     int deleteByPrimaryKey(Long id);
-
-    int insert(BotChatResponseMessageDO record);
-
-    int insertSelective(BotChatResponseMessageDO record);
 
     BotChatResponseMessageDO selectByPrimaryKey(Long id);
 

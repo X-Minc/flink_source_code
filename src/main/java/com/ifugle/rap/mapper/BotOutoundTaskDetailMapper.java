@@ -3,20 +3,15 @@ package com.ifugle.rap.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
 
+import com.ifugle.rap.core.mapper.BaseMapper;
 import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetail;
 import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
 
-@Component
-public interface BotOutoundTaskDetailMapper {
+public interface BotOutoundTaskDetailMapper  extends BaseMapper<BotOutoundTaskDetailWithBLOBs, Long> {
 
 
     int deleteByPrimaryKey(Long id);
-
-    int insert(BotOutoundTaskDetailWithBLOBs record);
-
-    int insertSelective(BotOutoundTaskDetailWithBLOBs record);
 
     BotOutoundTaskDetailWithBLOBs selectByPrimaryKey(Long id);
 
