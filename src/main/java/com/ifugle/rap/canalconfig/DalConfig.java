@@ -120,12 +120,12 @@ public class DalConfig {
     <T> MapperFactoryBean<T> newMapperFactoryBean(Class<T> clazz) throws Exception {
         final MapperFactoryBean<T> b = new MapperFactoryBean<T>();
         b.setMapperInterface(clazz);
-        b.setSqlSessionFactory(sqlSessionFactory());
+        b.setSqlSessionFactory(botSqlSessionFactory());
         return b;
     }
 
     @Bean
-    public SqlSessionFactory sqlSessionFactory() throws Exception {
+    public SqlSessionFactory botSqlSessionFactory() throws Exception {
         final SqlSessionFactoryBean fb = new SqlSessionFactoryBean();
         fb.setConfigLocation(mybatisMapperConfig);
         fb.setDataSource(dataSourceBot);
