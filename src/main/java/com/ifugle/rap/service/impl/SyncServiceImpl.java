@@ -36,6 +36,7 @@ import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
 import com.ifugle.rap.model.shuixiaomi.KbsReadingDOWithBLOBs;
 import com.ifugle.rap.model.zhcs.ZxArticle;
 import com.ifugle.rap.security.crypto.CryptBase36;
+import com.ifugle.rap.security.crypto.CryptNumber;
 import com.ifugle.rap.security.crypto.CryptSimple;
 import com.ifugle.rap.service.SyncService;
 import com.ifugle.rap.service.redis.ParseConstant;
@@ -387,17 +388,17 @@ public class SyncServiceImpl implements SyncService {
     public boolean insertBotOutBoundTaskDetailAndCheckListSize(List<BotOutoundTaskDetailWithBLOBs> botOutoundTaskDetails, Integer pageSize) {
         logger.info("[SyncServiceImpl] start export table BotOutoundTaskDetail to es .... ");
         StringBuffer DSL = new StringBuffer(32);
-        CryptSimple cryptSimple = new CryptSimple();
+        CryptSimple cryptSimple = new CryptSimple(CryptSimple.MAX_SEARCH_SIZE_4096);
         if (StringUtils.equalsIgnoreCase(env, "prod")) {
             DecodeUtils.initCryptSimpleProd(cryptSimple);
         }
 
-        CryptBase36 cryptBase36 = new CryptBase36();
+        CryptNumber cryptNumber = new CryptNumber();
         if (StringUtils.equalsIgnoreCase(env, "prod")) {
-            DecodeUtils.initCryptBase36(cryptBase36);
+            DecodeUtils.initCryptNumber(cryptNumber);
         }
         for (BotOutoundTaskDetailWithBLOBs botOutoundTaskDetail : botOutoundTaskDetails) {
-            DataRequest request = compriseUtils.botOutoundTaskDetailCompriseDataRequest(botOutoundTaskDetail, cryptSimple, cryptBase36);
+            DataRequest request = compriseUtils.botOutoundTaskDetailCompriseDataRequest(botOutoundTaskDetail, cryptSimple, cryptNumber);
             DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
         }
         elasticSearchBusinessService.bulkOperation(DSL.toString());

@@ -40,6 +40,7 @@ import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
 import com.ifugle.rap.model.shuixiaomi.KbsReadingDOWithBLOBs;
 import com.ifugle.rap.model.zhcs.ZxArticle;
 import com.ifugle.rap.security.crypto.CryptBase36;
+import com.ifugle.rap.security.crypto.CryptNumber;
 import com.ifugle.rap.security.crypto.CryptSimple;
 import com.ifugle.rap.security.crypto.CryptZip;
 import com.ifugle.rap.utils.DecodeUtils;
@@ -150,7 +151,7 @@ public class CompriseUtils {
         return request;
     }
 
-    public DataRequest botOutoundTaskDetailCompriseDataRequest(BotOutoundTaskDetailWithBLOBs botOutoundTaskDetail, CryptSimple cryptSimple, CryptBase36 cryptBase36) {
+    public DataRequest botOutoundTaskDetailCompriseDataRequest(BotOutoundTaskDetailWithBLOBs botOutoundTaskDetail, CryptSimple cryptSimple, CryptNumber cryptNumber) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.BOT_OUTBOUND_TASK_DETAIL.getTableName());
         Map<String, Object> hashMap = new HashMap<>(16);
@@ -161,7 +162,7 @@ public class CompriseUtils {
         hashMap.put("OUTBOUND_MESSAGE_ID", botOutoundTaskDetail.getMessageId());
         hashMap.put("DIALOGUE_ID", botOutoundTaskDetail.getDialogueId());
         hashMap.put("RECEIVER", botOutoundTaskDetail.getReceiver());
-        hashMap.put("RECEIVER_MOBILE", botOutoundTaskDetail.getReceiverMobile());
+        //hashMap.put("RECEIVER_MOBILE", botOutoundTaskDetail.getReceiverMobile());
         //        hashMap.put("CONTENT", botOutoundTaskDetail.getContent());
         //        hashMap.put("CALL_RECORD", botOutoundTaskDetail.getCallRecord());
         //        hashMap.put("CALL_RECORD_URL", botOutoundTaskDetail.getCallRecordUrl());
@@ -176,7 +177,14 @@ public class CompriseUtils {
 
         hashMap.put("OUTBOUND_STATUS", botOutoundTaskDetail.getStatus());
         hashMap.put("FEEDBACK_STATUS", botOutoundTaskDetail.getFeedbackStatus());
-        hashMap.put("QYMC", botOutoundTaskDetail.getQymc());
+        if (StringUtils.equals(env, "prod")) {
+            hashMap.put("QYMC", DecodeUtils.decodeCryptSimpleProd(botOutoundTaskDetail.getQymc(), cryptSimple));
+            hashMap.put("RECEIVER_MOBILE", DecodeUtils.deodeCryptNumberProd(botOutoundTaskDetail.getReceiverMobile(), cryptNumber));
+        } else {
+            hashMap.put("QYMC", DecodeUtils.decodeCryptSimpleTest(botOutoundTaskDetail.getQymc(), cryptSimple));
+            hashMap.put("RECEIVER_MOBILE", DecodeUtils.decodeCryptNumberTest(botOutoundTaskDetail.getReceiverMobile(), cryptNumber));
+        }
+        //hashMap.put("QYMC", botOutoundTaskDetail.getQymc());
         hashMap.put("BOT_OUTBOUND_TASK_DETAIL_SHXYDM", botOutoundTaskDetail.getShxydm());
         hashMap.put("SWSMC", botOutoundTaskDetail.getSwsmc());
         if(botOutoundTaskDetail.getSgymc()!=null) {

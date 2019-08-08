@@ -11,8 +11,7 @@
     <result column="MESSAGE_ID" jdbcType="BIGINT" property="messageId" />
     <result column="DIALOGUE_ID" jdbcType="BIGINT" property="dialogueId" />
     <result column="RECEIVER" jdbcType="VARCHAR" property="receiver" />
-    <result column="RECEIVER_MOBILE" jdbcType="VARCHAR" property="receiverMobile"
-            typeHandler="com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler" />
+    <result column="RECEIVER_MOBILE" jdbcType="VARCHAR" property="receiverMobile" /> <!-- CryptNumber 加密 -->
     <result column="CALL_RECORD_URL" jdbcType="VARCHAR" property="callRecordUrl" />
     <result column="CALL_TIME" jdbcType="TIMESTAMP" property="callTime" />
     <result column="ANSWER_TIME" jdbcType="TIMESTAMP" property="answerTime" />
@@ -22,8 +21,8 @@
     <result column="FEEDBACK_STATUS" jdbcType="TINYINT" property="feedbackStatus" />
     <result column="FEEDBACK_CONTENT" jdbcType="VARCHAR" property="feedbackContent" />
     <result column="DJXH" jdbcType="VARCHAR" property="djxh" />
-    <result column="SHXYDM" jdbcType="VARCHAR" property="shxydm" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptBase36Reverse6StringTypeHandler" />
-    <result column="QYMC" jdbcType="VARCHAR" property="qymc" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleSearchStringTypeHandler"  />
+    <result column="SHXYDM" jdbcType="VARCHAR" property="shxydm" />  <!-- CryptBase36 加密 -->
+    <result column="QYMC" jdbcType="VARCHAR" property="qymc" />  <!-- CryptSimple 加密 -->
     <result column="SWSMC" jdbcType="VARCHAR" property="swsmc" />
     <result column="SGYMC" jdbcType="VARCHAR" property="sgymc" />
     <result column="EXCEL_COLUMN" jdbcType="VARCHAR" property="excelColumn" />

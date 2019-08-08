@@ -139,6 +139,54 @@ public class DecodeUtils {
     }
 
 
+    /***
+     * 解密手机号码
+     * @param data
+     * @param cryptNumber
+     * @return
+     */
+    public static String  deodeCryptNumberProd(String data, CryptNumber cryptNumber){
+        return cryptNumber.decrypt(data);
+    }
+
+    /***
+     * 加密手机号码
+     * @param data
+     * @param cryptNumber
+     * @return
+     */
+    public static String enCodeCryptNumberProd(String data,CryptNumber cryptNumber)  {
+        return cryptNumber.encrypt(data);
+    }
+
+    /***
+     * 初始化CryptNumber
+     * @param cryptNumber
+     */
+    public static void initCryptNumber(CryptNumber cryptNumber) {
+        try {
+            /**base key*/
+            String baseKey = "IzxxW5L7UAdFl1huMCrg2TKs6+B/WeTCFCY+h2M2n5c";
+            /**field key*/
+            String fieldkey = "9q2ENkGXzQypZa/7SCpvAqHRkzzo9h2KZlVbzUils7A";
+            String key = BaseEncoding.base64().omitPadding().encode(SHA256Util.digest("2-Number-String-56"));
+            String salts = PwdUtil.getSalts(baseKey, fieldkey, key);
+            SecretKey aesKey = CipherUtil.getAESKey(salts);
+            //CryptBase62 cryptSimple = new CryptBase62(6);
+            Class<? extends CryptNumber> aClass = cryptNumber.getClass();
+            Field secretKey = aClass.getDeclaredField("secretKey");
+            secretKey.setAccessible(true);
+            Field modifiers = Field.class.getDeclaredField("modifiers");
+            modifiers.setAccessible(true);
+            modifiers.setInt(secretKey, secretKey.getModifiers() & ~Modifier.FINAL);//cancel final
+            secretKey.set(null, aesKey);
+
+        }catch(NoSuchFieldException e){
+
+        }catch (IllegalAccessException e){
+
+        }
+    }
 
     public static String decodeCryptNumberTest(String data, CryptNumber cryptNumber){
         return cryptNumber.decrypt(data);
@@ -152,8 +200,9 @@ public class DecodeUtils {
         //System.out.println(decodeCryptSimpleTest("蛿儛摔窋毖烉梔懷由苸",new CryptSimple()));
         //System.out.println(deodeCryptBase36Test("HV5XA5VXAZMDYX4",new CryptBase36()));
         //System.out.println(decodeCryptBase62Reverse6Prod("94GN4Bs3ztkM6OL",new CryptBase62(6)));
-        CryptBase36 cryptBase36 = new CryptBase36();
-        CryptSimple cryptSimple =new CryptSimple();
-        System.out.println(new CryptSimple().encrypt("锡林浩特市德牧牧民养殖专业合作社"));
+//        CryptBase36 cryptBase36 = new CryptBase36();
+        CryptSimple cryptSimple =new CryptSimple(CryptSimple.MAX_SEARCH_SIZE_4096);
+        initCryptSimpleProd(cryptSimple);
+        System.out.println(decodeCryptSimpleProd("諄錈塿潓煝俩忶祗勲副幱怎傭秜搴鼑",cryptSimple));
     }
 }
