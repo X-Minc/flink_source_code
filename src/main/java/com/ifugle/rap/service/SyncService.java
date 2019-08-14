@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
+import com.ifugle.rap.model.dsb.YhzxXnzzTpcQy;
 import com.ifugle.rap.model.shuixiaomi.BizData;
 import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
@@ -64,6 +65,10 @@ public interface SyncService {
      * 向ES中插入KbsArticle相关数据,并判断是否是最后一组List，如果是最后一组，返回true
      */
     boolean insertYhzxXnzzNsrAndCheckListSize(List<YhzxXnzzNsr> yhzxXnzzNsrs, Integer pageSize);
+
+
+
+    boolean insertYhzxXnzzTpcQyAndCheckListSize(List<YhzxXnzzTpcQy> yhzxXnzzTpcQys, Integer pageSize);
 
     /**
      * 向ES中插入BotBizData相关数据,并判断是否是最后一组List，如果是最后一组，返回true

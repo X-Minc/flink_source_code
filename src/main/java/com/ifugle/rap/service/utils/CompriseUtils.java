@@ -24,6 +24,7 @@ import com.ifugle.rap.constants.SystemConstants;
 import com.ifugle.rap.elasticsearch.model.DataRequest;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
+import com.ifugle.rap.model.dsb.YhzxXnzzTpcQy;
 import com.ifugle.rap.model.enums.TablesEnum;
 import com.ifugle.rap.model.shuixiaomi.BizData;
 import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
@@ -150,6 +151,55 @@ public class CompriseUtils {
         request.setMap(hashMap);
         return request;
     }
+    public DataRequest yhzxXnzzTpcQyCompriseDataRequest(YhzxXnzzTpcQy yhzxXnzzTpcQy, CryptSimple cryptSimple, CryptBase36 cryptBase36) {
+        DataRequest request = new DataRequest();
+        request.setCatalogType(SystemConstants.DEFAULT_TYPE);
+        Map<String, Object> hashMap = new HashMap<>(16);
+        hashMap.put("ID",yhzxXnzzTpcQy.getId());
+        hashMap.put("XNZZ_ID",yhzxXnzzTpcQy.getXnzzId());
+        hashMap.put("NSR_ID",yhzxXnzzTpcQy.getNsrId());
+        hashMap.put("DJXH",yhzxXnzzTpcQy.getDjxh());
+        hashMap.put("NSRSBH",yhzxXnzzTpcQy.getNsrsbh());
+//        hashMap.put("SHXYDM",yhzxXnzzTpcQy.getShxydm());
+//        hashMap.put("NSRMC",yhzxXnzzTpcQy.getNsrmc());
+        if (StringUtils.equals(env, "prod")) {
+            hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getNsrmc(), cryptSimple));
+            hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(yhzxXnzzTpcQy.getShxydm(), cryptBase36));
+        } else {
+            hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzTpcQy.getNsrmc(), cryptSimple));
+            hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(yhzxXnzzTpcQy.getShxydm(), cryptBase36));
+        }
+        hashMap.put("ZZHM",yhzxXnzzTpcQy.getZzhm());
+        hashMap.put("JGBM_DM",yhzxXnzzTpcQy.getJgbmDm());
+        hashMap.put("ZGSWSKFJ_DM",yhzxXnzzTpcQy.getZgswskfjDm());
+        hashMap.put("NSRZT_DM",yhzxXnzzTpcQy.getNsrztDm());
+        hashMap.put("DJZCLX_DM",yhzxXnzzTpcQy.getDjzclxDm());
+        hashMap.put("HY_DM",yhzxXnzzTpcQy.getHyDm());
+        hashMap.put("KZZTDJLX_DM",yhzxXnzzTpcQy.getKzztdjlxDm());
+        hashMap.put("DWLSGX_DM",yhzxXnzzTpcQy.getDwlsgxDm());
+        hashMap.put("KJZDZZ_DM",yhzxXnzzTpcQy.getKjzdzzDm());
+        hashMap.put("XZQHSZ_DM",yhzxXnzzTpcQy.getXzqhszDm());
+        hashMap.put("JDXZMC",yhzxXnzzTpcQy.getJdxzmc());
+        hashMap.put("JYFW",yhzxXnzzTpcQy.getJyfw());
+        hashMap.put("ZCDZ",yhzxXnzzTpcQy.getZcdz());
+        hashMap.put("SCJYDZ",yhzxXnzzTpcQy.getScjydz());
+        hashMap.put("KYSLRQ",yhzxXnzzTpcQy.getKyslrq());
+        hashMap.put("CYRS",yhzxXnzzTpcQy.getCyrs());
+        hashMap.put("ZDSYHJKJC_DM",yhzxXnzzTpcQy.getZdsyhjkjcDm());
+        hashMap.put("YBNSRRDBJ",yhzxXnzzTpcQy.getYbnsrrdbj());
+        hashMap.put("ZZSNSLX",yhzxXnzzTpcQy.getZzsnslx());
+        hashMap.put("DZXWQY_BJ",yhzxXnzzTpcQy.getDzxwqyBj());
+        hashMap.put("XXWLQY_BJ",yhzxXnzzTpcQy.getXxwlqyBj());
+        hashMap.put("NSXYDJ",yhzxXnzzTpcQy.getNsxydj());
+        hashMap.put("IS_DELETED",yhzxXnzzTpcQy.getIsDeleted()==true?1:0);
+        hashMap.put("CJR",yhzxXnzzTpcQy.getCjr());
+        hashMap.put("CJSJ",yhzxXnzzTpcQy.getCjsj() == null ? null : getLongData(yhzxXnzzTpcQy.getCjsj()));
+        hashMap.put("XGR",yhzxXnzzTpcQy.getXgr());
+        hashMap.put("XGSJ",yhzxXnzzTpcQy.getXgsj() == null ? null : getLongData(yhzxXnzzTpcQy.getXgsj()));
+        request.setMap(hashMap);
+        return request;
+    }
+
 
     public DataRequest botOutoundTaskDetailCompriseDataRequest(BotOutoundTaskDetailWithBLOBs botOutoundTaskDetail, CryptSimple cryptSimple, CryptNumber cryptNumber) {
         DataRequest request = new DataRequest();

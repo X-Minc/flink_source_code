@@ -5,15 +5,17 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ifugle.rap.core.mapper.BaseMapper;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
+import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 
-@Repository
-public interface YhzxXnzzNsrMapper {
+public interface YhzxXnzzNsrMapper extends BaseMapper<YhzxXnzzNsr, Long> {
+
     int deleteByPrimaryKey(Long id);
 
-    int insert(YhzxXnzzNsr record);
+    void insert(YhzxXnzzNsr record);
 
-    int insertSelective(YhzxXnzzNsr record);
+    void insertSelective(YhzxXnzzNsr record);
 
     YhzxXnzzNsr selectByPrimaryKey(Long id);
 

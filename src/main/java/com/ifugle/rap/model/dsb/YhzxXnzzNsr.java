@@ -2,7 +2,9 @@ package com.ifugle.rap.model.dsb;
 
 import java.util.Date;
 
-public class YhzxXnzzNsr {
+import com.ifugle.rap.core.model.impl.EnhanceModel;
+
+public class YhzxXnzzNsr extends EnhanceModel<Long> {
     private Long id;
 
     private Long xnzzId;

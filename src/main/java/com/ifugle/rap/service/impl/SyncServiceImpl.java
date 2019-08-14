@@ -21,6 +21,7 @@ import com.ifugle.rap.elasticsearch.model.DataRequest;
 import com.ifugle.rap.elasticsearch.service.ElasticSearchBusinessService;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
+import com.ifugle.rap.model.dsb.YhzxXnzzTpcQy;
 import com.ifugle.rap.model.shuixiaomi.BizData;
 import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
@@ -172,8 +173,30 @@ public class SyncServiceImpl implements SyncService {
             DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.DINGTAX, request));
         }
         elasticSearchBusinessService.bulkOperation(DSL.toString());
-        logger.info("[SyncServiceImpl] pageSize=" + pageSize + "," + yhzxXnzzNsrs.size());
+        logger.info("[SyncServiceImpl] insertYhzxXnzzNsrAndCheckListSize pageSize=" + pageSize + "," + yhzxXnzzNsrs.size());
         return yhzxXnzzNsrs.size() < pageSize;
+    }
+
+    @Override
+    public boolean insertYhzxXnzzTpcQyAndCheckListSize(List<YhzxXnzzTpcQy> yhzxXnzzTpcQys, Integer pageSize){
+        logger.info("[SyncServiceImpl] start export table YhzxXnzzNsr to es .... ");
+        StringBuffer DSL = new StringBuffer(32);
+        CryptSimple cryptSimple = new CryptSimple();
+        if (StringUtils.equalsIgnoreCase(env, "prod")) {
+            DecodeUtils.initCryptSimpleProd(cryptSimple);
+        }
+
+        CryptBase36 cryptBase36 = new CryptBase36();
+        if (StringUtils.equalsIgnoreCase(env, "prod")) {
+            DecodeUtils.initCryptBase36(cryptBase36);
+        }
+        for (YhzxXnzzTpcQy yhzxXnzzTpcQy : yhzxXnzzTpcQys) {
+            DataRequest request = compriseUtils.yhzxXnzzTpcQyCompriseDataRequest(yhzxXnzzTpcQy, cryptSimple, cryptBase36);
+            DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.YHZX_XNZZ_TPC_QY, request));
+        }
+        elasticSearchBusinessService.bulkOperation(DSL.toString());
+        logger.info("[SyncServiceImpl] insertYhzxXnzzTpcQyAndCheckListSize pageSize=" + pageSize + "," + yhzxXnzzTpcQys.size());
+        return yhzxXnzzTpcQys.size() < pageSize;
     }
 
     /**

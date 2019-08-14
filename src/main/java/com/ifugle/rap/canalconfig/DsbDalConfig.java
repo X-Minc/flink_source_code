@@ -15,6 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrMapper;
+import com.ifugle.rap.mapper.dsb.YhzxXnzzTpcQyMapper;
 
 @Configuration
 @ImportResource({ "classpath:META-INF/applicationContext-dal-dsb.xml" })
@@ -35,6 +36,11 @@ public class DsbDalConfig {
 	@Bean
 	public YhzxXnzzNsrMapper yhzxXnzzNsrMapper() throws Exception {
 		return newDsbMapperFactoryBean(YhzxXnzzNsrMapper.class).getObject();
+	}
+
+	@Bean
+	public YhzxXnzzTpcQyMapper yhzxXnzzTpcQyMapper() throws Exception {
+		return newDsbMapperFactoryBean(YhzxXnzzTpcQyMapper.class).getObject();
 	}
 
 

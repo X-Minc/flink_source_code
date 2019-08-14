@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.camel.spi.AsEndpointUri;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +30,11 @@ import com.ifugle.rap.mapper.KbsQuestionDOMapper;
 import com.ifugle.rap.mapper.KbsReadingDOMapper;
 import com.ifugle.rap.mapper.YhzxxnzzcyDOMapper;
 import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrMapper;
+import com.ifugle.rap.mapper.dsb.YhzxXnzzTpcQyMapper;
 import com.ifugle.rap.mapper.zhcs.ZxArticleMapper;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
+import com.ifugle.rap.model.dsb.YhzxXnzzTpcQy;
 import com.ifugle.rap.model.shuixiaomi.BizData;
 import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
@@ -115,6 +118,9 @@ public class DataSyncServiceImpl implements DataSyncService {
     @Autowired
     private BotOutoundTaskDetailMapper botOutoundTaskDetailMapper;
 
+    @Autowired
+    private YhzxXnzzTpcQyMapper yhzxXnzzTpcQyMapper;
+
 
     @Value("${profiles.active}")
     String env;
@@ -152,6 +158,7 @@ public class DataSyncServiceImpl implements DataSyncService {
          */
         if (Boolean.valueOf(System.getProperty(SystemConstants.DSB_ON))) {
             insertYhzxXnzzNsrForSync();
+            insertYhzxXnzzTpcQyForSync();
         }
 
     }
@@ -437,6 +444,32 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
     }
 
+
+    /**
+     * YhzxXnzzTpcQy,数据同步增量导入时调用
+     */
+    private void insertYhzxXnzzTpcQyForSync() {
+        String lastCreateTime = CommonUtils.readlocalTimeFile("YHZX_XNZZ_TPC_QY");
+        if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertYhzxXnzzTpcQyForSync lastCreateTime is null");
+            return;
+        }
+        int pageIndex = 1;
+        while(true) {
+            logger.info(MessageFormat.format("YHZX_XNZZ_TPC_QY lastCreateTime : {0}", lastCreateTime));
+            Integer first = (pageIndex - 1) * pageSize;
+            List<YhzxXnzzTpcQy> yhzxXnzzTpcQyList = yhzxXnzzTpcQyMapper.selectYhzxXnzzTpcQyForSync(lastCreateTime, first, pageSize);
+            if (!CollectionUtils.isEmpty(yhzxXnzzTpcQyList)) {
+                syncService.insertYhzxXnzzTpcQyAndCheckListSize(yhzxXnzzTpcQyList, pageSize);
+                Date modificationDate = yhzxXnzzTpcQyList.get(yhzxXnzzTpcQyList.size() - 1).getXgsj();
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "YHZX_XNZZ_TPC_QY");
+            }else{
+                break;
+            }
+            pageIndex++;
+        }
+    }
+
     /**
      * @auther: Liuzhengyang
      * 插入KbsArticle表的内容,数据同步增量导入时调用
@@ -623,6 +656,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_READING");
         CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "YHZX_XNZZ_NSR");
         CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_OUTBOUND_TASK_DETAIL");
+        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "YHZX_XNZZ_TPC_QY");
         logger.info("init data localhost file end");
     }
 
