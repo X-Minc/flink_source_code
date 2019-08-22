@@ -217,7 +217,7 @@ public class CompriseUtils {
         //        hashMap.put("CALL_RECORD", botOutoundTaskDetail.getCallRecord());
         //        hashMap.put("CALL_RECORD_URL", botOutoundTaskDetail.getCallRecordUrl());
         //        hashMap.put("FEEDBACK_CONTENT", botOutoundTaskDetail.getFeedbackContent());
-        //        hashMap.put("ANSWER_TIME",botOutoundTaskDetail.getAnswerTime()== null ? null : getLongData(botOutoundTaskDetail.getAnswerTime()));
+        hashMap.put("ANSWER_TIME",botOutoundTaskDetail.getAnswerTime()== null ? null : getLongData(botOutoundTaskDetail.getAnswerTime()));
         //        hashMap.put("HANGUP_TIME", botOutoundTaskDetail.getHangupTime()== null ? null : getLongData(botOutoundTaskDetail.getHangupTime()));
         //        hashMap.put("DURATION", botOutoundTaskDetail.getDuration());
         //        hashMap.put("REMARK", botOutoundTaskDetail.getRemark());
