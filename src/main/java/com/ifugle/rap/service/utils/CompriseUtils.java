@@ -163,9 +163,15 @@ public class CompriseUtils {
 //        hashMap.put("SHXYDM",yhzxXnzzTpcQy.getShxydm());
 //        hashMap.put("NSRMC",yhzxXnzzTpcQy.getNsrmc());
         if (StringUtils.equals(env, "prod")) {
+            hashMap.put("JDXZMC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getJdxzmc(), cryptSimple));
+            hashMap.put("ZCDZ", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getZcdz(), cryptSimple));
+            hashMap.put("SCJYDZ",DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getScjydz(), cryptSimple));
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(yhzxXnzzTpcQy.getShxydm(), cryptBase36));
         } else {
+            hashMap.put("JDXZMC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzTpcQy.getJdxzmc(), cryptSimple));
+            hashMap.put("ZCDZ", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzTpcQy.getZcdz(), cryptSimple));
+            hashMap.put("SCJYDZ" DecodeUtils.decodeCryptSimpleTest(yhzxXnzzTpcQy.getScjydz(), cryptSimple));
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzTpcQy.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(yhzxXnzzTpcQy.getShxydm(), cryptBase36));
         }
@@ -179,10 +185,7 @@ public class CompriseUtils {
         hashMap.put("DWLSGX_DM",yhzxXnzzTpcQy.getDwlsgxDm());
         hashMap.put("KJZDZZ_DM",yhzxXnzzTpcQy.getKjzdzzDm());
         hashMap.put("XZQHSZ_DM",yhzxXnzzTpcQy.getXzqhszDm());
-        hashMap.put("JDXZMC",yhzxXnzzTpcQy.getJdxzmc());
         hashMap.put("JYFW",yhzxXnzzTpcQy.getJyfw());
-        hashMap.put("ZCDZ",yhzxXnzzTpcQy.getZcdz());
-        hashMap.put("SCJYDZ",yhzxXnzzTpcQy.getScjydz());
         hashMap.put("KYSLRQ",yhzxXnzzTpcQy.getKyslrq());
         hashMap.put("CYRS",yhzxXnzzTpcQy.getCyrs());
         hashMap.put("ZDSYHJKJC_DM",yhzxXnzzTpcQy.getZdsyhjkjcDm());
