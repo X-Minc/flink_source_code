@@ -186,10 +186,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             if (!CollectionUtils.isEmpty(botUnawareDetailDOS)) {
                 syncService.insertBotUnawareDetailAndCheckListSize(botUnawareDetailDOS, pageSize);
                 Date modificationDate = botUnawareDetailDOS.get(botUnawareDetailDOS.size() - 1).getModificationDate();
-                //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
-                if (BizListCheckUtils.checkBotUnawareDetailTimeEquals(botUnawareDetailDOS)) {
-                    modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
-                }
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "BOT_UNAWARE_DETAIL");
             }else {
                 break;
@@ -217,10 +213,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             if (!CollectionUtils.isEmpty(kbsQuestionArticleDOS)) {
                 syncService.insertKbsQuestionArticleAndCheckListSize(kbsQuestionArticleDOS, pageSize);
                 Date modificationDate = kbsQuestionArticleDOS.get(kbsQuestionArticleDOS.size() - 1).getModificationDate();
-                //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
-                if (BizListCheckUtils.checkKbsQuestionArticleTimeEquals(kbsQuestionArticleDOS)) {
-                    modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
-                }
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_QUESTION_ARTICLE");
             }else {
                 break;
@@ -247,10 +239,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             if (!CollectionUtils.isEmpty(botTrackDetailDOS)) {
                 syncService.insertBotTrackDetailAndCheckListSize(botTrackDetailDOS, pageSize);
                 Date createDate = botTrackDetailDOS.get(botTrackDetailDOS.size() - 1).getCreationDate();
-                //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
-                if (BizListCheckUtils.checkBotTrackDetailTimeEquals(botTrackDetailDOS)) {
-                    createDate = TimeDelayUtils.getNextMilliDate(createDate);
-                }
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "BOT_TRACK_DETAIL");
             } else {
                 break;
@@ -279,10 +267,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             if (!CollectionUtils.isEmpty(botChatResponseMessageDOS)) {
                 syncService.insertBotChatResponseMessageAndCheckListSize(botChatResponseMessageDOS, pageSize);
                 Date createDate = botChatResponseMessageDOS.get(botChatResponseMessageDOS.size() - 1).getCreationDate();
-                //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
-                if (BizListCheckUtils.checkBotChatResponseMessageTimeEquals(botChatResponseMessageDOS)) {
-                    createDate = TimeDelayUtils.getNextMilliDate(createDate);
-                }
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "BOT_CHAT_RESPONSE_MESSAGE");
             }else{
                 break;
@@ -309,10 +293,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             if (!CollectionUtils.isEmpty(kbsQuestionDOS)) {
                 syncService.insertKbsQuestionAndCheckListSize(kbsQuestionDOS, pageSize);
                 Date modificationDate = kbsQuestionDOS.get(kbsQuestionDOS.size() - 1).getModificationDate();
-                //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
-                if (BizListCheckUtils.checkQuestionTimeEquals(kbsQuestionDOS)) {
-                    modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
-                }
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_QUESTION");
             }else{
                 break;
@@ -335,10 +315,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             if (!CollectionUtils.isEmpty(bizDataList)) {
                 syncService.insertBotBizDataAndCheckListSize(bizDataList, pageSize);
                 Date modificationDate = bizDataList.get(bizDataList.size() - 1).getModificationDate();
-                //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
-                if (BizListCheckUtils.checkBizDataTimeEquals(bizDataList)) {
-                    modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
-                }
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "BOT_BIZ_DATA");
             }else{
                 break;
@@ -364,10 +340,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             if (!CollectionUtils.isEmpty(botConfigServers)) {
                 syncService.insertBotConfigServerAndCheckListSize(botConfigServers, pageSize);
                 Date createDate = botConfigServers.get(botConfigServers.size() - 1).getCreationDate();
-                //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
-                if (BizListCheckUtils.checkBotConfigServerTimeEquals(botConfigServers)) {
-                    createDate = TimeDelayUtils.getNextMilliDate(createDate);
-                }
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "BOT_CONFIG_SERVER");
             }else{
                 break;
@@ -488,10 +460,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             if (!CollectionUtils.isEmpty(kbsArticleDOS)) {
                 syncService.insertKbsArticleAndCheckListSize(kbsArticleDOS, pageSize);
                 Date modificationDate = kbsArticleDOS.get(kbsArticleDOS.size() - 1).getModificationDate();
-                //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
-                if (BizListCheckUtils.checkArticleTimeEquals(kbsArticleDOS)) {
-                    modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
-                }
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_ARTICLE");
             }else{
                 break;
@@ -518,10 +486,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             if (!CollectionUtils.isEmpty(kbsReadingDOS)) {
                 syncService.insertKbsReadingAndCheckListSize(kbsReadingDOS, pageSize);
                 Date modificationDate = kbsReadingDOS.get(kbsReadingDOS.size() - 1).getModificationDate();
-                //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
-                if (BizListCheckUtils.checkKbsReadingTimeEquals(kbsReadingDOS)) {
-                    modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
-                }
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_READING");
             } else {
                 break;
@@ -548,10 +512,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             if (!CollectionUtils.isEmpty(kbsKeywordDOS)) {
                 syncService.insertKbsKeywordAndCheckListSize(kbsKeywordDOS, pageSize);
                 Date modificationDate = kbsKeywordDOS.get(kbsKeywordDOS.size() - 1).getModificationDate();
-                //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
-                if (BizListCheckUtils.checkKbsKeywordTimeEquals(kbsKeywordDOS)) {
-                    modificationDate = TimeDelayUtils.getNextMilliDate(modificationDate);
-                }
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_KEYWORD");
             }else {
                 break;
@@ -600,10 +560,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             if (!CollectionUtils.isEmpty(botMediaDOS)) {
                 syncService.insertBotMediaAndCheckListSize(botMediaDOS, pageSize);
                 Date createTime = botMediaDOS.get(botMediaDOS.size() - 1).getCreationDate();
-                //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
-                if (BizListCheckUtils.checkBotMediaTimeEquals(botMediaDOS)) {
-                    createTime = TimeDelayUtils.getNextMilliDate(createTime);
-                }
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createTime), "BOT_MEDIA");
             }else {
                 break;
@@ -627,10 +583,6 @@ public class DataSyncServiceImpl implements DataSyncService {
             if (!CollectionUtils.isEmpty(botOutoundTaskDetailWithBLOBs)) {
                 syncService.insertBotOutBoundTaskDetailAndCheckListSize(botOutoundTaskDetailWithBLOBs, pageSize);
                 Date createTime = botOutoundTaskDetailWithBLOBs.get(botOutoundTaskDetailWithBLOBs.size() - 1).getCreationDate();
-                //判断list的时间是否全部相同，若时间相同需要增加1s保存,修复存在相同列表的时间没有办法跳过的问题
-                if (BizListCheckUtils.checkBotOutoundTaskDetailEquals(botOutoundTaskDetailWithBLOBs)) {
-                    createTime = TimeDelayUtils.getNextMilliDate(createTime);
-                }
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createTime), "BOT_OUTBOUND_TASK_DETAIL");
             }else {
                 break;
