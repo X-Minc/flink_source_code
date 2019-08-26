@@ -186,7 +186,7 @@ public class CompriseUtils {
         hashMap.put("KJZDZZ_DM",yhzxXnzzTpcQy.getKjzdzzDm());
         hashMap.put("XZQHSZ_DM",yhzxXnzzTpcQy.getXzqhszDm());
         hashMap.put("JYFW",yhzxXnzzTpcQy.getJyfw());
-        hashMap.put("KYSLRQ",yhzxXnzzTpcQy.getKyslrq());
+        hashMap.put("KYSLRQ",yhzxXnzzTpcQy.getKyslrq() == null ? null : getLongData(yhzxXnzzTpcQy.getKyslrq()));
         hashMap.put("CYRS",yhzxXnzzTpcQy.getCyrs());
         hashMap.put("ZDSYHJKJC_DM",yhzxXnzzTpcQy.getZdsyhjkjcDm());
         hashMap.put("YBNSRRDBJ",yhzxXnzzTpcQy.getYbnsrrdbj());
