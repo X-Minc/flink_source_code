@@ -46,6 +46,15 @@ public class CommonUtils {
         return null;
     }
 
+    public static boolean isExistDir(String path){
+        File instanceDir = new File(H5ROOT, path);
+        if (instanceDir.exists()) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
 //        writeLocalTimeFile("1", "status");
 //        System.out.println(readlocalTimeFile("status"));

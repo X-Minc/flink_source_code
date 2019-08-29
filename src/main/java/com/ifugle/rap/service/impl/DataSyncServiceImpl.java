@@ -404,15 +404,6 @@ public class DataSyncServiceImpl implements DataSyncService {
                 break;
             }
             pageIndex++;
-            /***
-             * 做系统保护，超过5次的循环就中断，跳过这种循环
-             */
-            if (pageIndex >= 5) {
-                String stopTime = CommonUtils.readlocalTimeFile("YHZX_XNZZ_NSR");
-                CommonUtils.writeLocalTimeFile(TimeDelayUtils.getNextMilli(stopTime), "YHZX_XNZZ_NSR");
-                break;
-            }
-
         }
     }
 
@@ -594,21 +585,51 @@ public class DataSyncServiceImpl implements DataSyncService {
     @Override
     public void initLocalTime() {
         logger.info("init data localhost file start");
-        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_BIZ_DATA");
-        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_CHAT_RESPONSE_MESSAGE");
-        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_CONFIG_SERVER");
-        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_MEDIA");
-        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_TAG");
-        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_TRACK_DETAIL");
-        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_UNAWARE_DETAIL");
-        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_ARTICLE");
-        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_KEYWORD");
-        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_QUESTION");
-        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_QUESTION_ARTICLE");
-        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_READING");
-        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "YHZX_XNZZ_NSR");
-        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_OUTBOUND_TASK_DETAIL");
-        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "YHZX_XNZZ_TPC_QY");
+        if(!CommonUtils.isExistDir("BOT_BIZ_DATA")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_BIZ_DATA");
+        }
+        if (!CommonUtils.isExistDir("BOT_CHAT_RESPONSE_MESSAGE")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_CHAT_RESPONSE_MESSAGE");
+        }
+        if (!CommonUtils.isExistDir("BOT_CONFIG_SERVER")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_CONFIG_SERVER");
+        }
+        if (!CommonUtils.isExistDir("BOT_MEDIA")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_MEDIA");
+        }
+        if (!CommonUtils.isExistDir("BOT_TAG")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_TAG");
+        }
+        if (!CommonUtils.isExistDir("BOT_TRACK_DETAIL")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_TRACK_DETAIL");
+        }
+        if (!CommonUtils.isExistDir("BOT_UNAWARE_DETAIL")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_UNAWARE_DETAIL");
+        }
+        if (!CommonUtils.isExistDir("KBS_ARTICLE")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_ARTICLE");
+        }
+        if (!CommonUtils.isExistDir("KBS_KEYWORD")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_KEYWORD");
+        }
+        if (!CommonUtils.isExistDir("KBS_QUESTION")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_QUESTION");
+        }
+        if (!CommonUtils.isExistDir("KBS_QUESTION_ARTICLE")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_QUESTION_ARTICLE");
+        }
+        if (!CommonUtils.isExistDir("KBS_READING")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_READING");
+        }
+        if (!CommonUtils.isExistDir("YHZX_XNZZ_NSR")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "YHZX_XNZZ_NSR");
+        }
+        if (!CommonUtils.isExistDir("BOT_OUTBOUND_TASK_DETAIL")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_OUTBOUND_TASK_DETAIL");
+        }
+        if (!CommonUtils.isExistDir("YHZX_XNZZ_TPC_QY")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "YHZX_XNZZ_TPC_QY");
+        }
         logger.info("init data localhost file end");
     }
 

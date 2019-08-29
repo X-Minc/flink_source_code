@@ -77,6 +77,8 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
 
     private Byte nsxydj;
 
+    private String kzztdjlxDm;
+
     public Long getId() {
         return id;
     }
@@ -363,5 +365,13 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
 
     public void setNsxydj(Byte nsxydj) {
         this.nsxydj = nsxydj;
+    }
+
+    public String getKzztdjlxDm() {
+        return kzztdjlxDm;
+    }
+
+    public void setKzztdjlxDm(String kzztdjlxDm) {
+        this.kzztdjlxDm = kzztdjlxDm;
     }
 }
