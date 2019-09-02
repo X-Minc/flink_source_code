@@ -41,6 +41,7 @@ import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
 import com.ifugle.rap.model.shuixiaomi.KbsReadingDOWithBLOBs;
 import com.ifugle.rap.model.zhcs.ZxArticle;
 import com.ifugle.rap.security.crypto.CryptBase36;
+import com.ifugle.rap.security.crypto.CryptBase62;
 import com.ifugle.rap.security.crypto.CryptNumber;
 import com.ifugle.rap.security.crypto.CryptSimple;
 import com.ifugle.rap.security.crypto.CryptZip;
@@ -402,7 +403,7 @@ public class CompriseUtils {
         return request;
     }
 
-    public DataRequest botBizDataCompriseDataRequest(BizData bizData) {
+    public DataRequest botBizDataCompriseDataRequest(BizData bizData,CryptSimple cryptSimple, CryptBase62 cryptBase62) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.BOT_BIZ_DATA.getTableName());
         Map<String, Object> hashMap = new HashMap<>(32);
@@ -412,15 +413,28 @@ public class CompriseUtils {
         hashMap.put("DEFINE_ID", bizData.getDefineId());
         hashMap.put("LATITUDE", bizData.getLatitude());
         hashMap.put("LONGITUDE", bizData.getLongitude());
-        hashMap.put("ID1", bizData.getId1());
-        hashMap.put("ID2", bizData.getId2());
-        hashMap.put("ID3", bizData.getId3());
-        hashMap.put("DATA1", bizData.getData1());
-        hashMap.put("DATA2", bizData.getData2());
-        hashMap.put("DATA3", bizData.getData3());
-        hashMap.put("DATA4", bizData.getData4());
-        hashMap.put("DATA4_NO_INDEX1",bizData.getData4());
-        hashMap.put("DATA5", bizData.getData5());
+        if (StringUtils.equals(env, "prod")) {
+            hashMap.put("ID1", DecodeUtils.decodeCryptBase62Reverse6Prod(bizData.getId1(),cryptBase62));
+            hashMap.put("ID2", DecodeUtils.decodeCryptBase62Reverse6Prod(bizData.getId2(),cryptBase62));
+            hashMap.put("ID3", DecodeUtils.decodeCryptBase62Reverse6Prod(bizData.getId3(),cryptBase62));
+            hashMap.put("DATA1", DecodeUtils.decodeCryptSimpleProd(bizData.getData1(), cryptSimple));
+            hashMap.put("DATA2", DecodeUtils.decodeCryptSimpleProd(bizData.getData2(), cryptSimple));
+            hashMap.put("DATA3", DecodeUtils.decodeCryptSimpleProd(bizData.getData3(), cryptSimple));
+            hashMap.put("DATA4", DecodeUtils.decodeCryptSimpleProd(bizData.getData4(), cryptSimple));
+            hashMap.put("DATA4_NO_INDEX1",DecodeUtils.decodeCryptSimpleProd(bizData.getData4(), cryptSimple));
+            hashMap.put("DATA5", DecodeUtils.decodeCryptSimpleProd(bizData.getData5(), cryptSimple));
+        } else {
+            hashMap.put("ID1", DecodeUtils.decodeCryptBase62Reverse6Test(bizData.getId1(),cryptBase62));
+            hashMap.put("ID2", DecodeUtils.decodeCryptBase62Reverse6Test(bizData.getId2(),cryptBase62));
+            hashMap.put("ID3", DecodeUtils.decodeCryptBase62Reverse6Test(bizData.getId3(),cryptBase62));
+            hashMap.put("DATA1", DecodeUtils.decodeCryptSimpleTest(bizData.getData1(), cryptSimple));
+            hashMap.put("DATA2", DecodeUtils.decodeCryptSimpleTest(bizData.getData2(), cryptSimple));
+            hashMap.put("DATA3", DecodeUtils.decodeCryptSimpleTest(bizData.getData3(), cryptSimple));
+            hashMap.put("DATA4", DecodeUtils.decodeCryptSimpleTest(bizData.getData4(), cryptSimple));
+            hashMap.put("DATA4_NO_INDEX1",DecodeUtils.decodeCryptSimpleTest(bizData.getData4(), cryptSimple));
+            hashMap.put("DATA5", DecodeUtils.decodeCryptSimpleTest(bizData.getData5(), cryptSimple));
+        }
+
         hashMap.put("BOT_BIZ_DATA_STATUS", bizData.getStatus());
         hashMap.put("CREATOR", bizData.getCreator());
         hashMap.put("CREATION_DATE", bizData.getCreationDate() == null ? null : getLongData(bizData.getCreationDate()));

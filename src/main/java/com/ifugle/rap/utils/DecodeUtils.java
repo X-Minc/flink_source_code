@@ -203,6 +203,12 @@ public class DecodeUtils {
 //        CryptBase36 cryptBase36 = new CryptBase36();
         CryptSimple cryptSimple =new CryptSimple(CryptSimple.MAX_SEARCH_SIZE_4096);
         initCryptSimpleProd(cryptSimple);
-        System.out.println(decodeCryptSimpleProd("諄錈塿潓煝俩忶祗勲副幱怎傭秜搴鼑",cryptSimple));
+        System.out.println(decodeCryptSimpleProd("结郩唃賁潐螱Ó厛藘敖遲卪豷臢亣棉嘚踟揂禕",cryptSimple));
+
+
+        CryptBase62 cryptBase62 = new CryptBase62(CryptBase62.MAX_SEARCH_SIZE_6);
+        initCryptBase62Reverse6(cryptBase62);
+        System.out.println(decodeCryptBase62Reverse6Prod("zkUKu9jfmSFo94P",cryptBase62));
+
     }
 }

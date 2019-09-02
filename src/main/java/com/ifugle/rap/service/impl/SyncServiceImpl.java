@@ -37,6 +37,7 @@ import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
 import com.ifugle.rap.model.shuixiaomi.KbsReadingDOWithBLOBs;
 import com.ifugle.rap.model.zhcs.ZxArticle;
 import com.ifugle.rap.security.crypto.CryptBase36;
+import com.ifugle.rap.security.crypto.CryptBase62;
 import com.ifugle.rap.security.crypto.CryptNumber;
 import com.ifugle.rap.security.crypto.CryptSimple;
 import com.ifugle.rap.service.SyncService;
@@ -206,8 +207,17 @@ public class SyncServiceImpl implements SyncService {
     public boolean insertBotBizDataAndCheckListSize(List<BizData> bizDataList, Integer pageSize) {
         logger.info("[SyncServiceImpl] start export table BOT_BIZ_DATA to es .... ");
         StringBuilder dsl = new StringBuilder(32);
+        CryptSimple cryptSimple =new CryptSimple(CryptSimple.MAX_SEARCH_SIZE_4096);
+        if (StringUtils.equalsIgnoreCase(env, "prod")) {
+            DecodeUtils.initCryptSimpleProd(cryptSimple);
+        }
+
+        CryptBase62 cryptBase62 = new CryptBase62(CryptBase62.MAX_SEARCH_SIZE_6);
+        if (StringUtils.equalsIgnoreCase(env, "prod")) {
+            DecodeUtils. initCryptBase62Reverse6(cryptBase62);
+        }
         for (BizData bizData : bizDataList) {
-            DataRequest request = compriseUtils.botBizDataCompriseDataRequest(bizData);
+            DataRequest request = compriseUtils.botBizDataCompriseDataRequest(bizData,cryptSimple,cryptBase62);
             dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI, request));
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
