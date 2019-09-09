@@ -79,6 +79,8 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
 
     private String kzztdjlxDm;
 
+    private String jyfw;
+
     public Long getId() {
         return id;
     }
@@ -373,5 +375,13 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
 
     public void setKzztdjlxDm(String kzztdjlxDm) {
         this.kzztdjlxDm = kzztdjlxDm;
+    }
+
+    public String getJyfw() {
+        return jyfw;
+    }
+
+    public void setJyfw(String jyfw) {
+        this.jyfw = jyfw;
     }
 }
