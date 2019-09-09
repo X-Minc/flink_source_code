@@ -140,7 +140,7 @@ public class CompriseUtils {
         hashMap.put("DZXWQY_BJ", yhzxXnzzNsr.getDzxwqyBj());
         hashMap.put("XXWLQY_BJ", yhzxXnzzNsr.getXxwlqyBj());
         hashMap.put("NSXYDJ", yhzxXnzzNsr.getNsxydj());
-        hashMap.put("JYFW", yhzxXnzzNsr.getJyfw());
+        hashMap.put("JYFW1", yhzxXnzzNsr.getJyfw());
         request.setMap(hashMap);
         return request;
     }
