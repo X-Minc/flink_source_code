@@ -75,6 +75,9 @@ public class YhzxXnzzNsr {
 
     private Byte nsxydj;
 
+
+    private String jyfw;
+
     public Long getId() {
         return id;
     }
@@ -361,5 +364,13 @@ public class YhzxXnzzNsr {
 
     public void setNsxydj(Byte nsxydj) {
         this.nsxydj = nsxydj;
+    }
+
+    public String getJyfw() {
+        return jyfw;
+    }
+
+    public void setJyfw(String jyfw) {
+        this.jyfw = jyfw;
     }
 }
