@@ -426,6 +426,13 @@ public class DataSyncServiceImpl implements DataSyncService {
                 syncService.insertYhzxXnzzTpcQyAndCheckListSize(yhzxXnzzTpcQyList, pageSize);
                 Date modificationDate = yhzxXnzzTpcQyList.get(yhzxXnzzTpcQyList.size() - 1).getXgsj();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "YHZX_XNZZ_TPC_QY");
+                /***
+                 * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
+                 */
+                Date startDate = DateUtils.string2Date(lastCreateTime,DateUtils.simple);
+                if (modificationDate.compareTo(startDate) > 0 || yhzxXnzzTpcQyList.size() < pageSize) {
+                    break;
+                }
             }else{
                 break;
             }
