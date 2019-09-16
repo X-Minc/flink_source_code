@@ -181,6 +181,7 @@ public class CompriseUtils {
         hashMap.put("ZZHM",yhzxXnzzTpcQy.getZzhm());
         hashMap.put("JGBM_DM",yhzxXnzzTpcQy.getJgbmDm());
         hashMap.put("ZGSWSKFJ_DM",yhzxXnzzTpcQy.getZgswskfjDm());
+        hashMap.put("DSB_JGBM_DM",StringUtils.isBlank(yhzxXnzzTpcQy.getZgswskfjDm())?yhzxXnzzTpcQy.getJgbmDm():yhzxXnzzTpcQy.getZgswskfjDm());
         hashMap.put("NSRZT_DM",yhzxXnzzTpcQy.getNsrztDm());
         hashMap.put("DJZCLX_DM",yhzxXnzzTpcQy.getDjzclxDm());
         hashMap.put("HY_DM",yhzxXnzzTpcQy.getHyDm());
