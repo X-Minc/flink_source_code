@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.ifugle.rap.model.dingtax.XxzxXxmx;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -199,6 +200,30 @@ public class SyncServiceImpl implements SyncService {
         logger.info("[SyncServiceImpl] insertYhzxXnzzTpcQyAndCheckListSize pageSize=" + pageSize + "," + yhzxXnzzTpcQys.size());
         return yhzxXnzzTpcQys.size() < pageSize;
     }
+
+
+    @Override
+    public boolean insertXxzxXxmxAndCheckListSize(List<XxzxXxmx> xxzxXxmxes, Integer pageSize){
+        logger.info("[SyncServiceImpl] start insertXxzxXxmxAndCheckListSize table to es .... ");
+        StringBuffer DSL = new StringBuffer(32);
+        CryptSimple cryptSimple = new CryptSimple();
+        if (StringUtils.equalsIgnoreCase(env, "prod")) {
+            DecodeUtils.initCryptSimpleProd(cryptSimple);
+        }
+
+        CryptBase36 cryptBase36 = new CryptBase36();
+        if (StringUtils.equalsIgnoreCase(env, "prod")) {
+            DecodeUtils.initCryptBase36(cryptBase36);
+        }
+        for (XxzxXxmx xxzxXxmx : xxzxXxmxes) {
+            DataRequest request = compriseUtils.xxzxXxmxCompriseDataRequest(xxzxXxmx, cryptSimple, cryptBase36);
+            DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.XXZX_XXMX, request));
+        }
+        elasticSearchBusinessService.bulkOperation(DSL.toString());
+        logger.info("[SyncServiceImpl] insertXxzxXxmxAndCheckListSize pageSize=" + pageSize + "," + xxzxXxmxes.size());
+        return xxzxXxmxes.size() < pageSize;
+    }
+
 
     /**
      * 向ES中插入BotBizData相关数据,并判断是否是最后一组List，如果是最后一组，返回true

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import com.ifugle.rap.model.dingtax.XxzxXxmx;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -207,6 +208,55 @@ public class CompriseUtils {
         return request;
     }
 
+    /***
+     * 同步消息明细表
+     * @param xxzxXxmx
+     * @param cryptSimple
+     * @param cryptBase36
+     * @return
+     */
+    public DataRequest xxzxXxmxCompriseDataRequest(XxzxXxmx xxzxXxmx, CryptSimple cryptSimple, CryptBase36 cryptBase36) {
+        DataRequest request = new DataRequest();
+        request.setCatalogType(SystemConstants.DEFAULT_TYPE);
+        Map<String, Object> hashMap = new HashMap<>(16);
+        hashMap.put("ID",xxzxXxmx.getId());
+        hashMap.put("XNZZ_ID",xxzxXxmx.getXnzzId());
+        hashMap.put("XXZB_ID",xxzxXxmx.getXxzbId());
+        hashMap.put("XXLX",xxzxXxmx.getXxlx());
+        hashMap.put("XXBT",xxzxXxmx.getXxbt());
+        hashMap.put("XXTB_URL",xxzxXxmx.getXxtbUrl());
+        hashMap.put("MEDIA_ID",xxzxXxmx.getMediaId());
+        hashMap.put("XXZT",xxzxXxmx.getXxzt());
+        hashMap.put("HFZT",xxzxXxmx.getHfzt());
+        hashMap.put("JSR",xxzxXxmx.getJsr());
+        hashMap.put("FSCS",xxzxXxmx.getFscs());
+        hashMap.put("FSBJ",xxzxXxmx.getFsbj());
+        hashMap.put("TSSJ",xxzxXxmx.getTssj() == null ? null : getLongData(xxzxXxmx.getTssj()));
+        hashMap.put("CJSJ",xxzxXxmx.getCjsj() == null ? null : getLongData(xxzxXxmx.getCjsj()));
+        hashMap.put("CJR",xxzxXxmx.getCjr());
+        hashMap.put("XGSJ",xxzxXxmx.getXgsj() == null ? null : getLongData(xxzxXxmx.getXgsj()));
+        hashMap.put("XGR",xxzxXxmx.getXgr());
+        hashMap.put("SHSJ",xxzxXxmx.getShsj() == null ? null : getLongData(xxzxXxmx.getCjsj()));
+        hashMap.put("SHR",xxzxXxmx.getShr());
+        hashMap.put("SHYJ",xxzxXxmx.getShyj());
+        hashMap.put("XXLB",xxzxXxmx.getXxlb());
+        hashMap.put("DINGID",xxzxXxmx.getDingid());
+        hashMap.put("NSR_ID",xxzxXxmx.getNsrId());
+        if (StringUtils.equals(env, "prod")) {
+            hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleProd(xxzxXxmx.getNsrmc(), cryptSimple));
+            hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(xxzxXxmx.getShxydm(), cryptBase36));
+        } else {
+            hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleTest(xxzxXxmx.getNsrmc(), cryptSimple));
+            hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(xxzxXxmx.getShxydm(), cryptBase36));
+        }
+        hashMap.put("BM_ID",xxzxXxmx.getBmId());
+        hashMap.put("JHBJ",xxzxXxmx.getJhbj());
+        hashMap.put("TZR",xxzxXxmx.getTzr());
+        hashMap.put("TZSJ",xxzxXxmx.getTzsj() == null ? null : getLongData(xxzxXxmx.getTzsj()));
+        hashMap.put("TZCS",xxzxXxmx.getTzcs());
+        request.setMap(hashMap);
+        return request;
+    }
 
     public DataRequest botOutoundTaskDetailCompriseDataRequest(BotOutoundTaskDetailWithBLOBs botOutoundTaskDetail, CryptSimple cryptSimple, CryptNumber cryptNumber) {
         DataRequest request = new DataRequest();

@@ -6,5 +6,6 @@
     <mappers>
         <mapper resource="com/ifugle/rap/mapper/dsb/YhzxXnzzNsrMapper.xml"/>
         <mapper resource="com/ifugle/rap/mapper/dsb/YhzxXnzzTpcQyMapper.xml"/>
+        <mapper resource="com/ifugle/rap/mapper/dsb/XxzxXxmxMapper.xml"/>
     </mappers>
 </configuration>

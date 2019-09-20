@@ -4,6 +4,8 @@ import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.ifugle.rap.mapper.dsb.XxzxXxmxMapper;
+import com.ifugle.rap.model.dingtax.XxzxXxmx;
 import org.apache.camel.spi.AsEndpointUri;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -121,6 +123,9 @@ public class DataSyncServiceImpl implements DataSyncService {
     @Autowired
     private YhzxXnzzTpcQyMapper yhzxXnzzTpcQyMapper;
 
+    @Autowired
+    private XxzxXxmxMapper xxzxXxmxMapper;
+
 
     @Value("${profiles.active}")
     String env;
@@ -159,6 +164,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         if (Boolean.valueOf(System.getProperty(SystemConstants.DSB_ON))) {
             insertYhzxXnzzNsrForSync();
             insertYhzxXnzzTpcQyForSync();
+            insertXxzxXxmxForSync();
         }
 
     }
@@ -440,6 +446,38 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
     }
 
+    /***
+     * 同步消息明细
+     */
+    private void insertXxzxXxmxForSync() {
+        String lastCreateTime = CommonUtils.readlocalTimeFile("XXZX_XXMX");
+        if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertXxzxXxmxForSync lastCreateTime is null");
+            return;
+        }
+        int pageIndex = 1;
+        while(true) {
+            logger.info(MessageFormat.format("XXZX_XXMX lastCreateTime : {0}", lastCreateTime));
+            Integer first = (pageIndex - 1) * pageSize;
+            List<XxzxXxmx> xxzxXxmxs = xxzxXxmxMapper.selectXxzxXxmxForSync(lastCreateTime, first, pageSize);
+            if (!CollectionUtils.isEmpty(xxzxXxmxs)) {
+                syncService.insertXxzxXxmxAndCheckListSize(xxzxXxmxs, pageSize);
+                Date modificationDate = xxzxXxmxs.get(xxzxXxmxs.size() - 1).getXgsj();
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "XXZX_XXMX");
+                /***
+                 * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
+                 */
+                Date startDate = DateUtils.string2Date(lastCreateTime,DateUtils.simple);
+                if (modificationDate.compareTo(startDate) > 0 || xxzxXxmxs.size() < pageSize) {
+                    break;
+                }
+            }else{
+                break;
+            }
+            pageIndex++;
+        }
+    }
+
     /**
      * @auther: Liuzhengyang
      * 插入KbsArticle表的内容,数据同步增量导入时调用
@@ -637,6 +675,10 @@ public class DataSyncServiceImpl implements DataSyncService {
         if (!CommonUtils.isExistDir("YHZX_XNZZ_TPC_QY")) {
             CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "YHZX_XNZZ_TPC_QY");
         }
+        if (!CommonUtils.isExistDir("XXZX_XXMX")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "XXZX_XXMX");
+        }
+
         logger.info("init data localhost file end");
     }
 

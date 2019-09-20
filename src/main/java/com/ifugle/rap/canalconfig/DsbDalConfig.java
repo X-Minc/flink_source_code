@@ -2,6 +2,7 @@ package com.ifugle.rap.canalconfig;
 
 import javax.sql.DataSource;
 
+import com.ifugle.rap.mapper.dsb.XxzxXxmxMapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
@@ -41,6 +42,11 @@ public class DsbDalConfig {
 	@Bean
 	public YhzxXnzzTpcQyMapper yhzxXnzzTpcQyMapper() throws Exception {
 		return newDsbMapperFactoryBean(YhzxXnzzTpcQyMapper.class).getObject();
+	}
+
+	@Bean
+	public XxzxXxmxMapper xxzxXxmxMapper() throws Exception {
+		return newDsbMapperFactoryBean(XxzxXxmxMapper.class).getObject();
 	}
 
 
