@@ -2,7 +2,9 @@ package com.ifugle.rap.model.shuixiaomi;
 
 import java.util.Date;
 
-public class KbsKeywordDO {
+import com.ifugle.rap.core.model.impl.EnhanceModel;
+
+public class KbsKeywordDO extends EnhanceModel<Long> {
     private Long id;
 
     private Long orgId;

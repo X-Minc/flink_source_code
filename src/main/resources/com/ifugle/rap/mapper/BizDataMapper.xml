@@ -6,22 +6,14 @@
         <result column="NODE_ID" javaType="java.lang.Integer" jdbcType="INTEGER" property="nodeId"/>
         <result column="ORG_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="orgId"/>
         <result column="DEFINE_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="defineId"/>
-        <result column="ID1" javaType="java.lang.String" jdbcType="VARCHAR" property="id1"
-                typeHandler="com.ifugle.rap.sql.mybatis.type.CryptBase62Reverse6StringTypeHandler"/>
-        <result column="ID2" javaType="java.lang.String" jdbcType="VARCHAR" property="id2"
-                typeHandler="com.ifugle.rap.sql.mybatis.type.CryptBase62Reverse6StringTypeHandler"/>
-        <result column="ID3" javaType="java.lang.String" jdbcType="VARCHAR" property="id3"
-                typeHandler="com.ifugle.rap.sql.mybatis.type.CryptBase62Reverse6StringTypeHandler"/>
-        <result column="DATA1" javaType="java.lang.String" jdbcType="VARCHAR" property="data1"
-                typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleSearch100StringTypeHandler"/>
-        <result column="DATA2" javaType="java.lang.String" jdbcType="VARCHAR" property="data2"
-                typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleSearch100StringTypeHandler"/>
-        <result column="DATA3" javaType="java.lang.String" jdbcType="VARCHAR" property="data3"
-                typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleSearch100StringTypeHandler"/>
-        <result column="DATA4" javaType="java.lang.String" jdbcType="VARCHAR" property="data4"
-                typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleSearch100StringTypeHandler"/>
-        <result column="DATA5" javaType="java.lang.String" jdbcType="VARCHAR" property="data5"
-                typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleSearch100StringTypeHandler"/>
+        <result column="ID1" javaType="java.lang.String" jdbcType="VARCHAR" property="id1"/>
+        <result column="ID2" javaType="java.lang.String" jdbcType="VARCHAR" property="id2" />
+        <result column="ID3" javaType="java.lang.String" jdbcType="VARCHAR" property="id3" />
+        <result column="DATA1" javaType="java.lang.String" jdbcType="VARCHAR" property="data1" />
+        <result column="DATA2" javaType="java.lang.String" jdbcType="VARCHAR" property="data2" />
+        <result column="DATA3" javaType="java.lang.String" jdbcType="VARCHAR" property="data3" />
+        <result column="DATA4" javaType="java.lang.String" jdbcType="VARCHAR" property="data4" />
+        <result column="DATA5" javaType="java.lang.String" jdbcType="VARCHAR" property="data5" />
         <result column="LATITUDE" javaType="java.lang.Double" jdbcType="DOUBLE" property="latitude"/>
         <result column="LONGITUDE" javaType="java.lang.Double" jdbcType="DOUBLE" property="longitude"/>
         <result column="STATUS" javaType="java.lang.Byte" jdbcType="TINYINT" property="status"/>

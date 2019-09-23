@@ -1,18 +1,15 @@
 package com.ifugle.rap.mapper;
 
 import java.util.List;
-import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
 
-@Component
-public interface BotMediaDOMapper {
+import org.apache.ibatis.annotations.Param;
+
+import com.ifugle.rap.core.mapper.BaseMapper;
+import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
+
+public interface BotMediaDOMapper  extends BaseMapper<BotMediaDO, Long> {
 
     int deleteByPrimaryKey(Long id);
-
-    int insert(BotMediaDO record);
-
-    int insertSelective(BotMediaDO record);
 
     BotMediaDO selectByPrimaryKey(Long id);
 

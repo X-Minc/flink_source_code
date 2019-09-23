@@ -28,6 +28,9 @@ public class ChangedPropertyData implements Serializable {
      */
     private String docName;
 
+
+    private String indexName;
+
     /***
      * 要更新的属性map
      */
@@ -64,6 +67,14 @@ public class ChangedPropertyData implements Serializable {
 
     public String getDocName() {
         return docName;
+    }
+
+    public String getIndexName() {
+        return indexName;
+    }
+
+    public void setIndexName(String indexName) {
+        this.indexName = indexName;
     }
 
     public void setDocName(String docName) {

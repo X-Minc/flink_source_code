@@ -1,18 +1,17 @@
 package com.ifugle.rap.mapper;
 
+import com.ifugle.rap.core.mapper.BaseMapper;
+import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 import com.ifugle.rap.model.shuixiaomi.KbsQuestionArticleDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
-public interface KbsQuestionArticleDOMapper {
+
+public interface KbsQuestionArticleDOMapper  extends BaseMapper<KbsQuestionArticleDO, Long> {
 	int deleteByPrimaryKey(Long id);
-
-	int insert(KbsQuestionArticleDO record);
-
-	int insertSelective(KbsQuestionArticleDO record);
 
 	KbsQuestionArticleDO selectByPrimaryKey(Long id);
 

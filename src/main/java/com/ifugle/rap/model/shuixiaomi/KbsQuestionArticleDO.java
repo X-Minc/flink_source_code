@@ -1,8 +1,11 @@
 package com.ifugle.rap.model.shuixiaomi;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
-public class KbsQuestionArticleDO {
+import com.ifugle.rap.core.model.impl.EnhanceModel;
+
+public class KbsQuestionArticleDO extends EnhanceModel<Long> {
     private Long id;
 
     private Long questionId;
@@ -25,7 +28,7 @@ public class KbsQuestionArticleDO {
 
     private Integer syncFlag;
 
-    private Date syncTime;
+    private Timestamp syncTime;
 
     private String creator;
 
@@ -129,11 +132,11 @@ public class KbsQuestionArticleDO {
         this.syncFlag = syncFlag;
     }
 
-    public Date getSyncTime() {
+    public Timestamp getSyncTime() {
         return syncTime;
     }
 
-    public void setSyncTime(Date syncTime) {
+    public void setSyncTime(Timestamp syncTime) {
         this.syncTime = syncTime;
     }
 

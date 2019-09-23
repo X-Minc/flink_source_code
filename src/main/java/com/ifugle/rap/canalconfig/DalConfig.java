@@ -6,6 +6,7 @@ import com.ifugle.rap.mapper.BizDataMapper;
 import com.ifugle.rap.mapper.BotChatResponseMessageDOMapper;
 import com.ifugle.rap.mapper.BotConfigServerMapper;
 import com.ifugle.rap.mapper.BotMediaDOMapper;
+import com.ifugle.rap.mapper.BotOutoundTaskDetailMapper;
 import com.ifugle.rap.mapper.BotTrackDetailDOMapper;
 import com.ifugle.rap.mapper.BotUnawareDetailDOMapper;
 import com.ifugle.rap.mapper.KbsArticleDOMapper;
@@ -39,7 +40,7 @@ public class DalConfig {
     Resource mybatisMapperConfig;
 
     @Autowired
-    DataSource dataSource;
+    DataSource dataSourceBot;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
@@ -111,18 +112,23 @@ public class DalConfig {
         return newMapperFactoryBean(BotConfigServerMapper.class).getObject();
     }
 
+    @Bean
+    public BotOutoundTaskDetailMapper botOutoundTaskDetailMapper() throws Exception {
+        return newMapperFactoryBean(BotOutoundTaskDetailMapper.class).getObject();
+    }
+
     <T> MapperFactoryBean<T> newMapperFactoryBean(Class<T> clazz) throws Exception {
         final MapperFactoryBean<T> b = new MapperFactoryBean<T>();
         b.setMapperInterface(clazz);
-        b.setSqlSessionFactory(sqlSessionFactory());
+        b.setSqlSessionFactory(botSqlSessionFactory());
         return b;
     }
 
     @Bean
-    public SqlSessionFactory sqlSessionFactory() throws Exception {
+    public SqlSessionFactory botSqlSessionFactory() throws Exception {
         final SqlSessionFactoryBean fb = new SqlSessionFactoryBean();
         fb.setConfigLocation(mybatisMapperConfig);
-        fb.setDataSource(dataSource);
+        fb.setDataSource(dataSourceBot);
         fb.setTypeAliases(new Class<?>[] {});
         return fb.getObject();
     }

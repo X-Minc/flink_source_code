@@ -5,12 +5,14 @@ package com.ifugle.rap.model.shuixiaomi.dto;
 
 import java.util.Date;
 
+import com.ifugle.rap.core.model.impl.EnhanceModel;
+
 /**
  * @author LiuZhengyang
  * @version $Id: KbsTagDTO.java 84708 2018-11-09 08:12:37Z HuangLei $
  * @since 2018年10月15日 14:09
  */
-public class KbsTagDTO {
+public class KbsTagDTO extends EnhanceModel<Long> {
 
     private long linkId;
 

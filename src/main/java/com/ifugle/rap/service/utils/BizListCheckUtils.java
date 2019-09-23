@@ -13,6 +13,8 @@ import com.ifugle.rap.model.shuixiaomi.BizData;
 import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
 import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
+import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetail;
+import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
 import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
 import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
 import com.ifugle.rap.model.shuixiaomi.KbsArticleDO;
@@ -99,6 +101,18 @@ public class BizListCheckUtils {
             Date time = articleDOList.get(0).getCreationDate();
             for (BotChatResponseMessageDO kbsArticleDO : articleDOList) {
                 if (!TimeDelayUtils.isSameDate(kbsArticleDO.getCreationDate(), time)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static boolean checkBotOutoundTaskDetailEquals(List<BotOutoundTaskDetailWithBLOBs> modelList) {
+        if (CollectionUtils.isNotEmpty(modelList)) {
+            Date time = modelList.get(0).getCreationDate();
+            for (BotOutoundTaskDetailWithBLOBs model : modelList) {
+                if (!TimeDelayUtils.isSameDate(model.getCreationDate(), time)) {
                     return false;
                 }
             }

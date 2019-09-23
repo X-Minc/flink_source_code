@@ -1,17 +1,17 @@
 package com.ifugle.rap.mapper;
 
 import java.util.List;
+
+import com.ifugle.rap.core.mapper.BaseMapper;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
+import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
-public interface YhzxxnzzcyDOMapper {
+public interface YhzxxnzzcyDOMapper  extends BaseMapper<YhzxxnzzcyDO, Long> {
     int deleteByPrimaryKey(Long id);
-
-    int insert(YhzxxnzzcyDO record);
-
-    int insertSelective(YhzxxnzzcyDO record);
 
     YhzxxnzzcyDO selectByPrimaryKey(Long id);
 

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.camel.spi.AsEndpointUri;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -34,6 +35,7 @@ import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
 import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
 import com.ifugle.rap.service.SyncService;
 import com.ifugle.rap.service.impl.DataSyncServiceImpl;
+import com.ifugle.rap.service.redis.MessageConsumer;
 import com.ifugle.rap.service.thread.BotConfigServerInitThread;
 import com.ifugle.rap.service.thread.KbsTagInitThread;
 import com.ifugle.rap.elasticsearch.api.BusinessCommonApi;
@@ -65,6 +67,9 @@ public class ElasticSearchTest extends  BaseTest{
     @Autowired
     private SyncService syncService;
 
+    @Autowired
+    private MessageConsumer messageConsumer;
+
     private final static Logger logger = LoggerFactory.getLogger(ElasticSearchTest.class);
 
     @Test
@@ -89,7 +94,7 @@ public class ElasticSearchTest extends  BaseTest{
 
     @Test
     public void updateKbsArticleForSyncTest(){
-        dataSyncServiceImpl.updateKbsArticleForSync();
+//        dataSyncServiceImpl.updateKbsArticleForSync();
     }
 
     @Test
@@ -97,7 +102,7 @@ public class ElasticSearchTest extends  BaseTest{
         KbsQuestionDO kbsQuestionDO = kbsQuestionDOMapper.selectByPrimaryKey(378867l);
         List<KbsQuestionDO> kbsQuestionDOS = new ArrayList<KbsQuestionDO>();
         kbsQuestionDOS.add(kbsQuestionDO);
-        dataSyncServiceImpl.updateKbsQuestionAndCheckListSize(kbsQuestionDOS,100);
+//        dataSyncServiceImpl.updateKbsQuestionAndCheckListSize(kbsQuestionDOS,100);
     }
 
     @Autowired
@@ -133,7 +138,7 @@ public class ElasticSearchTest extends  BaseTest{
 
     @Test
     public void botMedisUpdate(){
-        dataSyncServiceImpl.updateBotMediaForSync();
+//        dataSyncServiceImpl.updateBotMediaForSync();
     }
 
     @Autowired
@@ -172,6 +177,11 @@ public class ElasticSearchTest extends  BaseTest{
     public void botConfigServerInitThreadTest(){
         BotConfigServerInitThread botConfigServerInitThread = new BotConfigServerInitThread(20,syncService,botConfigServerMapper);
         botConfigServerInitThread.run();
+    }
+
+    @Test
+    public void testInsert(){
+        messageConsumer.requestData("{\"ids\":[391736],\"indexName\":\"kbs_question\",\"docName\":\"doc\",\"properties\":{\"CATEGORIES\":[10481],\"ORGANIZATIONS\":[2253],\"SYNC_FLAG\":0}}");
     }
 
 

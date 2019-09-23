@@ -1,9 +1,12 @@
 package com.ifugle.rap.mapper;
 
 
+import com.ifugle.rap.core.mapper.BaseMapper;
+import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,13 +15,8 @@ import java.util.List;
  * @auther: Liuzhengyang
  *
  */
-@Component
-public interface BotUnawareDetailDOMapper {
+public interface BotUnawareDetailDOMapper  extends BaseMapper<BotUnawareDetailDO, Long> {
     int deleteByPrimaryKey(Long id);
-
-    int insert(BotUnawareDetailDO record);
-
-    int insertSelective(BotUnawareDetailDO record);
 
     BotUnawareDetailDO selectByPrimaryKey(Long id);
 

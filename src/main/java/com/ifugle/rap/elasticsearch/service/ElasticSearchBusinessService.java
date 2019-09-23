@@ -57,7 +57,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
     /***
      * 批量插入或者更新的模板
      */
-    private static final String SAMPLE_UPDATE_OR_INSERT_DSL = "{ \"update\": { \"_index\": \"%s\", \"_type\": \"%s\", \"_id\": \"%s\"} } \n\r" + "{ \"doc\" : %s }\n";
+    private static final String SAMPLE_UPDATE_OR_INSERT_DSL = "{ \"index\": { \"_index\": \"%s\", \"_type\": \"%s\", \"_id\": \"%s\" }} \n";
 
 
     @Autowired
@@ -138,7 +138,10 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
     public String formatSaveOrUpdateDSL(ChannelType channelType, DataRequest request) {
         Map<String, Object> map = request.getMap();
         String data = JSONUtil.toJSON(map);
-        return String.format(SAMPLE_UPDATE_DSL, channelType.getCode(), request.getCatalogType(), getId(request), data);
+        StringBuilder dsl = new StringBuilder(String.format(SAMPLE_UPDATE_OR_INSERT_DSL, channelType.getCode(), request.getCatalogType(), getId(request)));
+        dsl.append(data);
+        dsl.append(" \n");
+        return dsl.toString();
     }
 
     /**

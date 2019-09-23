@@ -74,9 +74,6 @@ public class StartUp extends AbstractIdleService {
             context.start();
             context.registerShutdownHook();
 
-            final DsbSubThread dsbSubThread = context.getBean(DsbSubThread.class);
-            dsbSubThread.start();
-
             final DataInitClient dataInitClient = context.getBean(DataInitClient.class);
             logger.info("dataInit start");
             dataInitClient.init();

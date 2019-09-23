@@ -3,22 +3,16 @@ package com.ifugle.rap.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
+import com.ifugle.rap.core.mapper.BaseMapper;
 import com.ifugle.rap.model.shuixiaomi.BizData;
 
 /***
  * bizdata表迁移mapper
  */
-@Component
-public interface BizDataMapper {
+public interface BizDataMapper  extends BaseMapper<BizData, Long> {
 
     int deleteByPrimaryKey(Long id);
-
-    int insert(BizData record);
-
-    int insertSelective(BizData record);
 
     BizData selectByPrimaryKey(Long id);
 

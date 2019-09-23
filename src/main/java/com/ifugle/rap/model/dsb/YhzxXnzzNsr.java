@@ -2,7 +2,9 @@ package com.ifugle.rap.model.dsb;
 
 import java.util.Date;
 
-public class YhzxXnzzNsr {
+import com.ifugle.rap.core.model.impl.EnhanceModel;
+
+public class YhzxXnzzNsr extends EnhanceModel<Long> {
     private Long id;
 
     private Long xnzzId;
@@ -74,6 +76,10 @@ public class YhzxXnzzNsr {
     private Byte xxwlqyBj;
 
     private Byte nsxydj;
+
+    private String kzztdjlxDm;
+
+    private String jyfw;
 
     public Long getId() {
         return id;
@@ -361,5 +367,21 @@ public class YhzxXnzzNsr {
 
     public void setNsxydj(Byte nsxydj) {
         this.nsxydj = nsxydj;
+    }
+
+    public String getKzztdjlxDm() {
+        return kzztdjlxDm;
+    }
+
+    public void setKzztdjlxDm(String kzztdjlxDm) {
+        this.kzztdjlxDm = kzztdjlxDm;
+    }
+
+    public String getJyfw() {
+        return jyfw;
+    }
+
+    public void setJyfw(String jyfw) {
+        this.jyfw = jyfw;
     }
 }

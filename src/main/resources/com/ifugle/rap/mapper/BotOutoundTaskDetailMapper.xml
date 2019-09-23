@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ifugle.rap.mapper.BotOutoundTaskDetailMapper">
+  <resultMap id="BaseResultMap" type="com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetail">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="NODE_ID" jdbcType="INTEGER" property="nodeId" />
+    <result column="ORG_ID" jdbcType="BIGINT" property="orgId" />
+    <result column="TASK_ID" jdbcType="BIGINT" property="taskId" />
+    <result column="MESSAGE_ID" jdbcType="BIGINT" property="messageId" />
+    <result column="DIALOGUE_ID" jdbcType="BIGINT" property="dialogueId" />
+    <result column="RECEIVER" jdbcType="VARCHAR" property="receiver" />
+    <result column="RECEIVER_MOBILE" jdbcType="VARCHAR" property="receiverMobile" /> <!-- CryptNumber 加密 -->
+    <result column="CALL_RECORD_URL" jdbcType="VARCHAR" property="callRecordUrl" />
+    <result column="CALL_TIME" jdbcType="TIMESTAMP" property="callTime" />
+    <result column="ANSWER_TIME" jdbcType="TIMESTAMP" property="answerTime" />
+    <result column="HANGUP_TIME" jdbcType="TIMESTAMP" property="hangupTime" />
+    <result column="DURATION" jdbcType="INTEGER" property="duration" />
+    <result column="STATUS" jdbcType="TINYINT" property="status" />
+    <result column="FEEDBACK_STATUS" jdbcType="TINYINT" property="feedbackStatus" />
+    <result column="FEEDBACK_CONTENT" jdbcType="VARCHAR" property="feedbackContent" />
+    <result column="DJXH" jdbcType="VARCHAR" property="djxh" />
+    <result column="SHXYDM" jdbcType="VARCHAR" property="shxydm" />  <!-- CryptBase36 加密 -->
+    <result column="QYMC" jdbcType="VARCHAR" property="qymc" />  <!-- CryptSimple 加密 -->
+    <result column="SWSMC" jdbcType="VARCHAR" property="swsmc" />
+    <result column="SGYMC" jdbcType="VARCHAR" property="sgymc" />
+    <result column="EXCEL_COLUMN" jdbcType="VARCHAR" property="excelColumn" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
+    <result column="MODIFIER" jdbcType="VARCHAR" property="modifier" />
+    <result column="MODIFICATION_DATE" jdbcType="TIMESTAMP" property="modificationDate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs">
+    <result column="CONTENT" jdbcType="LONGVARCHAR" property="content" />
+    <result column="CALL_RECORD" jdbcType="LONGVARCHAR" property="callRecord" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, NODE_ID, ORG_ID, TASK_ID, MESSAGE_ID, DIALOGUE_ID, RECEIVER, RECEIVER_MOBILE, 
+    CALL_RECORD_URL, CALL_TIME, ANSWER_TIME, HANGUP_TIME, DURATION, STATUS, FEEDBACK_STATUS, 
+    FEEDBACK_CONTENT, DJXH, SHXYDM, QYMC, SWSMC, SGYMC, EXCEL_COLUMN, REMARK, CREATOR, 
+    CREATION_DATE, MODIFIER, MODIFICATION_DATE
+  </sql>
+
+  <sql id="Blob_Column_List">
+    CONTENT, CALL_RECORD
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bot_outbound_task_detail
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from bot_outbound_task_detail
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs">
+    insert into bot_outbound_task_detail (ID, NODE_ID, ORG_ID, 
+      TASK_ID, MESSAGE_ID, DIALOGUE_ID, 
+      RECEIVER, RECEIVER_MOBILE, CALL_RECORD_URL, 
+      CALL_TIME, ANSWER_TIME, HANGUP_TIME, 
+      DURATION, STATUS, FEEDBACK_STATUS, 
+      FEEDBACK_CONTENT, DJXH, SHXYDM, 
+      QYMC, SWSMC, SGYMC, 
+      EXCEL_COLUMN, REMARK, CREATOR, 
+      CREATION_DATE, MODIFIER, MODIFICATION_DATE, 
+      CONTENT, CALL_RECORD)
+    values (#{id,jdbcType=BIGINT}, #{nodeId,jdbcType=INTEGER}, #{orgId,jdbcType=BIGINT}, 
+      #{taskId,jdbcType=BIGINT}, #{messageId,jdbcType=BIGINT}, #{dialogueId,jdbcType=BIGINT}, 
+      #{receiver,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR}, #{callRecordUrl,jdbcType=VARCHAR}, 
+      #{callTime,jdbcType=TIMESTAMP}, #{answerTime,jdbcType=TIMESTAMP}, #{hangupTime,jdbcType=TIMESTAMP}, 
+      #{duration,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{feedbackStatus,jdbcType=TINYINT}, 
+      #{feedbackContent,jdbcType=VARCHAR}, #{djxh,jdbcType=VARCHAR}, #{shxydm,jdbcType=VARCHAR}, 
+      #{qymc,jdbcType=VARCHAR}, #{swsmc,jdbcType=VARCHAR}, #{sgymc,jdbcType=VARCHAR}, 
+      #{excelColumn,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{creationDate,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}, #{modificationDate,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=LONGVARCHAR}, #{callRecord,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs">
+    insert into bot_outbound_task_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="nodeId != null">
+        NODE_ID,
+      </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+      <if test="taskId != null">
+        TASK_ID,
+      </if>
+      <if test="messageId != null">
+        MESSAGE_ID,
+      </if>
+      <if test="dialogueId != null">
+        DIALOGUE_ID,
+      </if>
+      <if test="receiver != null">
+        RECEIVER,
+      </if>
+      <if test="receiverMobile != null">
+        RECEIVER_MOBILE,
+      </if>
+      <if test="callRecordUrl != null">
+        CALL_RECORD_URL,
+      </if>
+      <if test="callTime != null">
+        CALL_TIME,
+      </if>
+      <if test="answerTime != null">
+        ANSWER_TIME,
+      </if>
+      <if test="hangupTime != null">
+        HANGUP_TIME,
+      </if>
+      <if test="duration != null">
+        DURATION,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="feedbackStatus != null">
+        FEEDBACK_STATUS,
+      </if>
+      <if test="feedbackContent != null">
+        FEEDBACK_CONTENT,
+      </if>
+      <if test="djxh != null">
+        DJXH,
+      </if>
+      <if test="shxydm != null">
+        SHXYDM,
+      </if>
+      <if test="qymc != null">
+        QYMC,
+      </if>
+      <if test="swsmc != null">
+        SWSMC,
+      </if>
+      <if test="sgymc != null">
+        SGYMC,
+      </if>
+      <if test="excelColumn != null">
+        EXCEL_COLUMN,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="creationDate != null">
+        CREATION_DATE,
+      </if>
+      <if test="modifier != null">
+        MODIFIER,
+      </if>
+      <if test="modificationDate != null">
+        MODIFICATION_DATE,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="callRecord != null">
+        CALL_RECORD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="nodeId != null">
+        #{nodeId,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=BIGINT},
+      </if>
+      <if test="messageId != null">
+        #{messageId,jdbcType=BIGINT},
+      </if>
+      <if test="dialogueId != null">
+        #{dialogueId,jdbcType=BIGINT},
+      </if>
+      <if test="receiver != null">
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverMobile != null">
+        #{receiverMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="callRecordUrl != null">
+        #{callRecordUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="callTime != null">
+        #{callTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="answerTime != null">
+        #{answerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hangupTime != null">
+        #{hangupTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="feedbackStatus != null">
+        #{feedbackStatus,jdbcType=TINYINT},
+      </if>
+      <if test="feedbackContent != null">
+        #{feedbackContent,jdbcType=VARCHAR},
+      </if>
+      <if test="djxh != null">
+        #{djxh,jdbcType=VARCHAR},
+      </if>
+      <if test="shxydm != null">
+        #{shxydm,jdbcType=VARCHAR},
+      </if>
+      <if test="qymc != null">
+        #{qymc,jdbcType=VARCHAR},
+      </if>
+      <if test="swsmc != null">
+        #{swsmc,jdbcType=VARCHAR},
+      </if>
+      <if test="sgymc != null">
+        #{sgymc,jdbcType=VARCHAR},
+      </if>
+      <if test="excelColumn != null">
+        #{excelColumn,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="creationDate != null">
+        #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modificationDate != null">
+        #{modificationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="callRecord != null">
+        #{callRecord,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs">
+    update bot_outbound_task_detail
+    <set>
+      <if test="nodeId != null">
+        NODE_ID = #{nodeId,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null">
+        ORG_ID = #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="taskId != null">
+        TASK_ID = #{taskId,jdbcType=BIGINT},
+      </if>
+      <if test="messageId != null">
+        MESSAGE_ID = #{messageId,jdbcType=BIGINT},
+      </if>
+      <if test="dialogueId != null">
+        DIALOGUE_ID = #{dialogueId,jdbcType=BIGINT},
+      </if>
+      <if test="receiver != null">
+        RECEIVER = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverMobile != null">
+        RECEIVER_MOBILE = #{receiverMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="callRecordUrl != null">
+        CALL_RECORD_URL = #{callRecordUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="callTime != null">
+        CALL_TIME = #{callTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="answerTime != null">
+        ANSWER_TIME = #{answerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hangupTime != null">
+        HANGUP_TIME = #{hangupTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duration != null">
+        DURATION = #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="feedbackStatus != null">
+        FEEDBACK_STATUS = #{feedbackStatus,jdbcType=TINYINT},
+      </if>
+      <if test="feedbackContent != null">
+        FEEDBACK_CONTENT = #{feedbackContent,jdbcType=VARCHAR},
+      </if>
+      <if test="djxh != null">
+        DJXH = #{djxh,jdbcType=VARCHAR},
+      </if>
+      <if test="shxydm != null">
+        SHXYDM = #{shxydm,jdbcType=VARCHAR},
+      </if>
+      <if test="qymc != null">
+        QYMC = #{qymc,jdbcType=VARCHAR},
+      </if>
+      <if test="swsmc != null">
+        SWSMC = #{swsmc,jdbcType=VARCHAR},
+      </if>
+      <if test="sgymc != null">
+        SGYMC = #{sgymc,jdbcType=VARCHAR},
+      </if>
+      <if test="excelColumn != null">
+        EXCEL_COLUMN = #{excelColumn,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="creationDate != null">
+        CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        MODIFIER = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modificationDate != null">
+        MODIFICATION_DATE = #{modificationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="callRecord != null">
+        CALL_RECORD = #{callRecord,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs">
+    update bot_outbound_task_detail
+    set NODE_ID = #{nodeId,jdbcType=INTEGER},
+      ORG_ID = #{orgId,jdbcType=BIGINT},
+      TASK_ID = #{taskId,jdbcType=BIGINT},
+      MESSAGE_ID = #{messageId,jdbcType=BIGINT},
+      DIALOGUE_ID = #{dialogueId,jdbcType=BIGINT},
+      RECEIVER = #{receiver,jdbcType=VARCHAR},
+      RECEIVER_MOBILE = #{receiverMobile,jdbcType=VARCHAR},
+      CALL_RECORD_URL = #{callRecordUrl,jdbcType=VARCHAR},
+      CALL_TIME = #{callTime,jdbcType=TIMESTAMP},
+      ANSWER_TIME = #{answerTime,jdbcType=TIMESTAMP},
+      HANGUP_TIME = #{hangupTime,jdbcType=TIMESTAMP},
+      DURATION = #{duration,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=TINYINT},
+      FEEDBACK_STATUS = #{feedbackStatus,jdbcType=TINYINT},
+      FEEDBACK_CONTENT = #{feedbackContent,jdbcType=VARCHAR},
+      DJXH = #{djxh,jdbcType=VARCHAR},
+      SHXYDM = #{shxydm,jdbcType=VARCHAR},
+      QYMC = #{qymc,jdbcType=VARCHAR},
+      SWSMC = #{swsmc,jdbcType=VARCHAR},
+      SGYMC = #{sgymc,jdbcType=VARCHAR},
+      EXCEL_COLUMN = #{excelColumn,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      MODIFIER = #{modifier,jdbcType=VARCHAR},
+      MODIFICATION_DATE = #{modificationDate,jdbcType=TIMESTAMP},
+      CONTENT = #{content,jdbcType=LONGVARCHAR},
+      CALL_RECORD = #{callRecord,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetail">
+    update bot_outbound_task_detail
+    set NODE_ID = #{nodeId,jdbcType=INTEGER},
+      ORG_ID = #{orgId,jdbcType=BIGINT},
+      TASK_ID = #{taskId,jdbcType=BIGINT},
+      MESSAGE_ID = #{messageId,jdbcType=BIGINT},
+      DIALOGUE_ID = #{dialogueId,jdbcType=BIGINT},
+      RECEIVER = #{receiver,jdbcType=VARCHAR},
+      RECEIVER_MOBILE = #{receiverMobile,jdbcType=VARCHAR},
+      CALL_RECORD_URL = #{callRecordUrl,jdbcType=VARCHAR},
+      CALL_TIME = #{callTime,jdbcType=TIMESTAMP},
+      ANSWER_TIME = #{answerTime,jdbcType=TIMESTAMP},
+      HANGUP_TIME = #{hangupTime,jdbcType=TIMESTAMP},
+      DURATION = #{duration,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=TINYINT},
+      FEEDBACK_STATUS = #{feedbackStatus,jdbcType=TINYINT},
+      FEEDBACK_CONTENT = #{feedbackContent,jdbcType=VARCHAR},
+      DJXH = #{djxh,jdbcType=VARCHAR},
+      SHXYDM = #{shxydm,jdbcType=VARCHAR},
+      QYMC = #{qymc,jdbcType=VARCHAR},
+      SWSMC = #{swsmc,jdbcType=VARCHAR},
+      SGYMC = #{sgymc,jdbcType=VARCHAR},
+      EXCEL_COLUMN = #{excelColumn,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
+      MODIFIER = #{modifier,jdbcType=VARCHAR},
+      MODIFICATION_DATE = #{modificationDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+
+
+
+  <select id="selectBotOutoundTaskDetailForSync" resultMap="ResultMapWithBLOBs">
+        SELECT
+      <include refid="Base_Column_List" />
+      ,
+      <include refid="Blob_Column_List" />
+      FROM BOT_OUTBOUND_TASK_DETAIL WHERE MODIFICATION_DATE >= #{lastUpdateTime} ORDER BY MODIFICATION_DATE LIMIT ${first},${pageSize}
+    </select>
+</mapper>

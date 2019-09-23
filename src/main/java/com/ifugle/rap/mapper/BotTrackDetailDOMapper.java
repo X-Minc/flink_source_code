@@ -1,9 +1,12 @@
 package com.ifugle.rap.mapper;
 
 
+import com.ifugle.rap.core.mapper.BaseMapper;
+import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
 import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,13 +15,8 @@ import java.util.List;
  * @auther: Liuzhengyang
  *
  */
-@Component
-public interface BotTrackDetailDOMapper {
+public interface BotTrackDetailDOMapper  extends BaseMapper<BotTrackDetailDO, Long> {
     int deleteByPrimaryKey(Long id);
-
-    int insert(BotTrackDetailDO record);
-
-    int insertSelective(BotTrackDetailDO record);
 
     BotTrackDetailDO selectByPrimaryKey(Long id);
 
