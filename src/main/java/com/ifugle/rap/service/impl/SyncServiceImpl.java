@@ -206,12 +206,12 @@ public class SyncServiceImpl implements SyncService {
     public boolean insertXxzxXxmxAndCheckListSize(List<XxzxXxmx> xxzxXxmxes, Integer pageSize){
         logger.info("[SyncServiceImpl] start insertXxzxXxmxAndCheckListSize table to es .... ");
         StringBuffer DSL = new StringBuffer(32);
-        CryptSimple cryptSimple = new CryptSimple();
+        CryptSimple cryptSimple = new CryptSimple(CryptSimple.MAX_SEARCH_SIZE_4096);
         if (StringUtils.equalsIgnoreCase(env, "prod")) {
             DecodeUtils.initCryptSimpleProd(cryptSimple);
         }
 
-        CryptBase36 cryptBase36 = new CryptBase36();
+        CryptBase36 cryptBase36 = new CryptBase36(CryptBase36.MAX_SEARCH_SIZE_6);
         if (StringUtils.equalsIgnoreCase(env, "prod")) {
             DecodeUtils.initCryptBase36(cryptBase36);
         }
