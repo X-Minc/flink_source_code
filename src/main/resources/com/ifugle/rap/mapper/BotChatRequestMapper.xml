@@ -27,7 +27,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     ID, NODE_ID, ORG_ID, CHAT_SERVER_ID, DEPT_ID, COMPANY_ID, USER_ID, SESSION_ID, MAN_SESSION_ID, 
-    UTTERANCE, TYPE, FORMAT, KNOWLEDGE_ID, MESSAGE_ID, READ, TAG, FILE_NAME, CHAT_TIME, 
+    UTTERANCE, `TYPE`, FORMAT, KNOWLEDGE_ID, MESSAGE_ID, `READ`, TAG, FILE_NAME, CHAT_TIME,
     CALL_LAPSED_TIME, SELECTED, CREATION_DATE, DURATION
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
