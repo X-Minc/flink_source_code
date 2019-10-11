@@ -695,6 +695,10 @@ public class DataSyncServiceImpl implements DataSyncService {
             CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "XXZX_XXMX");
         }
 
+        if (!CommonUtils.isExistDir("BOT_CHAT_REQUEST")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_CHAT_REQUEST");
+        }
+
         logger.info("init data localhost file end");
     }
 
