@@ -67,7 +67,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
     private BusinessCommonApi businessCommonApi;
 
     @Override
-    public boolean exportDataMysqlToEs(ChannelType channelType, DataRequest request) {
+    public boolean exportDataMysqlToEs(String channelType, DataRequest request) {
         String keyId = businessCommonApi.insertOrUpdate(channelType, request.getCatalogType(), getId(request), request.getMap());
         if (StringUtils.isNotBlank(keyId)) {
             return true;
@@ -78,7 +78,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
     }
 
     @Override
-    public boolean checkDataExistsInEs(ChannelType channelType, DataRequest request) {
+    public boolean checkDataExistsInEs(String channelType, DataRequest request) {
         Map<String, Object> map = null;
         try {
             map = businessCommonApi.get(channelType, request.getCatalogType(), getId(request));
@@ -120,10 +120,10 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
      *
      * @return
      */
-    public String formatUpdateDSL(ChannelType channelType, DataRequest request) {
+    public String formatUpdateDSL(String channelType, DataRequest request) {
         Map<String, Object> map = request.getMap();
         String data = JSONUtil.toJSON(map);
-        return String.format(SAMPLE_UPDATE_DSL, channelType.getCode(), request.getCatalogType(), getId(request), data);
+        return String.format(SAMPLE_UPDATE_DSL, channelType, request.getCatalogType(), getId(request), data);
     }
 
 
@@ -135,10 +135,10 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
      *
      * @return
      */
-    public String formatSaveOrUpdateDSL(ChannelType channelType, DataRequest request) {
+    public String formatSaveOrUpdateDSL(String channelType, DataRequest request) {
         Map<String, Object> map = request.getMap();
         String data = JSONUtil.toJSON(map);
-        StringBuilder dsl = new StringBuilder(String.format(SAMPLE_UPDATE_OR_INSERT_DSL, channelType.getCode(), request.getCatalogType(), getId(request)));
+        StringBuilder dsl = new StringBuilder(String.format(SAMPLE_UPDATE_OR_INSERT_DSL, channelType, request.getCatalogType(), getId(request)));
         dsl.append(data);
         dsl.append(" \n");
         return dsl.toString();
@@ -152,8 +152,8 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
      *
      * @return
      */
-    public String formatInsertDSL(ChannelType channelType, DataRequest request) {
-        StringBuilder dsl = new StringBuilder(String.format(SAMPLE_INSERT_DSL, channelType.getCode(), request.getCatalogType(), getId(request)));
+    public String formatInsertDSL(String channelType, DataRequest request) {
+        StringBuilder dsl = new StringBuilder(String.format(SAMPLE_INSERT_DSL, channelType, request.getCatalogType(), getId(request)));
         Map<String, Object> map = request.getMap();
         String data = JSONUtil.toJSON(map);
         dsl.append(data);

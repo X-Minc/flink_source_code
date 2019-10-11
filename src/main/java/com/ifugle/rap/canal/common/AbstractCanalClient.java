@@ -385,7 +385,7 @@ public class AbstractCanalClient {
                 DataRequest request = new DataRequest();
                 request.setCatalogType(catelogName);
                 request.setMap(map);
-                elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI,request);
+                elasticSearchBusinessApi.exportDataMysqlToEs(ChannelType.SHUIXIAOMI.getCode(),request);
             }
         }
     }

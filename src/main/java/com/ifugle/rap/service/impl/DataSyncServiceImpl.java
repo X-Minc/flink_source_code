@@ -4,8 +4,10 @@ import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.ifugle.rap.mapper.*;
 import com.ifugle.rap.mapper.dsb.XxzxXxmxMapper;
 import com.ifugle.rap.model.dingtax.XxzxXxmx;
+import com.ifugle.rap.model.shuixiaomi.*;
 import org.apache.camel.spi.AsEndpointUri;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -18,37 +20,12 @@ import org.springframework.util.CollectionUtils;
 
 import com.ifugle.rap.common.lang.util.DateUtils;
 import com.ifugle.rap.constants.SystemConstants;
-import com.ifugle.rap.mapper.BizDataMapper;
-import com.ifugle.rap.mapper.BotChatResponseMessageDOMapper;
-import com.ifugle.rap.mapper.BotConfigServerMapper;
-import com.ifugle.rap.mapper.BotMediaDOMapper;
-import com.ifugle.rap.mapper.BotOutoundTaskDetailMapper;
-import com.ifugle.rap.mapper.BotTrackDetailDOMapper;
-import com.ifugle.rap.mapper.BotUnawareDetailDOMapper;
-import com.ifugle.rap.mapper.KbsArticleDOMapper;
-import com.ifugle.rap.mapper.KbsKeywordDOMapper;
-import com.ifugle.rap.mapper.KbsQuestionArticleDOMapper;
-import com.ifugle.rap.mapper.KbsQuestionDOMapper;
-import com.ifugle.rap.mapper.KbsReadingDOMapper;
-import com.ifugle.rap.mapper.YhzxxnzzcyDOMapper;
 import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrMapper;
 import com.ifugle.rap.mapper.dsb.YhzxXnzzTpcQyMapper;
 import com.ifugle.rap.mapper.zhcs.ZxArticleMapper;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
 import com.ifugle.rap.model.dsb.YhzxXnzzTpcQy;
-import com.ifugle.rap.model.shuixiaomi.BizData;
-import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
-import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
-import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
-import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
-import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
-import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
-import com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs;
-import com.ifugle.rap.model.shuixiaomi.KbsKeywordDO;
-import com.ifugle.rap.model.shuixiaomi.KbsQuestionArticleDO;
-import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
-import com.ifugle.rap.model.shuixiaomi.KbsReadingDOWithBLOBs;
 import com.ifugle.rap.model.zhcs.ZxArticle;
 import com.ifugle.rap.service.DataSyncService;
 import com.ifugle.rap.service.SyncService;
@@ -126,6 +103,9 @@ public class DataSyncServiceImpl implements DataSyncService {
     @Autowired
     private XxzxXxmxMapper xxzxXxmxMapper;
 
+    @Autowired
+    BotChatRequestMapper botChatRequestMapper;
+
 
     @Value("${profiles.active}")
     String env;
@@ -152,6 +132,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         insertBotBizDataForSync();  //特别注意存在加解密的问题，容易引起线程阻塞
         insertBotConfigServerForSync();
         insertBotOutoundTaskDetailForSync();
+        insertBotChatRequestForSync();
         /***
          *  智慧财税导入
          */
@@ -168,6 +149,8 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
 
     }
+
+
 
     /***
      *  insert ######################################################################################################################################
@@ -437,6 +420,39 @@ public class DataSyncServiceImpl implements DataSyncService {
                  */
                 Date startDate = DateUtils.string2Date(lastCreateTime,DateUtils.simple);
                 if (modificationDate.compareTo(startDate) > 0 || yhzxXnzzTpcQyList.size() < pageSize) {
+                    break;
+                }
+            }else{
+                break;
+            }
+            pageIndex++;
+        }
+    }
+
+
+    /***
+     * 执行BotChatRequest表的同步
+     */
+    private void insertBotChatRequestForSync() {
+        String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_CHAT_REQUEST");
+        if (StringUtils.isEmpty(lastCreateTime)) {
+            logger.info("insertBotChatRequestForSync lastCreateTime is null");
+            return;
+        }
+        int pageIndex = 1;
+        while(true) {
+            logger.info(MessageFormat.format("BOT_CHAT_REQUEST lastCreateTime : {0}", lastCreateTime));
+            Integer first = (pageIndex - 1) * pageSize;
+            List<BotChatRequest> botChatRequests = botChatRequestMapper.selectBotChatRequestForSync(lastCreateTime, first, pageSize);
+            if (!CollectionUtils.isEmpty(botChatRequests)) {
+                syncService.insertBotChatRequestAndCheckListSize(botChatRequests, pageSize);
+                Date creationDate = botChatRequests.get(botChatRequests.size() - 1).getCreationDate();
+                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(creationDate), "BOT_CHAT_REQUEST");
+                /***
+                 * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
+                 */
+                Date startDate = DateUtils.string2Date(lastCreateTime,DateUtils.simple);
+                if (creationDate.compareTo(startDate) > 0 || botChatRequests.size() < pageSize) {
                     break;
                 }
             }else{

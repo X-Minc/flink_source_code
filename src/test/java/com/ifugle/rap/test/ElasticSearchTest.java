@@ -82,13 +82,13 @@ public class ElasticSearchTest extends  BaseTest{
         searchParams.put("user_name", "huanglei");
         request.setSearchParams(searchParams);
         RealtimeSearchResponse response = businessSearchApi.queryBusinessData(
-                ChannelType.SHUIXIAOMI, "track", request);
+                ChannelType.SHUIXIAOMI.getCode(), "track", request);
         logger.error("==============response===========" + JSON.toJSONString(response));
     }
 
     @Test
     public void queryDetailTest() {
-        Map<String, Object>  map = businessCommonApi.get(ChannelType.SHUIXIAOMI, "KBS_ARTICLE", "220997");
+        Map<String, Object>  map = businessCommonApi.get(ChannelType.SHUIXIAOMI.getCode(), "KBS_ARTICLE", "220997");
         logger.info("==============response==========="+JSON.toJSONString(map));
     }
 
@@ -126,7 +126,7 @@ public class ElasticSearchTest extends  BaseTest{
         StringBuffer DSL = new StringBuffer(32);
         for (BotMediaDO botMediaDO : botMediaDOS) {
             DataRequest request = compriseUtils.botMediaCompriseDataRequest(botMediaDO);
-            DSL.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.SHUIXIAOMI, request));
+            DSL.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.SHUIXIAOMI.getCode(), request));
         }
         elasticSearchBusinessService.bulkOperation(DSL.toString());
     }

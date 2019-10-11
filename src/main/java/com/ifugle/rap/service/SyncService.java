@@ -11,18 +11,7 @@ import com.ifugle.rap.model.dingtax.XxzxXxmx;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
 import com.ifugle.rap.model.dsb.YhzxXnzzTpcQy;
-import com.ifugle.rap.model.shuixiaomi.BizData;
-import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
-import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
-import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
-import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
-import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
-import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
-import com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs;
-import com.ifugle.rap.model.shuixiaomi.KbsKeywordDO;
-import com.ifugle.rap.model.shuixiaomi.KbsQuestionArticleDO;
-import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
-import com.ifugle.rap.model.shuixiaomi.KbsReadingDOWithBLOBs;
+import com.ifugle.rap.model.shuixiaomi.*;
 import com.ifugle.rap.model.zhcs.ZxArticle;
 
 /**
@@ -70,6 +59,9 @@ public interface SyncService {
 
 
     boolean insertYhzxXnzzTpcQyAndCheckListSize(List<YhzxXnzzTpcQy> yhzxXnzzTpcQys, Integer pageSize);
+
+
+    boolean insertBotChatRequestAndCheckListSize(List<BotChatRequest> botChatRequests, Integer pageSize);
 
 
     boolean insertXxzxXxmxAndCheckListSize(List<XxzxXxmx> xxzxXxmxes, Integer pageSize);

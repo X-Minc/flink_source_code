@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.ifugle.rap.model.dingtax.XxzxXxmx;
+import com.ifugle.rap.model.shuixiaomi.*;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,19 +28,6 @@ import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
 import com.ifugle.rap.model.dsb.YhzxXnzzTpcQy;
 import com.ifugle.rap.model.enums.TablesEnum;
-import com.ifugle.rap.model.shuixiaomi.BizData;
-import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
-import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
-import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
-import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetail;
-import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
-import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
-import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
-import com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs;
-import com.ifugle.rap.model.shuixiaomi.KbsKeywordDO;
-import com.ifugle.rap.model.shuixiaomi.KbsQuestionArticleDO;
-import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
-import com.ifugle.rap.model.shuixiaomi.KbsReadingDOWithBLOBs;
 import com.ifugle.rap.model.zhcs.ZxArticle;
 import com.ifugle.rap.security.crypto.CryptBase36;
 import com.ifugle.rap.security.crypto.CryptBase62;
@@ -204,6 +192,37 @@ public class CompriseUtils {
         hashMap.put("CJSJ",yhzxXnzzTpcQy.getCjsj() == null ? null : getLongData(yhzxXnzzTpcQy.getCjsj()));
         hashMap.put("XGR",yhzxXnzzTpcQy.getXgr());
         hashMap.put("XGSJ",yhzxXnzzTpcQy.getXgsj() == null ? null : getLongData(yhzxXnzzTpcQy.getXgsj()));
+        request.setMap(hashMap);
+        return request;
+    }
+
+
+    public DataRequest botChatRequestCompriseDataRequest(BotChatRequest botChatRequest, CryptSimple cryptSimple, CryptBase36 cryptBase36) {
+        DataRequest request = new DataRequest();
+        request.setCatalogType(SystemConstants.DEFAULT_TYPE);
+        Map<String, Object> hashMap = new HashMap<>(16);
+        hashMap.put("ID",botChatRequest.getId());
+        hashMap.put("NODE_ID",botChatRequest.getNodeId());
+        hashMap.put("ORG_ID",botChatRequest.getOrgId());
+        hashMap.put("CHAT_SERVER_ID",botChatRequest.getChatServerId());
+        hashMap.put("DEPT_ID",botChatRequest.getDeptId());
+        hashMap.put("COMPANY_ID",botChatRequest.getCompanyId());
+        hashMap.put("USER_ID",botChatRequest.getUserId());
+        hashMap.put("SESSION_ID",botChatRequest.getSessionId());
+        hashMap.put("MAN_SESSION_ID",botChatRequest.getManSessionId());
+        hashMap.put("UTTERANCE",botChatRequest.getUtterance());
+        hashMap.put("TYPE",botChatRequest.getType());
+        hashMap.put("FORMAT",botChatRequest.getFormat());
+        hashMap.put("KNOWLEDGE_ID",botChatRequest.getKnowledgeId());
+        hashMap.put("MESSAGE_ID",botChatRequest.getMessageId());
+        hashMap.put("READ",botChatRequest.getRead());
+        hashMap.put("TAG",botChatRequest.getTag());
+        hashMap.put("FILE_NAME",botChatRequest.getFileName());
+        hashMap.put("CHAT_TIME",botChatRequest.getChatTime() == null ? null : getLongData(botChatRequest.getChatTime()));
+        hashMap.put("CALL_LAPSED_TIME",botChatRequest.getCallLapsedTime());
+        hashMap.put("SELECTED",botChatRequest.getSelected());
+        hashMap.put("CREATION_DATE",botChatRequest.getCreationDate() == null ? null : getLongData(botChatRequest.getCreationDate()));
+        hashMap.put("DURATION",botChatRequest.getDuration());
         request.setMap(hashMap);
         return request;
     }
