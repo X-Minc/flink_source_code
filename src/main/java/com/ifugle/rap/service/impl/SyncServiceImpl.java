@@ -11,7 +11,10 @@ import java.util.Map;
 
 import com.ifugle.rap.model.dingtax.XxzxXxmx;
 import com.ifugle.rap.model.shuixiaomi.*;
+import com.ifugle.rap.service.rocketmq.RocketMqProducter;
+import org.apache.camel.spi.AsEndpointUri;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.xpath.operations.String;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +54,9 @@ public class SyncServiceImpl implements SyncService {
 
     @Autowired
     RedisMessageSubscriber redisMessageSubscriber;
+
+    @Autowired
+    RocketMqProducter rocketMqProducter;
 
     @Value("${profiles.active}")
     String env;
@@ -207,6 +213,16 @@ public class SyncServiceImpl implements SyncService {
             DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL("bot_chat_request", request));
         }
         elasticSearchBusinessService.bulkOperation(DSL.toString());
+        //循环发送mq消息
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0; i < botChatRequests.size(); i++) {
+            if (i == botChatRequests.size() - 1) {
+                stringBuffer.append(botChatRequests.get(i).getId());
+            } else {
+                stringBuffer.append(botChatRequests.get(i).getId() + ",");
+            }
+        }
+        rocketMqProducter.sendMessage(stringBuffer.toString());
         logger.info("[SyncServiceImpl] insertBotChatRequestAndCheckListSize pageSize=" + pageSize + "," + botChatRequests.size());
         return botChatRequests.size() < pageSize;
     }

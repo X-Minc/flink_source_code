@@ -440,19 +440,20 @@ public class DataSyncServiceImpl implements DataSyncService {
             return;
         }
         int pageIndex = 1;
+        int customPageSize = 2000;
         while(true) {
             logger.info(MessageFormat.format("BOT_CHAT_REQUEST lastCreateTime : {0}", lastCreateTime));
-            Integer first = (pageIndex - 1) * pageSize;
-            List<BotChatRequest> botChatRequests = botChatRequestMapper.selectBotChatRequestForSync(lastCreateTime, first, pageSize);
+            Integer first = (pageIndex - 1) * customPageSize;
+            List<BotChatRequest> botChatRequests = botChatRequestMapper.selectBotChatRequestForSync(lastCreateTime, first, customPageSize);
             if (!CollectionUtils.isEmpty(botChatRequests)) {
-                syncService.insertBotChatRequestAndCheckListSize(botChatRequests, pageSize);
+                syncService.insertBotChatRequestAndCheckListSize(botChatRequests, customPageSize);
                 Date creationDate = botChatRequests.get(botChatRequests.size() - 1).getCreationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(creationDate), "BOT_CHAT_REQUEST");
                 /***
                  * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
                  */
                 Date startDate = DateUtils.string2Date(lastCreateTime,DateUtils.simple);
-                if (creationDate.compareTo(startDate) > 0 || botChatRequests.size() < pageSize) {
+                if (creationDate.compareTo(startDate) > 0 || botChatRequests.size() < customPageSize) {
                     break;
                 }
             }else{

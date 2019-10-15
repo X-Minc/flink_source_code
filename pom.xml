@@ -199,6 +199,18 @@
         </dependency>
 
         <dependency>
+            <groupId>com.ifugle.rap</groupId>
+            <artifactId>rap-core-mq</artifactId>
+            <version>3.1.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.aliyun.openservices</groupId>
+            <artifactId>ons-client</artifactId>
+            <version>1.8.0.Final</version>
+        </dependency>
+
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.0.1</version>
