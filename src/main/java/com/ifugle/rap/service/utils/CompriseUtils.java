@@ -14,7 +14,9 @@ import java.util.Map;
 
 import com.ifugle.rap.model.dingtax.XxzxXxmx;
 import com.ifugle.rap.model.shuixiaomi.*;
+import com.ifugle.util.DateUtil;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -223,6 +225,7 @@ public class CompriseUtils {
         hashMap.put("SELECTED",botChatRequest.getSelected());
         hashMap.put("CREATION_DATE",botChatRequest.getCreationDate() == null ? null : getLongData(botChatRequest.getCreationDate()));
         hashMap.put("DURATION",botChatRequest.getDuration());
+        hashMap.put("STATISTICAL_DATE", botChatRequest.getCreationDate() == null ? null : DateUtil.format(botChatRequest.getCreationDate(),DateUtil.ISO8601_DATE));
         request.setMap(hashMap);
         return request;
     }
