@@ -56,7 +56,7 @@ public class RocketMqProducter {
                 // Message 所属的 Topic
                 RocketMqConstants.MQ_TOPIC,
                 // Message Tag 可理解为 Gmail 中的标签，对消息进行再归类，方便 Consumer 指定过滤条件在 MQ 服务器过滤
-                esDocumentData.getDocName(),
+                esDocumentData.getIndexName(),
                 // Message Body 可以是任何二进制形式的数据， MQ 不做任何干预，
                 // 需要 Producer 与 Consumer 协商好一致的序列化和反序列化方式
                 messageId.getBytes());

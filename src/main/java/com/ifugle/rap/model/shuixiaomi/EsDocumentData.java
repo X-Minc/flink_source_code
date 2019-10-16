@@ -62,4 +62,8 @@ public class EsDocumentData implements Serializable {
     public String getDocName() {
         return docName;
     }
+
+    public String getIndexName() {
+        return indexName;
+    }
 }
