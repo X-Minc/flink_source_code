@@ -49,7 +49,7 @@ public class RocketMqProducter {
         // 以方便您在无法正常收到消息情况下，可通过阿里云服务器管理控制台查询消息并补发
         // 注意：不设置也不会影响消息正常收发
         msg.setKey("ORDERID_" + UUID.randomUUID() + messageId);
-        logger.info(String.format("rocketMq parameter groupID={},AccessKey={},SecretKey={},NameServer={},topic={},message={}", RocketMqConstants.GROUP_ID, RocketMqConstants.AccessKey, RocketMqConstants.SecretKey,RocketMqConstants.NameServer,RocketMqConstants.MQ_TOPIC,messageId));
+        logger.info(String.format("rocketMq parameter groupID=%s,AccessKey=%s,SecretKey=%s,NameServer=%s,topic=%s,message=%s", RocketMqConstants.GROUP_ID, RocketMqConstants.AccessKey, RocketMqConstants.SecretKey,RocketMqConstants.NameServer,RocketMqConstants.MQ_TOPIC,messageId));
         try {
             SendResult sendResult = producer.send(msg);
             // 同步发送消息，只要不抛异常就是成功
@@ -96,12 +96,15 @@ public class RocketMqProducter {
         consumer.start();
     }
 
-//    public static void main(String[] args) {
-//
+    public static void main(String[] args) {
+
 //        sendMessage("mufeng3");
 //        //Thread.sleep(10000);
 //        recieveMessage();
-//    }
+
+        System.out.println(String.format("rocketMq parameter groupID=%s,AccessKey=%s,SecretKey=%s,NameServer=%s,topic=%s,message=%s", RocketMqConstants.GROUP_ID, RocketMqConstants.AccessKey, RocketMqConstants.SecretKey,RocketMqConstants.NameServer,RocketMqConstants.MQ_TOPIC,"1"));
+
+    }
 
 
 }
