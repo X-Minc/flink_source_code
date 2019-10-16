@@ -1,13 +1,15 @@
 package com.ifugle.rap.service.rocketmq;
 
+import com.alibaba.fastjson.JSON;
 import com.aliyun.openservices.ons.api.*;
+import com.google.gson.Gson;
+import com.ifugle.rap.model.shuixiaomi.EsDocumentData;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.Properties;
-import java.util.UUID;
+import java.util.*;
 
 
 @Component
@@ -36,20 +38,33 @@ public class RocketMqProducter {
         // 在发送消息前，必须调用 start 方法来启动 Producer，只需调用一次即可
         producer.start();
 
+        EsDocumentData esDocumentData = new Gson().fromJson(messageId, com.ifugle.rap.model.shuixiaomi.EsDocumentData.class);
+        String messageIdStr = null;
+        StringBuffer stringBuffer = new StringBuffer();
+        if (esDocumentData != null) {
+            List<Long> ids = esDocumentData.getIds();
+            for (int i = 0; i < ids.size(); i++) {
+                if (i == ids.size() - 1) {
+                    stringBuffer.append(ids.get(i));
+                } else {
+                    stringBuffer.append(ids.get(i) + ",");
+                }
+            }
+        }
         //循环发送消息
         Message msg = new Message( //
                 // Message 所属的 Topic
                 RocketMqConstants.MQ_TOPIC,
                 // Message Tag 可理解为 Gmail 中的标签，对消息进行再归类，方便 Consumer 指定过滤条件在 MQ 服务器过滤
-                "TagA",
+                esDocumentData.getDocName(),
                 // Message Body 可以是任何二进制形式的数据， MQ 不做任何干预，
                 // 需要 Producer 与 Consumer 协商好一致的序列化和反序列化方式
                 messageId.getBytes());
         // 设置代表消息的业务关键属性，请尽可能全局唯一。
         // 以方便您在无法正常收到消息情况下，可通过阿里云服务器管理控制台查询消息并补发
         // 注意：不设置也不会影响消息正常收发
-        msg.setKey("ORDERID_" + UUID.randomUUID() + messageId);
-        logger.info(String.format("rocketMq parameter groupID=%s,AccessKey=%s,SecretKey=%s,NameServer=%s,topic=%s,message=%s", RocketMqConstants.GROUP_ID, RocketMqConstants.AccessKey, RocketMqConstants.SecretKey,RocketMqConstants.NameServer,RocketMqConstants.MQ_TOPIC,messageId));
+        msg.setKey("ORDERID_" + stringBuffer.toString());
+        logger.info(String.format("rocketMq parameter groupID=%s,AccessKey=%s,SecretKey=%s,NameServer=%s,topic=%s,message=%s", RocketMqConstants.GROUP_ID, RocketMqConstants.AccessKey, RocketMqConstants.SecretKey, RocketMqConstants.NameServer, RocketMqConstants.MQ_TOPIC, messageId));
         try {
             SendResult sendResult = producer.send(msg);
             // 同步发送消息，只要不抛异常就是成功
@@ -58,7 +73,7 @@ public class RocketMqProducter {
             }
         } catch (Exception e) {
             // 消息发送失败，需要进行重试处理，可重新发送这条消息或持久化这条数据进行补偿处理
-            logger.info(new Date() + " Send mq message failed. Topic is:" + msg.getTopic(),e);
+            logger.info(new Date() + " Send mq message failed. Topic is:" + msg.getTopic(), e);
         }
 
         // 在应用退出前，销毁 Producer 对象
@@ -102,7 +117,7 @@ public class RocketMqProducter {
 //        //Thread.sleep(10000);
 //        recieveMessage();
 
-        System.out.println(String.format("rocketMq parameter groupID=%s,AccessKey=%s,SecretKey=%s,NameServer=%s,topic=%s,message=%s", RocketMqConstants.GROUP_ID, RocketMqConstants.AccessKey, RocketMqConstants.SecretKey,RocketMqConstants.NameServer,RocketMqConstants.MQ_TOPIC,"1"));
+        System.out.println(String.format("rocketMq parameter groupID=%s,AccessKey=%s,SecretKey=%s,NameServer=%s,topic=%s,message=%s", RocketMqConstants.GROUP_ID, RocketMqConstants.AccessKey, RocketMqConstants.SecretKey, RocketMqConstants.NameServer, RocketMqConstants.MQ_TOPIC, "1"));
 
     }
 
