@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.ifugle.rap.model.dingtax.XxzxXxmx;
 import com.ifugle.rap.model.shuixiaomi.*;
 import com.ifugle.rap.service.rocketmq.RocketMqProducter;
@@ -206,21 +207,19 @@ public class SyncServiceImpl implements SyncService {
         if (StringUtils.equalsIgnoreCase(env, "prod")) {
             DecodeUtils.initCryptBase36(cryptBase36);
         }
+        List<Long> ids = new ArrayList<>();
         for (BotChatRequest botChatRequest : botChatRequests) {
+            ids.add(botChatRequest.getId());
             DataRequest request = compriseUtils.botChatRequestCompriseDataRequest(botChatRequest, cryptSimple, cryptBase36);
             DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL("bot_chat_request", request));
         }
         elasticSearchBusinessService.bulkOperation(DSL.toString());
-        //循环发送mq消息
-        StringBuffer stringBuffer = new StringBuffer();
-        for (int i = 0; i < botChatRequests.size(); i++) {
-            if (i == botChatRequests.size() - 1) {
-                stringBuffer.append(botChatRequests.get(i).getId());
-            } else {
-                stringBuffer.append(botChatRequests.get(i).getId() + ",");
-            }
-        }
-        rocketMqProducter.sendMessage(stringBuffer.toString());
+
+        /***
+         * 发送到mq
+         */
+        EsDocumentData esDocumentData = new EsDocumentData(ids,"doc","bot_chat_request");
+        rocketMqProducter.sendMessage(JSON.toJSONString(esDocumentData));
         logger.info("[SyncServiceImpl] insertBotChatRequestAndCheckListSize pageSize=" + pageSize + "," + botChatRequests.size());
         return botChatRequests.size() < pageSize;
     }
