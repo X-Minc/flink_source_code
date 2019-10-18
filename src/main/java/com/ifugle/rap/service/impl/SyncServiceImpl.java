@@ -163,8 +163,13 @@ public class SyncServiceImpl implements SyncService {
         if (StringUtils.equalsIgnoreCase(env, "prod")) {
             DecodeUtils.initCryptBase36(cryptBase36);
         }
+
+        CryptNumber cryptNumber = new CryptNumber();
+        if (StringUtils.equalsIgnoreCase(env, "prod")) {
+            DecodeUtils.initCryptNumber(cryptNumber);
+        }
         for (YhzxXnzzNsr yhzxXnzzNsr : yhzxXnzzNsrs) {
-            DataRequest request = compriseUtils.yhzxXnzzNsrCompriseDataRequest(yhzxXnzzNsr, cryptSimple, cryptBase36);
+            DataRequest request = compriseUtils.yhzxXnzzNsrCompriseDataRequest(yhzxXnzzNsr, cryptSimple, cryptBase36,cryptNumber);
             DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.DINGTAX.getCode(), request));
         }
         elasticSearchBusinessService.bulkOperation(DSL.toString());
