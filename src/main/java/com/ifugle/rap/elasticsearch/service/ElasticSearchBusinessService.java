@@ -8,6 +8,7 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.ifugle.rap.elasticsearch.model.BizException;
 import com.ifugle.rap.elasticsearch.model.DataRequest;
@@ -106,9 +107,9 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
             String method = "POST";
             HttpEntity entity = new NStringEntity(query, ContentType.APPLICATION_JSON);
             Response response = restClient.performRequest(method, url, paramMap, entity);
-            AnalyzeResponse(response);
+            AnalyzeResponse(response,query);
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            logger.error("[ElasticSearchBusinessService] bulkOperation error", e);
         }
     }
 
@@ -172,7 +173,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
      *
      * @return
      */
-    private void AnalyzeResponse(Response response) {
+    private void AnalyzeResponse(Response response,String query) {
         HttpEntity httpEntityRes = response.getEntity();
         try {
             String queryResult = EntityUtils.toString(httpEntityRes);
@@ -183,8 +184,9 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
             } else {
                 logger.debug("成功发送");
             }
+            logger.warn("[ElasticSearchBusinessService] AnalyzeResponse response body ="+ queryResult+",request object = "+query);
         } catch (ParseException | IOException e) {
-            logger.error("", e);
+            logger.error("[ElasticSearchBusinessService] ParseException,code="+response.getStatusLine().getStatusCode(), e);
         }
     }
 
