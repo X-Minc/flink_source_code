@@ -132,7 +132,6 @@ public class DataSyncServiceImpl implements DataSyncService {
         insertBotBizDataForSync();  //特别注意存在加解密的问题，容易引起线程阻塞
         insertBotConfigServerForSync();
         insertBotOutoundTaskDetailForSync();
-        insertBotChatRequestForSync();
         /***
          *  智慧财税导入
          */
@@ -147,7 +146,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             insertYhzxXnzzTpcQyForSync();
             insertXxzxXxmxForSync();
         }
-
+        insertBotChatRequestForSync();
     }
 
 
@@ -434,32 +433,36 @@ public class DataSyncServiceImpl implements DataSyncService {
      * 执行BotChatRequest表的同步
      */
     private void insertBotChatRequestForSync() {
-        String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_CHAT_REQUEST");
-        if (StringUtils.isEmpty(lastCreateTime)) {
-            logger.info("insertBotChatRequestForSync lastCreateTime is null");
-            return;
-        }
-        int pageIndex = 1;
-        int customPageSize = 2000;
-        while(true) {
-            logger.info(MessageFormat.format("BOT_CHAT_REQUEST lastCreateTime : {0}", lastCreateTime));
-            Integer first = (pageIndex - 1) * customPageSize;
-            List<BotChatRequest> botChatRequests = botChatRequestMapper.selectBotChatRequestForSync(lastCreateTime, first, customPageSize);
-            if (!CollectionUtils.isEmpty(botChatRequests)) {
-                syncService.insertBotChatRequestAndCheckListSize(botChatRequests, customPageSize);
-                Date creationDate = botChatRequests.get(botChatRequests.size() - 1).getCreationDate();
-                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(creationDate), "BOT_CHAT_REQUEST");
-                /***
-                 * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
-                 */
-                Date startDate = DateUtils.string2Date(lastCreateTime,DateUtils.simple);
-                if (creationDate.compareTo(startDate) > 0 || botChatRequests.size() < customPageSize) {
+        try {
+            String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_CHAT_REQUEST");
+            if (StringUtils.isEmpty(lastCreateTime)) {
+                logger.info("insertBotChatRequestForSync lastCreateTime is null");
+                return;
+            }
+            int pageIndex = 1;
+            int customPageSize = 2000;
+            while (true) {
+                logger.info(MessageFormat.format("BOT_CHAT_REQUEST lastCreateTime : {0}", lastCreateTime));
+                Integer first = (pageIndex - 1) * customPageSize;
+                List<BotChatRequest> botChatRequests = botChatRequestMapper.selectBotChatRequestForSync(lastCreateTime, first, customPageSize);
+                if (!CollectionUtils.isEmpty(botChatRequests)) {
+                    syncService.insertBotChatRequestAndCheckListSize(botChatRequests, customPageSize);
+                    Date creationDate = botChatRequests.get(botChatRequests.size() - 1).getCreationDate();
+                    CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(creationDate), "BOT_CHAT_REQUEST");
+                    /***
+                     * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
+                     */
+                    Date startDate = DateUtils.string2Date(lastCreateTime, DateUtils.simple);
+                    if (creationDate.compareTo(startDate) > 0 || botChatRequests.size() < customPageSize) {
+                        break;
+                    }
+                } else {
                     break;
                 }
-            }else{
-                break;
+                pageIndex++;
             }
-            pageIndex++;
+        }catch (Exception e){
+            logger.error("[data sync] deal",e);
         }
     }
 
