@@ -144,7 +144,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         if (Boolean.valueOf(System.getProperty(SystemConstants.DSB_ON))) {
             insertYhzxXnzzNsrForSync();
             insertYhzxXnzzTpcQyForSync();
-            insertXxzxXxmxForSync();
+            //insertXxzxXxmxForSync();
         }
         //insertBotChatRequestForSync();
     }
