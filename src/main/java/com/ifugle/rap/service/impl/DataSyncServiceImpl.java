@@ -576,31 +576,31 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
     }
 
-    /**
-     * @auther: Liuzhengyang
-     * 插入Yhzxxnzzcy 表的内容，数据增量同步时调用
-     */
-    private void insertYhzxxnzzcyForSync() {
-        String lastCreateTime = CommonUtils.readlocalTimeFile("yhzx_xnzz_cy");
-        if (StringUtils.isEmpty(lastCreateTime)) {
-            logger.info("insertYhzxxnzzcyForSync lastCreateTime is null");
-            return;
-        }
-        logger.info(MessageFormat.format("yhzx_xnzz_cy lastCreateTime : {0}", lastCreateTime));
-        int pageIndex = 1;
-        while(true) {
-            Integer first = (pageIndex - 1) * pageSize;
-            List<YhzxxnzzcyDO> yhzxxnzzcyDOs = yhzxxnzzcyDOMapper.selectYhzxxnzzcyForSync(lastCreateTime, first, pageSize);
-            if (!CollectionUtils.isEmpty(yhzxxnzzcyDOs)) {
-                syncService.insertYhzxxnzzcyAndCheckListSize(yhzxxnzzcyDOs, pageSize);
-                Date createDate = yhzxxnzzcyDOs.get(yhzxxnzzcyDOs.size() - 1).getCjsj();
-                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "yhzx_xnzz_cy");
-            }else {
-                break;
-            }
-            pageIndex++;
-        }
-    }
+//    /**
+//     * @auther: Liuzhengyang
+//     * 插入Yhzxxnzzcy 表的内容，数据增量同步时调用
+//     */
+//    private void insertYhzxxnzzcyForSync() {
+//        String lastCreateTime = CommonUtils.readlocalTimeFile("yhzx_xnzz_cy");
+//        if (StringUtils.isEmpty(lastCreateTime)) {
+//            logger.info("insertYhzxxnzzcyForSync lastCreateTime is null");
+//            return;
+//        }
+//        logger.info(MessageFormat.format("yhzx_xnzz_cy lastCreateTime : {0}", lastCreateTime));
+//        int pageIndex = 1;
+//        while(true) {
+//            Integer first = (pageIndex - 1) * pageSize;
+//            List<YhzxxnzzcyDO> yhzxxnzzcyDOs = yhzxxnzzcyDOMapper.selectYhzxxnzzcyForSync(lastCreateTime, first, pageSize);
+//            if (!CollectionUtils.isEmpty(yhzxxnzzcyDOs)) {
+//                syncService.insertYhzxxnzzcyAndCheckListSize(yhzxxnzzcyDOs, pageSize);
+//                Date createDate = yhzxxnzzcyDOs.get(yhzxxnzzcyDOs.size() - 1).getCjsj();
+//                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "yhzx_xnzz_cy");
+//            }else {
+//                break;
+//            }
+//            pageIndex++;
+//        }
+//    }
 
     private void insertBotMediaForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_MEDIA");
@@ -615,7 +615,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             List<BotMediaDO> botMediaDOS = botMediaDOMapper.selectBotMediaWithLastUpdateTime(first, pageSize, lastCreateTime);
             if (!CollectionUtils.isEmpty(botMediaDOS)) {
                 syncService.insertBotMediaAndCheckListSize(botMediaDOS, pageSize);
-                Date createTime = botMediaDOS.get(botMediaDOS.size() - 1).getCreationDate();
+                Date createTime = botMediaDOS.get(botMediaDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createTime), "BOT_MEDIA");
             }else {
                 break;
@@ -638,7 +638,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                     .selectBotOutoundTaskDetailForSync(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(botOutoundTaskDetailWithBLOBs)) {
                 syncService.insertBotOutBoundTaskDetailAndCheckListSize(botOutoundTaskDetailWithBLOBs, pageSize);
-                Date createTime = botOutoundTaskDetailWithBLOBs.get(botOutoundTaskDetailWithBLOBs.size() - 1).getCreationDate();
+                Date createTime = botOutoundTaskDetailWithBLOBs.get(botOutoundTaskDetailWithBLOBs.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createTime), "BOT_OUTBOUND_TASK_DETAIL");
             }else {
                 break;

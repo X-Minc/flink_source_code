@@ -258,7 +258,7 @@
   </select>
 
     <select id="selectBotMediaWithLastUpdateTime" resultMap="BaseResultMap">
-    SELECT * FROM BOT_MEDIA WHERE CORRECTION_DATE >= #{lastUpdateTime} AND FILE_TYPE = 2 LIMIT #{first }, #{pageSize};
+    SELECT * FROM BOT_MEDIA WHERE CORRECTION_DATE >= #{lastUpdateTime} AND FILE_TYPE = 2 ORDER BY MODIFICATION_DATE LIMIT #{first }, #{pageSize};
   </select>
 
     <select id="selectBotMediaWithOutLastUpdateTime" resultMap="BaseResultMap">
