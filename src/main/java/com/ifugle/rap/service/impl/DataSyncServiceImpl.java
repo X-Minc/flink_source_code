@@ -146,7 +146,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             insertYhzxXnzzTpcQyForSync();
             //insertXxzxXxmxForSync();
         }
-        //insertBotChatRequestForSync();
+        insertBotChatRequestForSync();
     }
 
 
