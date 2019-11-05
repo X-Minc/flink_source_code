@@ -35,15 +35,15 @@ public class BaseTest {
         System.setProperty("rap.bot.admin.server.dd", "true");
         System.setProperty("rap.mq.rocket.username", "duLCaybnI9oOyOdZ");
         System.setProperty("rap.mq.rocket.password", "RCHE8NY4DkIldIei3O4ub61FwxEaGa");
-        System.setProperty("rap.mq.rocket.topic", "charpty");
+        //System.setProperty("rap.mq.rocket.topic", "charpty");
         //开发库
         //System.setProperty("dsbdev", "mysql://dsbdev:rap1bpm2ifm3qrm4Dev@172.16.16.5:33066/dsbdev");
         //System.setProperty("rap.defaultJDBC", "dsbdev");
         //测试库
         //System.setProperty("bot_test", "mysql://bot_test:rap1bpm2ifm3qrm4Test@172.16.16.5:35066/bot_test");
         //System.setProperty("rap.defaultJDBC", "bot_test");
-        System.setProperty("dsbtest", "mysql://dsbtest:rap1bpm2ifm3qrm4Test@127.0.0.1:33066/dsbtest");
-        System.setProperty("rap.defaultJDBC", "dsbtest");
+        //System.setProperty("dsbtest", "mysql://dsbtest:rap1bpm2ifm3qrm4Test@127.0.0.1:33066/dsbtest");
+        //System.setProperty("rap.defaultJDBC", "dsbtest");
         // 隧道开发库
         //System.setProperty("dsbtest", "mysql://dsbtest:rap1bpm2ifm3qrm4Test@127.0.0.1:33066/dsbtest");
         System.setProperty("rap.sql.queryTimeout", "8");

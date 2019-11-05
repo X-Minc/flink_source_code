@@ -85,9 +85,9 @@ then
 	echo client mode : $client_mode 
 	echo CLASSPATH :$CLASSPATH
 	if [ $client_mode == "Cluster" ] ; then 
-		$JAVA $JAVA_OPTS $JAVA_DEBUG_OPT $CANAL_OPTS -classpath .:$CLASSPATH com.ifugle.rap.canal.common.StartUp &
+		$JAVA $JAVA_OPTS $JAVA_DEBUG_OPT $CANAL_OPTS -classpath .:$CLASSPATH com.ifugle.rap.canal.common.StartUp 1>>$base/bin/nohup.out 2>&1 &
 	else 
-		$JAVA $JAVA_OPTS $JAVA_DEBUG_OPT $CANAL_OPTS -classpath .:$CLASSPATH com.ifugle.rap.canal.common.StartUp &
+		$JAVA $JAVA_OPTS $JAVA_DEBUG_OPT $CANAL_OPTS -classpath .:$CLASSPATH com.ifugle.rap.canal.common.StartUp 1>>$base/bin/nohup.out 2>&1 &
 	fi
 	
 	echo $! > $base/bin/canal.pid 

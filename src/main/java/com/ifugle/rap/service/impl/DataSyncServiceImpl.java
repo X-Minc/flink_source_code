@@ -4,8 +4,10 @@ import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.ifugle.rap.mapper.*;
 import com.ifugle.rap.mapper.dsb.XxzxXxmxMapper;
 import com.ifugle.rap.model.dingtax.XxzxXxmx;
+import com.ifugle.rap.model.shuixiaomi.*;
 import org.apache.camel.spi.AsEndpointUri;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -18,37 +20,12 @@ import org.springframework.util.CollectionUtils;
 
 import com.ifugle.rap.common.lang.util.DateUtils;
 import com.ifugle.rap.constants.SystemConstants;
-import com.ifugle.rap.mapper.BizDataMapper;
-import com.ifugle.rap.mapper.BotChatResponseMessageDOMapper;
-import com.ifugle.rap.mapper.BotConfigServerMapper;
-import com.ifugle.rap.mapper.BotMediaDOMapper;
-import com.ifugle.rap.mapper.BotOutoundTaskDetailMapper;
-import com.ifugle.rap.mapper.BotTrackDetailDOMapper;
-import com.ifugle.rap.mapper.BotUnawareDetailDOMapper;
-import com.ifugle.rap.mapper.KbsArticleDOMapper;
-import com.ifugle.rap.mapper.KbsKeywordDOMapper;
-import com.ifugle.rap.mapper.KbsQuestionArticleDOMapper;
-import com.ifugle.rap.mapper.KbsQuestionDOMapper;
-import com.ifugle.rap.mapper.KbsReadingDOMapper;
-import com.ifugle.rap.mapper.YhzxxnzzcyDOMapper;
 import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrMapper;
 import com.ifugle.rap.mapper.dsb.YhzxXnzzTpcQyMapper;
 import com.ifugle.rap.mapper.zhcs.ZxArticleMapper;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
 import com.ifugle.rap.model.dsb.YhzxXnzzTpcQy;
-import com.ifugle.rap.model.shuixiaomi.BizData;
-import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
-import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
-import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
-import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
-import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
-import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
-import com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs;
-import com.ifugle.rap.model.shuixiaomi.KbsKeywordDO;
-import com.ifugle.rap.model.shuixiaomi.KbsQuestionArticleDO;
-import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
-import com.ifugle.rap.model.shuixiaomi.KbsReadingDOWithBLOBs;
 import com.ifugle.rap.model.zhcs.ZxArticle;
 import com.ifugle.rap.service.DataSyncService;
 import com.ifugle.rap.service.SyncService;
@@ -126,6 +103,9 @@ public class DataSyncServiceImpl implements DataSyncService {
     @Autowired
     private XxzxXxmxMapper xxzxXxmxMapper;
 
+    @Autowired
+    BotChatRequestMapper botChatRequestMapper;
+
 
     @Value("${profiles.active}")
     String env;
@@ -164,10 +144,12 @@ public class DataSyncServiceImpl implements DataSyncService {
         if (Boolean.valueOf(System.getProperty(SystemConstants.DSB_ON))) {
             insertYhzxXnzzNsrForSync();
             insertYhzxXnzzTpcQyForSync();
-            insertXxzxXxmxForSync();
+            //insertXxzxXxmxForSync();
         }
-
+        insertBotChatRequestForSync();
     }
+
+
 
     /***
      *  insert ######################################################################################################################################
@@ -446,6 +428,44 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
     }
 
+
+    /***
+     * 执行BotChatRequest表的同步
+     */
+    private void insertBotChatRequestForSync() {
+        try {
+            String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_CHAT_REQUEST");
+            if (StringUtils.isEmpty(lastCreateTime)) {
+                logger.info("insertBotChatRequestForSync lastCreateTime is null");
+                return;
+            }
+            int pageIndex = 1;
+            int customPageSize = 2000;
+            while (true) {
+                logger.info(MessageFormat.format("BOT_CHAT_REQUEST lastCreateTime : {0}", lastCreateTime));
+                Integer first = (pageIndex - 1) * customPageSize;
+                List<BotChatRequest> botChatRequests = botChatRequestMapper.selectBotChatRequestForSync(lastCreateTime, first, customPageSize);
+                if (!CollectionUtils.isEmpty(botChatRequests)) {
+                    syncService.insertBotChatRequestAndCheckListSize(botChatRequests, customPageSize);
+                    Date creationDate = botChatRequests.get(botChatRequests.size() - 1).getCreationDate();
+                    CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(creationDate), "BOT_CHAT_REQUEST");
+                    /***
+                     * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
+                     */
+                    Date startDate = DateUtils.string2Date(lastCreateTime, DateUtils.simple);
+                    if (creationDate.compareTo(startDate) > 0 || botChatRequests.size() < customPageSize) {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+                pageIndex++;
+            }
+        }catch (Exception e){
+            logger.error("[data sync] deal",e);
+        }
+    }
+
     /***
      * 同步消息明细
      */
@@ -556,31 +576,31 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
     }
 
-    /**
-     * @auther: Liuzhengyang
-     * 插入Yhzxxnzzcy 表的内容，数据增量同步时调用
-     */
-    private void insertYhzxxnzzcyForSync() {
-        String lastCreateTime = CommonUtils.readlocalTimeFile("yhzx_xnzz_cy");
-        if (StringUtils.isEmpty(lastCreateTime)) {
-            logger.info("insertYhzxxnzzcyForSync lastCreateTime is null");
-            return;
-        }
-        logger.info(MessageFormat.format("yhzx_xnzz_cy lastCreateTime : {0}", lastCreateTime));
-        int pageIndex = 1;
-        while(true) {
-            Integer first = (pageIndex - 1) * pageSize;
-            List<YhzxxnzzcyDO> yhzxxnzzcyDOs = yhzxxnzzcyDOMapper.selectYhzxxnzzcyForSync(lastCreateTime, first, pageSize);
-            if (!CollectionUtils.isEmpty(yhzxxnzzcyDOs)) {
-                syncService.insertYhzxxnzzcyAndCheckListSize(yhzxxnzzcyDOs, pageSize);
-                Date createDate = yhzxxnzzcyDOs.get(yhzxxnzzcyDOs.size() - 1).getCjsj();
-                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "yhzx_xnzz_cy");
-            }else {
-                break;
-            }
-            pageIndex++;
-        }
-    }
+//    /**
+//     * @auther: Liuzhengyang
+//     * 插入Yhzxxnzzcy 表的内容，数据增量同步时调用
+//     */
+//    private void insertYhzxxnzzcyForSync() {
+//        String lastCreateTime = CommonUtils.readlocalTimeFile("yhzx_xnzz_cy");
+//        if (StringUtils.isEmpty(lastCreateTime)) {
+//            logger.info("insertYhzxxnzzcyForSync lastCreateTime is null");
+//            return;
+//        }
+//        logger.info(MessageFormat.format("yhzx_xnzz_cy lastCreateTime : {0}", lastCreateTime));
+//        int pageIndex = 1;
+//        while(true) {
+//            Integer first = (pageIndex - 1) * pageSize;
+//            List<YhzxxnzzcyDO> yhzxxnzzcyDOs = yhzxxnzzcyDOMapper.selectYhzxxnzzcyForSync(lastCreateTime, first, pageSize);
+//            if (!CollectionUtils.isEmpty(yhzxxnzzcyDOs)) {
+//                syncService.insertYhzxxnzzcyAndCheckListSize(yhzxxnzzcyDOs, pageSize);
+//                Date createDate = yhzxxnzzcyDOs.get(yhzxxnzzcyDOs.size() - 1).getCjsj();
+//                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "yhzx_xnzz_cy");
+//            }else {
+//                break;
+//            }
+//            pageIndex++;
+//        }
+//    }
 
     private void insertBotMediaForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_MEDIA");
@@ -595,7 +615,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             List<BotMediaDO> botMediaDOS = botMediaDOMapper.selectBotMediaWithLastUpdateTime(first, pageSize, lastCreateTime);
             if (!CollectionUtils.isEmpty(botMediaDOS)) {
                 syncService.insertBotMediaAndCheckListSize(botMediaDOS, pageSize);
-                Date createTime = botMediaDOS.get(botMediaDOS.size() - 1).getCreationDate();
+                Date createTime = botMediaDOS.get(botMediaDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createTime), "BOT_MEDIA");
             }else {
                 break;
@@ -618,7 +638,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                     .selectBotOutoundTaskDetailForSync(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(botOutoundTaskDetailWithBLOBs)) {
                 syncService.insertBotOutBoundTaskDetailAndCheckListSize(botOutoundTaskDetailWithBLOBs, pageSize);
-                Date createTime = botOutoundTaskDetailWithBLOBs.get(botOutoundTaskDetailWithBLOBs.size() - 1).getCreationDate();
+                Date createTime = botOutoundTaskDetailWithBLOBs.get(botOutoundTaskDetailWithBLOBs.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createTime), "BOT_OUTBOUND_TASK_DETAIL");
             }else {
                 break;
@@ -677,6 +697,10 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         if (!CommonUtils.isExistDir("XXZX_XXMX")) {
             CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "XXZX_XXMX");
+        }
+
+        if (!CommonUtils.isExistDir("BOT_CHAT_REQUEST")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_CHAT_REQUEST");
         }
 
         logger.info("init data localhost file end");

@@ -250,7 +250,7 @@ public class MybatisTest extends BaseTest {
         logger.info(JSON.toJSONString(kbsArticleDO));
         DataRequest request = compriseUtils.kbsArticleDOCompriseDataRequest(kbsArticleDO);
         //        if (!elasticSearchBusinessService.checkDataExistsInEs(ChannelType.SHUIXIAOMI, request)) {
-        DSL.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.SHUIXIAOMI, request));
+        DSL.append(elasticSearchBusinessService.formatInsertDSL(ChannelType.SHUIXIAOMI.getCode(), request));
         //        }
         logger.info(DSL.toString());
         elasticSearchBusinessService.bulkOperation(DSL.toString());

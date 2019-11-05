@@ -2,20 +2,7 @@ package com.ifugle.rap.canalconfig;
 
 import javax.sql.DataSource;
 
-import com.ifugle.rap.mapper.BizDataMapper;
-import com.ifugle.rap.mapper.BotChatResponseMessageDOMapper;
-import com.ifugle.rap.mapper.BotConfigServerMapper;
-import com.ifugle.rap.mapper.BotMediaDOMapper;
-import com.ifugle.rap.mapper.BotOutoundTaskDetailMapper;
-import com.ifugle.rap.mapper.BotTrackDetailDOMapper;
-import com.ifugle.rap.mapper.BotUnawareDetailDOMapper;
-import com.ifugle.rap.mapper.KbsArticleDOMapper;
-import com.ifugle.rap.mapper.KbsKeywordDOMapper;
-import com.ifugle.rap.mapper.KbsQuestionArticleDOMapper;
-import com.ifugle.rap.mapper.KbsQuestionDOMapper;
-import com.ifugle.rap.mapper.KbsReadingDOMapper;
-import com.ifugle.rap.mapper.KbsTagDTOMapper;
-import com.ifugle.rap.mapper.YhzxxnzzcyDOMapper;
+import com.ifugle.rap.mapper.*;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.poi.ss.formula.functions.T;
@@ -115,6 +102,11 @@ public class DalConfig {
     @Bean
     public BotOutoundTaskDetailMapper botOutoundTaskDetailMapper() throws Exception {
         return newMapperFactoryBean(BotOutoundTaskDetailMapper.class).getObject();
+    }
+
+    @Bean
+    public BotChatRequestMapper botChatRequestMapper() throws Exception {
+        return newMapperFactoryBean(BotChatRequestMapper.class).getObject();
     }
 
     <T> MapperFactoryBean<T> newMapperFactoryBean(Class<T> clazz) throws Exception {

@@ -91,7 +91,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.28</version>
+            <version>1.2.62</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -184,7 +184,7 @@
         <dependency>
             <groupId>com.ifugle.rap</groupId>
             <artifactId>rap-core-es</artifactId>
-            <version>3.5.3-SNAPSHOT</version>
+            <version>3.5.4-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.data</groupId>
@@ -196,6 +196,18 @@
             <groupId>com.ifugle.rap</groupId>
             <artifactId>rap-core-context</artifactId>
             <version>3.5.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ifugle.rap</groupId>
+            <artifactId>rap-core-mq</artifactId>
+            <version>3.1.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.aliyun.openservices</groupId>
+            <artifactId>ons-client</artifactId>
+            <version>1.8.0.Final</version>
         </dependency>
 
         <dependency>

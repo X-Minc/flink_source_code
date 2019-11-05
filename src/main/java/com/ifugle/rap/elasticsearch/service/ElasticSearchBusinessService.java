@@ -8,6 +8,7 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.ifugle.rap.elasticsearch.model.BizException;
 import com.ifugle.rap.elasticsearch.model.DataRequest;
@@ -67,7 +68,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
     private BusinessCommonApi businessCommonApi;
 
     @Override
-    public boolean exportDataMysqlToEs(ChannelType channelType, DataRequest request) {
+    public boolean exportDataMysqlToEs(String channelType, DataRequest request) {
         String keyId = businessCommonApi.insertOrUpdate(channelType, request.getCatalogType(), getId(request), request.getMap());
         if (StringUtils.isNotBlank(keyId)) {
             return true;
@@ -78,7 +79,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
     }
 
     @Override
-    public boolean checkDataExistsInEs(ChannelType channelType, DataRequest request) {
+    public boolean checkDataExistsInEs(String channelType, DataRequest request) {
         Map<String, Object> map = null;
         try {
             map = businessCommonApi.get(channelType, request.getCatalogType(), getId(request));
@@ -106,9 +107,9 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
             String method = "POST";
             HttpEntity entity = new NStringEntity(query, ContentType.APPLICATION_JSON);
             Response response = restClient.performRequest(method, url, paramMap, entity);
-            AnalyzeResponse(response);
+            AnalyzeResponse(response,query);
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            logger.error("[ElasticSearchBusinessService] bulkOperation error", e);
         }
     }
 
@@ -120,10 +121,10 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
      *
      * @return
      */
-    public String formatUpdateDSL(ChannelType channelType, DataRequest request) {
+    public String formatUpdateDSL(String channelType, DataRequest request) {
         Map<String, Object> map = request.getMap();
         String data = JSONUtil.toJSON(map);
-        return String.format(SAMPLE_UPDATE_DSL, channelType.getCode(), request.getCatalogType(), getId(request), data);
+        return String.format(SAMPLE_UPDATE_DSL, channelType, request.getCatalogType(), getId(request), data);
     }
 
 
@@ -135,10 +136,10 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
      *
      * @return
      */
-    public String formatSaveOrUpdateDSL(ChannelType channelType, DataRequest request) {
+    public String formatSaveOrUpdateDSL(String channelType, DataRequest request) {
         Map<String, Object> map = request.getMap();
         String data = JSONUtil.toJSON(map);
-        StringBuilder dsl = new StringBuilder(String.format(SAMPLE_UPDATE_OR_INSERT_DSL, channelType.getCode(), request.getCatalogType(), getId(request)));
+        StringBuilder dsl = new StringBuilder(String.format(SAMPLE_UPDATE_OR_INSERT_DSL, channelType, request.getCatalogType(), getId(request)));
         dsl.append(data);
         dsl.append(" \n");
         return dsl.toString();
@@ -152,8 +153,8 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
      *
      * @return
      */
-    public String formatInsertDSL(ChannelType channelType, DataRequest request) {
-        StringBuilder dsl = new StringBuilder(String.format(SAMPLE_INSERT_DSL, channelType.getCode(), request.getCatalogType(), getId(request)));
+    public String formatInsertDSL(String channelType, DataRequest request) {
+        StringBuilder dsl = new StringBuilder(String.format(SAMPLE_INSERT_DSL, channelType, request.getCatalogType(), getId(request)));
         Map<String, Object> map = request.getMap();
         String data = JSONUtil.toJSON(map);
         dsl.append(data);
@@ -172,7 +173,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
      *
      * @return
      */
-    private void AnalyzeResponse(Response response) {
+    private void AnalyzeResponse(Response response,String query) {
         HttpEntity httpEntityRes = response.getEntity();
         try {
             String queryResult = EntityUtils.toString(httpEntityRes);
@@ -183,8 +184,9 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
             } else {
                 logger.debug("成功发送");
             }
+            logger.warn("[ElasticSearchBusinessService] AnalyzeResponse response body ="+ queryResult+",request object = "+query);
         } catch (ParseException | IOException e) {
-            logger.error("", e);
+            logger.error("[ElasticSearchBusinessService] ParseException,code="+response.getStatusLine().getStatusCode(), e);
         }
     }
 

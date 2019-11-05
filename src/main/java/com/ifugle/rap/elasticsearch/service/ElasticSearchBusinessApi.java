@@ -19,11 +19,11 @@ public interface ElasticSearchBusinessApi {
      * @param request
      * @return
      */
-    public boolean exportDataMysqlToEs(ChannelType channelType, DataRequest request);
+    public boolean exportDataMysqlToEs(String channelType, DataRequest request);
 
     /**
      * @auther: Liuzhengyang
      * 判断数据是否存在在ES中
      */
-    public boolean checkDataExistsInEs(ChannelType channelType,DataRequest request);
+    public boolean checkDataExistsInEs(String channelType,DataRequest request);
 }
