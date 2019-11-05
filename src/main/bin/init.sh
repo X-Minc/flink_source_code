@@ -1,6 +1,5 @@
 #! /bin/bash
 
-
 current_path=`pwd`
 case "`uname`" in
     Linux)
