@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 cygwin=false;
 case "`uname`" in
     CYGWIN*)
