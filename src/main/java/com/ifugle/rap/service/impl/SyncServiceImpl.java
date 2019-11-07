@@ -483,11 +483,22 @@ public class SyncServiceImpl implements SyncService {
         if (StringUtils.equalsIgnoreCase(env, "prod")) {
             DecodeUtils.initCryptNumber(cryptNumber);
         }
+
+
+        CryptBase36 cryptBase36 = new CryptBase36();
+        if (StringUtils.equalsIgnoreCase(env, "prod")) {
+            DecodeUtils.initCryptBase36(cryptBase36);
+        }
+
+        List<Long> ids = new ArrayList<>();
         for (BotOutoundTaskDetailWithBLOBs botOutoundTaskDetail : botOutoundTaskDetails) {
-            DataRequest request = compriseUtils.botOutoundTaskDetailCompriseDataRequest(botOutoundTaskDetail, cryptSimple, cryptNumber);
-            DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI.getCode(), request));
+            DataRequest request = compriseUtils.botOutoundTaskDetailCompriseDataRequest(botOutoundTaskDetail, cryptSimple, cryptNumber,cryptBase36);
+            DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL("bot_outbound_task_detail", request));
+            ids.add(botOutoundTaskDetail.getId());
         }
         elasticSearchBusinessService.bulkOperation(DSL.toString());
+        EsDocumentData esDocumentData = new EsDocumentData(ids,"doc","bot_outbound_task_detail");
+        rocketMqProducter.sendMessage(JSON.toJSONString(esDocumentData));
         logger.info("[SyncServiceImpl] pageSize=" + pageSize + "," + botOutoundTaskDetails.size());
         return botOutoundTaskDetails.size() < pageSize;
     }
