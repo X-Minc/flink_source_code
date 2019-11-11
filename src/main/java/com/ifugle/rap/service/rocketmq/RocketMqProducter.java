@@ -97,7 +97,7 @@ public class RocketMqProducter {
         properties.put(PropertyKeyConst.NAMESRV_ADDR, RocketMqConstants.NameServer);
 
         Consumer consumer = ONSFactory.createConsumer(properties);
-        consumer.subscribe(RocketMqConstants.MQ_TOPIC, "TagA", new MessageListener() {
+        consumer.subscribe(RocketMqConstants.MQ_TOPIC, "bot_outbound_task_detail", new MessageListener() {
             @Override
             public Action consume(Message message, ConsumeContext context) {
                 try {
@@ -115,9 +115,9 @@ public class RocketMqProducter {
 
 //        sendMessage("mufeng3");
 //        //Thread.sleep(10000);
-//        recieveMessage();
+            new RocketMqProducter().recieveMessage();
 
-        System.out.println(String.format("rocketMq parameter groupID=%s,AccessKey=%s,SecretKey=%s,NameServer=%s,topic=%s,message=%s", RocketMqConstants.GROUP_ID, RocketMqConstants.AccessKey, RocketMqConstants.SecretKey, RocketMqConstants.NameServer, RocketMqConstants.MQ_TOPIC, "1"));
+//        System.out.println(String.format("rocketMq parameter groupID=%s,AccessKey=%s,SecretKey=%s,NameServer=%s,topic=%s,message=%s", RocketMqConstants.GROUP_ID, RocketMqConstants.AccessKey, RocketMqConstants.SecretKey, RocketMqConstants.NameServer, RocketMqConstants.MQ_TOPIC, "1"));
 
     }
 
