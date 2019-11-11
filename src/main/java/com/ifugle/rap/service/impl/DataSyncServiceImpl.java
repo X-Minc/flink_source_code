@@ -678,7 +678,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_KEYWORD");
         }
         if (!CommonUtils.isExistDir("KBS_QUESTION")) {
-            CommonUtils.writeLocalTimeFile("2000-01-01 00:00:00", "KBS_QUESTION");
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_QUESTION");
         }
         if (!CommonUtils.isExistDir("KBS_QUESTION_ARTICLE")) {
             CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "KBS_QUESTION_ARTICLE");
