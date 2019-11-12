@@ -186,7 +186,7 @@ public class SyncServiceImpl implements SyncService {
             DecodeUtils.initCryptSimpleProd(cryptSimple);
         }
 
-        CryptBase36 cryptBase36 = new CryptBase36(CryptBase36.MAX_SEARCH_SIZE_6);
+        CryptBase36 cryptBase36 = new CryptBase36();
         if (StringUtils.equalsIgnoreCase(env, "prod")) {
             DecodeUtils.initCryptBase36(cryptBase36);
         }
@@ -208,7 +208,7 @@ public class SyncServiceImpl implements SyncService {
             DecodeUtils.initCryptSimpleProd(cryptSimple);
         }
 
-        CryptBase36 cryptBase36 = new CryptBase36();
+        CryptBase36 cryptBase36 = new CryptBase36(CryptBase36.MAX_SEARCH_SIZE_6);
         if (StringUtils.equalsIgnoreCase(env, "prod")) {
             DecodeUtils.initCryptBase36(cryptBase36);
         }
