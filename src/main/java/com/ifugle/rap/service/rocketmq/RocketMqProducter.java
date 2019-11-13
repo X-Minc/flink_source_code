@@ -56,7 +56,7 @@ public class RocketMqProducter {
                 // Message 所属的 Topic
                 RocketMqConstants.MQ_TOPIC,
                 // Message Tag 可理解为 Gmail 中的标签，对消息进行再归类，方便 Consumer 指定过滤条件在 MQ 服务器过滤
-                esDocumentData.getIndexName()+"_wy",
+                esDocumentData.getIndexName(),
                 // Message Body 可以是任何二进制形式的数据， MQ 不做任何干预，
                 // 需要 Producer 与 Consumer 协商好一致的序列化和反序列化方式
                 messageId.getBytes());
@@ -85,7 +85,7 @@ public class RocketMqProducter {
     /***
      * 接收消息
      */
-    public void recieveMessage() {
+    public void recieveMessage(String tag) {
         Properties properties = new Properties();
         // 您在控制台创建的 Group ID
         properties.put(PropertyKeyConst.GROUP_ID, RocketMqConstants.GROUP_ID);
@@ -97,7 +97,7 @@ public class RocketMqProducter {
         properties.put(PropertyKeyConst.NAMESRV_ADDR, RocketMqConstants.NameServer);
 
         Consumer consumer = ONSFactory.createConsumer(properties);
-        consumer.subscribe(RocketMqConstants.MQ_TOPIC, "bot_chat_request"+"_wy", new MessageListener() {
+        consumer.subscribe(RocketMqConstants.MQ_TOPIC, tag, new MessageListener() {
             @Override
             public Action consume(Message message, ConsumeContext context) {
                 try {
@@ -115,7 +115,7 @@ public class RocketMqProducter {
 
         new RocketMqProducter().sendMessage("{\"docName\":\"doc\",\"ids\":[300832],\"indexName\":\"bot_chat_request\",\"properties\":{}}");
 //        //Thread.sleep(10000);
-            new RocketMqProducter().recieveMessage();
+            new RocketMqProducter().recieveMessage("bot_chat_request");
 
 //        System.out.println(String.format("rocketMq parameter groupID=%s,AccessKey=%s,SecretKey=%s,NameServer=%s,topic=%s,message=%s", RocketMqConstants.GROUP_ID, RocketMqConstants.AccessKey, RocketMqConstants.SecretKey, RocketMqConstants.NameServer, RocketMqConstants.MQ_TOPIC, "1"));
 
