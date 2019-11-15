@@ -150,7 +150,6 @@ public class DataSyncServiceImpl implements DataSyncService {
     }
 
 
-
     /***
      *  insert ######################################################################################################################################
      *
@@ -168,14 +167,14 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info(MessageFormat.format("BotUnawareDetail last createTime : {0}", lastCreateTime));
         int pageIndex = 1;
-        while(true) {
+        while (true) {
             Integer first = (pageIndex - 1) * pageSize;
             List<BotUnawareDetailDO> botUnawareDetailDOS = botUnawareDetailDOMapper.selectBotUnawareDetailWithLastUpdateTime(first, pageSize, lastCreateTime);
             if (!CollectionUtils.isEmpty(botUnawareDetailDOS)) {
                 syncService.insertBotUnawareDetailAndCheckListSize(botUnawareDetailDOS, pageSize);
                 Date modificationDate = botUnawareDetailDOS.get(botUnawareDetailDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "BOT_UNAWARE_DETAIL");
-            }else {
+            } else {
                 break;
             }
             pageIndex++;
@@ -194,7 +193,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info(MessageFormat.format("KbsQuestionArticle last createTime : {0}", lastCreateTime));
         int pageIndex = 1;
-        while(true) {
+        while (true) {
             Integer first = (pageIndex - 1) * pageSize;
             List<KbsQuestionArticleDO> kbsQuestionArticleDOS = kbsQuestionArticleDOMapper
                     .selectKbsQuestionArticleForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
@@ -202,7 +201,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 syncService.insertKbsQuestionArticleAndCheckListSize(kbsQuestionArticleDOS, pageSize);
                 Date modificationDate = kbsQuestionArticleDOS.get(kbsQuestionArticleDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_QUESTION_ARTICLE");
-            }else {
+            } else {
                 break;
             }
             pageIndex++;
@@ -221,7 +220,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info(MessageFormat.format("BotTrackDetail lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
-        while(true) {
+        while (true) {
             Integer first = (pageIndex - 1) * pageSize;
             List<BotTrackDetailDO> botTrackDetailDOS = botTrackDetailDOMapper.selectBotTrackDetailForSync(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(botTrackDetailDOS)) {
@@ -248,7 +247,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info(MessageFormat.format("BotChatResponseMessage lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
-        while(true) {
+        while (true) {
             Integer first = (pageIndex - 1) * pageSize;
             List<BotChatResponseMessageDO> botChatResponseMessageDOS = botChatResponseMessageDOMapper
                     .selectBotChatResponseMessageForSync(lastCreateTime, first, pageSize);
@@ -256,7 +255,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 syncService.insertBotChatResponseMessageAndCheckListSize(botChatResponseMessageDOS, pageSize);
                 Date createDate = botChatResponseMessageDOS.get(botChatResponseMessageDOS.size() - 1).getCreationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "BOT_CHAT_RESPONSE_MESSAGE");
-            }else{
+            } else {
                 break;
             }
             pageIndex++;
@@ -275,14 +274,14 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info(MessageFormat.format("KbsQuestion lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
-        while(true) {
+        while (true) {
             Integer first = (pageIndex - 1) * pageSize;
             List<KbsQuestionDO> kbsQuestionDOS = kbsQuestionDOMapper.selectKbsQuestionForUpdateWithLastUpdateTime(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(kbsQuestionDOS)) {
                 syncService.insertKbsQuestionAndCheckListSize(kbsQuestionDOS, pageSize);
                 Date modificationDate = kbsQuestionDOS.get(kbsQuestionDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_QUESTION");
-            }else{
+            } else {
                 break;
             }
             pageIndex++;
@@ -297,14 +296,14 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info(MessageFormat.format("BOT_BIZ_DATA lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
-        while(true) {
+        while (true) {
             Integer first = (pageIndex - 1) * pageSize;
             List<BizData> bizDataList = bizDataMapper.selectBotBizDataForUpdateWithLastUpdateTime(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(bizDataList)) {
                 syncService.insertBotBizDataAndCheckListSize(bizDataList, pageSize);
                 Date modificationDate = bizDataList.get(bizDataList.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "BOT_BIZ_DATA");
-            }else{
+            } else {
                 break;
             }
             pageIndex++;
@@ -322,14 +321,14 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info("BOT_CONFIG_SERVER lastCreateTIme : {}", lastCreateTime);
         int pageIndex = 1;
-        while(true) {
+        while (true) {
             Integer first = (pageIndex - 1) * pageSize;
             List<BotConfigServer> botConfigServers = botConfigServerMapper.selectBotConfigServerForSync(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(botConfigServers)) {
                 syncService.insertBotConfigServerAndCheckListSize(botConfigServers, pageSize);
                 Date createDate = botConfigServers.get(botConfigServers.size() - 1).getCreationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "BOT_CONFIG_SERVER");
-            }else{
+            } else {
                 break;
             }
             pageIndex++;
@@ -347,14 +346,14 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info(MessageFormat.format("zxArticle lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
-        while(true) {
+        while (true) {
             Integer first = (pageIndex - 1) * pageSize;
             List<ZxArticle> zxArticles = zxArticleMapper.selectZxArticleForSync(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(zxArticles)) {
                 syncService.insertZxArticleAndCheckListSize(zxArticles, pageSize);
                 Date createDate = zxArticles.get(zxArticles.size() - 1).getCreationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "ZX_ARTICLE");
-            }else{
+            } else {
                 break;
             }
             pageIndex++;
@@ -372,7 +371,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info(MessageFormat.format("YhzxXnzzNsr lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
-        while(true) {
+        while (true) {
             Integer first = (pageIndex - 1) * pageSize;
             List<YhzxXnzzNsr> yhzxXnzzNsrs = yhzxXnzzNsrMapper.selectYhzxXnzzNsrForSync(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(yhzxXnzzNsrs)) {
@@ -383,12 +382,12 @@ public class DataSyncServiceImpl implements DataSyncService {
                 /***
                  * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
                  */
-                Date startDate = DateUtils.string2Date(lastCreateTime,DateUtils.simple);
+                Date startDate = DateUtils.string2Date(lastCreateTime, DateUtils.simple);
                 if (modifyDate.compareTo(startDate) > 0 || yhzxXnzzNsrs.size() < pageSize) {
                     break;
                 }
                 //end
-            }else{
+            } else {
                 break;
             }
             pageIndex++;
@@ -406,7 +405,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             return;
         }
         int pageIndex = 1;
-        while(true) {
+        while (true) {
             logger.info(MessageFormat.format("YHZX_XNZZ_TPC_QY lastCreateTime : {0}", lastCreateTime));
             Integer first = (pageIndex - 1) * pageSize;
             List<YhzxXnzzTpcQy> yhzxXnzzTpcQyList = yhzxXnzzTpcQyMapper.selectYhzxXnzzTpcQyForSync(lastCreateTime, first, pageSize);
@@ -417,11 +416,11 @@ public class DataSyncServiceImpl implements DataSyncService {
                 /***
                  * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
                  */
-                Date startDate = DateUtils.string2Date(lastCreateTime,DateUtils.simple);
+                Date startDate = DateUtils.string2Date(lastCreateTime, DateUtils.simple);
                 if (modificationDate.compareTo(startDate) > 0 || yhzxXnzzTpcQyList.size() < pageSize) {
                     break;
                 }
-            }else{
+            } else {
                 break;
             }
             pageIndex++;
@@ -443,26 +442,58 @@ public class DataSyncServiceImpl implements DataSyncService {
             int customPageSize = 2000;
             while (true) {
                 logger.info(MessageFormat.format("BOT_CHAT_REQUEST lastCreateTime : {0}", lastCreateTime));
+
+                /***
+                 * 增加部分 split 时间#id方式，获取修改时间和id --start
+                 */
+                String updateTime = null, id = null;
+                String localData[] = lastCreateTime.split("#");
+                if (localData.length != 2) {
+                    logger.error("insertBotChatRequestForSync local file format error please keep ‘修改时间#id’的样式 ");
+                    return;
+                } else {
+                    updateTime = localData[0];
+                    id = localData[1];
+                }
+                /***
+                 * 增加部分结束，--end 注意修改下面的mapper查询的修改时间
+                 */
+
                 Integer first = (pageIndex - 1) * customPageSize;
-                List<BotChatRequest> botChatRequests = botChatRequestMapper.selectBotChatRequestForSync(lastCreateTime, first, customPageSize);
+                List<BotChatRequest> botChatRequests = botChatRequestMapper.selectBotChatRequestForSync(updateTime, first, customPageSize);
                 if (!CollectionUtils.isEmpty(botChatRequests)) {
-                    syncService.insertBotChatRequestAndCheckListSize(botChatRequests, customPageSize);
-                    Date creationDate = botChatRequests.get(botChatRequests.size() - 1).getCreationDate();
-                    CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(creationDate), "BOT_CHAT_REQUEST");
-                    /***
-                     * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
-                     */
-                    Date startDate = DateUtils.string2Date(lastCreateTime, DateUtils.simple);
-                    if (creationDate.compareTo(startDate) > 0 || botChatRequests.size() < customPageSize) {
-                        break;
+                    //处理最后一条重复执行更改的问题
+                    boolean flag = false; //执行同步标签设置，true表示执行同步，false表示不执行同步，跳过去
+                    if (botChatRequests.size() == 1) {
+                        BotChatRequest botChatRequest = botChatRequests.get(0);
+                        if (StringUtils.equals(id, String.valueOf(botChatRequest.getId()))) {
+                            logger.warn("[bot_chat_reqeust] sync application jump, continue id =" + id);
+                        } else {
+                            flag = true;
+                        }
+                    } else {
+                        flag = true;
                     }
+                    if (flag) {
+                        syncService.insertBotChatRequestAndCheckListSize(botChatRequests, customPageSize);
+                        Date creationDate = botChatRequests.get(botChatRequests.size() - 1).getCreationDate();
+                        CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(creationDate) + "#" + botChatRequests.get(botChatRequests.size() - 1).getId(), "BOT_CHAT_REQUEST");
+                        /***
+                         * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
+                         */
+                        Date startDate = DateUtils.string2Date(lastCreateTime, DateUtils.simple);
+                        if (creationDate.compareTo(startDate) > 0 || botChatRequests.size() < customPageSize) {
+                            break;
+                        }
+                    }
+
                 } else {
                     break;
                 }
                 pageIndex++;
             }
-        }catch (Exception e){
-            logger.error("[data sync] deal",e);
+        } catch (Exception e) {
+            logger.error("[data sync] deal", e);
         }
     }
 
@@ -476,7 +507,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             return;
         }
         int pageIndex = 1;
-        while(true) {
+        while (true) {
             logger.info(MessageFormat.format("XXZX_XXMX lastCreateTime : {0}", lastCreateTime));
             Integer first = (pageIndex - 1) * pageSize;
             List<XxzxXxmx> xxzxXxmxs = xxzxXxmxMapper.selectXxzxXxmxForSync(lastCreateTime, first, pageSize);
@@ -487,11 +518,11 @@ public class DataSyncServiceImpl implements DataSyncService {
                 /***
                  * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
                  */
-                Date startDate = DateUtils.string2Date(lastCreateTime,DateUtils.simple);
+                Date startDate = DateUtils.string2Date(lastCreateTime, DateUtils.simple);
                 if (modificationDate.compareTo(startDate) > 0 || xxzxXxmxs.size() < pageSize) {
                     break;
                 }
-            }else{
+            } else {
                 break;
             }
             pageIndex++;
@@ -509,7 +540,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             return;
         }
         int pageIndex = 1;
-        while(true) {
+        while (true) {
             logger.info(MessageFormat.format("KbsArticle lastCreateTime : {0}", lastCreateTime));
             Integer first = (pageIndex - 1) * pageSize;
             List<KbsArticleDOWithBLOBs> kbsArticleDOS = kbsArticleDOMapper.selectKbsArticleForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
@@ -517,7 +548,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 syncService.insertKbsArticleAndCheckListSize(kbsArticleDOS, pageSize);
                 Date modificationDate = kbsArticleDOS.get(kbsArticleDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_ARTICLE");
-            }else{
+            } else {
                 break;
             }
             pageIndex++;
@@ -536,7 +567,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info(MessageFormat.format("KbsReading lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
-        while(true) {
+        while (true) {
             Integer first = (pageIndex - 1) * pageSize;
             List<KbsReadingDOWithBLOBs> kbsReadingDOS = kbsReadingDOMapper.selectKbsReadingForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(kbsReadingDOS)) {
@@ -562,14 +593,14 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info(MessageFormat.format("KbsKeyword lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
-        while(true) {
+        while (true) {
             Integer first = (pageIndex - 1) * pageSize;
             List<KbsKeywordDO> kbsKeywordDOS = kbsKeywordDOMapper.selectKbsKeywordForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(kbsKeywordDOS)) {
                 syncService.insertKbsKeywordAndCheckListSize(kbsKeywordDOS, pageSize);
                 Date modificationDate = kbsKeywordDOS.get(kbsKeywordDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_KEYWORD");
-            }else {
+            } else {
                 break;
             }
             pageIndex++;
@@ -610,14 +641,14 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info(MessageFormat.format("BotMedia lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
-        while(true) {
+        while (true) {
             Integer first = (pageIndex - 1) * pageSize;
             List<BotMediaDO> botMediaDOS = botMediaDOMapper.selectBotMediaWithLastUpdateTime(first, pageSize, lastCreateTime);
             if (!CollectionUtils.isEmpty(botMediaDOS)) {
                 syncService.insertBotMediaAndCheckListSize(botMediaDOS, pageSize);
                 Date createTime = botMediaDOS.get(botMediaDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createTime), "BOT_MEDIA");
-            }else {
+            } else {
                 break;
             }
             pageIndex++;
@@ -632,15 +663,45 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info(MessageFormat.format("BotMedia lastCreateTime : {0}", lastCreateTime));
         int pageIndex = 1;
-        while(true) {
+        while (true) {
+            /***
+             * 增加部分 split 时间#id方式，获取修改时间和id --start
+             */
+            String updateTime = null, id = null;
+            String localData[] = lastCreateTime.split("#");
+            if (localData.length != 2) {
+                logger.error("insertBotChatRequestForSync local file format error please keep ‘修改时间#id’的样式 ");
+                return;
+            } else {
+                updateTime = localData[0];
+                id = localData[1];
+            }
+            /***
+             * 增加部分结束，--end 注意修改下面的mapper查询的修改时间
+             */
+
             Integer first = (pageIndex - 1) * pageSize;
             List<BotOutoundTaskDetailWithBLOBs> botOutoundTaskDetailWithBLOBs = botOutoundTaskDetailMapper
-                    .selectBotOutoundTaskDetailForSync(lastCreateTime, first, pageSize);
+                    .selectBotOutoundTaskDetailForSync(updateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(botOutoundTaskDetailWithBLOBs)) {
-                syncService.insertBotOutBoundTaskDetailAndCheckListSize(botOutoundTaskDetailWithBLOBs, pageSize);
-                Date createTime = botOutoundTaskDetailWithBLOBs.get(botOutoundTaskDetailWithBLOBs.size() - 1).getModificationDate();
-                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createTime), "BOT_OUTBOUND_TASK_DETAIL");
-            }else {
+                //处理最后一条重复执行更改的问题
+                boolean flag = false; //执行同步标签设置，true表示执行同步，false表示不执行同步，跳过去
+                if (botOutoundTaskDetailWithBLOBs.size() == 1) {
+                    BotOutoundTaskDetailWithBLOBs botOutoundTaskDetailWithBLOB = botOutoundTaskDetailWithBLOBs.get(0);
+                    if (StringUtils.equals(id, String.valueOf(botOutoundTaskDetailWithBLOB.getId()))) {
+                        logger.warn("[bot_outound_task_detail] sync application jump, continue id =" + id);
+                    } else {
+                        flag = true;
+                    }
+                } else {
+                    flag = true;
+                }
+                if (flag) {
+                    syncService.insertBotOutBoundTaskDetailAndCheckListSize(botOutoundTaskDetailWithBLOBs, pageSize);
+                    Date createTime = botOutoundTaskDetailWithBLOBs.get(botOutoundTaskDetailWithBLOBs.size() - 1).getModificationDate();
+                    CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createTime) + "#" + botOutoundTaskDetailWithBLOBs.get(botOutoundTaskDetailWithBLOBs.size() - 1).getId(), "BOT_OUTBOUND_TASK_DETAIL");
+                }
+            } else {
                 break;
             }
             pageIndex++;
@@ -650,7 +711,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     @Override
     public void initLocalTime() {
         logger.info("init data localhost file start");
-        if(!CommonUtils.isExistDir("BOT_BIZ_DATA")) {
+        if (!CommonUtils.isExistDir("BOT_BIZ_DATA")) {
             CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_BIZ_DATA");
         }
         if (!CommonUtils.isExistDir("BOT_CHAT_RESPONSE_MESSAGE")) {
@@ -689,9 +750,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         if (!CommonUtils.isExistDir("YHZX_XNZZ_NSR")) {
             CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "YHZX_XNZZ_NSR");
         }
-        if (!CommonUtils.isExistDir("BOT_OUTBOUND_TASK_DETAIL")) {
-            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_OUTBOUND_TASK_DETAIL");
-        }
+
         if (!CommonUtils.isExistDir("YHZX_XNZZ_TPC_QY")) {
             CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "YHZX_XNZZ_TPC_QY");
         }
@@ -699,14 +758,21 @@ public class DataSyncServiceImpl implements DataSyncService {
             CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "XXZX_XXMX");
         }
 
+        /***
+         * 采用rocketMQ的方式，避免最后一条数据重复执行，选用“时间#id”的方式本地存储,初始id设为0，其中有BOT_CHAT_REQUEST和BOT_OUTBOUND_TASK_DETAIL
+         * 后续相同模式按此操作。
+         */
         if (!CommonUtils.isExistDir("BOT_CHAT_REQUEST")) {
-            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_CHAT_REQUEST");
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()) + "#0", "BOT_CHAT_REQUEST");
         }
 
+        if (!CommonUtils.isExistDir("BOT_OUTBOUND_TASK_DETAIL")) {
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()) + "#0", "BOT_OUTBOUND_TASK_DETAIL");
+        }
         logger.info("init data localhost file end");
     }
 
-    public static void main(String[] args) throws  Exception{
+    public static void main(String[] args) throws Exception {
         Date startDate = DateUtils.strToDtSimpleFormat("Fri Aug 02 14:37:41 CST 2019");
         System.out.println(startDate);
     }
