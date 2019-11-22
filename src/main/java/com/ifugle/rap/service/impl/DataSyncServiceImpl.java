@@ -193,6 +193,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info(MessageFormat.format("KbsQuestionArticle last createTime : {0}", lastCreateTime));
         int pageIndex = 1;
+        pageSize=300; //固定300行
         while (true) {
             Integer first = (pageIndex - 1) * pageSize;
             List<KbsQuestionArticleDO> kbsQuestionArticleDOS = kbsQuestionArticleDOMapper
@@ -539,6 +540,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertKbsArticleForSync lastCreateTime is null");
             return;
         }
+        pageSize=300; //固定300行
         int pageIndex = 1;
         while (true) {
             logger.info(MessageFormat.format("KbsArticle lastCreateTime : {0}", lastCreateTime));
