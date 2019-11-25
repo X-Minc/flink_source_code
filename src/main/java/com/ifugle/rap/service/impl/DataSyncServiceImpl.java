@@ -193,7 +193,6 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info(MessageFormat.format("KbsQuestionArticle last createTime : {0}", lastCreateTime));
         int pageIndex = 1;
-        pageSize=300; //固定300行
         while (true) {
             Integer first = (pageIndex - 1) * pageSize;
             List<KbsQuestionArticleDO> kbsQuestionArticleDOS = kbsQuestionArticleDOMapper
@@ -535,19 +534,19 @@ public class DataSyncServiceImpl implements DataSyncService {
      * 插入KbsArticle表的内容,数据同步增量导入时调用
      */
     private void insertKbsArticleForSync() {
+        int size = 300;
         String lastCreateTime = CommonUtils.readlocalTimeFile("KBS_ARTICLE");
         if (StringUtils.isEmpty(lastCreateTime)) {
             logger.info("insertKbsArticleForSync lastCreateTime is null");
             return;
         }
-        pageSize=300; //固定300行
         int pageIndex = 1;
         while (true) {
             logger.info(MessageFormat.format("KbsArticle lastCreateTime : {0}", lastCreateTime));
-            Integer first = (pageIndex - 1) * pageSize;
-            List<KbsArticleDOWithBLOBs> kbsArticleDOS = kbsArticleDOMapper.selectKbsArticleForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
+            Integer first = (pageIndex - 1) * size;
+            List<KbsArticleDOWithBLOBs> kbsArticleDOS = kbsArticleDOMapper.selectKbsArticleForUpdateSyncWithLastUpdateTime(lastCreateTime, first, size);
             if (!CollectionUtils.isEmpty(kbsArticleDOS)) {
-                syncService.insertKbsArticleAndCheckListSize(kbsArticleDOS, pageSize);
+                syncService.insertKbsArticleAndCheckListSize(kbsArticleDOS, size);
                 Date modificationDate = kbsArticleDOS.get(kbsArticleDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_ARTICLE");
             } else {
