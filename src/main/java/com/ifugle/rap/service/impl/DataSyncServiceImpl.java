@@ -132,20 +132,8 @@ public class DataSyncServiceImpl implements DataSyncService {
         insertBotBizDataForSync();  //特别注意存在加解密的问题，容易引起线程阻塞
         insertBotConfigServerForSync();
         insertBotOutoundTaskDetailForSync();
-        /***
-         *  智慧财税导入
-         */
-        if (Boolean.valueOf(System.getProperty(SystemConstants.ZHCS_ON))) {
-            insertZxArticleForSync();
-        }
-        /***
-         *  丁税宝导入
-         */
-        if (Boolean.valueOf(System.getProperty(SystemConstants.DSB_ON))) {
-            insertYhzxXnzzNsrForSync();
-            insertYhzxXnzzTpcQyForSync();
-            //insertXxzxXxmxForSync();
-        }
+        insertYhzxXnzzNsrForSync();
+        insertYhzxXnzzTpcQyForSync();
         insertBotChatRequestForSync();
     }
 
@@ -171,6 +159,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             Integer first = (pageIndex - 1) * pageSize;
             List<BotUnawareDetailDO> botUnawareDetailDOS = botUnawareDetailDOMapper.selectBotUnawareDetailWithLastUpdateTime(first, pageSize, lastCreateTime);
             if (!CollectionUtils.isEmpty(botUnawareDetailDOS)) {
+                logger.info("[BOT_UNAWARE_DETAIL] 查询该表的列表的size，size="+botUnawareDetailDOS.size());
                 syncService.insertBotUnawareDetailAndCheckListSize(botUnawareDetailDOS, pageSize);
                 Date modificationDate = botUnawareDetailDOS.get(botUnawareDetailDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "BOT_UNAWARE_DETAIL");
@@ -198,6 +187,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             List<KbsQuestionArticleDO> kbsQuestionArticleDOS = kbsQuestionArticleDOMapper
                     .selectKbsQuestionArticleForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(kbsQuestionArticleDOS)) {
+                logger.info("[KBS_QUESTION_ARTICLE] 查询该表的列表的size，size="+kbsQuestionArticleDOS.size());
                 syncService.insertKbsQuestionArticleAndCheckListSize(kbsQuestionArticleDOS, pageSize);
                 Date modificationDate = kbsQuestionArticleDOS.get(kbsQuestionArticleDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_QUESTION_ARTICLE");
@@ -224,6 +214,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             Integer first = (pageIndex - 1) * pageSize;
             List<BotTrackDetailDO> botTrackDetailDOS = botTrackDetailDOMapper.selectBotTrackDetailForSync(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(botTrackDetailDOS)) {
+                logger.info("[BOT_TRACK_DETAIL] 查询该表的列表的size，size="+botTrackDetailDOS.size());
                 syncService.insertBotTrackDetailAndCheckListSize(botTrackDetailDOS, pageSize);
                 Date createDate = botTrackDetailDOS.get(botTrackDetailDOS.size() - 1).getCreationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "BOT_TRACK_DETAIL");
@@ -252,6 +243,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             List<BotChatResponseMessageDO> botChatResponseMessageDOS = botChatResponseMessageDOMapper
                     .selectBotChatResponseMessageForSync(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(botChatResponseMessageDOS)) {
+                logger.info("[BOT_CHAT_RESPONSE_MESSAGE] 查询该表的列表的size，size="+botChatResponseMessageDOS.size());
                 syncService.insertBotChatResponseMessageAndCheckListSize(botChatResponseMessageDOS, pageSize);
                 Date createDate = botChatResponseMessageDOS.get(botChatResponseMessageDOS.size() - 1).getCreationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "BOT_CHAT_RESPONSE_MESSAGE");
@@ -278,6 +270,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             Integer first = (pageIndex - 1) * pageSize;
             List<KbsQuestionDO> kbsQuestionDOS = kbsQuestionDOMapper.selectKbsQuestionForUpdateWithLastUpdateTime(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(kbsQuestionDOS)) {
+                logger.info("[KBS_QUESTION] 查询该表的列表的size，size="+kbsQuestionDOS.size());
                 syncService.insertKbsQuestionAndCheckListSize(kbsQuestionDOS, pageSize);
                 Date modificationDate = kbsQuestionDOS.get(kbsQuestionDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_QUESTION");
@@ -300,6 +293,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             Integer first = (pageIndex - 1) * pageSize;
             List<BizData> bizDataList = bizDataMapper.selectBotBizDataForUpdateWithLastUpdateTime(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(bizDataList)) {
+                logger.info("[BOT_BIZ_DATA] 查询该表的列表的size，size="+bizDataList.size());
                 syncService.insertBotBizDataAndCheckListSize(bizDataList, pageSize);
                 Date modificationDate = bizDataList.get(bizDataList.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "BOT_BIZ_DATA");
@@ -325,6 +319,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             Integer first = (pageIndex - 1) * pageSize;
             List<BotConfigServer> botConfigServers = botConfigServerMapper.selectBotConfigServerForSync(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(botConfigServers)) {
+                logger.info("[BOT_CONFIG_SERVER] 查询该表的列表的size，size="+botConfigServers.size());
                 syncService.insertBotConfigServerAndCheckListSize(botConfigServers, pageSize);
                 Date createDate = botConfigServers.get(botConfigServers.size() - 1).getCreationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "BOT_CONFIG_SERVER");
@@ -350,6 +345,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             Integer first = (pageIndex - 1) * pageSize;
             List<ZxArticle> zxArticles = zxArticleMapper.selectZxArticleForSync(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(zxArticles)) {
+                logger.info("[ZX_ARTICLE] 查询该表的列表的size，size="+zxArticles.size());
                 syncService.insertZxArticleAndCheckListSize(zxArticles, pageSize);
                 Date createDate = zxArticles.get(zxArticles.size() - 1).getCreationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "ZX_ARTICLE");
@@ -375,6 +371,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             Integer first = (pageIndex - 1) * pageSize;
             List<YhzxXnzzNsr> yhzxXnzzNsrs = yhzxXnzzNsrMapper.selectYhzxXnzzNsrForSync(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(yhzxXnzzNsrs)) {
+                logger.info("[YHZX_XNZZ_NSR] 查询该表的列表的size，size="+yhzxXnzzNsrs.size());
                 syncService.insertYhzxXnzzNsrAndCheckListSize(yhzxXnzzNsrs, pageSize);
                 Date modifyDate = yhzxXnzzNsrs.get(yhzxXnzzNsrs.size() - 1).getXgsj();
                 //注意该本地时间一定要在break之前写入。
@@ -410,6 +407,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             Integer first = (pageIndex - 1) * pageSize;
             List<YhzxXnzzTpcQy> yhzxXnzzTpcQyList = yhzxXnzzTpcQyMapper.selectYhzxXnzzTpcQyForSync(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(yhzxXnzzTpcQyList)) {
+                logger.info("[YHZX_XNZZ_TPC_QY] 查询该表的列表的size，size="+yhzxXnzzTpcQyList.size());
                 syncService.insertYhzxXnzzTpcQyAndCheckListSize(yhzxXnzzTpcQyList, pageSize);
                 Date modificationDate = yhzxXnzzTpcQyList.get(yhzxXnzzTpcQyList.size() - 1).getXgsj();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "YHZX_XNZZ_TPC_QY");
@@ -462,6 +460,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 Integer first = (pageIndex - 1) * customPageSize;
                 List<BotChatRequest> botChatRequests = botChatRequestMapper.selectBotChatRequestForSync(updateTime, first, customPageSize);
                 if (!CollectionUtils.isEmpty(botChatRequests)) {
+                    logger.info("[BOT_CHAT_REQUEST] 查询该表的列表的size，size="+botChatRequests.size());
                     //处理最后一条重复执行更改的问题
                     boolean flag = false; //执行同步标签设置，true表示执行同步，false表示不执行同步，跳过去
                     if (botChatRequests.size() == 1) {
@@ -512,6 +511,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             Integer first = (pageIndex - 1) * pageSize;
             List<XxzxXxmx> xxzxXxmxs = xxzxXxmxMapper.selectXxzxXxmxForSync(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(xxzxXxmxs)) {
+                logger.info("[XXZX_XXMX] 查询该表的列表的size，size="+xxzxXxmxs.size());
                 syncService.insertXxzxXxmxAndCheckListSize(xxzxXxmxs, pageSize);
                 Date modificationDate = xxzxXxmxs.get(xxzxXxmxs.size() - 1).getXgsj();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "XXZX_XXMX");
@@ -546,6 +546,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             Integer first = (pageIndex - 1) * size;
             List<KbsArticleDOWithBLOBs> kbsArticleDOS = kbsArticleDOMapper.selectKbsArticleForUpdateSyncWithLastUpdateTime(lastCreateTime, first, size);
             if (!CollectionUtils.isEmpty(kbsArticleDOS)) {
+                logger.info("[KBS_ARTICLE] 查询该表的列表的size，size="+kbsArticleDOS.size());
                 syncService.insertKbsArticleAndCheckListSize(kbsArticleDOS, size);
                 Date modificationDate = kbsArticleDOS.get(kbsArticleDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_ARTICLE");
@@ -572,6 +573,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             Integer first = (pageIndex - 1) * pageSize;
             List<KbsReadingDOWithBLOBs> kbsReadingDOS = kbsReadingDOMapper.selectKbsReadingForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(kbsReadingDOS)) {
+                logger.info("[KBS_READING] 查询该表的列表的size，size="+kbsReadingDOS.size());
                 syncService.insertKbsReadingAndCheckListSize(kbsReadingDOS, pageSize);
                 Date modificationDate = kbsReadingDOS.get(kbsReadingDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_READING");
@@ -598,6 +600,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             Integer first = (pageIndex - 1) * pageSize;
             List<KbsKeywordDO> kbsKeywordDOS = kbsKeywordDOMapper.selectKbsKeywordForUpdateSyncWithLastUpdateTime(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(kbsKeywordDOS)) {
+                logger.info("[KBS_KEYWORD] 查询该表的列表的size，size="+kbsKeywordDOS.size());
                 syncService.insertKbsKeywordAndCheckListSize(kbsKeywordDOS, pageSize);
                 Date modificationDate = kbsKeywordDOS.get(kbsKeywordDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_KEYWORD");
@@ -646,6 +649,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             Integer first = (pageIndex - 1) * pageSize;
             List<BotMediaDO> botMediaDOS = botMediaDOMapper.selectBotMediaWithLastUpdateTime(first, pageSize, lastCreateTime);
             if (!CollectionUtils.isEmpty(botMediaDOS)) {
+                logger.info("[BOT_MEDIA] 查询该表的列表的size，size="+botMediaDOS.size());
                 syncService.insertBotMediaAndCheckListSize(botMediaDOS, pageSize);
                 Date createTime = botMediaDOS.get(botMediaDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createTime), "BOT_MEDIA");
@@ -685,6 +689,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             List<BotOutoundTaskDetailWithBLOBs> botOutoundTaskDetailWithBLOBs = botOutoundTaskDetailMapper
                     .selectBotOutoundTaskDetailForSync(updateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(botOutoundTaskDetailWithBLOBs)) {
+                logger.info("[BOT_OUTOUND_TASK_DETAIL] 查询该表的列表的size，size="+botOutoundTaskDetailWithBLOBs.size());
                 //处理最后一条重复执行更改的问题
                 boolean flag = false; //执行同步标签设置，true表示执行同步，false表示不执行同步，跳过去
                 if (botOutoundTaskDetailWithBLOBs.size() == 1) {

@@ -152,7 +152,7 @@ public class SyncServiceImpl implements SyncService {
      */
     @Override
     public boolean insertYhzxXnzzNsrAndCheckListSize(List<YhzxXnzzNsr> yhzxXnzzNsrs, Integer pageSize) {
-        logger.info("[SyncServiceImpl] start export table YhzxXnzzNsr to es .... ");
+        logger.info("[SyncServiceImpl] start export table YHZX_XNZZ_NSR to es .... total="+yhzxXnzzNsrs.size()+",pagesize="+pageSize);
         StringBuffer DSL = new StringBuffer(32);
         CryptSimple cryptSimple = new CryptSimple();
         if (StringUtils.equalsIgnoreCase(env, "prod")) {
@@ -179,7 +179,7 @@ public class SyncServiceImpl implements SyncService {
 
     @Override
     public boolean insertYhzxXnzzTpcQyAndCheckListSize(List<YhzxXnzzTpcQy> yhzxXnzzTpcQys, Integer pageSize){
-        logger.info("[SyncServiceImpl] start export table YhzxXnzzNsr to es .... ");
+        logger.info("[SyncServiceImpl] start export table YHZX_XNZZ_TPC_QY to es .... total="+yhzxXnzzTpcQys.size()+",pagesize="+pageSize);
         StringBuffer DSL = new StringBuffer(32);
         CryptSimple cryptSimple = new CryptSimple();
         if (StringUtils.equalsIgnoreCase(env, "prod")) {
