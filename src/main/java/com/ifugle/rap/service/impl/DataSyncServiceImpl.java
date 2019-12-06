@@ -153,7 +153,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertBotUnawareDetailForSync lastCreateTime is null");
             return;
         }
-        logger.info(MessageFormat.format("[BOT_UNAWARE_DETAIL] 开始同步表 BotUnawareDetail 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+        logger.info(MessageFormat.format("#### [BOT_UNAWARE_DETAIL] 开始同步表 BotUnawareDetail 获取本地偏移时间 updateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while (true) {
             Integer first = (pageIndex - 1) * pageSize;
@@ -168,6 +168,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
+        logger.info("#### [BOT_UNAWARE_DETAIL] 同步表数据单次结束");
     }
 
     /**
@@ -180,7 +181,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertKbsQuestionArticleForSync lastCreateTime is null");
             return;
         }
-        logger.info(MessageFormat.format("[KBS_QUESTION_ARTICLE] 开始同步表 KBS_QUESTION_ARTICLE 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+        logger.info(MessageFormat.format("#### [KBS_QUESTION_ARTICLE] 开始同步表 KBS_QUESTION_ARTICLE 获取本地偏移时间 updateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while (true) {
             Integer first = (pageIndex - 1) * pageSize;
@@ -196,6 +197,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
+        logger.info("#### [KBS_QUESTION_ARTICLE] 同步表数据单次结束");
     }
 
     /**
@@ -208,7 +210,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertBotTrackDetailForSync lastCreateTime is null");
             return;
         }
-        logger.info(MessageFormat.format("[BOT_TRACK_DETAIL] 开始同步表 BOT_TRACK_DETAIL 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+        logger.info(MessageFormat.format("#### [BOT_TRACK_DETAIL] 开始同步表 BOT_TRACK_DETAIL 获取本地偏移时间 updateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while (true) {
             Integer first = (pageIndex - 1) * pageSize;
@@ -223,7 +225,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
-
+        logger.info("#### [BOT_TRACK_DETAIL] 同步表数据单次结束");
     }
 
     /**
@@ -236,7 +238,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertBotChatResponseMessageForSync lastCreateTime is null");
             return;
         }
-        logger.info(MessageFormat.format("[BOT_CHAT_RESPONSE_MESSAGE] 开始同步表 BOT_CHAT_RESPONSE_MESSAGE 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+        logger.info(MessageFormat.format("#### [BOT_CHAT_RESPONSE_MESSAGE] 开始同步表 BOT_CHAT_RESPONSE_MESSAGE 获取本地偏移时间 updateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while (true) {
             Integer first = (pageIndex - 1) * pageSize;
@@ -252,6 +254,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
+        logger.info("#### [BOT_CHAT_RESPONSE_MESSAGE] 同步表数据单次结束");
     }
 
     /**
@@ -264,7 +267,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertKbsQuestionForSync lastCreateTime is null");
             return;
         }
-        logger.info(MessageFormat.format("[KBS_QUESTION] 开始同步表 KBS_QUESTION 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+        logger.info(MessageFormat.format("#### [KBS_QUESTION] 开始同步表 KBS_QUESTION 获取本地偏移时间 updateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while (true) {
             Integer first = (pageIndex - 1) * pageSize;
@@ -279,6 +282,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
+        logger.info("#### [KBS_QUESTION] 同步表数据单次结束");
     }
 
     private void insertBotBizDataForSync() {
@@ -287,7 +291,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertBotBizDataForSync lastCreateTime is null");
             return;
         }
-        logger.info(MessageFormat.format("[BOT_BIZ_DATA] 开始同步表 BOT_BIZ_DATA 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+        logger.info(MessageFormat.format("#### [BOT_BIZ_DATA] 开始同步表 BOT_BIZ_DATA 获取本地偏移时间 updateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while (true) {
             Integer first = (pageIndex - 1) * pageSize;
@@ -302,6 +306,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
+        logger.info("#### [BOT_BIZ_DATA] 同步表数据单次结束");
     }
 
     /**
@@ -313,7 +318,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertBotConfigServerForSync lastCreateTime is null");
             return;
         }
-        logger.info(MessageFormat.format("[BOT_CONFIG_SERVER] 开始同步表 BOT_CONFIG_SERVER 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+        logger.info(MessageFormat.format("#### [BOT_CONFIG_SERVER] 开始同步表 BOT_CONFIG_SERVER 获取本地偏移时间 updateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while (true) {
             Integer first = (pageIndex - 1) * pageSize;
@@ -328,6 +333,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
+        logger.info("#### [BOT_CONFIG_SERVER] 同步表数据单次结束");
     }
 
     /***
@@ -339,7 +345,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertZxArticleForSync lastCreateTime is null");
             return;
         }
-        logger.info(MessageFormat.format("[ZX_ARTICLE] 开始同步表 ZX_ARTICLE 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+        logger.info(MessageFormat.format("#### [ZX_ARTICLE] 开始同步表 ZX_ARTICLE 获取本地偏移时间 updateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while (true) {
             Integer first = (pageIndex - 1) * pageSize;
@@ -354,6 +360,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
+        logger.info("#### [ZX_ARTICLE] 同步表数据单次结束");
     }
 
     /***
@@ -365,7 +372,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertYhzxXnzzNsrForSync lastCreateTime is null");
             return;
         }
-        logger.info(MessageFormat.format("[YHZX_XNZZ_NSR] 开始同步表 YHZX_XNZZ_NSR 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+        logger.info(MessageFormat.format("#### [YHZX_XNZZ_NSR] 开始同步表 YHZX_XNZZ_NSR 获取本地偏移时间 updateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while (true) {
             Integer first = (pageIndex - 1) * pageSize;
@@ -389,6 +396,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
+        logger.info("#### [YHZX_XNZZ_NSR] 同步表数据单次结束");
     }
 
 
@@ -403,7 +411,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         int pageIndex = 1;
         while (true) {
-            logger.info(MessageFormat.format("[YHZX_XNZZ_TPC_QY] 开始同步表 YHZX_XNZZ_TPC_QY 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+            logger.info(MessageFormat.format("#### [YHZX_XNZZ_TPC_QY] 开始同步表 YHZX_XNZZ_TPC_QY 获取本地偏移时间 updateTime : {0}", lastCreateTime));
             Integer first = (pageIndex - 1) * pageSize;
             List<YhzxXnzzTpcQy> yhzxXnzzTpcQyList = yhzxXnzzTpcQyMapper.selectYhzxXnzzTpcQyForSync(lastCreateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(yhzxXnzzTpcQyList)) {
@@ -423,6 +431,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
+        logger.info("#### [YHZX_XNZZ_TPC_QY] 同步表数据单次结束");
     }
 
 
@@ -439,7 +448,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             int pageIndex = 1;
             int customPageSize = 2000;
             while (true) {
-                logger.info(MessageFormat.format("[BOT_CHAT_REQUEST] 开始同步表 BOT_CHAT_REQUEST 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+                logger.info(MessageFormat.format("#### [BOT_CHAT_REQUEST] 开始同步表 BOT_CHAT_REQUEST 获取本地偏移时间 updateTime : {0}", lastCreateTime));
                 /***
                  * 增加部分 split 时间#id方式，获取修改时间和id --start
                  */
@@ -459,7 +468,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                 Integer first = (pageIndex - 1) * customPageSize;
                 List<BotChatRequest> botChatRequests = botChatRequestMapper.selectBotChatRequestForSync(updateTime, first, customPageSize);
                 if (!CollectionUtils.isEmpty(botChatRequests)) {
-                    logger.info("[BOT_CHAT_REQUEST] 查询该表的列表的size，size="+botChatRequests.size());
+                    logger.info("#### [BOT_CHAT_REQUEST] 查询该表的列表的size，size="+botChatRequests.size());
                     //处理最后一条重复执行更改的问题
                     boolean flag = false; //执行同步标签设置，true表示执行同步，false表示不执行同步，跳过去
                     if (botChatRequests.size() == 1) {
@@ -493,6 +502,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         } catch (Exception e) {
             logger.error("[data sync] deal", e);
         }
+        logger.info("#### [BOT_CHAT_REQUEST] 同步表数据单次结束");
     }
 
     /***
@@ -526,6 +536,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
+        logger.info("#### [XXZX_XXMX] 同步表数据单次结束");
     }
 
     /**
@@ -541,7 +552,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         int pageIndex = 1;
         while (true) {
-            logger.info(MessageFormat.format("[KBS_ARTICLE] 开始同步表 KBS_ARTICLE 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+            logger.info(MessageFormat.format("#### [KBS_ARTICLE] 开始同步表 KBS_ARTICLE 获取本地偏移时间 updateTime : {0}", lastCreateTime));
             Integer first = (pageIndex - 1) * size;
             List<KbsArticleDOWithBLOBs> kbsArticleDOS = kbsArticleDOMapper.selectKbsArticleForUpdateSyncWithLastUpdateTime(lastCreateTime, first, size);
             if (!CollectionUtils.isEmpty(kbsArticleDOS)) {
@@ -554,6 +565,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
+        logger.info("#### [KBS_ARTICLE] 同步表数据单次结束");
     }
 
     /**
@@ -566,7 +578,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertKbsReadingForSync lastCreateTime is null");
             return;
         }
-        logger.info(MessageFormat.format("[KBS_READING] 开始同步表 KBS_READING 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+        logger.info(MessageFormat.format("#### [KBS_READING] 开始同步表 KBS_READING 获取本地偏移时间 updateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while (true) {
             Integer first = (pageIndex - 1) * pageSize;
@@ -581,6 +593,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
+        logger.info("#### [KBS_READING] 同步表数据单次结束");
     }
 
     /**
@@ -593,7 +606,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertKbsKeywordForSync lastCreateTime is null");
             return;
         }
-        logger.info(MessageFormat.format("[KBS_KEYWORD] 开始同步表 KBS_KEYWORD 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+        logger.info(MessageFormat.format("#### [KBS_KEYWORD] 开始同步表 KBS_KEYWORD 获取本地偏移时间 updateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while (true) {
             Integer first = (pageIndex - 1) * pageSize;
@@ -608,6 +621,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
+        logger.info("#### [KBS_KEYWORD] 同步表数据单次结束");
     }
 
 //    /**
@@ -642,7 +656,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertBotMediaForSync lastCreateTime is null");
             return;
         }
-        logger.info(MessageFormat.format("[BOT_MEDIA] 开始同步表 BOT_MEDIA 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+        logger.info(MessageFormat.format("#### [BOT_MEDIA] 开始同步表 BOT_MEDIA 获取本地偏移时间 updateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while (true) {
             Integer first = (pageIndex - 1) * pageSize;
@@ -657,6 +671,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
+        logger.info("#### [BOT_MEDIA] 同步表数据单次结束");
     }
 
     private void insertBotOutoundTaskDetailForSync() {
@@ -665,7 +680,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("insertBotOutoundTaskDetailForSync lastCreateTime is null");
             return;
         }
-        logger.info(MessageFormat.format("[BOT_OUTBOUND_TASK_DETAIL] 开始同步表 BOT_OUTBOUND_TASK_DETAIL 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+        logger.info(MessageFormat.format("#### [BOT_OUTBOUND_TASK_DETAIL] 开始同步表 BOT_OUTBOUND_TASK_DETAIL 获取本地偏移时间 updateTime : {0}", lastCreateTime));
         int pageIndex = 1;
         while (true) {
             /***
@@ -688,7 +703,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             List<BotOutoundTaskDetailWithBLOBs> botOutoundTaskDetailWithBLOBs = botOutoundTaskDetailMapper
                     .selectBotOutoundTaskDetailForSync(updateTime, first, pageSize);
             if (!CollectionUtils.isEmpty(botOutoundTaskDetailWithBLOBs)) {
-                logger.info("[BOT_OUTOUND_TASK_DETAIL] 查询该表的列表的size，size="+botOutoundTaskDetailWithBLOBs.size());
+                logger.info("#### [BOT_OUTOUND_TASK_DETAIL] 查询该表的列表的size，size="+botOutoundTaskDetailWithBLOBs.size());
                 //处理最后一条重复执行更改的问题
                 boolean flag = false; //执行同步标签设置，true表示执行同步，false表示不执行同步，跳过去
                 if (botOutoundTaskDetailWithBLOBs.size() == 1) {
@@ -711,6 +726,7 @@ public class DataSyncServiceImpl implements DataSyncService {
             }
             pageIndex++;
         }
+        logger.info("#### [BOT_OUTBOUND_TASK_DETAIL] 同步表数据单次结束");
     }
 
     @Override
