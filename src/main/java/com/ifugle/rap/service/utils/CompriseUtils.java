@@ -561,6 +561,7 @@ public class CompriseUtils {
         hashMap.put("MODIFICATION_DATE", kbsQuestionDO.getModificationDate() == null ? null : getLongData(kbsQuestionDO.getModificationDate()));
         hashMap.put("QUESTION_TYPE", kbsQuestionDO.getQuestionType());
         hashMap.put("APPROVAL_STATUS", kbsQuestionDO.getApprovalStatus());
+        hashMap.put("ANSWER_MD5", kbsQuestionDO.getAnswerMD5());
         request.setMap(hashMap);
         return request;
     }

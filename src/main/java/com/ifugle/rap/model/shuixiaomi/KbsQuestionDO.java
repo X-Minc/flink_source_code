@@ -61,6 +61,8 @@ public class KbsQuestionDO extends EnhanceModel<Long> {
 
     private Byte approvalStatus;
 
+    private String answerMD5;
+
     /***
      * 判断是新增还是更新
      */
@@ -280,6 +282,15 @@ public class KbsQuestionDO extends EnhanceModel<Long> {
 
     public void setAddMode(Byte addMode) {
         this.addMode = addMode;
+    }
+
+
+    public String getAnswerMD5() {
+        return answerMD5;
+    }
+
+    public void setAnswerMD5(String answerMD5) {
+        this.answerMD5 = answerMD5;
     }
 
     @Override

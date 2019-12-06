@@ -29,11 +29,12 @@
     <result column="MODIFIER" property="modifier" jdbcType="VARCHAR" />
     <result column="MODIFICATION_DATE" property="modificationDate" jdbcType="TIMESTAMP" />
     <result column="APPROVAL_STATUS" property="approvalStatus" jdbcType="TINYINT" />
+    <result column="ANSWER_MD5" property="answerMD5" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     ID, QUESTION, QUESTION_TYPE, GRADE, CATEGORY, PRIMARY_KEYWORD, ALTERNATE_KEYWORD, 
     SEARCH_KEYWORD, KEYWORD_OPTION, SYNONYMS, ANSWER, REMARK, STATUS, ORIGINAL, MAP_SOURCE, 
-    MAP_ID, SYNC_FLAG, SYNC_TIME, CREATOR, CREATION_DATE, MODIFIER, MODIFICATION_DATE
+    MAP_ID, SYNC_FLAG, SYNC_TIME, CREATOR, CREATION_DATE, MODIFIER, MODIFICATION_DATE,ANSWER_MD5
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
