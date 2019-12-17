@@ -553,6 +553,7 @@ public class CompriseUtils {
         hashMap.put("ORIGINAL", kbsQuestionDO.getOriginal());
         hashMap.put("MAP_SOURCE", kbsQuestionDO.getMapSource());
         hashMap.put("MAP_ID", kbsQuestionDO.getMapId());
+        hashMap.put("ANSWER_SHAPE", kbsQuestionDO.getAnswerShape());
         hashMap.put("SYNC_FLAG", kbsQuestionDO.getSyncFlag());
         hashMap.put("SYNC_TIME", kbsQuestionDO.getSyncTime() == null ? null : getLongData(kbsQuestionDO.getSyncTime()));
         hashMap.put("CREATOR", kbsQuestionDO.getCreator());

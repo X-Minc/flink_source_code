@@ -27,6 +27,8 @@ public class KbsQuestionDO extends EnhanceModel<Long> {
 
     private String synonyms;
 
+    private Integer answerShape;
+
     private String answer;
 
     private String remark;
@@ -90,6 +92,14 @@ public class KbsQuestionDO extends EnhanceModel<Long> {
 
     public void setQuestionType(String questionType) {
         this.questionType = questionType == null ? null : questionType.trim();
+    }
+
+    public Integer getAnswerShape() {
+        return answerShape;
+    }
+
+    public void setAnswerShape(Integer answerShape) {
+        this.answerShape = answerShape;
     }
 
     public Byte getGrade() {

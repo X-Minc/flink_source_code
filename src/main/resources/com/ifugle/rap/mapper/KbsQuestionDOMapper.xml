@@ -12,6 +12,7 @@
     <result column="SEARCH_KEYWORD" property="searchKeyword" jdbcType="VARCHAR" />
     <result column="KEYWORD_OPTION" property="keywordOption" jdbcType="TINYINT" />
     <result column="SYNONYMS" property="synonyms" jdbcType="VARCHAR" />
+    <result column="ANSWER_SHAPE" property="answerShape" jdbcType="INTEGER" />
     <result column="ANSWER" property="answer" jdbcType="VARCHAR" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="STATUS" property="status" jdbcType="TINYINT" />
@@ -33,7 +34,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     ID, QUESTION, QUESTION_TYPE, GRADE, CATEGORY, PRIMARY_KEYWORD, ALTERNATE_KEYWORD, 
-    SEARCH_KEYWORD, KEYWORD_OPTION, SYNONYMS, ANSWER, REMARK, STATUS, ORIGINAL, MAP_SOURCE, 
+    SEARCH_KEYWORD, KEYWORD_OPTION, SYNONYMS, ANSWER_SHAPE, ANSWER, REMARK, STATUS, ORIGINAL, MAP_SOURCE,
     MAP_ID, SYNC_FLAG, SYNC_TIME, CREATOR, CREATION_DATE, MODIFIER, MODIFICATION_DATE,ANSWER_MD5
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
