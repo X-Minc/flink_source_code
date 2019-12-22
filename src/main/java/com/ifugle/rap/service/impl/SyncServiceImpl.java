@@ -363,7 +363,9 @@ public class SyncServiceImpl implements SyncService {
         for (KbsQuestionDO kbsQuestionDO : kbsQuestionDOS) {
             DataRequest request = compriseUtils.kbsQuestionCompriseDataRequest(kbsQuestionDO);
             dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.KBS_QUESTION.getCode(), request));
-            messages.add(String.valueOf(kbsQuestionDO.getId()));
+            if (kbsQuestionDO.getCreationDate().equals(kbsQuestionDO.getModificationDate())) {
+                messages.add(String.valueOf(kbsQuestionDO.getId()));
+            }
         }
         if (CollectionUtils.isNotEmpty(messages) && messages.size() != pageSize) {
             logger.info("[bot_outbound_task_detail] sync es ids = " + new Gson().toJson(messages));
