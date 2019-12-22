@@ -5,6 +5,7 @@ package com.ifugle.rap.service.redis;
 
 import java.util.concurrent.BlockingQueue;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -73,7 +74,7 @@ public class RedisMessageSubscriber  implements AppSubscriber {
      */
     public void sendMessageBatch(String topic,String... messages){
         if(logger.isInfoEnabled()){
-            logger.info("[RedisMessageSubscriber] send message = "+messages+",topic="+topic);
+            logger.info("[RedisMessageSubscriber] send message = "+ JSON.toJSONString(messages)+",topic="+topic);
         }
         if(messages!=null&& messages.length != 0) {
             for (String mes : messages) {

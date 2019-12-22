@@ -368,12 +368,14 @@ public class SyncServiceImpl implements SyncService {
             }
         }
         if (CollectionUtils.isNotEmpty(messages) && messages.size() != pageSize) {
-            logger.info("[bot_outbound_task_detail] sync es ids = " + new Gson().toJson(messages));
+            logger.info("[kbs_question] sync es ids = " + new Gson().toJson(messages));
         }
         logger.info("[kbs_question] sync data to es success,index = KBS_QUESTION,size =" + kbsQuestionDOS.size());
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         // 发送消息给税小蜜业务
-        redisMessageSubscriber.sendMessageBatch(ParseConstant.BOT_ES_PRODUCTER, messages.toArray(new String[0]));
+        if(messages.size()>0) {
+            redisMessageSubscriber.sendMessageBatch(ParseConstant.BOT_ES_PRODUCTER, messages.toArray(new String[0]));
+        }
         return kbsQuestionDOS.size() < pageSize;
     }
 
