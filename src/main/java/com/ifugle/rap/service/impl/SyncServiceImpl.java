@@ -9,10 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
-import com.ifugle.rap.model.dingtax.XxzxXxmx;
-import com.ifugle.rap.model.shuixiaomi.*;
-import com.ifugle.rap.service.rocketmq.RocketMqProducter;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +16,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.fastjson.JSON;
 import com.ifugle.rap.elasticsearch.enums.ChannelType;
 import com.ifugle.rap.elasticsearch.model.DataRequest;
 import com.ifugle.rap.elasticsearch.service.ElasticSearchBusinessService;
+import com.ifugle.rap.model.dingtax.XxzxXxmx;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
 import com.ifugle.rap.model.dsb.YhzxXnzzTpcQy;
+import com.ifugle.rap.model.shuixiaomi.BizData;
+import com.ifugle.rap.model.shuixiaomi.BotChatRequest;
+import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
+import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
+import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
+import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
+import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
+import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
+import com.ifugle.rap.model.shuixiaomi.EsDocumentData;
+import com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs;
+import com.ifugle.rap.model.shuixiaomi.KbsKeywordDO;
+import com.ifugle.rap.model.shuixiaomi.KbsQuestionArticleDO;
+import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
+import com.ifugle.rap.model.shuixiaomi.KbsReadingDOWithBLOBs;
 import com.ifugle.rap.model.zhcs.ZxArticle;
 import com.ifugle.rap.security.crypto.CryptBase36;
 import com.ifugle.rap.security.crypto.CryptBase62;
@@ -34,6 +46,7 @@ import com.ifugle.rap.security.crypto.CryptSimple;
 import com.ifugle.rap.service.SyncService;
 import com.ifugle.rap.service.redis.ParseConstant;
 import com.ifugle.rap.service.redis.RedisMessageSubscriber;
+import com.ifugle.rap.service.rocketmq.RocketMqProducter;
 import com.ifugle.rap.service.utils.CompriseUtils;
 import com.ifugle.rap.utils.DecodeUtils;
 
@@ -333,7 +346,9 @@ public class SyncServiceImpl implements SyncService {
         for (KbsQuestionDO kbsQuestionDO : kbsQuestionDOS) {
             DataRequest request = compriseUtils.kbsQuestionCompriseDataRequest(kbsQuestionDO);
             dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.KBS_QUESTION.getCode(), request));
-            messages.add(String.valueOf(kbsQuestionDO.getId()));
+            if (kbsQuestionDO.getCreationDate().equals(kbsQuestionDO.getModificationDate())) {
+                messages.add(String.valueOf(kbsQuestionDO.getId()));
+            }
         }
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         // 发送消息给税小蜜业务

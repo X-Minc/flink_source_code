@@ -8,18 +8,6 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
-import com.google.gson.Gson;
-import com.ifugle.rap.elasticsearch.model.BizException;
-import com.ifugle.rap.elasticsearch.model.DataRequest;
-import com.ifugle.rap.elasticsearch.model.ResultCode;
-import com.ifugle.rap.model.elasticsearch.ElasticSearchResponseVO;
-import com.ifugle.rap.model.elasticsearch.InstanceDTO;
-import com.ifugle.rap.elasticsearch.api.BusinessCommonApi;
-import com.ifugle.rap.elasticsearch.core.ClusterNode;
-import com.ifugle.rap.elasticsearch.enums.ChannelType;
-import com.ifugle.util.JSONUtil;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
@@ -33,6 +21,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.google.gson.Gson;
+import com.ifugle.rap.elasticsearch.api.BusinessCommonApi;
+import com.ifugle.rap.elasticsearch.core.ClusterNode;
+import com.ifugle.rap.elasticsearch.model.BizException;
+import com.ifugle.rap.elasticsearch.model.DataRequest;
+import com.ifugle.rap.elasticsearch.model.ResultCode;
+import com.ifugle.rap.model.elasticsearch.ElasticSearchResponseVO;
+import com.ifugle.rap.model.elasticsearch.InstanceDTO;
+import com.ifugle.util.JSONUtil;
 
 /**
  * @author HuangLei(wenyuan)
@@ -58,7 +56,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
     /***
      * 批量插入或者更新的模板
      */
-    private static final String SAMPLE_UPDATE_OR_INSERT_DSL = "{ \"index\": { \"_index\": \"%s\", \"_type\": \"%s\", \"_id\": \"%s\" }} \n";
+    private static final String SAMPLE_UPDATE_OR_INSERT_DSL = "{ \"update\": { \"_index\": \"%s\", \"_type\": \"%s\", \"_id\": \"%s\" }} \n";
 
 
     @Autowired
@@ -138,7 +136,10 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
      */
     public String formatSaveOrUpdateDSL(String channelType, DataRequest request) {
         Map<String, Object> map = request.getMap();
-        String data = JSONUtil.toJSON(map);
+        Map<String, Object> content = new HashMap<>();
+        content.put("doc", map);
+        content.put("doc_as_upsert", true);
+        String data = JSONUtil.toJSON(content);
         StringBuilder dsl = new StringBuilder(String.format(SAMPLE_UPDATE_OR_INSERT_DSL, channelType, request.getCatalogType(), getId(request)));
         dsl.append(data);
         dsl.append(" \n");
