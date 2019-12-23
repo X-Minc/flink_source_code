@@ -4,10 +4,7 @@
 package com.ifugle.rap.service.impl;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
@@ -542,5 +539,11 @@ public class SyncServiceImpl implements SyncService {
         rocketMqProducter.sendMessage(JSON.toJSONString(esDocumentData));
         logger.info("[SyncServiceImpl] pageSize=" + pageSize + "," + botOutoundTaskDetails.size());
         return botOutoundTaskDetails.size() < pageSize;
+    }
+
+    public static void main(String[] args) {
+        long time = System.currentTimeMillis();
+
+        System.out.println(new Date(time).equals(new Date(time)));
     }
 }

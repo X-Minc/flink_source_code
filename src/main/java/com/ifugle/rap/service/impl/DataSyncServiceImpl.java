@@ -810,8 +810,4 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info("init data localhost file end");
     }
 
-    public static void main(String[] args) throws Exception {
-        Date startDate = DateUtils.strToDtSimpleFormat("Fri Aug 02 14:37:41 CST 2019");
-        System.out.println(startDate);
-    }
 }
