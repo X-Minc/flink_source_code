@@ -473,7 +473,8 @@ public class DataSyncServiceImpl implements DataSyncService {
                     boolean flag = false; //执行同步标签设置，true表示执行同步，false表示不执行同步，跳过去
                     if (botChatRequests.size() == 1) {
                         BotChatRequest botChatRequest = botChatRequests.get(0);
-                        if (StringUtils.equals(id, String.valueOf(botChatRequest.getId()))) {
+                        Date localUpdateTime = DateUtil.dateOf(updateTime);
+                        if (StringUtils.equals(id, String.valueOf(botChatRequest.getId()))&&localUpdateTime.compareTo(botChatRequest.getModificationDate())==0) {
                             logger.warn("[bot_chat_reqeust] sync application jump, continue id =" + id);
                         } else {
                             flag = true;
@@ -708,7 +709,8 @@ public class DataSyncServiceImpl implements DataSyncService {
                 boolean flag = false; //执行同步标签设置，true表示执行同步，false表示不执行同步，跳过去
                 if (botOutoundTaskDetailWithBLOBs.size() == 1) {
                     BotOutoundTaskDetailWithBLOBs botOutoundTaskDetailWithBLOB = botOutoundTaskDetailWithBLOBs.get(0);
-                    if (StringUtils.equals(id, String.valueOf(botOutoundTaskDetailWithBLOB.getId()))) {
+                    Date localUpdateTime = DateUtil.dateOf(updateTime);
+                    if (StringUtils.equals(id, String.valueOf(botOutoundTaskDetailWithBLOB.getId()))&&localUpdateTime.compareTo(botOutoundTaskDetailWithBLOB.getModificationDate())==0) {
                         logger.warn("[bot_outound_task_detail] sync application jump, continue id =" + id);
                     } else {
                         flag = true;
