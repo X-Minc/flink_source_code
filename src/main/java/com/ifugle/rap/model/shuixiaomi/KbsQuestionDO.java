@@ -27,6 +27,8 @@ public class KbsQuestionDO extends EnhanceModel<Long> {
 
     private String synonyms;
 
+    private Integer answerShape;
+
     private String answer;
 
     private String remark;
@@ -61,6 +63,8 @@ public class KbsQuestionDO extends EnhanceModel<Long> {
 
     private Byte approvalStatus;
 
+    private String answerMD5;
+
     /***
      * 判断是新增还是更新
      */
@@ -88,6 +92,14 @@ public class KbsQuestionDO extends EnhanceModel<Long> {
 
     public void setQuestionType(String questionType) {
         this.questionType = questionType == null ? null : questionType.trim();
+    }
+
+    public Integer getAnswerShape() {
+        return answerShape;
+    }
+
+    public void setAnswerShape(Integer answerShape) {
+        this.answerShape = answerShape;
     }
 
     public Byte getGrade() {
@@ -280,6 +292,15 @@ public class KbsQuestionDO extends EnhanceModel<Long> {
 
     public void setAddMode(Byte addMode) {
         this.addMode = addMode;
+    }
+
+
+    public String getAnswerMD5() {
+        return answerMD5;
+    }
+
+    public void setAnswerMD5(String answerMD5) {
+        this.answerMD5 = answerMD5;
     }
 
     @Override

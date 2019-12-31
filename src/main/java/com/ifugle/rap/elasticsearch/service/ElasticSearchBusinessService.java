@@ -183,9 +183,13 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
             if (vo.isErrors()) {
                 getErrorInstance(vo);
             } else {
-                logger.debug("成功发送");
+                if(logger.isDebugEnabled()) {
+                    logger.debug("成功发送");
+                }
             }
-            logger.warn("[ElasticSearchBusinessService] AnalyzeResponse response body ="+ queryResult+",request object = "+query);
+            if(logger.isDebugEnabled()) {
+                logger.debug("[ElasticSearchBusinessService] AnalyzeResponse response successful =" + queryResult + ",request object = " + query);
+            }
         } catch (ParseException | IOException e) {
             logger.error("[ElasticSearchBusinessService] ParseException,code="+response.getStatusLine().getStatusCode(), e);
         }

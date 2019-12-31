@@ -41,13 +41,15 @@
     <result column="nsxydj" jdbcType="TINYINT" property="nsxydj" />
     <result column="kzztdjlx_dm" jdbcType="VARCHAR" property="kzztdjlxDm" />
     <result column="jyfw" jdbcType="VARCHAR" property="jyfw" />
+    <result column="zzzcbj" jdbcType="BIGINT" property="zzzcbj" />
+    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
   </resultMap>
 
   <sql id="Base_Column_List">
     id, xnzz_id, bm_id, corpid, nsrsbh, zdsyhbj, jhbj, YXCYS, cjsj, cjr, xgsj, xgr, NSRMC, 
     NSRJC, shxydm, shxydm6, sjshxydm, zggsjg_dm, zgdsjg_dm, djzclx_dm, parent_djzclx_dm, 
     hy_dm, nsrzt_dm, zzzcbj, khyh, yhzh, zcdz, zcdlxdh, scjydz, scjydlxdh, qysdszsbj, 
-    djxh, zzsnslx, dzxwqy_bj, xxwlqy_bj, nsxydj, kzztdjlx_dm,jyfw
+    djxh, zzsnslx, dzxwqy_bj, xxwlqy_bj, nsxydj, kzztdjlx_dm,jyfw,zzzcbj,is_delete
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">

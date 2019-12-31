@@ -81,6 +81,8 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
 
     private String jyfw;
 
+    private int isDelete;
+
     public Long getId() {
         return id;
     }
@@ -383,5 +385,13 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
 
     public void setJyfw(String jyfw) {
         this.jyfw = jyfw;
+    }
+
+    public void setIsDelete(int isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    public int getIsDelete() {
+        return isDelete;
     }
 }

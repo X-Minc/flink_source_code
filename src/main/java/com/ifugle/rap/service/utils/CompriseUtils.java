@@ -92,7 +92,7 @@ public class CompriseUtils {
         return request;
     }
 
-    public DataRequest yhzxXnzzNsrCompriseDataRequest(YhzxXnzzNsr yhzxXnzzNsr, CryptSimple cryptSimple, CryptBase36 cryptBase36,CryptNumber cryptNumber) {
+    public DataRequest yhzxXnzzNsrCompriseDataRequest(YhzxXnzzNsr yhzxXnzzNsr, CryptSimple cryptSimple, CryptBase36 cryptBase36, CryptNumber cryptNumber) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.YHZX_XNZZ_NSR.getTableName());
         Map<String, Object> hashMap = new HashMap<>(16);
@@ -100,7 +100,7 @@ public class CompriseUtils {
         hashMap.put("XNZZ_ID", yhzxXnzzNsr.getXnzzId());
         hashMap.put("BM_ID", yhzxXnzzNsr.getBmId());
         hashMap.put("CORPID", yhzxXnzzNsr.getCorpid());
-        hashMap.put("NSRSBH", yhzxXnzzNsr.getNsrsbh());
+
         hashMap.put("ZDSYHBJ", yhzxXnzzNsr.getZdsyhbj());
         hashMap.put("JHBJ", yhzxXnzzNsr.getJhbj());
         hashMap.put("YXCYS", yhzxXnzzNsr.getYxcys());
@@ -108,32 +108,35 @@ public class CompriseUtils {
         hashMap.put("CJR", yhzxXnzzNsr.getCjr());
         hashMap.put("XGSJ", yhzxXnzzNsr.getXgsj() == null ? null : getLongData(yhzxXnzzNsr.getXgsj()));
         hashMap.put("XGR", yhzxXnzzNsr.getXgr());
-        hashMap.put("NSRMC",yhzxXnzzNsr.getNsrmc());
-        hashMap.put("SHXYDM", yhzxXnzzNsr.getShxydm());
         if (StringUtils.equals(env, "prod")) {
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzNsr.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(yhzxXnzzNsr.getShxydm(), cryptBase36));
             hashMap.put("SHXYDM6", DecodeUtils.deodeCryptBase36Prod(yhzxXnzzNsr.getShxydm6(), cryptBase36));
             hashMap.put("SJSHXYDM", DecodeUtils.deodeCryptBase36Prod(yhzxXnzzNsr.getSjshxydm(), cryptBase36));
-            hashMap.put("KHYH", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzNsr.getKhyh(),cryptSimple));
-            hashMap.put("YHZH",DecodeUtils.deodeCryptNumberProd(yhzxXnzzNsr.getYhzh(),cryptNumber));
-            hashMap.put("ZCDZ", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzNsr.getZcdz(),cryptSimple));
-            hashMap.put("ZCDLXDH", DecodeUtils.deodeCryptNumberProd(yhzxXnzzNsr.getZcdlxdh(),cryptNumber));
-            hashMap.put("SCJYDZ", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzNsr.getScjydz(),cryptSimple));
-            hashMap.put("SCJYDLXDH", DecodeUtils.deodeCryptNumberProd(yhzxXnzzNsr.getScjydlxdh(),cryptNumber));
+            hashMap.put("KHYH", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzNsr.getKhyh(), cryptSimple));
+            hashMap.put("YHZH", DecodeUtils.deodeCryptNumberProd(yhzxXnzzNsr.getYhzh(), cryptNumber));
+            hashMap.put("ZCDZ", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzNsr.getZcdz(), cryptSimple));
+            hashMap.put("ZCDLXDH", DecodeUtils.deodeCryptNumberProd(yhzxXnzzNsr.getZcdlxdh(), cryptNumber));
+            hashMap.put("SCJYDZ", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzNsr.getScjydz(), cryptSimple));
+            hashMap.put("SCJYDLXDH", DecodeUtils.deodeCryptNumberProd(yhzxXnzzNsr.getScjydlxdh(), cryptNumber));
+            hashMap.put("NSRSBH",  DecodeUtils.deodeCryptBase36Prod(yhzxXnzzNsr.getNsrsbh(), cryptBase36));
+            hashMap.put("NSRJC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzNsr.getNsrjc(),cryptSimple));
+
         } else {
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(yhzxXnzzNsr.getShxydm(), cryptBase36));
             hashMap.put("SHXYDM6", DecodeUtils.deodeCryptBase36Test(yhzxXnzzNsr.getShxydm6(), cryptBase36));
             hashMap.put("SJSHXYDM", DecodeUtils.deodeCryptBase36Test(yhzxXnzzNsr.getSjshxydm(), cryptBase36));
-            hashMap.put("KHYH", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getKhyh(),cryptSimple));
-            hashMap.put("YHZH", DecodeUtils.decodeCryptNumberTest(yhzxXnzzNsr.getYhzh(),cryptNumber));
-            hashMap.put("ZCDZ", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getZcdz(),cryptSimple));
-            hashMap.put("ZCDLXDH", DecodeUtils.decodeCryptNumberTest(yhzxXnzzNsr.getZcdlxdh(),cryptNumber));
-            hashMap.put("SCJYDZ", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getScjydz(),cryptSimple));
-            hashMap.put("SCJYDLXDH", DecodeUtils.decodeCryptNumberTest(yhzxXnzzNsr.getScjydlxdh(),cryptNumber));
+            hashMap.put("KHYH", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getKhyh(), cryptSimple));
+            hashMap.put("YHZH", DecodeUtils.decodeCryptNumberTest(yhzxXnzzNsr.getYhzh(), cryptNumber));
+            hashMap.put("ZCDZ", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getZcdz(), cryptSimple));
+            hashMap.put("ZCDLXDH", DecodeUtils.decodeCryptNumberTest(yhzxXnzzNsr.getZcdlxdh(), cryptNumber));
+            hashMap.put("SCJYDZ", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getScjydz(), cryptSimple));
+            hashMap.put("SCJYDLXDH", DecodeUtils.decodeCryptNumberTest(yhzxXnzzNsr.getScjydlxdh(), cryptNumber));
+            hashMap.put("NSRSBH",  DecodeUtils.deodeCryptBase36Test(yhzxXnzzNsr.getNsrsbh(), cryptBase36));
+            hashMap.put("NSRJC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getNsrjc(),cryptSimple));
         }
-        hashMap.put("NSRJC", yhzxXnzzNsr.getNsrjc());
+
         hashMap.put("ZGGSJG_DM", yhzxXnzzNsr.getZggsjgDm());
         hashMap.put("ZGDSJG_DM", yhzxXnzzNsr.getZgdsjgDm());
         hashMap.put("DJZCLX_DM", yhzxXnzzNsr.getDjzclxDm());
@@ -149,24 +152,26 @@ public class CompriseUtils {
         hashMap.put("NSXYDJ", yhzxXnzzNsr.getNsxydj());
         hashMap.put("KZZTDJLX_DM", yhzxXnzzNsr.getKzztdjlxDm());
         hashMap.put("JYFW1", yhzxXnzzNsr.getJyfw());
+        hashMap.put("IS_DELETE", yhzxXnzzNsr.getIsDelete());
         request.setMap(hashMap);
         return request;
     }
+
     public DataRequest yhzxXnzzTpcQyCompriseDataRequest(YhzxXnzzTpcQy yhzxXnzzTpcQy, CryptSimple cryptSimple, CryptBase36 cryptBase36) {
         DataRequest request = new DataRequest();
         request.setCatalogType(SystemConstants.DEFAULT_TYPE);
         Map<String, Object> hashMap = new HashMap<>(16);
-        hashMap.put("ID",yhzxXnzzTpcQy.getId());
-        hashMap.put("XNZZ_ID",yhzxXnzzTpcQy.getXnzzId());
-        hashMap.put("NSR_ID",yhzxXnzzTpcQy.getNsrId());
-        hashMap.put("DJXH",yhzxXnzzTpcQy.getDjxh());
-        hashMap.put("NSRSBH",yhzxXnzzTpcQy.getNsrsbh());
+        hashMap.put("ID", yhzxXnzzTpcQy.getId());
+        hashMap.put("XNZZ_ID", yhzxXnzzTpcQy.getXnzzId());
+        hashMap.put("NSR_ID", yhzxXnzzTpcQy.getNsrId());
+        hashMap.put("DJXH", yhzxXnzzTpcQy.getDjxh());
+        hashMap.put("NSRSBH", yhzxXnzzTpcQy.getNsrsbh());
 //        hashMap.put("SHXYDM",yhzxXnzzTpcQy.getShxydm());
 //        hashMap.put("NSRMC",yhzxXnzzTpcQy.getNsrmc());
         if (StringUtils.equals(env, "prod")) {
             hashMap.put("JDXZMC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getJdxzmc(), cryptSimple));
             hashMap.put("ZCDZ", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getZcdz(), cryptSimple));
-            hashMap.put("SCJYDZ",DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getScjydz(), cryptSimple));
+            hashMap.put("SCJYDZ", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getScjydz(), cryptSimple));
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(yhzxXnzzTpcQy.getShxydm(), cryptBase36));
         } else {
@@ -176,31 +181,31 @@ public class CompriseUtils {
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzTpcQy.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(yhzxXnzzTpcQy.getShxydm(), cryptBase36));
         }
-        hashMap.put("ZZHM",yhzxXnzzTpcQy.getZzhm());
-        hashMap.put("JGBM_DM",yhzxXnzzTpcQy.getJgbmDm());
-        hashMap.put("ZGSWSKFJ_DM",yhzxXnzzTpcQy.getZgswskfjDm());
-        hashMap.put("DSB_JGBM_DM",StringUtils.isBlank(yhzxXnzzTpcQy.getZgswskfjDm())?yhzxXnzzTpcQy.getJgbmDm():yhzxXnzzTpcQy.getZgswskfjDm());
-        hashMap.put("NSRZT_DM",yhzxXnzzTpcQy.getNsrztDm());
-        hashMap.put("DJZCLX_DM",yhzxXnzzTpcQy.getDjzclxDm());
-        hashMap.put("HY_DM",yhzxXnzzTpcQy.getHyDm());
-        hashMap.put("KZZTDJLX_DM",yhzxXnzzTpcQy.getKzztdjlxDm());
-        hashMap.put("DWLSGX_DM",yhzxXnzzTpcQy.getDwlsgxDm());
-        hashMap.put("KJZDZZ_DM",yhzxXnzzTpcQy.getKjzdzzDm());
-        hashMap.put("XZQHSZ_DM",yhzxXnzzTpcQy.getXzqhszDm());
-        hashMap.put("JYFW",yhzxXnzzTpcQy.getJyfw());
-        hashMap.put("KYSLRQ",yhzxXnzzTpcQy.getKyslrq() == null ? null : getLongData(yhzxXnzzTpcQy.getKyslrq()));
-        hashMap.put("CYRS",yhzxXnzzTpcQy.getCyrs());
-        hashMap.put("ZDSYHJKJC_DM",yhzxXnzzTpcQy.getZdsyhjkjcDm());
-        hashMap.put("YBNSRRDBJ",yhzxXnzzTpcQy.getYbnsrrdbj());
-        hashMap.put("ZZSNSLX",yhzxXnzzTpcQy.getZzsnslx());
-        hashMap.put("DZXWQY_BJ",yhzxXnzzTpcQy.getDzxwqyBj());
-        hashMap.put("XXWLQY_BJ",yhzxXnzzTpcQy.getXxwlqyBj());
-        hashMap.put("NSXYDJ",yhzxXnzzTpcQy.getNsxydj());
-        hashMap.put("IS_DELETED",yhzxXnzzTpcQy.getIsDeleted()==true?1:0);
-        hashMap.put("CJR",yhzxXnzzTpcQy.getCjr());
-        hashMap.put("CJSJ",yhzxXnzzTpcQy.getCjsj() == null ? null : getLongData(yhzxXnzzTpcQy.getCjsj()));
-        hashMap.put("XGR",yhzxXnzzTpcQy.getXgr());
-        hashMap.put("XGSJ",yhzxXnzzTpcQy.getXgsj() == null ? null : getLongData(yhzxXnzzTpcQy.getXgsj()));
+        hashMap.put("ZZHM", yhzxXnzzTpcQy.getZzhm());
+        hashMap.put("JGBM_DM", yhzxXnzzTpcQy.getJgbmDm());
+        hashMap.put("ZGSWSKFJ_DM", yhzxXnzzTpcQy.getZgswskfjDm());
+        hashMap.put("DSB_JGBM_DM", StringUtils.isBlank(yhzxXnzzTpcQy.getZgswskfjDm()) ? yhzxXnzzTpcQy.getJgbmDm() : yhzxXnzzTpcQy.getZgswskfjDm());
+        hashMap.put("NSRZT_DM", yhzxXnzzTpcQy.getNsrztDm());
+        hashMap.put("DJZCLX_DM", yhzxXnzzTpcQy.getDjzclxDm());
+        hashMap.put("HY_DM", yhzxXnzzTpcQy.getHyDm());
+        hashMap.put("KZZTDJLX_DM", yhzxXnzzTpcQy.getKzztdjlxDm());
+        hashMap.put("DWLSGX_DM", yhzxXnzzTpcQy.getDwlsgxDm());
+        hashMap.put("KJZDZZ_DM", yhzxXnzzTpcQy.getKjzdzzDm());
+        hashMap.put("XZQHSZ_DM", yhzxXnzzTpcQy.getXzqhszDm());
+        hashMap.put("JYFW", yhzxXnzzTpcQy.getJyfw());
+        hashMap.put("KYSLRQ", yhzxXnzzTpcQy.getKyslrq() == null ? null : getLongData(yhzxXnzzTpcQy.getKyslrq()));
+        hashMap.put("CYRS", yhzxXnzzTpcQy.getCyrs());
+        hashMap.put("ZDSYHJKJC_DM", yhzxXnzzTpcQy.getZdsyhjkjcDm());
+        hashMap.put("YBNSRRDBJ", yhzxXnzzTpcQy.getYbnsrrdbj());
+        hashMap.put("ZZSNSLX", yhzxXnzzTpcQy.getZzsnslx());
+        hashMap.put("DZXWQY_BJ", yhzxXnzzTpcQy.getDzxwqyBj());
+        hashMap.put("XXWLQY_BJ", yhzxXnzzTpcQy.getXxwlqyBj());
+        hashMap.put("NSXYDJ", yhzxXnzzTpcQy.getNsxydj());
+        hashMap.put("IS_DELETED", yhzxXnzzTpcQy.getIsDeleted() == true ? 1 : 0);
+        hashMap.put("CJR", yhzxXnzzTpcQy.getCjr());
+        hashMap.put("CJSJ", yhzxXnzzTpcQy.getCjsj() == null ? null : getLongData(yhzxXnzzTpcQy.getCjsj()));
+        hashMap.put("XGR", yhzxXnzzTpcQy.getXgr());
+        hashMap.put("XGSJ", yhzxXnzzTpcQy.getXgsj() == null ? null : getLongData(yhzxXnzzTpcQy.getXgsj()));
         request.setMap(hashMap);
         return request;
     }
@@ -210,29 +215,29 @@ public class CompriseUtils {
         DataRequest request = new DataRequest();
         request.setCatalogType(SystemConstants.DEFAULT_TYPE);
         Map<String, Object> hashMap = new HashMap<>(16);
-        hashMap.put("ID",botChatRequest.getId());
-        hashMap.put("NODE_ID",botChatRequest.getNodeId());
-        hashMap.put("ORG_ID",botChatRequest.getOrgId());
-        hashMap.put("CHAT_SERVER_ID",botChatRequest.getChatServerId());
-        hashMap.put("DEPT_ID",botChatRequest.getDeptId());
-        hashMap.put("COMPANY_ID",botChatRequest.getCompanyId());
-        hashMap.put("USER_ID",botChatRequest.getUserId());
-        hashMap.put("SESSION_ID",botChatRequest.getSessionId());
-        hashMap.put("MAN_SESSION_ID",botChatRequest.getManSessionId());
-        hashMap.put("UTTERANCE",botChatRequest.getUtterance());
-        hashMap.put("TYPE",botChatRequest.getType());
-        hashMap.put("FORMAT",botChatRequest.getFormat());
-        hashMap.put("KNOWLEDGE_ID",botChatRequest.getKnowledgeId());
-        hashMap.put("MESSAGE_ID",botChatRequest.getMessageId());
-        hashMap.put("READ",botChatRequest.getRead());
-        hashMap.put("TAG",botChatRequest.getTag());
-        hashMap.put("FILE_NAME",botChatRequest.getFileName());
-        hashMap.put("CHAT_TIME",botChatRequest.getChatTime() == null ? null : getLongData(botChatRequest.getChatTime()));
-        hashMap.put("CALL_LAPSED_TIME",botChatRequest.getCallLapsedTime());
-        hashMap.put("SELECTED",botChatRequest.getSelected());
-        hashMap.put("CREATION_DATE",botChatRequest.getCreationDate() == null ? null : getLongData(botChatRequest.getCreationDate()));
-        hashMap.put("DURATION",botChatRequest.getDuration());
-        hashMap.put("STATISTICAL_DATE", botChatRequest.getCreationDate() == null ? null : DateUtil.format(botChatRequest.getCreationDate(),DateUtil.ISO8601_DATE));
+        hashMap.put("ID", botChatRequest.getId());
+        hashMap.put("NODE_ID", botChatRequest.getNodeId());
+        hashMap.put("ORG_ID", botChatRequest.getOrgId());
+        hashMap.put("CHAT_SERVER_ID", botChatRequest.getChatServerId());
+        hashMap.put("DEPT_ID", botChatRequest.getDeptId());
+        hashMap.put("COMPANY_ID", botChatRequest.getCompanyId());
+        hashMap.put("USER_ID", botChatRequest.getUserId());
+        hashMap.put("SESSION_ID", botChatRequest.getSessionId());
+        hashMap.put("MAN_SESSION_ID", botChatRequest.getManSessionId());
+        hashMap.put("UTTERANCE", botChatRequest.getUtterance());
+        hashMap.put("TYPE", botChatRequest.getType());
+        hashMap.put("FORMAT", botChatRequest.getFormat());
+        hashMap.put("KNOWLEDGE_ID", botChatRequest.getKnowledgeId());
+        hashMap.put("MESSAGE_ID", botChatRequest.getMessageId());
+        hashMap.put("READ", botChatRequest.getRead());
+        hashMap.put("TAG", botChatRequest.getTag());
+        hashMap.put("FILE_NAME", botChatRequest.getFileName());
+        hashMap.put("CHAT_TIME", botChatRequest.getChatTime() == null ? null : getLongData(botChatRequest.getChatTime()));
+        hashMap.put("CALL_LAPSED_TIME", botChatRequest.getCallLapsedTime());
+        hashMap.put("SELECTED", botChatRequest.getSelected());
+        hashMap.put("CREATION_DATE", botChatRequest.getCreationDate() == null ? null : getLongData(botChatRequest.getCreationDate()));
+        hashMap.put("DURATION", botChatRequest.getDuration());
+        hashMap.put("STATISTICAL_DATE", botChatRequest.getCreationDate() == null ? null : DateUtil.format(botChatRequest.getCreationDate(), DateUtil.ISO8601_DATE));
         request.setMap(hashMap);
         return request;
     }
@@ -248,29 +253,29 @@ public class CompriseUtils {
         DataRequest request = new DataRequest();
         request.setCatalogType(SystemConstants.DEFAULT_TYPE);
         Map<String, Object> hashMap = new HashMap<>(16);
-        hashMap.put("ID",xxzxXxmx.getId());
-        hashMap.put("XNZZ_ID",xxzxXxmx.getXnzzId());
-        hashMap.put("XXZB_ID",xxzxXxmx.getXxzbId());
-        hashMap.put("XXLX",xxzxXxmx.getXxlx());
-        hashMap.put("XXBT",xxzxXxmx.getXxbt());
-        hashMap.put("XXTB_URL",xxzxXxmx.getXxtbUrl());
-        hashMap.put("MEDIA_ID",xxzxXxmx.getMediaId());
-        hashMap.put("XXZT",xxzxXxmx.getXxzt());
-        hashMap.put("HFZT",xxzxXxmx.getHfzt());
-        hashMap.put("JSR",xxzxXxmx.getJsr());
-        hashMap.put("FSCS",xxzxXxmx.getFscs());
-        hashMap.put("FSBJ",xxzxXxmx.getFsbj());
-        hashMap.put("TSSJ",xxzxXxmx.getTssj() == null ? null : getLongData(xxzxXxmx.getTssj()));
-        hashMap.put("CJSJ",xxzxXxmx.getCjsj() == null ? null : getLongData(xxzxXxmx.getCjsj()));
-        hashMap.put("CJR",xxzxXxmx.getCjr());
-        hashMap.put("XGSJ",xxzxXxmx.getXgsj() == null ? null : getLongData(xxzxXxmx.getXgsj()));
-        hashMap.put("XGR",xxzxXxmx.getXgr());
-        hashMap.put("SHSJ",xxzxXxmx.getShsj() == null ? null : getLongData(xxzxXxmx.getCjsj()));
-        hashMap.put("SHR",xxzxXxmx.getShr());
-        hashMap.put("SHYJ",xxzxXxmx.getShyj());
-        hashMap.put("XXLB",xxzxXxmx.getXxlb());
-        hashMap.put("DINGID",xxzxXxmx.getDingid());
-        hashMap.put("NSR_ID",xxzxXxmx.getNsrId());
+        hashMap.put("ID", xxzxXxmx.getId());
+        hashMap.put("XNZZ_ID", xxzxXxmx.getXnzzId());
+        hashMap.put("XXZB_ID", xxzxXxmx.getXxzbId());
+        hashMap.put("XXLX", xxzxXxmx.getXxlx());
+        hashMap.put("XXBT", xxzxXxmx.getXxbt());
+        hashMap.put("XXTB_URL", xxzxXxmx.getXxtbUrl());
+        hashMap.put("MEDIA_ID", xxzxXxmx.getMediaId());
+        hashMap.put("XXZT", xxzxXxmx.getXxzt());
+        hashMap.put("HFZT", xxzxXxmx.getHfzt());
+        hashMap.put("JSR", xxzxXxmx.getJsr());
+        hashMap.put("FSCS", xxzxXxmx.getFscs());
+        hashMap.put("FSBJ", xxzxXxmx.getFsbj());
+        hashMap.put("TSSJ", xxzxXxmx.getTssj() == null ? null : getLongData(xxzxXxmx.getTssj()));
+        hashMap.put("CJSJ", xxzxXxmx.getCjsj() == null ? null : getLongData(xxzxXxmx.getCjsj()));
+        hashMap.put("CJR", xxzxXxmx.getCjr());
+        hashMap.put("XGSJ", xxzxXxmx.getXgsj() == null ? null : getLongData(xxzxXxmx.getXgsj()));
+        hashMap.put("XGR", xxzxXxmx.getXgr());
+        hashMap.put("SHSJ", xxzxXxmx.getShsj() == null ? null : getLongData(xxzxXxmx.getCjsj()));
+        hashMap.put("SHR", xxzxXxmx.getShr());
+        hashMap.put("SHYJ", xxzxXxmx.getShyj());
+        hashMap.put("XXLB", xxzxXxmx.getXxlb());
+        hashMap.put("DINGID", xxzxXxmx.getDingid());
+        hashMap.put("NSR_ID", xxzxXxmx.getNsrId());
         if (StringUtils.equals(env, "prod")) {
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleProd(xxzxXxmx.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(xxzxXxmx.getShxydm(), cryptBase36));
@@ -278,65 +283,65 @@ public class CompriseUtils {
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleTest(xxzxXxmx.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(xxzxXxmx.getShxydm(), cryptBase36));
         }
-        hashMap.put("BM_ID",xxzxXxmx.getBmId());
-        hashMap.put("JHBJ",xxzxXxmx.getJhbj());
-        hashMap.put("TZR",xxzxXxmx.getTzr());
-        hashMap.put("TZSJ",xxzxXxmx.getTzsj() == null ? null : getLongData(xxzxXxmx.getTzsj()));
-        hashMap.put("TZCS",xxzxXxmx.getTzcs());
+        hashMap.put("BM_ID", xxzxXxmx.getBmId());
+        hashMap.put("JHBJ", xxzxXxmx.getJhbj());
+        hashMap.put("TZR", xxzxXxmx.getTzr());
+        hashMap.put("TZSJ", xxzxXxmx.getTzsj() == null ? null : getLongData(xxzxXxmx.getTzsj()));
+        hashMap.put("TZCS", xxzxXxmx.getTzcs());
         request.setMap(hashMap);
         return request;
     }
 
-    public DataRequest botOutoundTaskDetailCompriseDataRequest(BotOutoundTaskDetailWithBLOBs botOutoundTaskDetail, CryptSimple cryptSimple, CryptNumber cryptNumber) {
+    public DataRequest botOutoundTaskDetailCompriseDataRequest(BotOutoundTaskDetailWithBLOBs botOutoundTaskDetail, CryptSimple cryptSimple, CryptNumber cryptNumber, CryptBase36 cryptBase36) {
         DataRequest request = new DataRequest();
-        request.setCatalogType(TablesEnum.BOT_OUTBOUND_TASK_DETAIL.getTableName());
+        request.setCatalogType(SystemConstants.DEFAULT_TYPE);
         Map<String, Object> hashMap = new HashMap<>(16);
         hashMap.put("ID", botOutoundTaskDetail.getId());
         hashMap.put("NODE_ID", botOutoundTaskDetail.getNodeId());
         hashMap.put("ORG_ID", botOutoundTaskDetail.getOrgId());
         hashMap.put("TASK_ID", botOutoundTaskDetail.getTaskId());
-        hashMap.put("OUTBOUND_MESSAGE_ID", botOutoundTaskDetail.getMessageId());
+        hashMap.put("MESSAGE_ID", botOutoundTaskDetail.getMessageId());
         hashMap.put("DIALOGUE_ID", botOutoundTaskDetail.getDialogueId());
         hashMap.put("RECEIVER", botOutoundTaskDetail.getReceiver());
-        //hashMap.put("RECEIVER_MOBILE", botOutoundTaskDetail.getReceiverMobile());
         //        hashMap.put("CONTENT", botOutoundTaskDetail.getContent());
         //        hashMap.put("CALL_RECORD", botOutoundTaskDetail.getCallRecord());
         //        hashMap.put("CALL_RECORD_URL", botOutoundTaskDetail.getCallRecordUrl());
         //        hashMap.put("FEEDBACK_CONTENT", botOutoundTaskDetail.getFeedbackContent());
-        hashMap.put("ANSWER_TIME",botOutoundTaskDetail.getAnswerTime()== null ? null : getLongData(botOutoundTaskDetail.getAnswerTime()));
-        //        hashMap.put("HANGUP_TIME", botOutoundTaskDetail.getHangupTime()== null ? null : getLongData(botOutoundTaskDetail.getHangupTime()));
-        //        hashMap.put("DURATION", botOutoundTaskDetail.getDuration());
+        hashMap.put("ANSWER_TIME", botOutoundTaskDetail.getAnswerTime() == null ? null : getLongData(botOutoundTaskDetail.getAnswerTime()));
+        hashMap.put("HANGUP_TIME", botOutoundTaskDetail.getHangupTime() == null ? null : getLongData(botOutoundTaskDetail.getHangupTime()));
+        hashMap.put("DURATION", botOutoundTaskDetail.getDuration());
+        hashMap.put("DJXH", botOutoundTaskDetail.getDjxh());
         //        hashMap.put("REMARK", botOutoundTaskDetail.getRemark());
         //        hashMap.put("CREATOR", botOutoundTaskDetail.getCreator());
         //        hashMap.put("MODIFIER", botOutoundTaskDetail.getModifier());
-        hashMap.put("CALL_TIME", botOutoundTaskDetail.getCallTime()== null ? null : getLongData(botOutoundTaskDetail.getCallTime()));
+        hashMap.put("CALL_TIME", botOutoundTaskDetail.getCallTime() == null ? null : getLongData(botOutoundTaskDetail.getCallTime()));
 
-        hashMap.put("OUTBOUND_STATUS", botOutoundTaskDetail.getStatus());
+        hashMap.put("STATUS", botOutoundTaskDetail.getStatus());
         hashMap.put("FEEDBACK_STATUS", botOutoundTaskDetail.getFeedbackStatus());
         if (StringUtils.equals(env, "prod")) {
             hashMap.put("QYMC", DecodeUtils.decodeCryptSimpleProd(botOutoundTaskDetail.getQymc(), cryptSimple));
             hashMap.put("RECEIVER_MOBILE", DecodeUtils.deodeCryptNumberProd(botOutoundTaskDetail.getReceiverMobile(), cryptNumber));
+            hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(botOutoundTaskDetail.getShxydm(), cryptBase36));
         } else {
             hashMap.put("QYMC", DecodeUtils.decodeCryptSimpleTest(botOutoundTaskDetail.getQymc(), cryptSimple));
             hashMap.put("RECEIVER_MOBILE", DecodeUtils.decodeCryptNumberTest(botOutoundTaskDetail.getReceiverMobile(), cryptNumber));
+            hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(botOutoundTaskDetail.getShxydm(), cryptBase36));
         }
-        //hashMap.put("QYMC", botOutoundTaskDetail.getQymc());
-        hashMap.put("BOT_OUTBOUND_TASK_DETAIL_SHXYDM", botOutoundTaskDetail.getShxydm());
         hashMap.put("SWSMC", botOutoundTaskDetail.getSwsmc());
-        if(botOutoundTaskDetail.getSgymc()!=null) {
+        if (botOutoundTaskDetail.getSgymc() != null) {
             List<String> sgymcs = GsonUtil.getBean(botOutoundTaskDetail.getSgymc(), new TypeToken<List<String>>() {
             }.getType());
             hashMap.put("SGYMC", sgymcs);
         }
-        if(botOutoundTaskDetail.getExcelColumn()!=null) {
+        if (botOutoundTaskDetail.getExcelColumn() != null) {
             List<String> excelColumn = GsonUtil.getBean(botOutoundTaskDetail.getExcelColumn(), new TypeToken<List<String>>() {
             }.getType());
             hashMap.put("EXCEL_COLUMN", excelColumn);
         }
 
-        hashMap.put("CREATION_DATE", botOutoundTaskDetail.getCreationDate()== null ? null : getLongData(botOutoundTaskDetail.getCreationDate()));
+        hashMap.put("CREATION_DATE", botOutoundTaskDetail.getCreationDate() == null ? null : getLongData(botOutoundTaskDetail.getCreationDate()));
 
-        hashMap.put("MODIFICATION_DATE", botOutoundTaskDetail.getModificationDate()== null ? null : getLongData(botOutoundTaskDetail.getModificationDate()));
+        hashMap.put("MODIFICATION_DATE", botOutoundTaskDetail.getModificationDate() == null ? null : getLongData(botOutoundTaskDetail.getModificationDate()));
         request.setMap(hashMap);
         return request;
     }
@@ -484,7 +489,7 @@ public class CompriseUtils {
         return request;
     }
 
-    public DataRequest botBizDataCompriseDataRequest(BizData bizData,CryptSimple cryptSimple, CryptBase62 cryptBase62) {
+    public DataRequest botBizDataCompriseDataRequest(BizData bizData, CryptSimple cryptSimple, CryptBase62 cryptBase62) {
         DataRequest request = new DataRequest();
         request.setCatalogType(TablesEnum.BOT_BIZ_DATA.getTableName());
         Map<String, Object> hashMap = new HashMap<>(32);
@@ -495,24 +500,24 @@ public class CompriseUtils {
         hashMap.put("LATITUDE", bizData.getLatitude());
         hashMap.put("LONGITUDE", bizData.getLongitude());
         if (StringUtils.equals(env, "prod")) {
-            hashMap.put("ID1", DecodeUtils.decodeCryptBase62Reverse6Prod(bizData.getId1(),cryptBase62));
-            hashMap.put("ID2", DecodeUtils.decodeCryptBase62Reverse6Prod(bizData.getId2(),cryptBase62));
-            hashMap.put("ID3", DecodeUtils.decodeCryptBase62Reverse6Prod(bizData.getId3(),cryptBase62));
+            hashMap.put("ID1", DecodeUtils.decodeCryptBase62Reverse6Prod(bizData.getId1(), cryptBase62));
+            hashMap.put("ID2", DecodeUtils.decodeCryptBase62Reverse6Prod(bizData.getId2(), cryptBase62));
+            hashMap.put("ID3", DecodeUtils.decodeCryptBase62Reverse6Prod(bizData.getId3(), cryptBase62));
             hashMap.put("DATA1", DecodeUtils.decodeCryptSimpleProd(bizData.getData1(), cryptSimple));
             hashMap.put("DATA2", DecodeUtils.decodeCryptSimpleProd(bizData.getData2(), cryptSimple));
             hashMap.put("DATA3", DecodeUtils.decodeCryptSimpleProd(bizData.getData3(), cryptSimple));
             hashMap.put("DATA4", DecodeUtils.decodeCryptSimpleProd(bizData.getData4(), cryptSimple));
-            hashMap.put("DATA4_NO_INDEX1",DecodeUtils.decodeCryptSimpleProd(bizData.getData4(), cryptSimple));
+            hashMap.put("DATA4_NO_INDEX1", DecodeUtils.decodeCryptSimpleProd(bizData.getData4(), cryptSimple));
             hashMap.put("DATA5", DecodeUtils.decodeCryptSimpleProd(bizData.getData5(), cryptSimple));
         } else {
-            hashMap.put("ID1", DecodeUtils.decodeCryptBase62Reverse6Test(bizData.getId1(),cryptBase62));
-            hashMap.put("ID2", DecodeUtils.decodeCryptBase62Reverse6Test(bizData.getId2(),cryptBase62));
-            hashMap.put("ID3", DecodeUtils.decodeCryptBase62Reverse6Test(bizData.getId3(),cryptBase62));
+            hashMap.put("ID1", DecodeUtils.decodeCryptBase62Reverse6Test(bizData.getId1(), cryptBase62));
+            hashMap.put("ID2", DecodeUtils.decodeCryptBase62Reverse6Test(bizData.getId2(), cryptBase62));
+            hashMap.put("ID3", DecodeUtils.decodeCryptBase62Reverse6Test(bizData.getId3(), cryptBase62));
             hashMap.put("DATA1", DecodeUtils.decodeCryptSimpleTest(bizData.getData1(), cryptSimple));
             hashMap.put("DATA2", DecodeUtils.decodeCryptSimpleTest(bizData.getData2(), cryptSimple));
             hashMap.put("DATA3", DecodeUtils.decodeCryptSimpleTest(bizData.getData3(), cryptSimple));
             hashMap.put("DATA4", DecodeUtils.decodeCryptSimpleTest(bizData.getData4(), cryptSimple));
-            hashMap.put("DATA4_NO_INDEX1",DecodeUtils.decodeCryptSimpleTest(bizData.getData4(), cryptSimple));
+            hashMap.put("DATA4_NO_INDEX1", DecodeUtils.decodeCryptSimpleTest(bizData.getData4(), cryptSimple));
             hashMap.put("DATA5", DecodeUtils.decodeCryptSimpleTest(bizData.getData5(), cryptSimple));
         }
 
@@ -548,6 +553,7 @@ public class CompriseUtils {
         hashMap.put("ORIGINAL", kbsQuestionDO.getOriginal());
         hashMap.put("MAP_SOURCE", kbsQuestionDO.getMapSource());
         hashMap.put("MAP_ID", kbsQuestionDO.getMapId());
+        hashMap.put("ANSWER_SHAPE", kbsQuestionDO.getAnswerShape());
         hashMap.put("SYNC_FLAG", kbsQuestionDO.getSyncFlag());
         hashMap.put("SYNC_TIME", kbsQuestionDO.getSyncTime() == null ? null : getLongData(kbsQuestionDO.getSyncTime()));
         hashMap.put("CREATOR", kbsQuestionDO.getCreator());
@@ -556,6 +562,7 @@ public class CompriseUtils {
         hashMap.put("MODIFICATION_DATE", kbsQuestionDO.getModificationDate() == null ? null : getLongData(kbsQuestionDO.getModificationDate()));
         hashMap.put("QUESTION_TYPE", kbsQuestionDO.getQuestionType());
         hashMap.put("APPROVAL_STATUS", kbsQuestionDO.getApprovalStatus());
+        hashMap.put("ANSWER_MD5", kbsQuestionDO.getAnswerMD5());
         request.setMap(hashMap);
         return request;
     }
@@ -722,7 +729,7 @@ public class CompriseUtils {
 
     public String transportData(String lastUpdateTime) {
         try {
-            if(StringUtils.isBlank(lastUpdateTime)){
+            if (StringUtils.isBlank(lastUpdateTime)) {
                 return "0";
             }
             SimpleDateFormat sdf1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);

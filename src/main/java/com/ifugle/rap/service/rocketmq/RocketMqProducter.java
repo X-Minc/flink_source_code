@@ -85,7 +85,7 @@ public class RocketMqProducter {
     /***
      * 接收消息
      */
-    public void recieveMessage() {
+    public void recieveMessage(String tag) {
         Properties properties = new Properties();
         // 您在控制台创建的 Group ID
         properties.put(PropertyKeyConst.GROUP_ID, RocketMqConstants.GROUP_ID);
@@ -97,7 +97,7 @@ public class RocketMqProducter {
         properties.put(PropertyKeyConst.NAMESRV_ADDR, RocketMqConstants.NameServer);
 
         Consumer consumer = ONSFactory.createConsumer(properties);
-        consumer.subscribe(RocketMqConstants.MQ_TOPIC, "TagA", new MessageListener() {
+        consumer.subscribe(RocketMqConstants.MQ_TOPIC, tag, new MessageListener() {
             @Override
             public Action consume(Message message, ConsumeContext context) {
                 try {
@@ -113,11 +113,11 @@ public class RocketMqProducter {
 
     public static void main(String[] args) {
 
-//        sendMessage("mufeng3");
+        new RocketMqProducter().sendMessage("{\"docName\":\"doc\",\"ids\":[300832],\"indexName\":\"bot_chat_request\",\"properties\":{}}");
 //        //Thread.sleep(10000);
-//        recieveMessage();
+            new RocketMqProducter().recieveMessage("bot_chat_request");
 
-        System.out.println(String.format("rocketMq parameter groupID=%s,AccessKey=%s,SecretKey=%s,NameServer=%s,topic=%s,message=%s", RocketMqConstants.GROUP_ID, RocketMqConstants.AccessKey, RocketMqConstants.SecretKey, RocketMqConstants.NameServer, RocketMqConstants.MQ_TOPIC, "1"));
+//        System.out.println(String.format("rocketMq parameter groupID=%s,AccessKey=%s,SecretKey=%s,NameServer=%s,topic=%s,message=%s", RocketMqConstants.GROUP_ID, RocketMqConstants.AccessKey, RocketMqConstants.SecretKey, RocketMqConstants.NameServer, RocketMqConstants.MQ_TOPIC, "1"));
 
     }
 

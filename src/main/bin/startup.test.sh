@@ -65,7 +65,7 @@ else
 	JAVA_OPTS="-server -Xms1024m -Xmx1024m -XX:NewSize=256m -XX:MaxNewSize=256m -XX:MaxPermSize=128m "
 fi
 if [ "$YAML_ENV" == "" ]; then
-    YAML_ENV=" -Drap.profile=test -Ddsb.on=true -Drap.redis.server=192.168.17.50:32381 -Drap.redis.auth.password=dsbwansui -Drap.config.datasource=false -Drap.mvc.config=false -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dfile.encoding=UTF-8 -Drap.es.url=es-cn-v0h0rhyly0004fg0r.elasticsearch.aliyuncs.com:9200 -Drap.es.username=elastic -Drap.es.password=acUkc8kjpuLAFuqJzB4MHNdRGXpw6N"
+    YAML_ENV="-Drap.log4j.debug=info -Drap.profile=test -Ddsb.on=true -Drap.redis.server=192.168.17.50:32381 -Drap.redis.auth.password=dsbwansui -Drap.config.datasource=false -Drap.mvc.config=false -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dfile.encoding=UTF-8 -Drap.es.url=es-cn-v0h0rhyly0004fg0r.elasticsearch.aliyuncs.com:9200 -Drap.es.username=elastic -Drap.es.password=acUkc8kjpuLAFuqJzB4MHNdRGXpw6N -Drap.mq.rocket.username=duLCaybnI9oOyOdZ -Drap.mq.rocket.password=RCHE8NY4DkIldIei3O4ub61FwxEaGa -Drap.mq.rocket.topic=topic_bot_data_sync_test -Drap.mq.rocket.namesrvAddr=http://onsaddr.cn-hangzhou.mq-internal.aliyuncs.com:8080 -Drap.mq.rocket.groupId=CID_rap_bot_es"
 fi
 JAVA_OPTS="$JAVA_OPTS $YAML_ENV"
 CANAL_OPTS="-DappName=otter-canal-example -Dlogback.configurationFile=$logback_configurationFile"
