@@ -31,6 +31,7 @@
     <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
     <result column="MODIFIER" jdbcType="VARCHAR" property="modifier" />
     <result column="MODIFICATION_DATE" jdbcType="TIMESTAMP" property="modificationDate" />
+    <result column="MESSAGE_STATUS" jdbcType="VARCHAR" property="messageStatus" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs">
     <result column="CONTENT" jdbcType="LONGVARCHAR" property="content" />
@@ -41,7 +42,7 @@
     ID, NODE_ID, ORG_ID, TASK_ID, MESSAGE_ID, DIALOGUE_ID, RECEIVER, RECEIVER_MOBILE, 
     CALL_RECORD_URL, CALL_TIME, ANSWER_TIME, HANGUP_TIME, DURATION, STATUS, FEEDBACK_STATUS, 
     FEEDBACK_CONTENT, DJXH, SHXYDM, QYMC, SWSMC, SGYMC, EXCEL_COLUMN, REMARK, CREATOR, 
-    CREATION_DATE, MODIFIER, MODIFICATION_DATE
+    CREATION_DATE, MODIFIER, MODIFICATION_DATE,MESSAGE_STATUS
   </sql>
 
   <sql id="Blob_Column_List">

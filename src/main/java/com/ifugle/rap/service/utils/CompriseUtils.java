@@ -338,7 +338,7 @@ public class CompriseUtils {
             }.getType());
             hashMap.put("EXCEL_COLUMN", excelColumn);
         }
-
+        hashMap.put("MESSAGE_STATUS", botOutoundTaskDetail.getMessageStatus());
         hashMap.put("CREATION_DATE", botOutoundTaskDetail.getCreationDate() == null ? null : getLongData(botOutoundTaskDetail.getCreationDate()));
 
         hashMap.put("MODIFICATION_DATE", botOutoundTaskDetail.getModificationDate() == null ? null : getLongData(botOutoundTaskDetail.getModificationDate()));
