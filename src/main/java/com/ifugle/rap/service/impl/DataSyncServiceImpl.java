@@ -474,7 +474,7 @@ public class DataSyncServiceImpl implements DataSyncService {
                     if (botChatRequests.size() == 1) {
                         BotChatRequest botChatRequest = botChatRequests.get(0);
                         Date localUpdateTime = DateUtil.dateOf(updateTime);
-                        if (StringUtils.equals(id, String.valueOf(botChatRequest.getId()))&&localUpdateTime.compareTo(botChatRequest.getModificationDate())==0) {
+                        if (StringUtils.equals(id, String.valueOf(botChatRequest.getId()))&&localUpdateTime.compareTo(botChatRequest.getCreationDate())==0) {
                             logger.warn("[bot_chat_reqeust] sync application jump, continue id =" + id);
                         } else {
                             flag = true;
