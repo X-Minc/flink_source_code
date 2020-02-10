@@ -137,7 +137,7 @@ public class SyncServiceImpl implements SyncService {
         List<Long> ids = new ArrayList<>();
         for (KbsArticleDOWithBLOBs kbsArticleDO : kbsArticleDOS) {
             DataRequest request = compriseUtils.kbsArticleDOCompriseDataRequest(kbsArticleDO);
-            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.SHUIXIAOMI.getCode(), request));
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.KBS_ARTICLE.getCode(), request));
             ids.add(kbsArticleDO.getId());
         }
         logger.info("[yhzx_xnzz_nsr] sync es ids = " + new Gson().toJson(ids));

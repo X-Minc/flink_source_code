@@ -57,7 +57,7 @@ public class CompriseUtils {
 
     public DataRequest kbsArticleDOCompriseDataRequest(KbsArticleDOWithBLOBs kbsArticleDO) {
         DataRequest request = new DataRequest();
-        request.setCatalogType(TablesEnum.KBS_ARTICLE.getTableName());
+        request.setCatalogType(SystemConstants.DEFAULT_TYPE);
         Map<String, Object> hashMap = new HashMap<>(32);
         hashMap.put("ID", kbsArticleDO.getId());
         hashMap.put("PARENT_ID", kbsArticleDO.getParentId());
