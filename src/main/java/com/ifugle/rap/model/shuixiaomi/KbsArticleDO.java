@@ -57,6 +57,14 @@ public class KbsArticleDO extends EnhanceModel<Long> {
     private Date modificationDate;
 
     private String invalidReason;
+    
+    private Byte splitFlag;
+    
+    private Byte relationStatus;
+    
+    private Byte taxes;
+    
+    private Long oldArticleId;
 
     /***
      * 判断是新增还是更新
@@ -300,6 +308,10 @@ public class KbsArticleDO extends EnhanceModel<Long> {
                 ", modifier='" + modifier + '\'' +
                 ", modificationDate=" + modificationDate +
                 ", invalidReason='" + invalidReason + '\'' +
+                ", splitFlag=" + splitFlag +
+                ", relationStatus=" + relationStatus +
+                ", taxes=" + taxes +
+                ", oldArticleId=" + oldArticleId +
                 '}';
     }
 
@@ -310,4 +322,36 @@ public class KbsArticleDO extends EnhanceModel<Long> {
     public boolean isNew() {
         return modificationDate.compareTo(creationDate) > 0 ? true : false;
     }
+
+	public Byte getSplitFlag() {
+		return splitFlag;
+	}
+
+	public void setSplitFlag(Byte splitFlag) {
+		this.splitFlag = splitFlag;
+	}
+
+	public Byte getRelationStatus() {
+		return relationStatus;
+	}
+
+	public void setRelationStatus(Byte relationStatus) {
+		this.relationStatus = relationStatus;
+	}
+
+	public Byte getTaxes() {
+		return taxes;
+	}
+
+	public void setTaxes(Byte taxes) {
+		this.taxes = taxes;
+	}
+
+	public Long getOldArticleId() {
+		return oldArticleId;
+	}
+
+	public void setOldArticleId(Long oldArticleId) {
+		this.oldArticleId = oldArticleId;
+	}
 }
