@@ -28,6 +28,10 @@
         <result column="MODIFIER" property="modifier" jdbcType="VARCHAR"/>
         <result column="MODIFICATION_DATE" property="modificationDate" jdbcType="TIMESTAMP"/>
         <result column="INVALID_REASON" property="invalidReason" jdbcType="VARCHAR"/>
+        <result column="SPLIT_FLAG" property="splitFlag" jdbcType="TINYINT"/>
+        <result column="RELATION_STATUS" property="relationStatus" jdbcType="TINYINT"/>
+        <result column="TAXES" property="taxes" jdbcType="TINYINT"/>
+        <result column="OLD_ARTICLE_ID" property="oldArticleId" jdbcType="BIGINT"/>
     </resultMap>
     <resultMap id="ResultMapWithBLOBs" type="com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs" extends="BaseResultMap">
         <result column="CONTENT" property="content" jdbcType="LONGVARCHAR"/>
@@ -38,7 +42,7 @@
     ID, PARENT_ID, AREA_ID, ARTICLE_TYPE, BIZ_TYPE, CATEGORY, KEYWORD, TITLE, REMARK, 
     STATUS, VALID_FLAG, VALID_DATE, INVALID_DATE, ORIGINAL, ISSUE_NO, ISSUE_ORG, ISSUE_DATE, 
     MAP_SOURCE, MAP_ID, SYNC_FLAG, SYNC_TIME, CREATOR, CREATION_DATE, MODIFIER, MODIFICATION_DATE, 
-    INVALID_REASON
+    INVALID_REASON, SPLIT_FLAG, RELATION_STATUS, TAXES, OLD_ARTICLE_ID
   </sql>
     <sql id="Blob_Column_List">
     CONTENT, CONTENT_TEXT, CONTENT_HTML
@@ -65,7 +69,7 @@
       MAP_ID, SYNC_FLAG, SYNC_TIME, 
       CREATOR, CREATION_DATE, MODIFIER, 
       MODIFICATION_DATE, INVALID_REASON, CONTENT, 
-      CONTENT_TEXT, CONTENT_HTML)
+      CONTENT_TEXT, CONTENT_HTML, SPLIT_FLAG, RELATION_STATUS, TAXES, OLD_ARTICLE_ID)
     values (#{id,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{areaId,jdbcType=VARCHAR}, 
       #{articleType,jdbcType=VARCHAR}, #{bizType,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, 
       #{keyword,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
@@ -75,7 +79,11 @@
       #{mapId,jdbcType=VARCHAR}, #{syncFlag,jdbcType=INTEGER}, #{syncTime,jdbcType=TIMESTAMP}, 
       #{creator,jdbcType=VARCHAR}, #{creationDate,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}, 
       #{modificationDate,jdbcType=TIMESTAMP}, #{invalidReason,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, 
-      #{contentText,jdbcType=LONGVARCHAR}, #{contentHtml,jdbcType=LONGVARCHAR})
+      #{contentText,jdbcType=LONGVARCHAR}, #{contentHtml,jdbcType=LONGVARCHAR},
+      #{splitFlag,jdbcType=TINYINT},
+      #{relationStatus,jdbcType=TINYINT},
+      #{taxes,jdbcType=TINYINT},
+      #{oldArticleId,jdbcType=BIGINT})
   </insert>
     <insert id="insertSelective" parameterType="com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs">
         insert into KBS_ARTICLE
@@ -167,6 +175,18 @@
             <if test="contentHtml != null">
                 CONTENT_HTML,
             </if>
+            <if test="splitFlag != null">
+            	SPLIT_FLAG,
+            </if>
+            <if test="relationStatus != null">
+            	RELATION_STATUS,
+            </if>
+            <if test="taxes != null">
+            	TAXES,
+            </if>
+      		<if test="oldArticleId != null">
+      		     OLD_ARTICLE_ID,
+      		</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -256,6 +276,18 @@
             <if test="contentHtml != null">
                 #{contentHtml,jdbcType=LONGVARCHAR},
             </if>
+            <if test="splitFlag != null">
+            	#{splitFlag,jdbcType=TINYINT},
+            </if>
+            <if test="relationStatus != null">
+            	#{relationStatus,jdbcType=TINYINT},
+            </if>
+            <if test="taxes != null">
+            	#{taxes,jdbcType=TINYINT},
+            </if>
+      		<if test="oldArticleId != null">
+      		    #{oldArticleId,jdbcType=BIGINT},
+      		</if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs">
@@ -345,6 +377,18 @@
             <if test="contentHtml != null">
                 CONTENT_HTML = #{contentHtml,jdbcType=LONGVARCHAR},
             </if>
+            <if test="splitFlag != null">
+            	SPLIT_FLAG = #{splitFlag,jdbcType=TINYINT},
+            </if>
+            <if test="relationStatus != null">
+            	RELATION_STATUS = #{relationStatus,jdbcType=TINYINT},
+            </if>
+            <if test="taxes != null">
+            	TAXES = #{taxes,jdbcType=TINYINT},
+            </if>
+      		<if test="oldArticleId != null">
+      		     OLD_ARTICLE_ID = #{oldArticleId,jdbcType=BIGINT},
+      		</if>
         </set>
         where ID = #{id,jdbcType=BIGINT}
     </update>
@@ -377,7 +421,11 @@
       INVALID_REASON = #{invalidReason,jdbcType=VARCHAR},
       CONTENT = #{content,jdbcType=LONGVARCHAR},
       CONTENT_TEXT = #{contentText,jdbcType=LONGVARCHAR},
-      CONTENT_HTML = #{contentHtml,jdbcType=LONGVARCHAR}
+      CONTENT_HTML = #{contentHtml,jdbcType=LONGVARCHAR},
+      SPLIT_FLAG = #{splitFlag,jdbcType=TINYINT},
+      RELATION_STATUS = #{relationStatus,jdbcType=TINYINT}, 
+      TAXES = #{taxes,jdbcType=TINYINT},
+      OLD_ARTICLE_ID = #{oldArticleId,jdbcType=BIGINT}
     where ID = #{id,jdbcType=BIGINT}
   </update>
     <update id="updateByPrimaryKey" parameterType="com.ifugle.rap.model.shuixiaomi.KbsArticleDO">
@@ -406,7 +454,11 @@
       CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
       MODIFIER = #{modifier,jdbcType=VARCHAR},
       MODIFICATION_DATE = #{modificationDate,jdbcType=TIMESTAMP},
-      INVALID_REASON = #{invalidReason,jdbcType=VARCHAR}
+      INVALID_REASON = #{invalidReason,jdbcType=VARCHAR},
+      SPLIT_FLAG = #{splitFlag,jdbcType=TINYINT},
+      RELATION_STATUS = #{relationStatus,jdbcType=TINYINT}, 
+      TAXES = #{taxes,jdbcType=TINYINT},
+      OLD_ARTICLE_ID = #{oldArticleId,jdbcType=BIGINT}
     where ID = #{id,jdbcType=BIGINT}
   </update>
 
