@@ -82,7 +82,7 @@ public class CompriseUtils {
         hashMap.put("CONTENT_TEXT", kbsArticleDO.getContentText());
         hashMap.put("CONTENT_HTML", kbsArticleDO.getContentHtml());
         hashMap.put("REMARK", kbsArticleDO.getRemark());
-        hashMap.put("KBS_ARTICLE_STATUS", kbsArticleDO.getStatus());
+        hashMap.put("STATUS", kbsArticleDO.getStatus());
         hashMap.put("VALID_FLAG", kbsArticleDO.getValidFlag());
         hashMap.put("VALID_DATE", kbsArticleDO.getValidDate() == null ? null : getLongData(kbsArticleDO.getValidDate()));
         hashMap.put("INVALID_DATE", kbsArticleDO.getInvalidDate() == null ? null : getLongData(kbsArticleDO.getInvalidDate()));
