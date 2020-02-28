@@ -112,7 +112,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setCorpid(String corpid) {
-        this.corpid = corpid == null ? null : corpid.trim();
+        this.corpid = corpid ;
     }
 
     public String getNsrsbh() {
@@ -120,7 +120,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setNsrsbh(String nsrsbh) {
-        this.nsrsbh = nsrsbh == null ? null : nsrsbh.trim();
+        this.nsrsbh = nsrsbh ;
     }
 
     public Byte getZdsyhbj() {
@@ -160,7 +160,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setCjr(String cjr) {
-        this.cjr = cjr == null ? null : cjr.trim();
+        this.cjr = cjr ;
     }
 
     public Date getXgsj() {
@@ -176,7 +176,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setXgr(String xgr) {
-        this.xgr = xgr == null ? null : xgr.trim();
+        this.xgr = xgr ;
     }
 
     public String getNsrmc() {
@@ -184,7 +184,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setNsrmc(String nsrmc) {
-        this.nsrmc = nsrmc == null ? null : nsrmc.trim();
+        this.nsrmc = nsrmc;
     }
 
     public String getNsrjc() {
@@ -192,7 +192,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setNsrjc(String nsrjc) {
-        this.nsrjc = nsrjc == null ? null : nsrjc.trim();
+        this.nsrjc = nsrjc ;
     }
 
     public String getShxydm() {
@@ -200,7 +200,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setShxydm(String shxydm) {
-        this.shxydm = shxydm == null ? null : shxydm.trim();
+        this.shxydm = shxydm ;
     }
 
     public String getShxydm6() {
@@ -208,7 +208,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setShxydm6(String shxydm6) {
-        this.shxydm6 = shxydm6 == null ? null : shxydm6.trim();
+        this.shxydm6 = shxydm6 ;
     }
 
     public String getSjshxydm() {
@@ -216,7 +216,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setSjshxydm(String sjshxydm) {
-        this.sjshxydm = sjshxydm == null ? null : sjshxydm.trim();
+        this.sjshxydm = sjshxydm;
     }
 
     public String getZggsjgDm() {
@@ -224,7 +224,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setZggsjgDm(String zggsjgDm) {
-        this.zggsjgDm = zggsjgDm == null ? null : zggsjgDm.trim();
+        this.zggsjgDm = zggsjgDm ;
     }
 
     public String getZgdsjgDm() {
@@ -232,7 +232,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setZgdsjgDm(String zgdsjgDm) {
-        this.zgdsjgDm = zgdsjgDm == null ? null : zgdsjgDm.trim();
+        this.zgdsjgDm = zgdsjgDm ;
     }
 
     public String getDjzclxDm() {
@@ -240,7 +240,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setDjzclxDm(String djzclxDm) {
-        this.djzclxDm = djzclxDm == null ? null : djzclxDm.trim();
+        this.djzclxDm = djzclxDm ;
     }
 
     public String getParentDjzclxDm() {
@@ -248,7 +248,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setParentDjzclxDm(String parentDjzclxDm) {
-        this.parentDjzclxDm = parentDjzclxDm == null ? null : parentDjzclxDm.trim();
+        this.parentDjzclxDm = parentDjzclxDm ;
     }
 
     public String getHyDm() {
@@ -256,7 +256,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setHyDm(String hyDm) {
-        this.hyDm = hyDm == null ? null : hyDm.trim();
+        this.hyDm = hyDm ;
     }
 
     public String getNsrztDm() {
@@ -264,7 +264,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setNsrztDm(String nsrztDm) {
-        this.nsrztDm = nsrztDm == null ? null : nsrztDm.trim();
+        this.nsrztDm = nsrztDm;
     }
 
     public Byte getZzzcbj() {
@@ -280,7 +280,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setKhyh(String khyh) {
-        this.khyh = khyh == null ? null : khyh.trim();
+        this.khyh = khyh;
     }
 
     public String getYhzh() {
@@ -288,7 +288,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setYhzh(String yhzh) {
-        this.yhzh = yhzh == null ? null : yhzh.trim();
+        this.yhzh = yhzh ;
     }
 
     public String getZcdz() {
@@ -296,7 +296,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setZcdz(String zcdz) {
-        this.zcdz = zcdz == null ? null : zcdz.trim();
+        this.zcdz = zcdz ;
     }
 
     public String getZcdlxdh() {
@@ -304,7 +304,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setZcdlxdh(String zcdlxdh) {
-        this.zcdlxdh = zcdlxdh == null ? null : zcdlxdh.trim();
+        this.zcdlxdh = zcdlxdh ;
     }
 
     public String getScjydz() {
@@ -312,7 +312,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setScjydz(String scjydz) {
-        this.scjydz = scjydz == null ? null : scjydz.trim();
+        this.scjydz = scjydz;
     }
 
     public String getScjydlxdh() {
@@ -320,7 +320,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setScjydlxdh(String scjydlxdh) {
-        this.scjydlxdh = scjydlxdh == null ? null : scjydlxdh.trim();
+        this.scjydlxdh = scjydlxdh;
     }
 
     public Byte getQysdszsbj() {
@@ -336,7 +336,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     }
 
     public void setDjxh(String djxh) {
-        this.djxh = djxh == null ? null : djxh.trim();
+        this.djxh = djxh ;
     }
 
     public Byte getZzsnslx() {

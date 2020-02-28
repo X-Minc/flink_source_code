@@ -201,14 +201,14 @@ public class DecodeUtils {
         //System.out.println(deodeCryptBase36Test("HV5XA5VXAZMDYX4",new CryptBase36()));
         //System.out.println(decodeCryptBase62Reverse6Prod("94GN4Bs3ztkM6OL",new CryptBase62(6)));
 //        CryptBase36 cryptBase36 = new CryptBase36();
-        CryptSimple cryptSimple =new CryptSimple(CryptSimple.MAX_SEARCH_SIZE_4096);
+        CryptSimple cryptSimple =new CryptSimple();
         initCryptSimpleProd(cryptSimple);
-        System.out.println(decodeCryptSimpleProd("结郩唃賁潐螱Ó厛藘敖遲卪豷臢亣棉嘚踟揂禕",cryptSimple));
+        System.out.println(decodeCryptSimpleProd("伨珆藦鹞鉦鬨魗鎍車 ",cryptSimple));
 
 
-        CryptBase62 cryptBase62 = new CryptBase62(CryptBase62.MAX_SEARCH_SIZE_6);
-        initCryptBase62Reverse6(cryptBase62);
-        System.out.println(decodeCryptBase62Reverse6Prod("zkUKu9jfmSFo94P",cryptBase62));
+//        CryptBase62 cryptBase62 = new CryptBase62(CryptBase62.MAX_SEARCH_SIZE_6);
+//        initCryptBase62Reverse6(cryptBase62);
+//        System.out.println(decodeCryptBase62Reverse6Prod("zkUKu9jfmSFo94P",cryptBase62));
 
     }
 }
