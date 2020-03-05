@@ -65,6 +65,8 @@ public class KbsQuestionDO extends EnhanceModel<Long> {
 
     private String answerMD5;
 
+    private String voiceAnswer;
+
     /***
      * 判断是新增还是更新
      */
@@ -301,6 +303,14 @@ public class KbsQuestionDO extends EnhanceModel<Long> {
 
     public void setAnswerMD5(String answerMD5) {
         this.answerMD5 = answerMD5;
+    }
+
+    public String getVoiceAnswer() {
+        return voiceAnswer;
+    }
+
+    public void setVoiceAnswer(String voiceAnswer) {
+        this.voiceAnswer = voiceAnswer;
     }
 
     @Override

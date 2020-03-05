@@ -578,6 +578,7 @@ public class CompriseUtils {
         hashMap.put("QUESTION_TYPE", kbsQuestionDO.getQuestionType());
         hashMap.put("APPROVAL_STATUS", kbsQuestionDO.getApprovalStatus());
         hashMap.put("ANSWER_MD5", kbsQuestionDO.getAnswerMD5());
+        hashMap.put("VOICE_ANSWER", kbsQuestionDO.getVoiceAnswer());
         request.setMap(hashMap);
         return request;
     }
