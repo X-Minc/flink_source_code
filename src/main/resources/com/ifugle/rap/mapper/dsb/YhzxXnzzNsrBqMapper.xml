@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifugle.rap.mapper.dsb.YhzxXnzzNsrBqMapper">
+
+    <select id="listChange" resultType="com.ifugle.rap.model.dsb.YhzxXnzzBqNsr">
+        SELECT id,NSR_ID nsrId,xgsj
+        FROM YHZX_XNZZ_NSR_BQ
+        WHERE xgsj > #{lastCreateTime}
+        order by xgsj
+        LIMIT #{first},#{pageSize}
+    </select>
+
+    <select id="listByNsrId" resultType="com.ifugle.rap.model.dsb.YhzxXnzzBqNsr">
+        SELECT NSR_ID nsrId,BQ_ID bqId
+        FROM YHZX_XNZZ_NSR_BQ
+        WHERE QYBJ = 1
+        AND NSR_ID IN
+            <foreach close=")" collection="nsrIds" index="index" item="item" open="(" separator=",">
+                #{item}
+            </foreach>
+    </select>
+
+</mapper>

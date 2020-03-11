@@ -58,7 +58,6 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
      */
     private static final String SAMPLE_UPDATE_OR_INSERT_DSL = "{ \"update\": { \"_index\": \"%s\", \"_type\": \"%s\", \"_id\": \"%s\" }} \n";
 
-
     @Autowired
     private ClusterNode clusterNode;
 
@@ -105,9 +104,33 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
             String method = "POST";
             HttpEntity entity = new NStringEntity(query, ContentType.APPLICATION_JSON);
             Response response = restClient.performRequest(method, url, paramMap, entity);
-            AnalyzeResponse(response,query);
+            AnalyzeResponse(response, query);
         } catch (Exception e) {
             logger.error("[ElasticSearchBusinessService] bulkOperation error", e);
+        }
+    }
+
+    /**
+     * 批量执行操作（抛出异常，避免更新失败不可知）
+     *
+     * @param query
+     */
+    public void bulkOperation2(String query) {
+        if (StringUtils.isBlank(query)) {
+            return;
+        }
+        RestClient restClient = clusterNode.getRestClient();
+        try {
+            // 拼接URL
+            String url = "/_bulk";
+            // 配置请求参数
+            Map<String, String> paramMap = new HashMap<>(2);
+            String method = "POST";
+            HttpEntity entity = new NStringEntity(query, ContentType.APPLICATION_JSON);
+            Response response = restClient.performRequest(method, url, paramMap, entity);
+            AnalyzeResponse(response, query);
+        } catch (Exception e) {
+            throw new RuntimeException("执行es批量更新失败", e);
         }
     }
 
@@ -124,7 +147,6 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
         String data = JSONUtil.toJSON(map);
         return String.format(SAMPLE_UPDATE_DSL, channelType, request.getCatalogType(), getId(request), data);
     }
-
 
     /**
      * 得到更新的DSL
@@ -174,7 +196,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
      *
      * @return
      */
-    private void AnalyzeResponse(Response response,String query) {
+    private void AnalyzeResponse(Response response, String query) {
         HttpEntity httpEntityRes = response.getEntity();
         try {
             String queryResult = EntityUtils.toString(httpEntityRes);
@@ -183,15 +205,15 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
             if (vo.isErrors()) {
                 getErrorInstance(vo);
             } else {
-                if(logger.isDebugEnabled()) {
+                if (logger.isDebugEnabled()) {
                     logger.debug("成功发送");
                 }
             }
-            if(logger.isDebugEnabled()) {
+            if (logger.isDebugEnabled()) {
                 logger.debug("[ElasticSearchBusinessService] AnalyzeResponse response successful =" + queryResult + ",request object = " + query);
             }
         } catch (ParseException | IOException e) {
-            logger.error("[ElasticSearchBusinessService] ParseException,code="+response.getStatusLine().getStatusCode(), e);
+            logger.error("[ElasticSearchBusinessService] ParseException,code=" + response.getStatusLine().getStatusCode(), e);
         }
     }
 
