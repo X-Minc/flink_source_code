@@ -12,6 +12,13 @@ public class RocketMqConstants {
 
     public final static String MQ_TOPIC = System.getProperty("rap.mq.rocket.topic","topic_bot_data_sync");
 
+
+    public final static String GROUP_ID_2 = System.getProperty("rap.mq.rocket.groupId.Two","GID_rap_bot_kbs");
+
+    public final static String NAMESERVER_2 = System.getProperty("rap.mq.rocket.server.Two","http://MQ_INST_1122260953808354_BcBD5xbs.cn-hangzhou.mq-internal.aliyuncs.com:8080");
+
+    public final static String MQ_TOPIC_2 = System.getProperty("rap.mq.rocket.topic.Two","rap_bot_kbs");
+
 //    public final static String GROUP_ID = System.getProperty("rap.mq.rocket.groupId","CID_rap_bot_es");
 //
 //    public final static String AccessKey = System.getProperty("rap.mq.rocket.username","duLCaybnI9oOyOdZ");

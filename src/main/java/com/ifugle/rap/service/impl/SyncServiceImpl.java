@@ -356,12 +356,12 @@ public class SyncServiceImpl implements SyncService {
     public boolean insertKbsQuestionAndCheckListSize(List<KbsQuestionDO> kbsQuestionDOS, Integer pageSize) {
         logger.info("[SyncServiceImpl] start export table KBS_QUESTION to es ....");
         StringBuilder dsl = new StringBuilder(32);
-        List<String> messages = new ArrayList<>();
+        List<Long> messages = new ArrayList<>();
         for (KbsQuestionDO kbsQuestionDO : kbsQuestionDOS) {
             DataRequest request = compriseUtils.kbsQuestionCompriseDataRequest(kbsQuestionDO);
             dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.KBS_QUESTION.getCode(), request));
             if (kbsQuestionDO.getCreationDate().equals(kbsQuestionDO.getModificationDate())) {
-                messages.add(String.valueOf(kbsQuestionDO.getId()));
+                messages.add(kbsQuestionDO.getId());
             }
         }
         if (CollectionUtils.isNotEmpty(messages) && messages.size() != pageSize) {
@@ -371,7 +371,9 @@ public class SyncServiceImpl implements SyncService {
         elasticSearchBusinessService.bulkOperation(dsl.toString());
         // 发送消息给税小蜜业务
         if(messages.size()>0) {
-            redisMessageSubscriber.sendMessageBatch(ParseConstant.BOT_ES_PRODUCTER, messages.toArray(new String[0]));
+//            redisMessageSubscriber.sendMessageBatch(ParseConstant.BOT_ES_PRODUCTER, messages.toArray(new String[0]));
+            EsDocumentData esDocumentData = new EsDocumentData(messages, "doc", ChannelType.KBS_QUESTION.getCode());
+            rocketMqProducter.sendKbsQuestionMessage(JSON.toJSONString(esDocumentData));
         }
         return kbsQuestionDOS.size() < pageSize;
     }
