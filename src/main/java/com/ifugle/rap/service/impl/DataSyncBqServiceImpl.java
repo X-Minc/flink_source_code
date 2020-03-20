@@ -71,7 +71,7 @@ public class DataSyncBqServiceImpl implements DataSyncBqService {
         Date lastCreateTime = DateUtil.dateOf(CommonUtils.readlocalTimeFile("YHZX_XNZZ_NSR_BQ"));
         if (null == lastCreateTime) {
             logger.info("insertYhzxXnzzNsrBqForSync lastCreateTime is null");
-            lastCreateTime = DateUtil.dateOf("2000-01-01");
+            lastCreateTime = DateUtil.dateAdd("mi", -30);
         }
         logger.info(MessageFormat.format("#### [YHZX_XNZZ_NSR_BQ] 开始同步表 YHZX_XNZZ_NSR_BQ 获取本地偏移时间 updateTime : {0}", lastCreateTime));
         int pageNum = 1;
