@@ -136,7 +136,7 @@ public class DataSyncBqServiceImpl implements DataSyncBqService {
         logger.info("init YHZX_XNZZ_NSR_BQ localhost file start");
         if (!CommonUtils.isExistDir("YHZX_XNZZ_NSR_BQ")) {
             logger.info("开始写入本地时间:YHZX_XNZZ_NSR_BQ,time=" + DateUtils.simpleFormat(new Date()));
-            CommonUtils.writeLocalTimeFile(DateUtil.format(DateUtil.dateAdd("dd", -1), DateUtil.ISO8601_DATEITME_LONG), "YHZX_XNZZ_NSR_BQ");
+            CommonUtils.writeLocalTimeFile(DateUtil.format(DateUtil.dateAdd("mi", -30), DateUtil.ISO8601_DATEITME_LONG), "YHZX_XNZZ_NSR_BQ");
         }
         logger.info("init YHZX_XNZZ_NSR_BQ localhost file end");
     }
