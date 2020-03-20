@@ -133,12 +133,11 @@ public class DataSyncBqServiceImpl implements DataSyncBqService {
 
     @Override
     public void initLocalTime() {
-        logger.info("init YHZX_XNZZ_NSR_BQ_BQ localhost file start");
-        if (!CommonUtils.isExistDir("YHZX_XNZZ_NSR_BQ_BQ")) {
-            logger.info("开始写入本地时间:YHZX_XNZZ_NSR_BQ_BQ,time=" + DateUtils.simpleFormat(new Date()));
-            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()) + "#0", "YHZX_XNZZ_NSR_BQ_BQ");
+        logger.info("init YHZX_XNZZ_NSR_BQ localhost file start");
+        if (!CommonUtils.isExistDir("YHZX_XNZZ_NSR_BQ")) {
+            logger.info("开始写入本地时间:YHZX_XNZZ_NSR_BQ,time=" + DateUtils.simpleFormat(new Date()));
         }
-        logger.info("init YHZX_XNZZ_NSR_BQ_BQ localhost file end");
+        logger.info("init YHZX_XNZZ_NSR_BQ localhost file end");
     }
 
 }
