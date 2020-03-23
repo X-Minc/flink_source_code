@@ -114,7 +114,7 @@ public class CompriseUtils {
         hashMap.put("ID", yhzxXnzzNsr.getId());
         hashMap.put("XNZZ_ID", yhzxXnzzNsr.getXnzzId());
         hashMap.put("BM_ID", yhzxXnzzNsr.getBmId());
-        hashMap.put("CORPID", yhzxXnzzNsr.getCorpid());
+        hashMap.put("CORPID", yhzxXnzzNsr.getCorpId());
 
         hashMap.put("ZDSYHBJ", yhzxXnzzNsr.getZdsyhbj());
         hashMap.put("JHBJ", yhzxXnzzNsr.getJhbj());
@@ -167,6 +167,15 @@ public class CompriseUtils {
         hashMap.put("NSXYDJ", yhzxXnzzNsr.getNsxydj());
         hashMap.put("KZZTDJLX_DM", yhzxXnzzNsr.getKzztdjlxDm());
         hashMap.put("JYFW1", yhzxXnzzNsr.getJyfw());
+        hashMap.put("DJRQ", yhzxXnzzNsr.getDjrq());
+        hashMap.put("KQCCSZTDJ", yhzxXnzzNsr.getKqccsztdj());
+        hashMap.put("HSFS_DM", yhzxXnzzNsr.getHsfsDm());
+        hashMap.put("KJZDZZ_DM", yhzxXnzzNsr.getKjzdzzDm());
+        hashMap.put("WHSYJSFJFXXDJ", yhzxXnzzNsr.getWhsyjsfjfxxdj());
+        hashMap.put("ZZSQYLX_DM", yhzxXnzzNsr.getZzsqylxDm());
+        hashMap.put("YGZNSRLX_DM", yhzxXnzzNsr.getYgznsrlxDm());
+        hashMap.put("ZSZ_ZSXM_DM", yhzxXnzzNsr.getZszZsxmDm());
+        hashMap.put("QYSDSZSFS_DM", yhzxXnzzNsr.getQysdszsfsDm());
         hashMap.put("IS_DELETE", yhzxXnzzNsr.getIsDelete());
         request.setMap(hashMap);
         return request;
