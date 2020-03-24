@@ -32,6 +32,9 @@
         <result column="RELATION_STATUS" property="relationStatus" jdbcType="TINYINT"/>
         <result column="TAXES" property="taxes" jdbcType="TINYINT"/>
         <result column="OLD_ARTICLE_ID" property="oldArticleId" jdbcType="BIGINT"/>
+        <result column="INFO_OPEN" property="infoOpen" jdbcType="TINYINT"/>
+        <result column="CITY_AREA" property="cityArea" jdbcType="VARCHAR"/>
+        <result column="ORG_ID" property="orgId" jdbcType="BIGINT"/>
     </resultMap>
     <resultMap id="ResultMapWithBLOBs" type="com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs" extends="BaseResultMap">
         <result column="CONTENT" property="content" jdbcType="LONGVARCHAR"/>
@@ -42,7 +45,7 @@
     ID, PARENT_ID, AREA_ID, ARTICLE_TYPE, BIZ_TYPE, CATEGORY, KEYWORD, TITLE, REMARK, 
     STATUS, VALID_FLAG, VALID_DATE, INVALID_DATE, ORIGINAL, ISSUE_NO, ISSUE_ORG, ISSUE_DATE, 
     MAP_SOURCE, MAP_ID, SYNC_FLAG, SYNC_TIME, CREATOR, CREATION_DATE, MODIFIER, MODIFICATION_DATE, 
-    INVALID_REASON, SPLIT_FLAG, RELATION_STATUS, TAXES, OLD_ARTICLE_ID
+    INVALID_REASON, SPLIT_FLAG, RELATION_STATUS, TAXES, OLD_ARTICLE_ID, INFO_OPEN, CITY_AREA, ORG_ID
   </sql>
     <sql id="Blob_Column_List">
     CONTENT, CONTENT_TEXT, CONTENT_HTML
@@ -69,7 +72,7 @@
       MAP_ID, SYNC_FLAG, SYNC_TIME, 
       CREATOR, CREATION_DATE, MODIFIER, 
       MODIFICATION_DATE, INVALID_REASON, CONTENT, 
-      CONTENT_TEXT, CONTENT_HTML, SPLIT_FLAG, RELATION_STATUS, TAXES, OLD_ARTICLE_ID)
+      CONTENT_TEXT, CONTENT_HTML, SPLIT_FLAG, RELATION_STATUS, TAXES, OLD_ARTICLE_ID, INFO_OPEN, CITY_AREA, ORG_ID)
     values (#{id,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{areaId,jdbcType=VARCHAR}, 
       #{articleType,jdbcType=VARCHAR}, #{bizType,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, 
       #{keyword,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
@@ -83,7 +86,11 @@
       #{splitFlag,jdbcType=TINYINT},
       #{relationStatus,jdbcType=TINYINT},
       #{taxes,jdbcType=TINYINT},
-      #{oldArticleId,jdbcType=BIGINT})
+      #{oldArticleId,jdbcType=BIGINT},
+      #{infoOpen,jdbcType=TINYINT},
+      #{cityArea,jdbcType=VARCHAR},
+      #{orgId,jdbcType=BIGINT}
+      )
   </insert>
     <insert id="insertSelective" parameterType="com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs">
         insert into KBS_ARTICLE
@@ -187,6 +194,15 @@
       		<if test="oldArticleId != null">
       		     OLD_ARTICLE_ID,
       		</if>
+      		<if test="infoOpen != null">
+      		     INFO_OPEN,
+      		</if>
+      		<if test="cityArea != null">
+      			CITY_AREA,
+      		</if>
+      		<if test="orgId != null">
+      			ORG_ID,
+      		</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -287,6 +303,15 @@
             </if>
       		<if test="oldArticleId != null">
       		    #{oldArticleId,jdbcType=BIGINT},
+      		</if>
+      		<if test="infoOpen != null">
+      		    #{infoOpen,jdbcType=TINYINT},
+      		</if>
+      		<if test="cityArea != null">
+      		    #{cityArea,jdbcType=VARCHAR},
+      		</if>
+      		<if test="orgId != null">
+      		    #{orgId,jdbcType=BIGINT},
       		</if>
         </trim>
     </insert>
@@ -389,6 +414,15 @@
       		<if test="oldArticleId != null">
       		     OLD_ARTICLE_ID = #{oldArticleId,jdbcType=BIGINT},
       		</if>
+      		<if test="infoOpen != null">
+      		     INFO_OPEN = #{infoOpen,jdbcType=TINYINT},
+      		</if>
+      		<if test="cityArea != null">
+      		     CITY_AREA = #{cityArea,jdbcType=VARCHAR},
+      		</if>
+      		<if test="orgId != null">
+      		     ORG_ID = #{orgId,jdbcType=BIGINT},
+      		</if>
         </set>
         where ID = #{id,jdbcType=BIGINT}
     </update>
@@ -425,7 +459,10 @@
       SPLIT_FLAG = #{splitFlag,jdbcType=TINYINT},
       RELATION_STATUS = #{relationStatus,jdbcType=TINYINT}, 
       TAXES = #{taxes,jdbcType=TINYINT},
-      OLD_ARTICLE_ID = #{oldArticleId,jdbcType=BIGINT}
+      OLD_ARTICLE_ID = #{oldArticleId,jdbcType=BIGINT},
+      INFO_OPEN = #{infoOpen,jdbcType=TINYINT},
+      CITY_AREA = #{cityArea,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=BIGINT}
     where ID = #{id,jdbcType=BIGINT}
   </update>
     <update id="updateByPrimaryKey" parameterType="com.ifugle.rap.model.shuixiaomi.KbsArticleDO">
@@ -458,7 +495,10 @@
       SPLIT_FLAG = #{splitFlag,jdbcType=TINYINT},
       RELATION_STATUS = #{relationStatus,jdbcType=TINYINT}, 
       TAXES = #{taxes,jdbcType=TINYINT},
-      OLD_ARTICLE_ID = #{oldArticleId,jdbcType=BIGINT}
+      OLD_ARTICLE_ID = #{oldArticleId,jdbcType=BIGINT},
+      INFO_OPEN = #{infoOpen,jdbcType=TINYINT},
+      CITY_AREA = #{cityArea,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=BIGINT}
     where ID = #{id,jdbcType=BIGINT}
   </update>
 

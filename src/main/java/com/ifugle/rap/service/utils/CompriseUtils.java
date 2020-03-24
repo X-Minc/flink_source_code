@@ -103,6 +103,9 @@ public class CompriseUtils {
         hashMap.put("RELATION_STATUS", kbsArticleDO.getRelationStatus());
         hashMap.put("TAXES", kbsArticleDO.getTaxes());
         hashMap.put("OLD_ARTICLE_ID", kbsArticleDO.getOldArticleId());
+        hashMap.put("INFO_OPEN", kbsArticleDO.getInfoOpen());
+        hashMap.put("CITY_AREA", kbsArticleDO.getCityArea());
+        hashMap.put("ORG_ID", kbsArticleDO.getOrgId());
         request.setMap(hashMap);
         return request;
     }
