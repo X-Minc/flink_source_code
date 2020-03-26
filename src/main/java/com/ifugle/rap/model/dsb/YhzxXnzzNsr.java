@@ -305,7 +305,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
      * 删除标记
      */
     @Label("删除标记")
-    private Boolean isDelete;
+    private Byte isDelete;
 
     /**
      * 创建人
@@ -1138,7 +1138,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
      *
      * @return the isDelete
      */
-    public Boolean getIsDelete() {
+    public Byte getIsDelete() {
         return isDelete;
     }
 
@@ -1148,7 +1148,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
      * @param isDelete
      *            the isDelete to set
      */
-    public void setIsDelete(Boolean isDelete) {
+    public void setIsDelete(Byte isDelete) {
         this.isDelete = isDelete;
     }
 

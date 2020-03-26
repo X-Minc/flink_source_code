@@ -46,8 +46,8 @@
 		<result column="zsz_zsxm_dm" javaType="java.lang.String" jdbcType="CHAR" property="zszZsxmDm" />
 		<result column="qysdszsfs_dm" javaType="java.lang.String" jdbcType="CHAR" property="qysdszsfsDm" />
 		<result column="corpid" javaType="java.lang.String" jdbcType="VARCHAR" property="corpId" />
-		<result column="is_delete" javaType="java.lang.Boolean" jdbcType="BIT" property="isDelete" />
-		<result column="cjr" javaType="java.lang.String" jdbcType="VARCHAR" property="cjr" />
+	    <result column="is_delete" javaType="java.lang.Byte" jdbcType="TINYINT" property="isDelete" />
+        <result column="cjr" javaType="java.lang.String" jdbcType="VARCHAR" property="cjr" />
 		<result column="cjsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="cjsj" />
 		<result column="xgr" javaType="java.lang.String" jdbcType="VARCHAR" property="xgr" />
 		<result column="xgsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="xgsj" />
