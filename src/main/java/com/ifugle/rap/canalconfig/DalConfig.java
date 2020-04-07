@@ -2,6 +2,7 @@ package com.ifugle.rap.canalconfig;
 
 import javax.sql.DataSource;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.ifugle.rap.mapper.*;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -18,6 +19,9 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Configuration
 @ImportResource({ "classpath:META-INF/applicationContext-dal.xml" })
 @EnableScheduling
@@ -27,7 +31,7 @@ public class DalConfig {
     Resource mybatisMapperConfig;
 
     @Autowired
-    DataSource dataSourceBot;
+    DruidDataSource dataSourceBot;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
@@ -119,6 +123,11 @@ public class DalConfig {
     @Bean
     public SqlSessionFactory botSqlSessionFactory() throws Exception {
         final SqlSessionFactoryBean fb = new SqlSessionFactoryBean();
+        List<String> connectionInitSqls = new ArrayList<String>();
+        // MySQL 版本需要在 5.5.3 及以上支持 utf8mb4 编码（emoji表情需要）
+        // SET NAMES {'charset_name' [COLLATE 'collation_name'] | DEFAULT}
+        connectionInitSqls.add("SET NAMES 'utf8mb4'");
+        dataSourceBot.setConnectionInitSqls(connectionInitSqls);
         fb.setConfigLocation(mybatisMapperConfig);
         fb.setDataSource(dataSourceBot);
         fb.setTypeAliases(new Class<?>[] {});

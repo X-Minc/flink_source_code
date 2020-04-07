@@ -2,6 +2,7 @@ package com.ifugle.rap.canalconfig;
 
 import javax.sql.DataSource;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.ifugle.rap.mapper.dsb.XxzxXxmxMapper;
 import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrBqMapper;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -19,6 +20,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrMapper;
 import com.ifugle.rap.mapper.dsb.YhzxXnzzTpcQyMapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Configuration
 @ImportResource({ "classpath:META-INF/applicationContext-dal-dsb.xml" })
 @EnableScheduling
@@ -28,7 +32,7 @@ public class DsbDalConfig {
 	Resource dsbMybatisMapperConfig;
 
 	@Autowired
-	DataSource dataSourceDsb;
+	DruidDataSource dataSourceDsb;
 
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
@@ -68,6 +72,9 @@ public class DsbDalConfig {
 	@Bean
 	public SqlSessionFactory dsbSqlSessionFactory() throws Exception {
 		final SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		List<String> connectionInitSqls = new ArrayList<String>();
+		connectionInitSqls.add("SET NAMES 'utf8mb4'");
+		dataSourceDsb.setConnectionInitSqls(connectionInitSqls);
 		sqlSessionFactoryBean.setConfigLocation(dsbMybatisMapperConfig);
 		sqlSessionFactoryBean.setDataSource(dataSourceDsb);
 		sqlSessionFactoryBean.setTypeAliases(new Class<?>[] {});
