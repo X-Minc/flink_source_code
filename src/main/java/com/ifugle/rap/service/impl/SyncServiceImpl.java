@@ -181,7 +181,7 @@ public class SyncServiceImpl implements SyncService {
             logger.info("[yhzx_xnzz_nsr] sync es ids = " + new Gson().toJson(ids));
         }
         logger.info("[yhzx_xnzz_nsr] sync data to es success,index = dingtax,size =" + yhzxXnzzNsrs.size());
-        elasticSearchBusinessService.bulkOperation(DSL.toString());
+        elasticSearchBusinessService.bulkOperation2(DSL.toString());
         return yhzxXnzzNsrs.size() < pageSize;
     }
 
@@ -208,7 +208,7 @@ public class SyncServiceImpl implements SyncService {
             logger.info("[yhzx_xnzz_tpc_qy] sync es ids = " + new Gson().toJson(ids));
         }
         logger.info("[yhzx_xnzz_tpc_qy] sync data to es success,index = yhzx_xnzz_tpc_qy,size =" + yhzxXnzzTpcQys.size());
-        elasticSearchBusinessService.bulkOperation(DSL.toString());
+        elasticSearchBusinessService.bulkOperation2(DSL.toString());
         return yhzxXnzzTpcQys.size() < pageSize;
     }
 

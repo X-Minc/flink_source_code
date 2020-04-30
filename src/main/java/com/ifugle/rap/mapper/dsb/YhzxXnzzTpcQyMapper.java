@@ -1,5 +1,6 @@
 package com.ifugle.rap.mapper.dsb;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -23,5 +24,5 @@ public interface YhzxXnzzTpcQyMapper extends BaseMapper<YhzxXnzzTpcQy, Long> {
     int updateByPrimaryKey(YhzxXnzzTpcQy record);
 
 
-    List<YhzxXnzzTpcQy> selectYhzxXnzzTpcQyForSync(@Param("lastCreateTime") String lastCreateTime, @Param("first") Integer first, @Param("pageSize") Integer pageSize);
+    List<YhzxXnzzTpcQy> selectYhzxXnzzTpcQyForSync(@Param("lastCreateTime") Date lastCreateTime, @Param("first") Integer first, @Param("pageSize") Integer pageSize);
 }
