@@ -39,13 +39,12 @@ public class CompanyActiveTask {
     private void process() {
         try {
             logger.info("###### this is scheduler task running repair active data ");
-            Date date = DateUtil.dateAdd(new Date(), "dd", -2);
-            String startTime = DateUtil.format(date, DateUtil.ISO8601_DATE) + " 00:00:00";
+            Date date = DateUtil.dateAdd(new Date(), "dd", -3);
             int pageIndex = 1;
             int pageSize = 10000;
             while (true) {
                 Integer first = (pageIndex - 1) * pageSize;
-                List<YhzxXnzzNsr> yhzxXnzzNsrs = yhzxXnzzNsrMapper.selectYhzxXnzzNsrForSync(startTime, first, pageSize);
+                List<YhzxXnzzNsr> yhzxXnzzNsrs = yhzxXnzzNsrMapper.selectYhzxXnzzNsrForSync(date, first, pageSize);
                 if (!CollectionUtils.isEmpty(yhzxXnzzNsrs)) {
                     StringBuffer DSL = new StringBuffer(32);
                     for (YhzxXnzzNsr yhzxXnzzNsr : yhzxXnzzNsrs) {

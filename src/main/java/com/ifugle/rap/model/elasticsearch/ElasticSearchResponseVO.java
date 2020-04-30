@@ -6,7 +6,7 @@ package com.ifugle.rap.model.elasticsearch;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author LiuZhengyang
