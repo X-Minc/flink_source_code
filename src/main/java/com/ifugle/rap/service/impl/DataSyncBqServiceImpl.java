@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import com.google.common.collect.Maps;
 import com.ifugle.rap.common.lang.util.DateUtils;
@@ -66,46 +67,27 @@ public class DataSyncBqServiceImpl implements DataSyncBqService {
      */
     @Override
     public void dataSyncInsertIncrementData() {
-        dataSync(this::doSyncBq, isDoBq, "BQ");
-        dataSync(this::doSyncNsr, isDoNsr, "NSR");
-        dataSync(this::doSyncTpc, isDoTpc, "TPC_QY");
+
+        dataSync(DataSyncBqServiceImpl::insertYhzxXnzzNsrBqForSync, isDoBq, "BQ");
+        dataSync(DataSyncBqServiceImpl::insertYhzxXnzzNsrForSync, isDoNsr, "NSR");
+        dataSync(DataSyncBqServiceImpl::insertYhzxXnzzTpcQyForSync, isDoTpc, "TPC_QY");
     }
 
-    private void dataSync(Runnable runnable, AtomicBoolean isDo, String Type) {
+    private void dataSync(Consumer<DataSyncBqServiceImpl> sync, AtomicBoolean isDo, String type) {
         if (isDo.getAndSet(true)) {
-            logger.info(Type + "处理中无需重复处理");
+            logger.info(type + "处理中无需重复处理");
             return;
         }
-        pool.submit(runnable);
+        pool.submit(() -> doSync(sync, isDo, type));
     }
 
-    private void doSyncBq() {
+    private void doSync(Consumer<DataSyncBqServiceImpl> sync, AtomicBoolean isDo, String type) {
         try {
-            insertYhzxXnzzNsrBqForSync();
+            sync.accept(this);
         } catch (Exception e) {
-            logger.error("同步标签信息失败", e);
+            logger.error("同步{}信息失败", type, e);
         } finally {
-            isDoBq.set(false);
-        }
-    }
-
-    private void doSyncNsr() {
-        try {
-            insertYhzxXnzzNsrForSync();
-        } catch (Exception e) {
-            logger.error("同步纳税人信息失败", e);
-        } finally {
-            isDoNsr.set(false);
-        }
-    }
-
-    private void doSyncTpc() {
-        try {
-            insertYhzxXnzzTpcQyForSync();
-        } catch (Exception e) {
-            logger.error("同步Tpc信息失败", e);
-        } finally {
-            isDoTpc.set(false);
+            isDo.set(false);
         }
     }
 
