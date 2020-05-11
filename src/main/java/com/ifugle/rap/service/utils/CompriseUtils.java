@@ -121,6 +121,7 @@ public class CompriseUtils {
 
         hashMap.put("ZDSYHBJ", yhzxXnzzNsr.getZdsyhbj());
         hashMap.put("JHBJ", yhzxXnzzNsr.getJhbj());
+        hashMap.put("JHSJ", yhzxXnzzNsr.getJhsj() == null ? null : getLongData(yhzxXnzzNsr.getJhsj()));
         hashMap.put("YXCYS", yhzxXnzzNsr.getYxcys());
         hashMap.put("CJSJ", yhzxXnzzNsr.getCjsj() == null ? null : getLongData(yhzxXnzzNsr.getCjsj()));
         hashMap.put("CJR", yhzxXnzzNsr.getCjr());

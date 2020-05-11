@@ -336,6 +336,12 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     private Date xgsj;
 
     /**
+     * 激活时间
+     */
+    @Label("激活时间")
+    private Date jhsj;
+
+    /**
      * 虚拟组织ID
      *
      * @return the xnzzId
@@ -1216,6 +1222,14 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
      */
     public Date getXgsj() {
         return xgsj;
+    }
+
+    public Date getJhsj() {
+        return jhsj;
+    }
+
+    public void setJhsj(Date jhsj) {
+        this.jhsj = jhsj;
     }
 
     /**

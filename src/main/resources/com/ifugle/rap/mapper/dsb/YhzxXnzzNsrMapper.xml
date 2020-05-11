@@ -51,6 +51,7 @@
 		<result column="cjsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="cjsj" />
 		<result column="xgr" javaType="java.lang.String" jdbcType="VARCHAR" property="xgr" />
 		<result column="xgsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="xgsj" />
+        <result column="jhsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="jhsj" />
   </resultMap>
 
   <sql id="Base_Column_List">
@@ -58,7 +59,7 @@
 		JHBJ, ZDSYHBJ, YXCYS, ZGGSJG_DM, ZGDSJG_DM, DJZCLX_DM, PARENT_DJZCLX_DM, HY_DM, ZZZCBJ,
 		KHYH, YHZH, ZCDZ, ZCDLXDH, SCJYDZ, SCJYDLXDH, QYSDSZSBJ, ZZSNSLX, DZXWQY_BJ, XXWLQY_BJ,
 		NSXYDJ, KZZTDJLX_DM, JYFW, DJRQ, KQCCSZTDJ, HSFS_DM, KJZDZZ_DM, WHSYJSFJFXXDJ, ZZSQYLX_DM,
-		YGZNSRLX_DM, ZSZ_ZSXM_DM, QYSDSZSFS_DM, CORPID, IS_DELETE, CJR, CJSJ, XGR, XGSJ
+		YGZNSRLX_DM, ZSZ_ZSXM_DM, QYSDSZSFS_DM, CORPID, IS_DELETE, CJR, CJSJ, XGR, XGSJ,JHSJ
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
