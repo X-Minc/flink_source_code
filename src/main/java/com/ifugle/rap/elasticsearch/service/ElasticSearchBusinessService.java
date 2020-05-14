@@ -41,8 +41,6 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
 
     private static final Logger logger = LoggerFactory.getLogger(ElasticSearchBusinessService.class);
 
-    private static final String INDEXNAME = "shuixiaomi";
-
     /**
      * 批量更新的DSL模板
      */

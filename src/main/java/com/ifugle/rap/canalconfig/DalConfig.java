@@ -1,16 +1,12 @@
 package com.ifugle.rap.canalconfig;
 
-import javax.sql.DataSource;
-
-import com.alibaba.druid.pool.DruidDataSource;
-import com.ifugle.rap.mapper.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.poi.ss.formula.functions.T;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +15,22 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.alibaba.druid.pool.DruidDataSource;
+import com.ifugle.rap.mapper.BizDataMapper;
+import com.ifugle.rap.mapper.BotChatRequestMapper;
+import com.ifugle.rap.mapper.BotChatResponseMessageDOMapper;
+import com.ifugle.rap.mapper.BotConfigServerMapper;
+import com.ifugle.rap.mapper.BotMediaDOMapper;
+import com.ifugle.rap.mapper.BotOutoundTaskDetailMapper;
+import com.ifugle.rap.mapper.BotTrackDetailDOMapper;
+import com.ifugle.rap.mapper.BotUnawareDetailDOMapper;
+import com.ifugle.rap.mapper.KbsArticleDOMapper;
+import com.ifugle.rap.mapper.KbsKeywordDOMapper;
+import com.ifugle.rap.mapper.KbsQuestionArticleDOMapper;
+import com.ifugle.rap.mapper.KbsQuestionDOMapper;
+import com.ifugle.rap.mapper.KbsReadingDOMapper;
+import com.ifugle.rap.mapper.KbsTagDTOMapper;
+import com.ifugle.rap.mapper.YhzxxnzzcyDOMapper;
 
 @Configuration
 @ImportResource({ "classpath:META-INF/applicationContext-dal.xml" })

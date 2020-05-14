@@ -27,6 +27,7 @@ import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
 import com.ifugle.rap.model.dsb.YhzxXnzzTpcQy;
 import com.ifugle.rap.model.enums.TablesEnum;
+import com.ifugle.rap.model.sca.BotScaTaskResultDO;
 import com.ifugle.rap.model.shuixiaomi.BizData;
 import com.ifugle.rap.model.shuixiaomi.BotChatRequest;
 import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
@@ -756,6 +757,38 @@ public class CompriseUtils {
         request.setMap(hashMap);
         return request;
     }
+    
+    public DataRequest botScaTaskResultCompriseDataRequest(BotScaTaskResultDO botScaTaskResultDO) {
+        DataRequest request = new DataRequest();
+        request.setCatalogType(SystemConstants.DEFAULT_TYPE);
+        Map<String, Object> hashMap = new HashMap<>(32);
+        hashMap.put("ID", botScaTaskResultDO.getId());
+        hashMap.put("ORG_ID", botScaTaskResultDO.getOrgId());
+        hashMap.put("USER_ID", botScaTaskResultDO.getUserId());
+        hashMap.put("VOICE_SET_ID", botScaTaskResultDO.getVoiceSetId());
+        hashMap.put("VOICE_SET_NAME", botScaTaskResultDO.getVoiceSetName());
+        hashMap.put("VOICE_ID", botScaTaskResultDO.getVoiceId());
+        hashMap.put("VOICE_NAME", botScaTaskResultDO.getVoiceName());
+        hashMap.put("SCORE", botScaTaskResultDO.getScore());
+        hashMap.put("BATCH_TASK_ID", botScaTaskResultDO.getBatchTaskId());
+        hashMap.put("TASK_ID", botScaTaskResultDO.getTaskId());
+        hashMap.put("EXEC_STATUS", botScaTaskResultDO.getExecStatus());
+        hashMap.put("HIT_STATUS", botScaTaskResultDO.getHitStatus());
+        hashMap.put("HIT_RULE_IDS", botScaTaskResultDO.getHitRuleIds());
+        hashMap.put("ASSIGN_STATUS", botScaTaskResultDO.getAssignStatus());
+        hashMap.put("RESOLVER", botScaTaskResultDO.getResolver());
+        hashMap.put("REVIEW_RESULT", botScaTaskResultDO.getReviewResult());
+        hashMap.put("REVIEW_STATUS", botScaTaskResultDO.getReviewStatus());
+        hashMap.put("REVIEW_TYPE", botScaTaskResultDO.getReviewType());
+        hashMap.put("COMMENTS", botScaTaskResultDO.getComments());
+        hashMap.put("ENABLED", botScaTaskResultDO.getEnabled());
+        hashMap.put("REMARK", botScaTaskResultDO.getRemark());
+        hashMap.put("CREATION_DATE", botScaTaskResultDO.getCreationDate() == null ? null : getLongData(botScaTaskResultDO.getCreationDate()));
+        hashMap.put("MODIFIER", botScaTaskResultDO.getModifier());
+        hashMap.put("MODIFICATION_DATE", botScaTaskResultDO.getModificationDate() == null ? null : getLongData(botScaTaskResultDO.getModificationDate()));
+        request.setMap(hashMap);
+        return request;
+    }
 
     public String transportData(String lastUpdateTime) {
         try {
@@ -790,9 +823,4 @@ public class CompriseUtils {
             return null;
         }
     }
-
-    public static void main(String[] args) {
-        System.out.println(new CompriseUtils().transportData("Mon Nov 23 14:19:41 CST 2013"));
-    }
-
 }

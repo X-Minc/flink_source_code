@@ -1,15 +1,24 @@
 package com.ifugle.rap.service.rocketmq;
 
-import com.alibaba.fastjson.JSON;
-import com.aliyun.openservices.ons.api.*;
-import com.google.gson.Gson;
-import com.ifugle.rap.model.shuixiaomi.EsDocumentData;
-import org.apache.commons.lang.StringUtils;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import com.aliyun.openservices.ons.api.Action;
+import com.aliyun.openservices.ons.api.ConsumeContext;
+import com.aliyun.openservices.ons.api.Consumer;
+import com.aliyun.openservices.ons.api.Message;
+import com.aliyun.openservices.ons.api.MessageListener;
+import com.aliyun.openservices.ons.api.ONSFactory;
+import com.aliyun.openservices.ons.api.Producer;
+import com.aliyun.openservices.ons.api.PropertyKeyConst;
+import com.aliyun.openservices.ons.api.SendResult;
+import com.google.gson.Gson;
+import com.ifugle.rap.model.shuixiaomi.EsDocumentData;
 
 
 @Component
@@ -39,7 +48,6 @@ public class RocketMqProducter {
         producer.start();
 
         EsDocumentData esDocumentData = new Gson().fromJson(messageIds, com.ifugle.rap.model.shuixiaomi.EsDocumentData.class);
-        String messageIdStr = null;
         StringBuffer stringBuffer = new StringBuffer();
         if (esDocumentData != null) {
             List<Long> ids = esDocumentData.getIds();
@@ -103,7 +111,6 @@ public class RocketMqProducter {
         producer.start();
 
         EsDocumentData esDocumentData = new Gson().fromJson(messageIds, com.ifugle.rap.model.shuixiaomi.EsDocumentData.class);
-        String messageIdStr = null;
         StringBuffer stringBuffer = new StringBuffer();
         if (esDocumentData != null) {
             List<Long> ids = esDocumentData.getIds();
@@ -174,16 +181,4 @@ public class RocketMqProducter {
         });
         consumer.start();
     }
-
-    public static void main(String[] args) {
-
-        new RocketMqProducter().sendMessage("{\"docName\":\"doc\",\"ids\":[300832],\"indexName\":\"bot_chat_request\",\"properties\":{}}");
-//        //Thread.sleep(10000);
-            new RocketMqProducter().recieveMessage("bot_chat_request");
-
-//        System.out.println(String.format("rocketMq parameter groupID=%s,AccessKey=%s,SecretKey=%s,NameServer=%s,topic=%s,message=%s", RocketMqConstants.GROUP_ID, RocketMqConstants.AccessKey, RocketMqConstants.SecretKey, RocketMqConstants.NameServer, RocketMqConstants.MQ_TOPIC, "1"));
-
-    }
-
-
 }

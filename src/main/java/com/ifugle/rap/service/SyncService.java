@@ -11,7 +11,20 @@ import com.ifugle.rap.model.dingtax.XxzxXxmx;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
 import com.ifugle.rap.model.dsb.YhzxXnzzTpcQy;
-import com.ifugle.rap.model.shuixiaomi.*;
+import com.ifugle.rap.model.sca.BotScaTaskResultDO;
+import com.ifugle.rap.model.shuixiaomi.BizData;
+import com.ifugle.rap.model.shuixiaomi.BotChatRequest;
+import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
+import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
+import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
+import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
+import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
+import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
+import com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs;
+import com.ifugle.rap.model.shuixiaomi.KbsKeywordDO;
+import com.ifugle.rap.model.shuixiaomi.KbsQuestionArticleDO;
+import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
+import com.ifugle.rap.model.shuixiaomi.KbsReadingDOWithBLOBs;
 import com.ifugle.rap.model.zhcs.ZxArticle;
 
 /**
@@ -132,5 +145,10 @@ public interface SyncService {
      * @return
      */
     boolean insertBotOutBoundTaskDetailAndCheckListSize(List<BotOutoundTaskDetailWithBLOBs> botOutoundTaskDetails, Integer pageSize);
+    
+    /**
+     * 向ES中插入BOT_SCA_TASK_RESULT相关数据,并判断是否是最后一组List，如果是最后一组，返回true
+     */
+    boolean insertBotScaTaskResultAndCheckListSize(List<BotScaTaskResultDO> botScaTaskResultDO, Integer pageSize);
 
 }

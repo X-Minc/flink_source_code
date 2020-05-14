@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ifugle.rap.mapper.sca.BotScaTaskResultDOMapper" >
+  <resultMap id="BaseResultMap" type="com.ifugle.rap.model.sca.BotScaTaskResultDO">
+		<id property="id" column="ID" jdbcType="BIGINT"/>
+		<result property="orgId" column="ORG_ID" jdbcType="BIGINT"/>
+		<result property="userId" column="USER_ID" jdbcType="BIGINT"/>
+		<result property="voiceSetId" column="VOICE_SET_ID" jdbcType="BIGINT"/>
+		<result property="voiceSetName" column="VOICE_SET_NAME" jdbcType="VARCHAR"/>
+		<result property="voiceId" column="VOICE_ID" jdbcType="BIGINT"/>
+		<result property="voiceName" column="VOICE_NAME" jdbcType="VARCHAR"/>
+		<result property="score" column="SCORE" jdbcType="INTEGER"/>
+		<result property="batchTaskId" column="BATCH_TASK_ID" jdbcType="BIGINT"/>
+		<result property="taskId" column="TASK_ID" jdbcType="VARCHAR"/>
+		<result property="execStatus" column="EXEC_STATUS" jdbcType="TINYINT"/>
+		<result property="hitStatus" column="HIT_STATUS" jdbcType="TINYINT"/>
+		<result property="hitRuleIds" column="HIT_RULE_IDS" jdbcType="VARCHAR"/>
+		<result property="assignStatus" column="ASSIGN_STATUS" jdbcType="TINYINT"/>
+		<result property="resolver" column="RESOLVER" jdbcType="VARCHAR"/>
+		<result property="reviewResult" column="REVIEW_RESULT" jdbcType="TINYINT"/>
+		<result property="reviewStatus" column="REVIEW_STATUS" jdbcType="TINYINT"/>
+		<result property="reviewType" column="REVIEW_TYPE" jdbcType="TINYINT"/>
+		<result property="comments" column="COMMENTS" jdbcType="VARCHAR"/>
+		<result property="enabled" column="ENABLED" jdbcType="TINYINT"/>
+		<result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+		<result property="creationDate" column="CREATION_DATE" jdbcType="TIMESTAMP"/>
+		<result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+		<result property="modificationDate" column="MODIFICATION_DATE" jdbcType="TIMESTAMP"/>
+		<result property="modifier" column="MODIFIER" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+        ID,
+        ORG_ID,
+        USER_ID,
+        VOICE_SET_ID,
+        VOICE_SET_NAME,
+        VOICE_ID,
+        VOICE_NAME,
+        SCORE,
+        BATCH_TASK_ID,
+        TASK_ID,
+        EXEC_STATUS,
+        HIT_STATUS,
+        HIT_RULE_IDS,
+        ASSIGN_STATUS,
+        RESOLVER,
+        REVIEW_RESULT,
+        REVIEW_STATUS,
+        REVIEW_TYPE,
+        COMMENTS,
+        ENABLED,
+        REMARK,
+        CREATION_DATE,
+        CREATOR,
+        MODIFICATION_DATE,
+        MODIFIER
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from BOT_SCA_TASK_RESULT
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  
+
+    <select id="selectBotScaTaskResultForInit" resultMap="BaseResultMap">
+        SELECT  * FROM BOT_SCA_TASK_RESULT ORDER BY CREATION_DATE LIMIT ${first}, ${pageSize}
+    </select>
+
+    <select id="selectBotScaTaskResultForSync" resultMap="BaseResultMap">
+        SELECT * FROM BOT_SCA_TASK_RESULT WHERE CREATION_DATE >= #{lastCreateTime} LIMIT ${first},${pageSize}
+    </select>
+  
+   <select id="selectBotScaTaskResultForUpdateWithoutLastUpdateTime" resultMap="BaseResultMap">
+        SELECT * FROM BOT_SCA_TASK_RESULT WHERE MODIFICATION_DATE > CREATION_DATE LIMIT ${first},${pageSize}
+   </select>
+
+  <select id="selectBotScaTaskResultForUpdateWithLastUpdateTime" resultMap="BaseResultMap">
+      SELECT * FROM BOT_SCA_TASK_RESULT WHERE MODIFICATION_DATE >= #{lastUpdateTime} ORDER BY MODIFICATION_DATE  LIMIT ${first},${pageSize}
+  </select>
+</mapper>
