@@ -1,10 +1,8 @@
 package com.ifugle.rap.canalconfig;
 
-import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import com.ifugle.rap.mapper.dsb.XxzxXxmxMapper;
-import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrBqMapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
@@ -17,11 +15,11 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.ifugle.rap.mapper.dsb.XxzxXxmxMapper;
+import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrBqMapper;
 import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrMapper;
 import com.ifugle.rap.mapper.dsb.YhzxXnzzTpcQyMapper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 @ImportResource({ "classpath:META-INF/applicationContext-dal-dsb.xml" })

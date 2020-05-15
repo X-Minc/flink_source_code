@@ -1,14 +1,11 @@
 package com.ifugle.rap.task;
 
 
-import com.ifugle.rap.common.lang.util.DateUtils;
-import com.ifugle.rap.elasticsearch.model.DataRequest;
-import com.ifugle.rap.elasticsearch.service.ElasticSearchBusinessService;
-import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrMapper;
-import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
-import com.ifugle.rap.service.SyncService;
-import com.ifugle.rap.utils.CommonUtils;
-import com.ifugle.util.DateUtil;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +13,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.ifugle.rap.elasticsearch.model.DataRequest;
+import com.ifugle.rap.elasticsearch.service.ElasticSearchBusinessService;
+import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrMapper;
+import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
+import com.ifugle.util.DateUtil;
 
 @Component
 public class CompanyActiveTask {

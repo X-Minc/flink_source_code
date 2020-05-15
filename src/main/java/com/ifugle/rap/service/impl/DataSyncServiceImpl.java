@@ -4,34 +4,50 @@ import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
-import com.ifugle.rap.mapper.*;
-import com.ifugle.rap.mapper.dsb.XxzxXxmxMapper;
-import com.ifugle.rap.model.dingtax.XxzxXxmx;
-import com.ifugle.rap.model.shuixiaomi.*;
-import org.apache.camel.spi.AsEndpointUri;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.ifugle.rap.common.lang.util.DateUtils;
-import com.ifugle.rap.constants.SystemConstants;
-import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrMapper;
-import com.ifugle.rap.mapper.dsb.YhzxXnzzTpcQyMapper;
+import com.ifugle.rap.mapper.BizDataMapper;
+import com.ifugle.rap.mapper.BotChatRequestMapper;
+import com.ifugle.rap.mapper.BotChatResponseMessageDOMapper;
+import com.ifugle.rap.mapper.BotConfigServerMapper;
+import com.ifugle.rap.mapper.BotMediaDOMapper;
+import com.ifugle.rap.mapper.BotOutoundTaskDetailMapper;
+import com.ifugle.rap.mapper.BotTrackDetailDOMapper;
+import com.ifugle.rap.mapper.BotUnawareDetailDOMapper;
+import com.ifugle.rap.mapper.KbsArticleDOMapper;
+import com.ifugle.rap.mapper.KbsKeywordDOMapper;
+import com.ifugle.rap.mapper.KbsQuestionArticleDOMapper;
+import com.ifugle.rap.mapper.KbsQuestionDOMapper;
+import com.ifugle.rap.mapper.KbsReadingDOMapper;
+import com.ifugle.rap.mapper.YhzxxnzzcyDOMapper;
+import com.ifugle.rap.mapper.dsb.XxzxXxmxMapper;
+import com.ifugle.rap.mapper.sca.BotScaTaskResultDOMapper;
 import com.ifugle.rap.mapper.zhcs.ZxArticleMapper;
-import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
-import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
-import com.ifugle.rap.model.dsb.YhzxXnzzTpcQy;
+import com.ifugle.rap.model.dingtax.XxzxXxmx;
+import com.ifugle.rap.model.sca.BotScaTaskResultDO;
+import com.ifugle.rap.model.shuixiaomi.BizData;
+import com.ifugle.rap.model.shuixiaomi.BotChatRequest;
+import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
+import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
+import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
+import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
+import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
+import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
+import com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs;
+import com.ifugle.rap.model.shuixiaomi.KbsKeywordDO;
+import com.ifugle.rap.model.shuixiaomi.KbsQuestionArticleDO;
+import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
+import com.ifugle.rap.model.shuixiaomi.KbsReadingDOWithBLOBs;
 import com.ifugle.rap.model.zhcs.ZxArticle;
 import com.ifugle.rap.service.DataSyncService;
 import com.ifugle.rap.service.SyncService;
-import com.ifugle.rap.service.utils.BizListCheckUtils;
-import com.ifugle.rap.service.utils.CompriseUtils;
-import com.ifugle.rap.service.utils.TimeDelayUtils;
 import com.ifugle.rap.utils.CommonUtils;
 import com.ifugle.util.DateUtil;
 
@@ -86,9 +102,6 @@ public class DataSyncServiceImpl implements DataSyncService {
     private SyncService syncService;
 
     @Autowired
-    private CompriseUtils compriseUtils;
-
-    @Autowired
     private BizDataMapper bizDataMapper;
 
     @Autowired
@@ -98,7 +111,10 @@ public class DataSyncServiceImpl implements DataSyncService {
     private XxzxXxmxMapper xxzxXxmxMapper;
 
     @Autowired
-    BotChatRequestMapper botChatRequestMapper;
+    private BotChatRequestMapper botChatRequestMapper;
+    
+    @Autowired
+    private BotScaTaskResultDOMapper botScaTaskResultDOMapper;
 
     @Value("${profiles.active}")
     String env;
@@ -128,6 +144,12 @@ public class DataSyncServiceImpl implements DataSyncService {
         //        insertYhzxXnzzNsrForSync();
         //        insertYhzxXnzzTpcQyForSync();
         insertBotChatRequestForSync();
+        
+        /**
+         * 质检
+         */
+        insertBotScaTaskResultForSync();
+        
     }
 
     /***
@@ -719,5 +741,32 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info("init data localhost file end");
     }
+    
+    /**
+    *
+    */
+   private void insertBotScaTaskResultForSync() {
+       String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_SCA_TASK_RESULT");
+       if (StringUtils.isEmpty(lastCreateTime)) {
+           logger.info("insertBotScaTaskResultForSync lastCreateTime is null");
+           return;
+       }
+       logger.info(MessageFormat.format("#### [BOT_SCA_TASK_RESULT] 开始同步表 BOT_SCA_TASK_RESULT 获取本地偏移时间 updateTime : {0}", lastCreateTime));
+       int pageIndex = 1;
+       while (true) {
+           Integer first = (pageIndex - 1) * pageSize;
+           List<BotScaTaskResultDO> botScaTaskResultDOs = botScaTaskResultDOMapper.selectBotScaTaskResultForUpdateWithLastUpdateTime(lastCreateTime, first, pageSize);
+           if (!CollectionUtils.isEmpty(botScaTaskResultDOs)) {
+               logger.info("[BOT_SCA_TASK_RESULT] 查询该表的列表的size，size=" + botScaTaskResultDOs.size());
+               syncService.insertBotScaTaskResultAndCheckListSize(botScaTaskResultDOs, pageSize);
+               Date modificationDate = botScaTaskResultDOs.get(botScaTaskResultDOs.size() - 1).getModificationDate();
+               CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "BOT_SCA_TASK_RESULT");
+           } else {
+               break;
+           }
+           pageIndex++;
+       }
+       logger.info("#### [BOT_SCA_TASK_RESULT] 同步表数据单次结束");
+   }
 
 }

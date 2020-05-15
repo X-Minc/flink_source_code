@@ -4,13 +4,11 @@
 package com.ifugle.rap.service.impl;
 
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
-import com.google.gson.Gson;
-import com.ifugle.rap.model.dingtax.XxzxXxmx;
-import com.ifugle.rap.model.shuixiaomi.*;
-import com.ifugle.rap.service.rocketmq.RocketMqProducter;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -19,20 +17,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 import com.ifugle.rap.elasticsearch.enums.ChannelType;
 import com.ifugle.rap.elasticsearch.model.DataRequest;
 import com.ifugle.rap.elasticsearch.service.ElasticSearchBusinessService;
+import com.ifugle.rap.model.dingtax.XxzxXxmx;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
 import com.ifugle.rap.model.dsb.YhzxXnzzTpcQy;
+import com.ifugle.rap.model.sca.BotScaTaskResultDO;
+import com.ifugle.rap.model.shuixiaomi.BizData;
+import com.ifugle.rap.model.shuixiaomi.BotChatRequest;
+import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
+import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
+import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
+import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
+import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
+import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
+import com.ifugle.rap.model.shuixiaomi.EsDocumentData;
+import com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs;
+import com.ifugle.rap.model.shuixiaomi.KbsKeywordDO;
+import com.ifugle.rap.model.shuixiaomi.KbsQuestionArticleDO;
+import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
+import com.ifugle.rap.model.shuixiaomi.KbsReadingDOWithBLOBs;
 import com.ifugle.rap.model.zhcs.ZxArticle;
 import com.ifugle.rap.security.crypto.CryptBase36;
 import com.ifugle.rap.security.crypto.CryptBase62;
 import com.ifugle.rap.security.crypto.CryptNumber;
 import com.ifugle.rap.security.crypto.CryptSimple;
 import com.ifugle.rap.service.SyncService;
-import com.ifugle.rap.service.redis.ParseConstant;
 import com.ifugle.rap.service.redis.RedisMessageSubscriber;
+import com.ifugle.rap.service.rocketmq.RocketMqProducter;
 import com.ifugle.rap.service.utils.CompriseUtils;
 import com.ifugle.rap.utils.DecodeUtils;
 
@@ -541,9 +557,28 @@ public class SyncServiceImpl implements SyncService {
         return botOutoundTaskDetails.size() < pageSize;
     }
 
-    public static void main(String[] args) {
-        long time = System.currentTimeMillis();
-
-        System.out.println(new Date(time).equals(new Date(time)));
-    }
+	@Override
+	public boolean insertBotScaTaskResultAndCheckListSize(List<BotScaTaskResultDO> botScaTaskResultDOS,
+			Integer pageSize) {
+		logger.info("[SyncServiceImpl] start export table BOT_SCA_TASK_RESULT to es ....");
+        StringBuilder dsl = new StringBuilder(32);
+        List<Long> messages = new ArrayList<>();
+        for (BotScaTaskResultDO botScaTaskResultDO : botScaTaskResultDOS) {
+            DataRequest request = compriseUtils.botScaTaskResultCompriseDataRequest(botScaTaskResultDO);
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.BOT_SCA_TASK_RESULT.getCode(), request));
+            messages.add(botScaTaskResultDO.getId());
+        }
+        if (CollectionUtils.isNotEmpty(messages) && messages.size() != pageSize) {
+            logger.info("[bot_sca_task_result] sync es ids = " + new Gson().toJson(messages));
+        }
+        logger.info("[bot_sca_task_result] sync data to es success,index = BOT_SCA_TASK_RESULT,size =" + botScaTaskResultDOS.size());
+        elasticSearchBusinessService.bulkOperation(dsl.toString());
+        // 发送消息给税小蜜业务
+        if(messages.size()>0) {
+//            redisMessageSubscriber.sendMessageBatch(ParseConstant.BOT_ES_PRODUCTER, messages.toArray(new String[0]));
+            EsDocumentData esDocumentData = new EsDocumentData(messages, "doc", ChannelType.BOT_SCA_TASK_RESULT.getCode());
+            rocketMqProducter.sendBotScaTaskResultMessage(JSON.toJSONString(esDocumentData));
+        }
+        return botScaTaskResultDOS.size() < pageSize;
+	}
 }

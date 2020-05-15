@@ -18,6 +18,12 @@ public class RocketMqConstants {
     public final static String NAMESERVER_2 = System.getProperty("rap.mq.rocket.server.Two","http://MQ_INST_1122260953808354_BcBD5xbs.cn-hangzhou.mq-internal.aliyuncs.com:8080");
 
     public final static String MQ_TOPIC_2 = System.getProperty("rap.mq.rocket.topic.Two","rap_bot_kbs");
+    
+    // 质检相关
+    public final static String MQ_TOPIC_3 = System.getProperty("rap.mq.rocket.topic.Three","bot_open");
+    
+    public final static String GROUP_ID_3 = System.getProperty("rap.mq.rocket.topic.Three","GID_bot_sca");
+    
 
 //    public final static String GROUP_ID = System.getProperty("rap.mq.rocket.groupId","CID_rap_bot_es");
 //
