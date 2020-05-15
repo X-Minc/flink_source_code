@@ -31,6 +31,7 @@ import com.ifugle.rap.mapper.KbsQuestionDOMapper;
 import com.ifugle.rap.mapper.KbsReadingDOMapper;
 import com.ifugle.rap.mapper.KbsTagDTOMapper;
 import com.ifugle.rap.mapper.YhzxxnzzcyDOMapper;
+import com.ifugle.rap.mapper.sca.BotScaTaskResultDOMapper;
 
 @Configuration
 @ImportResource({ "classpath:META-INF/applicationContext-dal.xml" })
@@ -121,6 +122,11 @@ public class DalConfig {
     @Bean
     public BotChatRequestMapper botChatRequestMapper() throws Exception {
         return newMapperFactoryBean(BotChatRequestMapper.class).getObject();
+    }
+    
+    @Bean
+    public BotScaTaskResultDOMapper botScaTaskResultDOMapper() throws Exception {
+        return newMapperFactoryBean(BotScaTaskResultDOMapper.class).getObject();
     }
 
     <T> MapperFactoryBean<T> newMapperFactoryBean(Class<T> clazz) throws Exception {
