@@ -577,7 +577,7 @@ public class SyncServiceImpl implements SyncService {
         if(messages.size()>0) {
 //            redisMessageSubscriber.sendMessageBatch(ParseConstant.BOT_ES_PRODUCTER, messages.toArray(new String[0]));
             EsDocumentData esDocumentData = new EsDocumentData(messages, "doc", ChannelType.BOT_SCA_TASK_RESULT.getCode());
-            rocketMqProducter.sendKbsQuestionMessage(JSON.toJSONString(esDocumentData));
+            rocketMqProducter.sendBotScaTaskResultMessage(JSON.toJSONString(esDocumentData));
         }
         return botScaTaskResultDOS.size() < pageSize;
 	}
