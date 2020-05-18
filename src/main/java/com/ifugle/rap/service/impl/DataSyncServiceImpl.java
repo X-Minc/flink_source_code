@@ -739,6 +739,11 @@ public class DataSyncServiceImpl implements DataSyncService {
             logger.info("开始写入本地时间:BOT_OUTBOUND_TASK_DETAIL,time=" + DateUtils.simpleFormat(new Date()));
             CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()) + "#0", "BOT_OUTBOUND_TASK_DETAIL");
         }
+
+        if (!CommonUtils.isExistDir("BOT_SCA_TASK_RESULT")) {
+            logger.info("开始写入本地时间:BOT_SCA_TASK_RESULT,time=" + DateUtils.simpleFormat(new Date()));
+            CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(new Date()), "BOT_SCA_TASK_RESULT");
+        }
         logger.info("init data localhost file end");
     }
     
