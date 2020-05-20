@@ -36,7 +36,7 @@
 		<result column="nsxydj" javaType="java.lang.Byte" jdbcType="TINYINT" property="nsxydj" />
 		<result column="kzztdjlx_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="kzztdjlxDm" />
 		<result column="jyfw" javaType="java.lang.String" jdbcType="VARCHAR" property="jyfw" />
-		<result column="djrq" javaType="java.util.Date" jdbcType="TIMESTAMP" property="djrq" />
+		<result column="djrq" javaType="java.util.Date" jdbcType="DATE" property="djrq" />
 		<result column="kqccsztdj" javaType="java.lang.Boolean" jdbcType="BIT" property="kqccsztdj" />
 		<result column="hsfs_dm" javaType="java.lang.String" jdbcType="CHAR" property="hsfsDm" />
 		<result column="kjzdzz_dm" javaType="java.lang.String" jdbcType="CHAR" property="kjzdzzDm" />
