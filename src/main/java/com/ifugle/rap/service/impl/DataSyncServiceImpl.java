@@ -148,7 +148,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         /**
          * 质检
          */
-//        insertBotScaTaskResultForSync();
+        insertBotScaTaskResultForSync();
         
     }
 
