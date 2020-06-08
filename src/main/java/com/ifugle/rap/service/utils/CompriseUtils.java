@@ -3,6 +3,7 @@
  */
 package com.ifugle.rap.service.utils;
 
+import java.lang.reflect.Type;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,25 +12,39 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import com.ifugle.rap.model.dingtax.XxzxXxmx;
-import com.ifugle.rap.model.shuixiaomi.*;
-import com.ifugle.util.DateUtil;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.google.common.collect.Lists;
 import com.google.gson.reflect.TypeToken;
 import com.ifugle.rap.constants.SystemConstants;
 import com.ifugle.rap.elasticsearch.model.DataRequest;
+import com.ifugle.rap.model.dingtax.XxzxXxmx;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
 import com.ifugle.rap.model.dsb.YhzxXnzzTpcQy;
 import com.ifugle.rap.model.enums.TablesEnum;
+import com.ifugle.rap.model.sca.BotScaRuleHitStatus;
+import com.ifugle.rap.model.sca.BotScaTaskResultDO;
+import com.ifugle.rap.model.shuixiaomi.BizData;
+import com.ifugle.rap.model.shuixiaomi.BotChatRequest;
+import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
+import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
+import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
+import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
+import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
+import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
+import com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs;
+import com.ifugle.rap.model.shuixiaomi.KbsKeywordDO;
+import com.ifugle.rap.model.shuixiaomi.KbsQuestionArticleDO;
+import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
+import com.ifugle.rap.model.shuixiaomi.KbsReadingDOWithBLOBs;
 import com.ifugle.rap.model.zhcs.ZxArticle;
 import com.ifugle.rap.security.crypto.CryptBase36;
 import com.ifugle.rap.security.crypto.CryptBase62;
@@ -38,6 +53,9 @@ import com.ifugle.rap.security.crypto.CryptSimple;
 import com.ifugle.rap.security.crypto.CryptZip;
 import com.ifugle.rap.utils.DecodeUtils;
 import com.ifugle.rap.utils.MyHttpRequest;
+import com.ifugle.util.DateUtil;
+import com.ifugle.util.JSONUtil;
+import com.ifugle.util.StringUtil;
 
 /**
  * @author LiuZhengyang
@@ -57,7 +75,7 @@ public class CompriseUtils {
 
     public DataRequest kbsArticleDOCompriseDataRequest(KbsArticleDOWithBLOBs kbsArticleDO) {
         DataRequest request = new DataRequest();
-        request.setCatalogType(TablesEnum.KBS_ARTICLE.getTableName());
+        request.setCatalogType(SystemConstants.DEFAULT_TYPE);
         Map<String, Object> hashMap = new HashMap<>(32);
         hashMap.put("ID", kbsArticleDO.getId());
         hashMap.put("PARENT_ID", kbsArticleDO.getParentId());
@@ -71,7 +89,7 @@ public class CompriseUtils {
         hashMap.put("CONTENT_TEXT", kbsArticleDO.getContentText());
         hashMap.put("CONTENT_HTML", kbsArticleDO.getContentHtml());
         hashMap.put("REMARK", kbsArticleDO.getRemark());
-        hashMap.put("KBS_ARTICLE_STATUS", kbsArticleDO.getStatus());
+        hashMap.put("STATUS", kbsArticleDO.getStatus());
         hashMap.put("VALID_FLAG", kbsArticleDO.getValidFlag());
         hashMap.put("VALID_DATE", kbsArticleDO.getValidDate() == null ? null : getLongData(kbsArticleDO.getValidDate()));
         hashMap.put("INVALID_DATE", kbsArticleDO.getInvalidDate() == null ? null : getLongData(kbsArticleDO.getInvalidDate()));
@@ -88,6 +106,13 @@ public class CompriseUtils {
         hashMap.put("MODIFIER", kbsArticleDO.getModifier());
         hashMap.put("MODIFICATION_DATE", kbsArticleDO.getModificationDate() == null ? null : getLongData(kbsArticleDO.getModificationDate()));
         hashMap.put("INVALID_REASON", kbsArticleDO.getInvalidReason());
+        hashMap.put("SPLIT_FLAG", kbsArticleDO.getSplitFlag());
+        hashMap.put("RELATION_STATUS", kbsArticleDO.getRelationStatus());
+        hashMap.put("TAXES", kbsArticleDO.getTaxes());
+        hashMap.put("OLD_ARTICLE_ID", kbsArticleDO.getOldArticleId());
+        hashMap.put("INFO_OPEN", kbsArticleDO.getInfoOpen());
+        hashMap.put("CITY_AREA", kbsArticleDO.getCityArea());
+        hashMap.put("ORG_ID", kbsArticleDO.getOrgId());
         request.setMap(hashMap);
         return request;
     }
@@ -99,10 +124,11 @@ public class CompriseUtils {
         hashMap.put("ID", yhzxXnzzNsr.getId());
         hashMap.put("XNZZ_ID", yhzxXnzzNsr.getXnzzId());
         hashMap.put("BM_ID", yhzxXnzzNsr.getBmId());
-        hashMap.put("CORPID", yhzxXnzzNsr.getCorpid());
+        hashMap.put("CORPID", yhzxXnzzNsr.getCorpId());
 
         hashMap.put("ZDSYHBJ", yhzxXnzzNsr.getZdsyhbj());
         hashMap.put("JHBJ", yhzxXnzzNsr.getJhbj());
+        hashMap.put("JHSJ", yhzxXnzzNsr.getJhsj() == null ? null : getLongData(yhzxXnzzNsr.getJhsj()));
         hashMap.put("YXCYS", yhzxXnzzNsr.getYxcys());
         hashMap.put("CJSJ", yhzxXnzzNsr.getCjsj() == null ? null : getLongData(yhzxXnzzNsr.getCjsj()));
         hashMap.put("CJR", yhzxXnzzNsr.getCjr());
@@ -119,8 +145,8 @@ public class CompriseUtils {
             hashMap.put("ZCDLXDH", DecodeUtils.deodeCryptNumberProd(yhzxXnzzNsr.getZcdlxdh(), cryptNumber));
             hashMap.put("SCJYDZ", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzNsr.getScjydz(), cryptSimple));
             hashMap.put("SCJYDLXDH", DecodeUtils.deodeCryptNumberProd(yhzxXnzzNsr.getScjydlxdh(), cryptNumber));
-            hashMap.put("NSRSBH",  DecodeUtils.deodeCryptBase36Prod(yhzxXnzzNsr.getNsrsbh(), cryptBase36));
-            hashMap.put("NSRJC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzNsr.getNsrjc(),cryptSimple));
+            hashMap.put("NSRSBH", DecodeUtils.deodeCryptBase36Prod(yhzxXnzzNsr.getNsrsbh(), cryptBase36));
+            hashMap.put("NSRJC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzNsr.getNsrjc(), cryptSimple));
 
         } else {
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getNsrmc(), cryptSimple));
@@ -133,8 +159,8 @@ public class CompriseUtils {
             hashMap.put("ZCDLXDH", DecodeUtils.decodeCryptNumberTest(yhzxXnzzNsr.getZcdlxdh(), cryptNumber));
             hashMap.put("SCJYDZ", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getScjydz(), cryptSimple));
             hashMap.put("SCJYDLXDH", DecodeUtils.decodeCryptNumberTest(yhzxXnzzNsr.getScjydlxdh(), cryptNumber));
-            hashMap.put("NSRSBH",  DecodeUtils.deodeCryptBase36Test(yhzxXnzzNsr.getNsrsbh(), cryptBase36));
-            hashMap.put("NSRJC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getNsrjc(),cryptSimple));
+            hashMap.put("NSRSBH", DecodeUtils.deodeCryptBase36Test(yhzxXnzzNsr.getNsrsbh(), cryptBase36));
+            hashMap.put("NSRJC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getNsrjc(), cryptSimple));
         }
 
         hashMap.put("ZGGSJG_DM", yhzxXnzzNsr.getZggsjgDm());
@@ -152,6 +178,15 @@ public class CompriseUtils {
         hashMap.put("NSXYDJ", yhzxXnzzNsr.getNsxydj());
         hashMap.put("KZZTDJLX_DM", yhzxXnzzNsr.getKzztdjlxDm());
         hashMap.put("JYFW1", yhzxXnzzNsr.getJyfw());
+        hashMap.put("DJRQ", yhzxXnzzNsr.getDjrq() == null ? null : yhzxXnzzNsr.getDjrq().getTime());
+        hashMap.put("KQCCSZTDJ", yhzxXnzzNsr.getKqccsztdj());
+        hashMap.put("HSFS_DM", yhzxXnzzNsr.getHsfsDm());
+        hashMap.put("KJZDZZ_DM", yhzxXnzzNsr.getKjzdzzDm());
+        hashMap.put("WHSYJSFJFXXDJ", yhzxXnzzNsr.getWhsyjsfjfxxdj());
+        hashMap.put("ZZSQYLX_DM", yhzxXnzzNsr.getZzsqylxDm());
+        hashMap.put("YGZNSRLX_DM", yhzxXnzzNsr.getYgznsrlxDm());
+        hashMap.put("ZSZ_ZSXM_DM", yhzxXnzzNsr.getZszZsxmDm());
+        hashMap.put("QYSDSZSFS_DM", yhzxXnzzNsr.getQysdszsfsDm());
         hashMap.put("IS_DELETE", yhzxXnzzNsr.getIsDelete());
         request.setMap(hashMap);
         return request;
@@ -166,8 +201,8 @@ public class CompriseUtils {
         hashMap.put("NSR_ID", yhzxXnzzTpcQy.getNsrId());
         hashMap.put("DJXH", yhzxXnzzTpcQy.getDjxh());
         hashMap.put("NSRSBH", yhzxXnzzTpcQy.getNsrsbh());
-//        hashMap.put("SHXYDM",yhzxXnzzTpcQy.getShxydm());
-//        hashMap.put("NSRMC",yhzxXnzzTpcQy.getNsrmc());
+        //        hashMap.put("SHXYDM",yhzxXnzzTpcQy.getShxydm());
+        //        hashMap.put("NSRMC",yhzxXnzzTpcQy.getNsrmc());
         if (StringUtils.equals(env, "prod")) {
             hashMap.put("JDXZMC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getJdxzmc(), cryptSimple));
             hashMap.put("ZCDZ", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getZcdz(), cryptSimple));
@@ -210,7 +245,6 @@ public class CompriseUtils {
         return request;
     }
 
-
     public DataRequest botChatRequestCompriseDataRequest(BotChatRequest botChatRequest, CryptSimple cryptSimple, CryptBase36 cryptBase36) {
         DataRequest request = new DataRequest();
         request.setCatalogType(SystemConstants.DEFAULT_TYPE);
@@ -237,7 +271,8 @@ public class CompriseUtils {
         hashMap.put("SELECTED", botChatRequest.getSelected());
         hashMap.put("CREATION_DATE", botChatRequest.getCreationDate() == null ? null : getLongData(botChatRequest.getCreationDate()));
         hashMap.put("DURATION", botChatRequest.getDuration());
-        hashMap.put("STATISTICAL_DATE", botChatRequest.getCreationDate() == null ? null : DateUtil.format(botChatRequest.getCreationDate(), DateUtil.ISO8601_DATE));
+        hashMap.put("STATISTICAL_DATE",
+                botChatRequest.getCreationDate() == null ? null : DateUtil.format(botChatRequest.getCreationDate(), DateUtil.ISO8601_DATE));
         request.setMap(hashMap);
         return request;
     }
@@ -292,7 +327,8 @@ public class CompriseUtils {
         return request;
     }
 
-    public DataRequest botOutoundTaskDetailCompriseDataRequest(BotOutoundTaskDetailWithBLOBs botOutoundTaskDetail, CryptSimple cryptSimple, CryptNumber cryptNumber, CryptBase36 cryptBase36) {
+    public DataRequest botOutoundTaskDetailCompriseDataRequest(BotOutoundTaskDetailWithBLOBs botOutoundTaskDetail, CryptSimple cryptSimple,
+            CryptNumber cryptNumber, CryptBase36 cryptBase36) {
         DataRequest request = new DataRequest();
         request.setCatalogType(SystemConstants.DEFAULT_TYPE);
         Map<String, Object> hashMap = new HashMap<>(16);
@@ -338,7 +374,7 @@ public class CompriseUtils {
             }.getType());
             hashMap.put("EXCEL_COLUMN", excelColumn);
         }
-
+        hashMap.put("MESSAGE_STATUS", botOutoundTaskDetail.getMessageStatus());
         hashMap.put("CREATION_DATE", botOutoundTaskDetail.getCreationDate() == null ? null : getLongData(botOutoundTaskDetail.getCreationDate()));
 
         hashMap.put("MODIFICATION_DATE", botOutoundTaskDetail.getModificationDate() == null ? null : getLongData(botOutoundTaskDetail.getModificationDate()));
@@ -563,6 +599,7 @@ public class CompriseUtils {
         hashMap.put("QUESTION_TYPE", kbsQuestionDO.getQuestionType());
         hashMap.put("APPROVAL_STATUS", kbsQuestionDO.getApprovalStatus());
         hashMap.put("ANSWER_MD5", kbsQuestionDO.getAnswerMD5());
+        hashMap.put("VOICE_ANSWER", kbsQuestionDO.getVoiceAnswer());
         request.setMap(hashMap);
         return request;
     }
@@ -726,6 +763,46 @@ public class CompriseUtils {
         request.setMap(hashMap);
         return request;
     }
+    
+    public DataRequest botScaTaskResultCompriseDataRequest(BotScaTaskResultDO botScaTaskResultDO) {
+        DataRequest request = new DataRequest();
+        request.setCatalogType(SystemConstants.DEFAULT_TYPE);
+        Map<String, Object> hashMap = new HashMap<>(32);
+        hashMap.put("ID", botScaTaskResultDO.getId());
+        hashMap.put("ORG_ID", botScaTaskResultDO.getOrgId());
+        hashMap.put("USER_ID", botScaTaskResultDO.getUserId());
+        hashMap.put("VOICE_SET_ID", botScaTaskResultDO.getVoiceSetId());
+        hashMap.put("VOICE_SET_NAME", botScaTaskResultDO.getVoiceSetName());
+        hashMap.put("VOICE_ID", botScaTaskResultDO.getVoiceId());
+        hashMap.put("VOICE_NAME", botScaTaskResultDO.getVoiceName());
+        hashMap.put("SCORE", botScaTaskResultDO.getScore());
+        hashMap.put("BATCH_TASK_ID", botScaTaskResultDO.getBatchTaskId());
+        hashMap.put("TASK_ID", botScaTaskResultDO.getTaskId());
+        hashMap.put("EXEC_STATUS", botScaTaskResultDO.getExecStatus());
+        hashMap.put("HIT_STATUS", botScaTaskResultDO.getHitStatus());
+        List<String> ruleIds = Lists.newArrayList();
+        String hitRuleIds = botScaTaskResultDO.getHitRuleIds();
+        if (StringUtil.isNotBlank(hitRuleIds)) {
+            Type type = new TypeToken<List<BotScaRuleHitStatus>>() {}.getType();
+            List<BotScaRuleHitStatus> list = GsonUtil.getBean(hitRuleIds, type);
+            List<String> ruleIdList = list.stream().map(BotScaRuleHitStatus::getRid).collect(Collectors.toList());
+            ruleIds.addAll(ruleIdList);
+        }
+        hashMap.put("HIT_RULE_IDS", ruleIds);
+        hashMap.put("ASSIGN_STATUS", botScaTaskResultDO.getAssignStatus());
+        hashMap.put("RESOLVER", botScaTaskResultDO.getResolver());
+        hashMap.put("REVIEW_RESULT", botScaTaskResultDO.getReviewResult());
+        hashMap.put("REVIEW_STATUS", botScaTaskResultDO.getReviewStatus());
+        hashMap.put("REVIEW_TYPE", botScaTaskResultDO.getReviewType());
+        hashMap.put("COMMENTS", botScaTaskResultDO.getComments());
+        hashMap.put("ENABLED", botScaTaskResultDO.getEnabled());
+        hashMap.put("REMARK", botScaTaskResultDO.getRemark());
+        hashMap.put("CREATION_DATE", botScaTaskResultDO.getCreationDate() == null ? null : getLongData(botScaTaskResultDO.getCreationDate()));
+        hashMap.put("MODIFIER", botScaTaskResultDO.getModifier());
+        hashMap.put("MODIFICATION_DATE", botScaTaskResultDO.getModificationDate() == null ? null : getLongData(botScaTaskResultDO.getModificationDate()));
+        request.setMap(hashMap);
+        return request;
+    }
 
     public String transportData(String lastUpdateTime) {
         try {
@@ -760,9 +837,4 @@ public class CompriseUtils {
             return null;
         }
     }
-
-    public static void main(String[] args) {
-        System.out.println(new CompriseUtils().transportData("Mon Nov 23 14:19:41 CST 2013"));
-    }
-
 }

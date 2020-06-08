@@ -5,7 +5,6 @@ package com.ifugle.rap.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
@@ -20,7 +19,6 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.client.HttpClient;
 
 /**
  * @author HuangLei(wenyuan)

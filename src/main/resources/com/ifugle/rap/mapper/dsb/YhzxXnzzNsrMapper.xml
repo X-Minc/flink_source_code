@@ -3,53 +3,63 @@
 
 <mapper namespace="com.ifugle.rap.mapper.dsb.YhzxXnzzNsrMapper">
   <resultMap id="BaseResultMap" type="com.ifugle.rap.model.dsb.YhzxXnzzNsr">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="xnzz_id" jdbcType="BIGINT" property="xnzzId" />
-    <result column="bm_id" jdbcType="BIGINT" property="bmId" />
-    <result column="corpid" jdbcType="VARCHAR" property="corpid" />
-    <result column="nsrsbh" jdbcType="VARCHAR" property="nsrsbh" />
-    <result column="zdsyhbj" jdbcType="TINYINT" property="zdsyhbj" />
-    <result column="jhbj" jdbcType="TINYINT" property="jhbj" />
-    <result column="YXCYS" jdbcType="INTEGER" property="yxcys" />
-    <result column="cjsj" jdbcType="TIMESTAMP" property="cjsj" />
-    <result column="cjr" jdbcType="VARCHAR" property="cjr" />
-    <result column="xgsj" jdbcType="TIMESTAMP" property="xgsj" />
-    <result column="xgr" jdbcType="VARCHAR" property="xgr" />
-    <result column="NSRMC" jdbcType="VARCHAR" property="nsrmc" />
-    <result column="NSRJC" jdbcType="VARCHAR" property="nsrjc" />
-    <result column="shxydm" jdbcType="VARCHAR" property="shxydm" />
-    <result column="shxydm6" jdbcType="CHAR" property="shxydm6" />
-    <result column="sjshxydm" jdbcType="VARCHAR" property="sjshxydm" />
-    <result column="zggsjg_dm" jdbcType="VARCHAR" property="zggsjgDm" />
-    <result column="zgdsjg_dm" jdbcType="VARCHAR" property="zgdsjgDm" />
-    <result column="djzclx_dm" jdbcType="VARCHAR" property="djzclxDm" />
-    <result column="parent_djzclx_dm" jdbcType="VARCHAR" property="parentDjzclxDm" />
-    <result column="hy_dm" jdbcType="VARCHAR" property="hyDm" />
-    <result column="nsrzt_dm" jdbcType="VARCHAR" property="nsrztDm" />
-    <result column="zzzcbj" jdbcType="TINYINT" property="zzzcbj" />
-    <result column="khyh" jdbcType="VARCHAR" property="khyh" />
-    <result column="yhzh" jdbcType="VARCHAR" property="yhzh" />
-    <result column="zcdz" jdbcType="VARCHAR" property="zcdz" />
-    <result column="zcdlxdh" jdbcType="VARCHAR" property="zcdlxdh" />
-    <result column="scjydz" jdbcType="VARCHAR" property="scjydz" />
-    <result column="scjydlxdh" jdbcType="VARCHAR" property="scjydlxdh" />
-    <result column="qysdszsbj" jdbcType="TINYINT" property="qysdszsbj" />
-    <result column="djxh" jdbcType="VARCHAR" property="djxh" />
-    <result column="zzsnslx" jdbcType="TINYINT" property="zzsnslx" />
-    <result column="dzxwqy_bj" jdbcType="TINYINT" property="dzxwqyBj" />
-    <result column="xxwlqy_bj" jdbcType="TINYINT" property="xxwlqyBj" />
-    <result column="nsxydj" jdbcType="TINYINT" property="nsxydj" />
-    <result column="kzztdjlx_dm" jdbcType="VARCHAR" property="kzztdjlxDm" />
-    <result column="jyfw" jdbcType="VARCHAR" property="jyfw" />
-    <result column="zzzcbj" jdbcType="BIGINT" property="zzzcbj" />
-    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <id column="id" javaType="java.lang.Long" jdbcType="BIGINT" property="id" />
+		<result column="xnzz_id" javaType="java.lang.Long" jdbcType="BIGINT" property="xnzzId" />
+		<result column="bm_id" javaType="java.lang.Long" jdbcType="BIGINT" property="bmId" />
+		<result column="djxh" javaType="java.lang.String" jdbcType="VARCHAR" property="djxh" />
+		<result column="nsrsbh" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrsbh" />
+		<result column="shxydm" javaType="java.lang.String" jdbcType="VARCHAR" property="shxydm" />
+		<result column="shxydm6" javaType="java.lang.String" jdbcType="CHAR" property="shxydm6" />
+		<result column="nsrmc" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrmc" />
+		<result column="nsrjc" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrjc" />
+		<result column="sjshxydm" javaType="java.lang.String" jdbcType="VARCHAR" property="sjshxydm" />
+		<result column="nsrzt_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrztDm" />
+		<result column="jhbj" javaType="java.lang.Byte" jdbcType="TINYINT" property="jhbj" />
+		<result column="zdsyhbj" javaType="java.lang.Byte" jdbcType="TINYINT" property="zdsyhbj" />
+		<result column="yxcys" javaType="java.lang.Integer" jdbcType="INTEGER" property="yxcys" />
+		<result column="zggsjg_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="zggsjgDm" />
+		<result column="zgdsjg_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="zgdsjgDm" />
+		<result column="djzclx_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="djzclxDm" />
+		<result column="parent_djzclx_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="parentDjzclxDm" />
+		<result column="hy_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="hyDm" />
+		<result column="zzzcbj" javaType="java.lang.Byte" jdbcType="TINYINT" property="zzzcbj" />
+		<result column="khyh" javaType="java.lang.String" jdbcType="VARCHAR" property="khyh" />
+		<result column="yhzh" javaType="java.lang.String" jdbcType="VARCHAR" property="yhzh" />
+		<result column="zcdz" javaType="java.lang.String" jdbcType="VARCHAR" property="zcdz" />
+		<result column="zcdlxdh" javaType="java.lang.String" jdbcType="VARCHAR" property="zcdlxdh" />
+		<result column="scjydz" javaType="java.lang.String" jdbcType="VARCHAR" property="scjydz" />
+		<result column="scjydlxdh" javaType="java.lang.String" jdbcType="VARCHAR" property="scjydlxdh" />
+		<result column="qysdszsbj" javaType="java.lang.Byte" jdbcType="TINYINT" property="qysdszsbj" />
+		<result column="zzsnslx" javaType="java.lang.Byte" jdbcType="TINYINT" property="zzsnslx" />
+		<result column="dzxwqy_bj" javaType="java.lang.Byte" jdbcType="TINYINT" property="dzxwqyBj" />
+		<result column="xxwlqy_bj" javaType="java.lang.Byte" jdbcType="TINYINT" property="xxwlqyBj" />
+		<result column="nsxydj" javaType="java.lang.Byte" jdbcType="TINYINT" property="nsxydj" />
+		<result column="kzztdjlx_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="kzztdjlxDm" />
+		<result column="jyfw" javaType="java.lang.String" jdbcType="VARCHAR" property="jyfw" />
+		<result column="djrq" javaType="java.util.Date" jdbcType="DATE" property="djrq" />
+		<result column="kqccsztdj" javaType="java.lang.Boolean" jdbcType="BIT" property="kqccsztdj" />
+		<result column="hsfs_dm" javaType="java.lang.String" jdbcType="CHAR" property="hsfsDm" />
+		<result column="kjzdzz_dm" javaType="java.lang.String" jdbcType="CHAR" property="kjzdzzDm" />
+		<result column="whsyjsfjfxxdj" javaType="java.lang.Boolean" jdbcType="BIT" property="whsyjsfjfxxdj" />
+		<result column="zzsqylx_dm" javaType="java.lang.String" jdbcType="CHAR" property="zzsqylxDm" />
+		<result column="ygznsrlx_dm" javaType="java.lang.String" jdbcType="CHAR" property="ygznsrlxDm" />
+		<result column="zsz_zsxm_dm" javaType="java.lang.String" jdbcType="CHAR" property="zszZsxmDm" />
+		<result column="qysdszsfs_dm" javaType="java.lang.String" jdbcType="CHAR" property="qysdszsfsDm" />
+		<result column="corpid" javaType="java.lang.String" jdbcType="VARCHAR" property="corpId" />
+	    <result column="is_delete" javaType="java.lang.Byte" jdbcType="TINYINT" property="isDelete" />
+        <result column="cjr" javaType="java.lang.String" jdbcType="VARCHAR" property="cjr" />
+		<result column="cjsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="cjsj" />
+		<result column="xgr" javaType="java.lang.String" jdbcType="VARCHAR" property="xgr" />
+		<result column="xgsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="xgsj" />
+        <result column="jhsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="jhsj" />
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, xnzz_id, bm_id, corpid, nsrsbh, zdsyhbj, jhbj, YXCYS, cjsj, cjr, xgsj, xgr, NSRMC, 
-    NSRJC, shxydm, shxydm6, sjshxydm, zggsjg_dm, zgdsjg_dm, djzclx_dm, parent_djzclx_dm, 
-    hy_dm, nsrzt_dm, zzzcbj, khyh, yhzh, zcdz, zcdlxdh, scjydz, scjydlxdh, qysdszsbj, 
-    djxh, zzsnslx, dzxwqy_bj, xxwlqy_bj, nsxydj, kzztdjlx_dm,jyfw,zzzcbj,is_delete
+        ID, XNZZ_ID, BM_ID, DJXH, NSRSBH, SHXYDM, SHXYDM6, NSRMC, NSRJC, SJSHXYDM, NSRZT_DM,
+		JHBJ, ZDSYHBJ, YXCYS, ZGGSJG_DM, ZGDSJG_DM, DJZCLX_DM, PARENT_DJZCLX_DM, HY_DM, ZZZCBJ,
+		KHYH, YHZH, ZCDZ, ZCDLXDH, SCJYDZ, SCJYDLXDH, QYSDSZSBJ, ZZSNSLX, DZXWQY_BJ, XXWLQY_BJ,
+		NSXYDJ, KZZTDJLX_DM, JYFW, DJRQ, KQCCSZTDJ, HSFS_DM, KJZDZZ_DM, WHSYJSFJFXXDJ, ZZSQYLX_DM,
+		YGZNSRLX_DM, ZSZ_ZSXM_DM, QYSDSZSFS_DM, CORPID, IS_DELETE, CJR, CJSJ, XGR, XGSJ,JHSJ
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -478,7 +488,9 @@
     select
     <include refid="Base_Column_List" />
     from yhzx_xnzz_nsr
-    where xgsj >= #{lastCreateTime} order by xgsj LIMIT ${first},${pageSize}
+    where xgsj >= #{lastCreateTime}
+    order by xgsj
+    LIMIT ${first},${pageSize}
   </select>
 
   <select id="selectYhzxXnzzNsrForUpdateWithoutLastUpdateTime" resultMap="BaseResultMap">

@@ -4,7 +4,6 @@
 package com.ifugle.rap.elasticsearch.service;
 
 import com.ifugle.rap.elasticsearch.model.DataRequest;
-import com.ifugle.rap.elasticsearch.enums.ChannelType;
 
 /**
  * 

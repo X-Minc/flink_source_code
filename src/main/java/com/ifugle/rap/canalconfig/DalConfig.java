@@ -1,15 +1,12 @@
 package com.ifugle.rap.canalconfig;
 
-import javax.sql.DataSource;
-
-import com.ifugle.rap.mapper.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.poi.ss.formula.functions.T;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +14,24 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import com.alibaba.druid.pool.DruidDataSource;
+import com.ifugle.rap.mapper.BizDataMapper;
+import com.ifugle.rap.mapper.BotChatRequestMapper;
+import com.ifugle.rap.mapper.BotChatResponseMessageDOMapper;
+import com.ifugle.rap.mapper.BotConfigServerMapper;
+import com.ifugle.rap.mapper.BotMediaDOMapper;
+import com.ifugle.rap.mapper.BotOutoundTaskDetailMapper;
+import com.ifugle.rap.mapper.BotTrackDetailDOMapper;
+import com.ifugle.rap.mapper.BotUnawareDetailDOMapper;
+import com.ifugle.rap.mapper.KbsArticleDOMapper;
+import com.ifugle.rap.mapper.KbsKeywordDOMapper;
+import com.ifugle.rap.mapper.KbsQuestionArticleDOMapper;
+import com.ifugle.rap.mapper.KbsQuestionDOMapper;
+import com.ifugle.rap.mapper.KbsReadingDOMapper;
+import com.ifugle.rap.mapper.KbsTagDTOMapper;
+import com.ifugle.rap.mapper.YhzxxnzzcyDOMapper;
+import com.ifugle.rap.mapper.sca.BotScaTaskResultDOMapper;
 
 @Configuration
 @ImportResource({ "classpath:META-INF/applicationContext-dal.xml" })
@@ -27,7 +42,7 @@ public class DalConfig {
     Resource mybatisMapperConfig;
 
     @Autowired
-    DataSource dataSourceBot;
+    DruidDataSource dataSourceBot;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
@@ -108,6 +123,11 @@ public class DalConfig {
     public BotChatRequestMapper botChatRequestMapper() throws Exception {
         return newMapperFactoryBean(BotChatRequestMapper.class).getObject();
     }
+    
+    @Bean
+    public BotScaTaskResultDOMapper botScaTaskResultDOMapper() throws Exception {
+        return newMapperFactoryBean(BotScaTaskResultDOMapper.class).getObject();
+    }
 
     <T> MapperFactoryBean<T> newMapperFactoryBean(Class<T> clazz) throws Exception {
         final MapperFactoryBean<T> b = new MapperFactoryBean<T>();
@@ -119,6 +139,11 @@ public class DalConfig {
     @Bean
     public SqlSessionFactory botSqlSessionFactory() throws Exception {
         final SqlSessionFactoryBean fb = new SqlSessionFactoryBean();
+        List<String> connectionInitSqls = new ArrayList<String>();
+        // MySQL 版本需要在 5.5.3 及以上支持 utf8mb4 编码（emoji表情需要）
+        // SET NAMES {'charset_name' [COLLATE 'collation_name'] | DEFAULT}
+        connectionInitSqls.add("SET NAMES 'utf8mb4'");
+        dataSourceBot.setConnectionInitSqls(connectionInitSqls);
         fb.setConfigLocation(mybatisMapperConfig);
         fb.setDataSource(dataSourceBot);
         fb.setTypeAliases(new Class<?>[] {});

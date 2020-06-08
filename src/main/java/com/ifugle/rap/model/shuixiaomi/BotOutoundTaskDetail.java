@@ -59,6 +59,17 @@ public class BotOutoundTaskDetail extends EnhanceModel<Long> {
 
     private Date modificationDate;
 
+    private String messageStatus;
+
+
+    public String getMessageStatus() {
+        return messageStatus;
+    }
+
+    public void setMessageStatus(String messageStatus) {
+        this.messageStatus = messageStatus;
+    }
+
     public Long getId() {
         return id;
     }

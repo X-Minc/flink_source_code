@@ -1,5 +1,6 @@
 package com.ifugle.rap.mapper.dsb;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -39,7 +40,7 @@ public interface YhzxXnzzNsrMapper extends BaseMapper<YhzxXnzzNsr, Long> {
      * @param pageSize
      * @return
      */
-    List<YhzxXnzzNsr> selectYhzxXnzzNsrForSync(@Param("lastCreateTime") String lastCreateTime, @Param("first") Integer first, @Param("pageSize") Integer pageSize);
+    List<YhzxXnzzNsr> selectYhzxXnzzNsrForSync(@Param("lastCreateTime") Date lastCreateTime, @Param("first") Integer first, @Param("pageSize") Integer pageSize);
 
     /***
      * 全部修改时间大于开始时间同步

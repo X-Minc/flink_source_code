@@ -8,18 +8,6 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
-import com.google.gson.Gson;
-import com.ifugle.rap.elasticsearch.model.BizException;
-import com.ifugle.rap.elasticsearch.model.DataRequest;
-import com.ifugle.rap.elasticsearch.model.ResultCode;
-import com.ifugle.rap.model.elasticsearch.ElasticSearchResponseVO;
-import com.ifugle.rap.model.elasticsearch.InstanceDTO;
-import com.ifugle.rap.elasticsearch.api.BusinessCommonApi;
-import com.ifugle.rap.elasticsearch.core.ClusterNode;
-import com.ifugle.rap.elasticsearch.enums.ChannelType;
-import com.ifugle.util.JSONUtil;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
@@ -34,6 +22,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+import com.ifugle.rap.elasticsearch.api.BusinessCommonApi;
+import com.ifugle.rap.elasticsearch.core.ClusterNode;
+import com.ifugle.rap.elasticsearch.model.BizException;
+import com.ifugle.rap.elasticsearch.model.DataRequest;
+import com.ifugle.rap.elasticsearch.model.ResultCode;
+import com.ifugle.rap.model.elasticsearch.ElasticSearchResponseVO;
+import com.ifugle.rap.model.elasticsearch.InstanceDTO;
+import com.ifugle.util.JSONUtil;
+
 /**
  * @author HuangLei(wenyuan)
  * @version $Id: ElasticSearchBusinessApi.java, v 0.1 2018年5月15日 上午11:28:41 HuangLei(wenyuan) Exp $
@@ -42,8 +40,6 @@ import org.springframework.stereotype.Service;
 public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
 
     private static final Logger logger = LoggerFactory.getLogger(ElasticSearchBusinessService.class);
-
-    private static final String INDEXNAME = "shuixiaomi";
 
     /**
      * 批量更新的DSL模板
@@ -58,8 +54,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
     /***
      * 批量插入或者更新的模板
      */
-    private static final String SAMPLE_UPDATE_OR_INSERT_DSL = "{ \"index\": { \"_index\": \"%s\", \"_type\": \"%s\", \"_id\": \"%s\" }} \n";
-
+    private static final String SAMPLE_UPDATE_OR_INSERT_DSL = "{ \"update\": { \"_index\": \"%s\", \"_type\": \"%s\", \"_id\": \"%s\" }} \n";
 
     @Autowired
     private ClusterNode clusterNode;
@@ -107,9 +102,33 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
             String method = "POST";
             HttpEntity entity = new NStringEntity(query, ContentType.APPLICATION_JSON);
             Response response = restClient.performRequest(method, url, paramMap, entity);
-            AnalyzeResponse(response,query);
+            AnalyzeResponse(response, query);
         } catch (Exception e) {
             logger.error("[ElasticSearchBusinessService] bulkOperation error", e);
+        }
+    }
+
+    /**
+     * 批量执行操作（抛出异常，避免更新失败不可知）
+     *
+     * @param query
+     */
+    public void bulkOperation2(String query) {
+        if (StringUtils.isBlank(query)) {
+            return;
+        }
+        RestClient restClient = clusterNode.getRestClient();
+        try {
+            // 拼接URL
+            String url = "/_bulk";
+            // 配置请求参数
+            Map<String, String> paramMap = new HashMap<>(2);
+            String method = "POST";
+            HttpEntity entity = new NStringEntity(query, ContentType.APPLICATION_JSON);
+            Response response = restClient.performRequest(method, url, paramMap, entity);
+            AnalyzeResponse(response, query);
+        } catch (Exception e) {
+            throw new RuntimeException("执行es批量更新失败", e);
         }
     }
 
@@ -127,7 +146,6 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
         return String.format(SAMPLE_UPDATE_DSL, channelType, request.getCatalogType(), getId(request), data);
     }
 
-
     /**
      * 得到更新的DSL
      *
@@ -138,7 +156,10 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
      */
     public String formatSaveOrUpdateDSL(String channelType, DataRequest request) {
         Map<String, Object> map = request.getMap();
-        String data = JSONUtil.toJSON(map);
+        Map<String, Object> content = new HashMap<>();
+        content.put("doc", map);
+        content.put("doc_as_upsert", true);
+        String data = JSONUtil.toJSON(content);
         StringBuilder dsl = new StringBuilder(String.format(SAMPLE_UPDATE_OR_INSERT_DSL, channelType, request.getCatalogType(), getId(request)));
         dsl.append(data);
         dsl.append(" \n");
@@ -173,7 +194,7 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
      *
      * @return
      */
-    private void AnalyzeResponse(Response response,String query) {
+    private void AnalyzeResponse(Response response, String query) {
         HttpEntity httpEntityRes = response.getEntity();
         try {
             String queryResult = EntityUtils.toString(httpEntityRes);
@@ -182,15 +203,15 @@ public class ElasticSearchBusinessService implements ElasticSearchBusinessApi {
             if (vo.isErrors()) {
                 getErrorInstance(vo);
             } else {
-                if(logger.isDebugEnabled()) {
+                if (logger.isDebugEnabled()) {
                     logger.debug("成功发送");
                 }
             }
-            if(logger.isDebugEnabled()) {
+            if (logger.isDebugEnabled()) {
                 logger.debug("[ElasticSearchBusinessService] AnalyzeResponse response successful =" + queryResult + ",request object = " + query);
             }
         } catch (ParseException | IOException e) {
-            logger.error("[ElasticSearchBusinessService] ParseException,code="+response.getStatusLine().getStatusCode(), e);
+            logger.error("[ElasticSearchBusinessService] ParseException,code=" + response.getStatusLine().getStatusCode(), e);
         }
     }
 

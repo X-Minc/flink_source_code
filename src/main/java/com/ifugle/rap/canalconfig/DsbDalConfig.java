@@ -1,8 +1,8 @@
 package com.ifugle.rap.canalconfig;
 
-import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.ifugle.rap.mapper.dsb.XxzxXxmxMapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
@@ -15,6 +15,9 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.ifugle.rap.mapper.dsb.XxzxXxmxMapper;
+import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrBqMapper;
 import com.ifugle.rap.mapper.dsb.YhzxXnzzNsrMapper;
 import com.ifugle.rap.mapper.dsb.YhzxXnzzTpcQyMapper;
 
@@ -27,12 +30,13 @@ public class DsbDalConfig {
 	Resource dsbMybatisMapperConfig;
 
 	@Autowired
-	DataSource dataSourceDsb;
+	DruidDataSource dataSourceDsb;
 
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
+
 
 	@Bean
 	public YhzxXnzzNsrMapper yhzxXnzzNsrMapper() throws Exception {
@@ -49,6 +53,12 @@ public class DsbDalConfig {
 		return newDsbMapperFactoryBean(XxzxXxmxMapper.class).getObject();
 	}
 
+	@Bean
+	public YhzxXnzzNsrBqMapper yhzxXnzzNsrBqMapper() throws Exception {
+		return newDsbMapperFactoryBean(YhzxXnzzNsrBqMapper.class).getObject();
+	}
+
+
 
 	<T> MapperFactoryBean<T> newDsbMapperFactoryBean(Class<T> clazz) throws Exception {
 		final MapperFactoryBean<T> b = new MapperFactoryBean<T>();
@@ -60,6 +70,9 @@ public class DsbDalConfig {
 	@Bean
 	public SqlSessionFactory dsbSqlSessionFactory() throws Exception {
 		final SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		List<String> connectionInitSqls = new ArrayList<String>();
+		connectionInitSqls.add("SET NAMES 'utf8mb4'");
+		dataSourceDsb.setConnectionInitSqls(connectionInitSqls);
 		sqlSessionFactoryBean.setConfigLocation(dsbMybatisMapperConfig);
 		sqlSessionFactoryBean.setDataSource(dataSourceDsb);
 		sqlSessionFactoryBean.setTypeAliases(new Class<?>[] {});

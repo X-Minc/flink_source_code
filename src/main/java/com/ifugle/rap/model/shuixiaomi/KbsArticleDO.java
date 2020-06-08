@@ -57,6 +57,20 @@ public class KbsArticleDO extends EnhanceModel<Long> {
     private Date modificationDate;
 
     private String invalidReason;
+    
+    private Byte splitFlag;
+    
+    private Byte relationStatus;
+    
+    private Byte taxes;
+    
+    private Long oldArticleId;
+    
+    private Byte infoOpen;
+    
+    private String cityArea;
+    
+    private Long orgId;
 
     /***
      * 判断是新增还是更新
@@ -271,38 +285,6 @@ public class KbsArticleDO extends EnhanceModel<Long> {
         this.invalidReason = invalidReason == null ? null : invalidReason.trim();
     }
 
-    @Override
-    public String toString() {
-        return "KbsArticleDO{" +
-                "id=" + id +
-                ", parentId=" + parentId +
-                ", areaId='" + areaId + '\'' +
-                ", articleType='" + articleType + '\'' +
-                ", bizType='" + bizType + '\'' +
-                ", category='" + category + '\'' +
-                ", keyword='" + keyword + '\'' +
-                ", title='" + title + '\'' +
-                ", remark='" + remark + '\'' +
-                ", status=" + status +
-                ", validFlag=" + validFlag +
-                ", validDate=" + validDate +
-                ", invalidDate=" + invalidDate +
-                ", original='" + original + '\'' +
-                ", issueNo='" + issueNo + '\'' +
-                ", issueOrg='" + issueOrg + '\'' +
-                ", issueDate=" + issueDate +
-                ", mapSource='" + mapSource + '\'' +
-                ", mapId='" + mapId + '\'' +
-                ", syncFlag=" + syncFlag +
-                ", syncTime=" + syncTime +
-                ", creator='" + creator + '\'' +
-                ", creationDate=" + creationDate +
-                ", modifier='" + modifier + '\'' +
-                ", modificationDate=" + modificationDate +
-                ", invalidReason='" + invalidReason + '\'' +
-                '}';
-    }
-
     /***
      * 返回true，修改时间大于创建时间；反之返回false
      * @return
@@ -310,4 +292,74 @@ public class KbsArticleDO extends EnhanceModel<Long> {
     public boolean isNew() {
         return modificationDate.compareTo(creationDate) > 0 ? true : false;
     }
+
+	public Byte getSplitFlag() {
+		return splitFlag;
+	}
+
+	public void setSplitFlag(Byte splitFlag) {
+		this.splitFlag = splitFlag;
+	}
+
+	public Byte getRelationStatus() {
+		return relationStatus;
+	}
+
+	public void setRelationStatus(Byte relationStatus) {
+		this.relationStatus = relationStatus;
+	}
+
+	public Byte getTaxes() {
+		return taxes;
+	}
+
+	public void setTaxes(Byte taxes) {
+		this.taxes = taxes;
+	}
+
+	public Long getOldArticleId() {
+		return oldArticleId;
+	}
+
+	public void setOldArticleId(Long oldArticleId) {
+		this.oldArticleId = oldArticleId;
+	}
+
+	public Byte getInfoOpen() {
+		return infoOpen;
+	}
+
+	public void setInfoOpen(Byte infoOpen) {
+		this.infoOpen = infoOpen;
+	}
+
+	public String getCityArea() {
+		return cityArea;
+	}
+
+	public void setCityArea(String cityArea) {
+		this.cityArea = cityArea;
+	}
+
+	public Long getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(Long orgId) {
+		this.orgId = orgId;
+	}
+
+	@Override
+	public String toString() {
+		return "KbsArticleDO [id=" + id + ", parentId=" + parentId + ", areaId=" + areaId + ", articleType="
+				+ articleType + ", bizType=" + bizType + ", category=" + category + ", keyword=" + keyword + ", title="
+				+ title + ", remark=" + remark + ", status=" + status + ", validFlag=" + validFlag + ", validDate="
+				+ validDate + ", invalidDate=" + invalidDate + ", original=" + original + ", issueNo=" + issueNo
+				+ ", issueOrg=" + issueOrg + ", issueDate=" + issueDate + ", mapSource=" + mapSource + ", mapId="
+				+ mapId + ", syncFlag=" + syncFlag + ", syncTime=" + syncTime + ", creator=" + creator
+				+ ", creationDate=" + creationDate + ", modifier=" + modifier + ", modificationDate=" + modificationDate
+				+ ", invalidReason=" + invalidReason + ", splitFlag=" + splitFlag + ", relationStatus=" + relationStatus
+				+ ", taxes=" + taxes + ", oldArticleId=" + oldArticleId + ", infoOpen=" + infoOpen + ", cityArea="
+				+ cityArea + ", orgId=" + orgId + "]";
+	}
 }
