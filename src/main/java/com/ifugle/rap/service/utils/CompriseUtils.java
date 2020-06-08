@@ -3,6 +3,7 @@
  */
 package com.ifugle.rap.service.utils;
 
+import java.lang.reflect.Type;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.google.common.collect.Lists;
 import com.google.gson.reflect.TypeToken;
 import com.ifugle.rap.constants.SystemConstants;
 import com.ifugle.rap.elasticsearch.model.DataRequest;
@@ -27,6 +30,7 @@ import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
 import com.ifugle.rap.model.dsb.YhzxXnzzTpcQy;
 import com.ifugle.rap.model.enums.TablesEnum;
+import com.ifugle.rap.model.sca.BotScaRuleHitStatus;
 import com.ifugle.rap.model.sca.BotScaTaskResultDO;
 import com.ifugle.rap.model.shuixiaomi.BizData;
 import com.ifugle.rap.model.shuixiaomi.BotChatRequest;
@@ -50,6 +54,8 @@ import com.ifugle.rap.security.crypto.CryptZip;
 import com.ifugle.rap.utils.DecodeUtils;
 import com.ifugle.rap.utils.MyHttpRequest;
 import com.ifugle.util.DateUtil;
+import com.ifugle.util.JSONUtil;
+import com.ifugle.util.StringUtil;
 
 /**
  * @author LiuZhengyang
@@ -774,7 +780,15 @@ public class CompriseUtils {
         hashMap.put("TASK_ID", botScaTaskResultDO.getTaskId());
         hashMap.put("EXEC_STATUS", botScaTaskResultDO.getExecStatus());
         hashMap.put("HIT_STATUS", botScaTaskResultDO.getHitStatus());
-        hashMap.put("HIT_RULE_IDS", botScaTaskResultDO.getHitRuleIds());
+        List<String> ruleIds = Lists.newArrayList();
+        String hitRuleIds = botScaTaskResultDO.getHitRuleIds();
+        if (StringUtil.isNotBlank(hitRuleIds)) {
+            Type type = new TypeToken<List<BotScaRuleHitStatus>>() {}.getType();
+            List<BotScaRuleHitStatus> list = GsonUtil.getBean(hitRuleIds, type);
+            List<String> ruleIdList = list.stream().map(BotScaRuleHitStatus::getRid).collect(Collectors.toList());
+            ruleIds.addAll(ruleIdList);
+        }
+        hashMap.put("HIT_RULE_IDS", ruleIds);
         hashMap.put("ASSIGN_STATUS", botScaTaskResultDO.getAssignStatus());
         hashMap.put("RESOLVER", botScaTaskResultDO.getResolver());
         hashMap.put("REVIEW_RESULT", botScaTaskResultDO.getReviewResult());
