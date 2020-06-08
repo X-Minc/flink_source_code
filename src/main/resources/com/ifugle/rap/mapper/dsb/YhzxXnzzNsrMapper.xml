@@ -46,7 +46,8 @@
 		<result column="zsz_zsxm_dm" javaType="java.lang.String" jdbcType="CHAR" property="zszZsxmDm" />
 		<result column="qysdszsfs_dm" javaType="java.lang.String" jdbcType="CHAR" property="qysdszsfsDm" />
         <result column="sbbm" javaType="java.lang.String" jdbcType="VARCHAR" property="sbbm" />
-        <result column="corpid" javaType="java.lang.String" jdbcType="VARCHAR" property="corpId" />
+        <result column="status" javaType="java.lang.Integer" jdbcType="INTEGER" property="status" />
+         <result column="corpid" javaType="java.lang.String" jdbcType="VARCHAR" property="corpId" />
 	    <result column="is_delete" javaType="java.lang.Byte" jdbcType="TINYINT" property="isDelete" />
         <result column="cjr" javaType="java.lang.String" jdbcType="VARCHAR" property="cjr" />
 		<result column="cjsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="cjsj" />
@@ -60,7 +61,7 @@
 		JHBJ, ZDSYHBJ, YXCYS, ZGGSJG_DM, ZGDSJG_DM, DJZCLX_DM, PARENT_DJZCLX_DM, HY_DM, ZZZCBJ,
 		KHYH, YHZH, ZCDZ, ZCDLXDH, SCJYDZ, SCJYDLXDH, QYSDSZSBJ, ZZSNSLX, DZXWQY_BJ, XXWLQY_BJ,
 		NSXYDJ, KZZTDJLX_DM, JYFW, DJRQ, KQCCSZTDJ, HSFS_DM, KJZDZZ_DM, WHSYJSFJFXXDJ, ZZSQYLX_DM,
-		YGZNSRLX_DM, ZSZ_ZSXM_DM, QYSDSZSFS_DM, SBBM,CORPID, IS_DELETE, CJR, CJSJ, XGR, XGSJ,JHSJ
+		YGZNSRLX_DM, ZSZ_ZSXM_DM, QYSDSZSFS_DM, SBBM,STATUS,CORPID, IS_DELETE, CJR, CJSJ, XGR, XGSJ,JHSJ
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -76,8 +77,8 @@
   </delete>
 
   <insert id="insert" parameterType="com.ifugle.rap.model.dsb.YhzxXnzzNsr">
-    insert into yhzx_xnzz_nsr (id, xnzz_id, bm_id, sbbm,
-      corpid, nsrsbh, zdsyhbj, 
+    insert into yhzx_xnzz_nsr (id, xnzz_id, bm_id, sbbm,status,
+      corpid, nsrsbh, zdsyhbj,
       jhbj, YXCYS, cjsj, 
       cjr, xgsj, xgr, NSRMC, 
       NSRJC, shxydm, shxydm6, 
@@ -88,7 +89,7 @@
       scjydz, scjydlxdh, qysdszsbj, 
       djxh, zzsnslx, dzxwqy_bj, 
       xxwlqy_bj, nsxydj)
-    values (#{id,jdbcType=BIGINT}, #{xnzzId,jdbcType=BIGINT}, #{bmId,jdbcType=BIGINT}, #{sbbm,jdbcType=VARCHAR},
+    values (#{id,jdbcType=BIGINT}, #{xnzzId,jdbcType=BIGINT}, #{bmId,jdbcType=BIGINT}, #{sbbm,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},
       #{corpid,jdbcType=VARCHAR}, #{nsrsbh,jdbcType=VARCHAR}, #{zdsyhbj,jdbcType=TINYINT}, 
       #{jhbj,jdbcType=TINYINT}, #{yxcys,jdbcType=INTEGER}, #{cjsj,jdbcType=TIMESTAMP}, 
       #{cjr,jdbcType=VARCHAR}, #{xgsj,jdbcType=TIMESTAMP}, #{xgr,jdbcType=VARCHAR}, #{nsrmc,jdbcType=VARCHAR}, 
@@ -116,6 +117,9 @@
       </if>
       <if test="sbbm != null">
         sbbm,
+      </if>
+      <if test="status != null">
+        status,
       </if>
       <if test="corpid != null">
         corpid,
@@ -230,6 +234,9 @@
       <if test="sbbm != null">
         #{sbbm,jdbcType=VARCHAR},
       </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
       <if test="corpid != null">
         #{corpid,jdbcType=VARCHAR},
       </if>
@@ -342,7 +349,10 @@
         bm_id = #{bmId,jdbcType=BIGINT},
       </if>
       <if test="sbbm != null">
-        sbbm = #{sbbm,jdbcType=VARCHAR},
+        sbbm = #{sbbm,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
       </if>
       <if test="corpid != null">
         corpid = #{corpid,jdbcType=VARCHAR},
@@ -452,6 +462,7 @@
     set xnzz_id = #{xnzzId,jdbcType=BIGINT},
       bm_id = #{bmId,jdbcType=BIGINT},
       sbbm = #{sbbm,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
       corpid = #{corpid,jdbcType=VARCHAR},
       nsrsbh = #{nsrsbh,jdbcType=VARCHAR},
       zdsyhbj = #{zdsyhbj,jdbcType=TINYINT},

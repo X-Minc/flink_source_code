@@ -302,6 +302,13 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     private String sbbm;
 
     /**
+     * 状态:从右往左的标记位依此为(规模以上标志、高新技术标志、新旧动能转换标志)
+     */
+    @Label("状态:从右往左的标记位依此为(规模以上标志、高新技术标志、新旧动能转换标志)")
+    private Integer status;
+
+
+    /**
      * 纳税人corpid(废弃)
      */
     @Size(max = 50)
@@ -1146,6 +1153,14 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
         this.sbbm = (sbbm == null ? null : sbbm.trim());
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
 
     /**
      * 纳税人corpid(废弃)
@@ -1318,6 +1333,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
         result = prime * result + ((getZszZsxmDm() == null) ? 0 : getZszZsxmDm().hashCode());
         result = prime * result + ((getQysdszsfsDm() == null) ? 0 : getQysdszsfsDm().hashCode());
         result = prime * result + ((getSbbm() == null) ? 0 : getSbbm().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getCorpId() == null) ? 0 : getCorpId().hashCode());
         result = prime * result + ((getIsDelete() == null) ? 0 : getIsDelete().hashCode());
         result = prime * result + ((getCjr() == null) ? 0 : getCjr().hashCode());
@@ -1384,6 +1400,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
                 && (this.getZszZsxmDm() == null ? other.getZszZsxmDm() == null : this.getZszZsxmDm().equals(other.getZszZsxmDm()))
                 && (this.getQysdszsfsDm() == null ? other.getQysdszsfsDm() == null : this.getQysdszsfsDm().equals(other.getQysdszsfsDm()))
                 && (this.getSbbm() == null ? other.getSbbm() == null : this.getSbbm().equals(other.getSbbm()))
+                && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
                 && (this.getCorpId() == null ? other.getCorpId() == null : this.getCorpId().equals(other.getCorpId()))
                 && (this.getIsDelete() == null ? other.getIsDelete() == null : this.getIsDelete().equals(other.getIsDelete()))
                 && (this.getCjr() == null ? other.getCjr() == null : this.getCjr().equals(other.getCjr()))

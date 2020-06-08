@@ -120,6 +120,8 @@ public class CompriseUtils {
         hashMap.put("BM_ID", yhzxXnzzNsr.getBmId());
         hashMap.put("CORPID", yhzxXnzzNsr.getCorpId());
         hashMap.put("SBBM", yhzxXnzzNsr.getSbbm());
+        hashMap.put("STATUS", yhzxXnzzNsr.getStatus());
+
 
         hashMap.put("ZDSYHBJ", yhzxXnzzNsr.getZdsyhbj());
         hashMap.put("JHBJ", yhzxXnzzNsr.getJhbj());
