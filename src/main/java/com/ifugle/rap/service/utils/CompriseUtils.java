@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Lists;
 import com.google.gson.reflect.TypeToken;
@@ -786,7 +787,9 @@ public class CompriseUtils {
             Type type = new TypeToken<List<BotScaRuleHitStatus>>() {}.getType();
             List<BotScaRuleHitStatus> list = GsonUtil.getBean(hitRuleIds, type);
             List<String> ruleIdList = list.stream().map(BotScaRuleHitStatus::getRid).collect(Collectors.toList());
-            ruleIds.addAll(ruleIdList);
+            if (!CollectionUtils.isEmpty(ruleIdList)) {
+                ruleIds.addAll(ruleIdList);
+            }
         }
         hashMap.put("HIT_RULE_IDS", ruleIds);
         hashMap.put("ASSIGN_STATUS", botScaTaskResultDO.getAssignStatus());
