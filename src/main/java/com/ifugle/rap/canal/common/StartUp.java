@@ -18,9 +18,8 @@ import com.ifugle.rap.canalconfig.DsbDalConfig;
 import com.ifugle.rap.canalconfig.ElasticSearchConfig;
 import com.ifugle.rap.canalconfig.ProfileSpringConfig;
 import com.ifugle.rap.canalconfig.TaskConfig;
-import com.ifugle.rap.canalconfig.ZhcsDalConfig;
+import com.ifugle.rap.canalconfig.ScaDalConfig;
 import com.ifugle.rap.constants.SystemConstants;
-import com.ifugle.rap.service.dsb.message.DsbSubThread;
 
 /***
  * 启动主入口，加载spring容器
@@ -64,7 +63,7 @@ public class StartUp extends AbstractIdleService {
                 .addFirst(new ResourcePropertySource("classpath:filtered.properties"));
             logger.info("filtered.properties loaded");
             if (Boolean.valueOf(System.getProperty(SystemConstants.ZHCS_ON))) {
-                context.register(ProfileSpringConfig.class, TaskConfig.class, DalConfig.class, ZhcsDalConfig.class, ElasticSearchConfig.class);
+                context.register(ProfileSpringConfig.class, TaskConfig.class, DalConfig.class, ScaDalConfig.class, ElasticSearchConfig.class);
             } else if (Boolean.valueOf(System.getProperty(SystemConstants.DSB_ON))) {
                 context.register(ProfileSpringConfig.class, TaskConfig.class, DalConfig.class, DsbDalConfig.class, ElasticSearchConfig.class);
             } else {

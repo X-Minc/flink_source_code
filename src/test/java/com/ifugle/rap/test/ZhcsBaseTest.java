@@ -13,8 +13,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Configuration
 @ContextConfiguration(locations = { "classpath:META-INF/applicationContext.xml",
-        "classpath:META-INF/applicationContext-dal-zhcs.xml",
-        "classpath:config/ZhcsMapperConfig.xml" })
+        "classpath:META-INF/applicationContext-dal-sca.xml",
+        "classpath:config/ScaMapperConfig.xml"})
 @PropertySource("classpath:env/config-test.properties")
 @ComponentScan(basePackages = { "com.ifugle.rap" })
 public class ZhcsBaseTest {

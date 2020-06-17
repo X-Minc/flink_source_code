@@ -2,6 +2,7 @@ package com.ifugle.rap.canalconfig;
 
 import javax.sql.DataSource;
 
+import com.ifugle.rap.mapper.sca.BotScaTaskResultDOMapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
@@ -17,15 +18,15 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import com.ifugle.rap.mapper.zhcs.ZxArticleMapper;
 
 @Configuration
-@ImportResource({ "classpath:META-INF/applicationContext-dal-zhcs.xml" })
+@ImportResource({"classpath:META-INF/applicationContext-dal-sca.xml"})
 @EnableScheduling
-public class ZhcsDalConfig {
+public class ScaDalConfig {
 
-	@Value("classpath:config/ZhcsMapperConfig.xml")
-	Resource zhcsMybatisMapperConfig;
+	@Value("classpath:config/ScaMapperConfig.xml")
+	Resource scaMybatisMapperConfig;
 
 	@Autowired
-	DataSource dataSourceZhcs;
+	DataSource dataSourceSca;
 
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
@@ -34,22 +35,27 @@ public class ZhcsDalConfig {
 
 	@Bean
 	public ZxArticleMapper articleMapper() throws Exception {
-		return newZhcsMapperFactoryBean(ZxArticleMapper.class).getObject();
+		return newScaMapperFactoryBean(ZxArticleMapper.class).getObject();
+	}
+
+	@Bean
+	public BotScaTaskResultDOMapper botScaTaskResultDOMapper() throws Exception {
+		return newScaMapperFactoryBean(BotScaTaskResultDOMapper.class).getObject();
 	}
 
 
-	<T> MapperFactoryBean<T> newZhcsMapperFactoryBean(Class<T> clazz) throws Exception {
+	<T> MapperFactoryBean<T> newScaMapperFactoryBean(Class<T> clazz) throws Exception {
 		final MapperFactoryBean<T> b = new MapperFactoryBean<T>();
 		b.setMapperInterface(clazz);
-		b.setSqlSessionFactory(zhcsSqlSessionFactory());
+		b.setSqlSessionFactory(scaSqlSessionFactory());
 		return b;
 	}
 
 	@Bean
-	public SqlSessionFactory zhcsSqlSessionFactory() throws Exception {
+	public SqlSessionFactory scaSqlSessionFactory() throws Exception {
 		final SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-		sqlSessionFactoryBean.setConfigLocation(zhcsMybatisMapperConfig);
-		sqlSessionFactoryBean.setDataSource(dataSourceZhcs);
+		sqlSessionFactoryBean.setConfigLocation(scaMybatisMapperConfig);
+		sqlSessionFactoryBean.setDataSource(dataSourceSca);
 		sqlSessionFactoryBean.setTypeAliases(new Class<?>[] {});
 		return sqlSessionFactoryBean.getObject();
 	}

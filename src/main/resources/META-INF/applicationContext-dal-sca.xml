@@ -7,13 +7,13 @@
 	<context:component-scan base-package="com.ifugle.rap" />
 
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" >
-		 <property name="dataSource" ref="dataSourceZhcs"></property>
+		 <property name="dataSource" ref="dataSourceSca"></property>
 	</bean>
 
-	<bean id="dataSourceZhcs" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-		<property name="url" value="${jdbc.url}" />
-		<property name="username" value="${jdbc.username}" />
-		<property name="password" value="${jdbc.password}" />
+	<bean id="dataSourceSca" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="url" value="${sca.jdbc.url}" />
+		<property name="username" value="${sca.jdbc.username}" />
+		<property name="password" value="${sca.jdbc.password}" />
 		<property name="filters" value="stat " />
 		<property name="maxActive" value="300" />
 		<property name="initialSize" value="2" />

@@ -19,6 +19,6 @@
         <mapper resource="com/ifugle/rap/mapper/BotConfigServerMapper.xml"/>
         <mapper resource="com/ifugle/rap/mapper/BotOutoundTaskDetailMapper.xml"/>
         <mapper resource="com/ifugle/rap/mapper/BotChatRequestMapper.xml"/>
-        <mapper resource="com/ifugle/rap/mapper/sca/BotScaTaskResultDOMapper.xml"/>
+
     </mappers>
 </configuration>

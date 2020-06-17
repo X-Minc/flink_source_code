@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <mappers>
+        <mapper resource="com/ifugle/rap/mapper/sca/BotScaTaskResultDOMapper.xml"/>
         <mapper resource="com/ifugle/rap/mapper/zhcs/ZxArticleMapper.xml"/>
     </mappers>
 </configuration>

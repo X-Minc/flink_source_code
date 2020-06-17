@@ -123,11 +123,6 @@ public class DalConfig {
     public BotChatRequestMapper botChatRequestMapper() throws Exception {
         return newMapperFactoryBean(BotChatRequestMapper.class).getObject();
     }
-    
-    @Bean
-    public BotScaTaskResultDOMapper botScaTaskResultDOMapper() throws Exception {
-        return newMapperFactoryBean(BotScaTaskResultDOMapper.class).getObject();
-    }
 
     <T> MapperFactoryBean<T> newMapperFactoryBean(Class<T> clazz) throws Exception {
         final MapperFactoryBean<T> b = new MapperFactoryBean<T>();
