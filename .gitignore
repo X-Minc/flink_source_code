@@ -17,3 +17,4 @@ logsdaily
 *.iws
 *.iml
 *.ipr
+loggs/error.log
