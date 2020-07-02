@@ -33,7 +33,7 @@ public class CompanyActiveTask {
     /**
      * 每天凌晨执行一次
      */
-    @Scheduled(cron = "0 15 0 * * ?")
+//    @Scheduled(cron = "0 15 0 * * ?")
     private void process() {
         try {
             logger.info("###### this is scheduler task running repair active data ");
