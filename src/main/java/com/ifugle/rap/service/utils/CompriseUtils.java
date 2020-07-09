@@ -452,6 +452,7 @@ public class CompriseUtils {
         hashMap.put("CREATION_DATE", getLongData(botUnawareDetailDO.getCreationDate()));
         hashMap.put("TRACK_CODE", botUnawareDetailDO.getTrackCode());
         hashMap.put("MODIFICATION_DATE", botUnawareDetailDO.getModificationDate() == null ? null : getLongData(botUnawareDetailDO.getModificationDate()));
+        hashMap.put("COMPANY_NAME", botUnawareDetailDO.getCompanyName());
         request.setMap(hashMap);
         return request;
     }
