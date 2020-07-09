@@ -27,11 +27,12 @@
         <result column="TRACK_CODE" property="trackCode" jdbcType="VARCHAR"/>
         <result column="MODIFICATION_DATE" property="modificationDate" jdbcType="TIMESTAMP"/>
         <result column="DEPT_ID" property="deptId" jdbcType="BIGINT"/>
+        <result column="COMPANY_NAME" property="companyName" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
     ID, NODE_ID, SERVER_ID, SERVER_NAME, USER_ID, REQUEST_ID, AUTH_VENDOR, MESSAGE_ID, 
     UTTERANCE, TYPE, SATISFACTION_LEVEL, CATEGORY, PRIORITY, CLUSTER_ID, TAGS, REASON, 
-    STATUS, HANDLER, HANDLE_DATE, REMARK, CREATION_DATE, DEPT_ID
+    STATUS, HANDLER, HANDLE_DATE, REMARK, CREATION_DATE, DEPT_ID, COMPANY_NAME
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
@@ -50,7 +51,7 @@
       TYPE, SATISFACTION_LEVEL, CATEGORY, 
       PRIORITY, CLUSTER_ID, TAGS, 
       REASON, STATUS, HANDLER, 
-      HANDLE_DATE, REMARK, CREATION_DATE, DEPT_ID
+      HANDLE_DATE, REMARK, CREATION_DATE, DEPT_ID, COMPANY_NAME
       )
     values (#{id,jdbcType=BIGINT}, #{nodeId,jdbcType=INTEGER}, #{serverId,jdbcType=BIGINT}, 
       #{serverName,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{requestId,jdbcType=BIGINT}, 
@@ -59,7 +60,7 @@
       #{priority,jdbcType=TINYINT}, #{clusterId,jdbcType=BIGINT}, #{tags,jdbcType=VARCHAR}, 
       #{reason,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{handler,jdbcType=VARCHAR}, 
       #{handleDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{creationDate,jdbcType=TIMESTAMP},
-      #{deptId,jdbcType=BIGINT}
+      #{deptId,jdbcType=BIGINT}, #{companyName,jdbcType=VARCHAR}
       )
   </insert>
     <insert id="insertSelective" parameterType="com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO">
@@ -131,6 +132,9 @@
             <if test="deptId !=null ">
                 DEPT_ID,
             </if>
+            <if test="companyName != null">
+                COMPANY_NAME,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -198,6 +202,9 @@
             </if>
             <if test="deptId != null">
                 #{deptId,jdbcType=BIGINT},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -268,6 +275,9 @@
             <if test="deptId != null">
                 DEPT_ID = #{deptId,jdbcType=BIGINT},
             </if>
+            <if test="companyName != null">
+                COMPANY_NAME = #{companyName,jdbcType=VARCHAR},
+            </if>
         </set>
         where ID = #{id,jdbcType=BIGINT}
     </update>
@@ -294,7 +304,8 @@
       HANDLE_DATE = #{handleDate,jdbcType=TIMESTAMP},
       REMARK = #{remark,jdbcType=VARCHAR},
       CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
-      DEPT_ID = #{deptId,jdbcType=BIGINT}
+      DEPT_ID = #{deptId,jdbcType=BIGINT},
+      COMPANY_NAME = #{companyName,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
 

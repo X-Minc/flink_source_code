@@ -30,6 +30,7 @@ public class BotUnawareDetailDO extends EnhanceModel<Long> {
     private Date creationDate;
     private Date modificationDate;
     private Long deptId;
+    private String companyName;
     /***
      * 判断是新增还是更新
      */
@@ -227,9 +228,17 @@ public class BotUnawareDetailDO extends EnhanceModel<Long> {
         this.modificationDate = modificationDate;
     }
 
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
     @Override
     public String toString() {
-        return "BotUnawareDetailDO{" + "id=" + id + ", nodeId=" + nodeId + ", serverId=" + serverId
+        return "BotUnawareDetailDO{" + "companyName=" + companyName + ", id=" + id + ", nodeId=" + nodeId + ", serverId=" + serverId
                 + ", serverName='" + serverName + '\'' + ", userId=" + userId + ", requestId="
                 + requestId + ", authVendor='" + authVendor + '\'' + ", messageId='" + messageId
                 + '\'' + ", utterance='" + utterance + '\'' + ", trackCode='" + trackCode + '\''
