@@ -235,6 +235,26 @@ public class CompriseUtils {
         hashMap.put("CJSJ", yhzxXnzzTpcQy.getCjsj() == null ? null : getLongData(yhzxXnzzTpcQy.getCjsj()));
         hashMap.put("XGR", yhzxXnzzTpcQy.getXgr());
         hashMap.put("XGSJ", yhzxXnzzTpcQy.getXgsj() == null ? null : getLongData(yhzxXnzzTpcQy.getXgsj()));
+
+        hashMap.put("SGY_JGRY_DM", yhzxXnzzTpcQy.getSgyJgryDm());
+        hashMap.put("STATUS", yhzxXnzzTpcQy.getStatus());
+        hashMap.put("OPERATE", yhzxXnzzTpcQy.getOperate());
+        hashMap.put("SYNC_FLAG", yhzxXnzzTpcQy.getSyncFlag());
+        hashMap.put("SYNC_DATE", yhzxXnzzTpcQy.getSyncDate() == null ? null : getLongData(yhzxXnzzTpcQy.getSyncDate()));
+        hashMap.put("SYNC_MESSAGE", yhzxXnzzTpcQy.getSyncMessage());
+        hashMap.put("SYNC_TIMES", yhzxXnzzTpcQy.getSyncTimes());
+        hashMap.put("SYNC_CODE", yhzxXnzzTpcQy.getSyncCode());
+        hashMap.put("REVISION", yhzxXnzzTpcQy.getRevision());
+        hashMap.put("ZZSQYLX_DM", yhzxXnzzTpcQy.getZzsqylxDm());
+        hashMap.put("YGZNSRLX_DM", yhzxXnzzTpcQy.getYgznsrlxDm());
+        hashMap.put("WHSYJSFJFXXDJ", yhzxXnzzTpcQy.getWhsyjsfjfxxdj());
+        hashMap.put("HSFS_DM", yhzxXnzzTpcQy.getHsfsDm());
+        hashMap.put("KQCCSZTDJ", yhzxXnzzTpcQy.getKqccsztdj());
+        hashMap.put("QYSDSZSFS_DM", yhzxXnzzTpcQy.getQysdszsfsDm());
+        hashMap.put("DJRQ", yhzxXnzzTpcQy.getDjrq() == null ? null : getLongData(yhzxXnzzTpcQy.getDjrq()));
+        hashMap.put("SZPQ", yhzxXnzzTpcQy.getSzpq());
+
+
         request.setMap(hashMap);
         return request;
     }
