@@ -20,7 +20,7 @@ import com.ifugle.rap.core.model.impl.EnhanceModel;
  */
 public class YhzxXnzzTpcQy extends EnhanceModel<Long> {
     private static final long serialVersionUID = 1L;
-    private Long id;
+
     /**
      * 虚拟组织IDPartition(hash())
      */
@@ -354,14 +354,6 @@ public class YhzxXnzzTpcQy extends EnhanceModel<Long> {
      */
     @Label("所在片区")
     private String szpq;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     /**
      * 虚拟组织IDPartition(hash())
