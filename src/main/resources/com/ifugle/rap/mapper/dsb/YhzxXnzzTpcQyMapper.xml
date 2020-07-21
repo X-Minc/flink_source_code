@@ -2,47 +2,71 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ifugle.rap.mapper.dsb.YhzxXnzzTpcQyMapper">
   <resultMap id="BaseResultMap" type="com.ifugle.rap.model.dsb.YhzxXnzzTpcQy">
-    <id column="ID" jdbcType="BIGINT" property="id" />
-    <result column="XNZZ_ID" jdbcType="BIGINT" property="xnzzId" />
-    <result column="NSR_ID" jdbcType="BIGINT" property="nsrId" />
-    <result column="DJXH" jdbcType="VARCHAR" property="djxh" />
-    <result column="NSRSBH" jdbcType="VARCHAR" property="nsrsbh" />
-    <result column="SHXYDM" jdbcType="VARCHAR" property="shxydm" />
-    <result column="ZZHM" jdbcType="VARCHAR" property="zzhm" />
-    <result column="NSRMC" jdbcType="VARCHAR" property="nsrmc" />
-    <result column="JGBM_DM" jdbcType="VARCHAR" property="jgbmDm" />
-    <result column="ZGSWSKFJ_DM" jdbcType="VARCHAR" property="zgswskfjDm" />
-    <result column="NSRZT_DM" jdbcType="VARCHAR" property="nsrztDm" />
-    <result column="DJZCLX_DM" jdbcType="VARCHAR" property="djzclxDm" />
-    <result column="HY_DM" jdbcType="VARCHAR" property="hyDm" />
-    <result column="KZZTDJLX_DM" jdbcType="VARCHAR" property="kzztdjlxDm" />
-    <result column="DWLSGX_DM" jdbcType="VARCHAR" property="dwlsgxDm" />
-    <result column="KJZDZZ_DM" jdbcType="VARCHAR" property="kjzdzzDm" />
-    <result column="XZQHSZ_DM" jdbcType="VARCHAR" property="xzqhszDm" />
-    <result column="JDXZMC" jdbcType="VARCHAR" property="jdxzmc" />
-    <result column="JYFW" jdbcType="VARCHAR" property="jyfw" />
-    <result column="ZCDZ" jdbcType="VARCHAR" property="zcdz" />
-    <result column="SCJYDZ" jdbcType="VARCHAR" property="scjydz" />
-    <result column="KYSLRQ" jdbcType="DATE" property="kyslrq" />
-    <result column="CYRS" jdbcType="INTEGER" property="cyrs" />
-    <result column="ZDSYHJKJC_DM" jdbcType="VARCHAR" property="zdsyhjkjcDm" />
-    <result column="YBNSRRDBJ" jdbcType="VARCHAR" property="ybnsrrdbj" />
-    <result column="ZZSNSLX" jdbcType="TINYINT" property="zzsnslx" />
-    <result column="DZXWQY_BJ" jdbcType="TINYINT" property="dzxwqyBj" />
-    <result column="XXWLQY_BJ" jdbcType="TINYINT" property="xxwlqyBj" />
-    <result column="NSXYDJ" jdbcType="TINYINT" property="nsxydj" />
-    <result column="IS_DELETED" jdbcType="BIT" property="isDeleted" />
-    <result column="CJR" jdbcType="VARCHAR" property="cjr" />
-    <result column="CJSJ" jdbcType="TIMESTAMP" property="cjsj" />
-    <result column="XGR" jdbcType="VARCHAR" property="xgr" />
-    <result column="XGSJ" jdbcType="TIMESTAMP" property="xgsj" />
+    <id column="ID" javaType="java.lang.Long" jdbcType="BIGINT" property="id" />
+    <result column="XNZZ_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="xnzzId" />
+    <result column="NSR_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="nsrId" />
+    <result column="BM_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="bmId" />
+    <result column="DEPTID" javaType="java.lang.String" jdbcType="VARCHAR" property="deptId" />
+    <result column="DJXH" javaType="java.lang.String" jdbcType="VARCHAR" property="djxh" />
+    <result column="NSRSBH" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrsbh" />
+    <result column="SHXYDM" javaType="java.lang.String" jdbcType="VARCHAR" property="shxydm"/>
+    <result column="ZZHM" javaType="java.lang.String" jdbcType="VARCHAR" property="zzhm" />
+    <result column="NSRMC" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrmc" />
+    <result column="JGBM_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="jgbmDm" />
+    <result column="SGY_JGRY_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="sgyJgryDm" />
+    <result column="ZGSWSKFJ_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="zgswskfjDm" />
+    <result column="NSRZT_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrztDm" />
+    <result column="DJZCLX_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="djzclxDm" />
+    <result column="HY_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="hyDm" />
+    <result column="KZZTDJLX_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="kzztdjlxDm" />
+    <result column="DWLSGX_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="dwlsgxDm" />
+    <result column="KJZDZZ_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="kjzdzzDm" />
+    <result column="XZQHSZ_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="xzqhszDm" />
+    <result column="JDXZMC" javaType="java.lang.String" jdbcType="VARCHAR" property="jdxzmc" />
+    <result column="JYFW" javaType="java.lang.String" jdbcType="VARCHAR" property="jyfw" />
+    <result column="ZCDZ" javaType="java.lang.String" jdbcType="VARCHAR" property="zcdz" />
+    <result column="SCJYDZ" javaType="java.lang.String" jdbcType="VARCHAR" property="scjydz" />
+    <result column="KYSLRQ" javaType="java.util.Date" jdbcType="DATE" property="kyslrq" />
+    <result column="CYRS" javaType="java.lang.Integer" jdbcType="INTEGER" property="cyrs" />
+    <result column="ZDSYHJKJC_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="zdsyhjkjcDm" />
+    <result column="YBNSRRDBJ" javaType="java.lang.String" jdbcType="VARCHAR" property="ybnsrrdbj" />
+    <result column="ZZSNSLX" javaType="java.lang.Byte" jdbcType="TINYINT" property="zzsnslx" />
+    <result column="DZXWQY_BJ" javaType="java.lang.Byte" jdbcType="TINYINT" property="dzxwqyBj" />
+    <result column="XXWLQY_BJ" javaType="java.lang.Byte" jdbcType="TINYINT" property="xxwlqyBj" />
+    <result column="NSXYDJ" javaType="java.lang.Byte" jdbcType="TINYINT" property="nsxydj" />
+    <result column="STATUS" javaType="java.lang.Integer" jdbcType="INTEGER" property="status" />
+    <result column="IS_DELETED" javaType="java.lang.Boolean" jdbcType="BIT" property="isDeleted" />
+    <result column="CJR" javaType="java.lang.String" jdbcType="VARCHAR" property="cjr" />
+    <result column="CJSJ" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP" property="cjsj" />
+    <result column="XGR" javaType="java.lang.String" jdbcType="VARCHAR" property="xgr" />
+    <result column="XGSJ" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP" property="xgsj" />
+    <result column="OPERATE" javaType="java.lang.Byte" jdbcType="TINYINT" property="operate" />
+    <result column="SYNC_FLAG" javaType="java.lang.Integer" jdbcType="INTEGER" property="syncFlag" />
+    <result column="SYNC_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP" property="syncDate" />
+    <result column="SYNC_MESSAGE" javaType="java.lang.String" jdbcType="VARCHAR" property="syncMessage" />
+    <result column="SYNC_TIMES" javaType="java.lang.Integer" jdbcType="INTEGER" property="syncTimes" />
+    <result column="SYNC_CODE" javaType="java.lang.Integer" jdbcType="INTEGER" property="syncCode" />
+    <result column="REVISION" javaType="java.lang.Integer" jdbcType="INTEGER" property="revision" />
+    <result column="SZPQ" javaType="java.lang.String" jdbcType="VARCHAR" property="szpq" />
+    <result column="ZZSQYLX_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="zzsqylxDm"/>
+    <result column="YGZNSRLX_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="ygznsrlxDm"/>
+    <result column="WHSYJSFJFXXDJ" javaType="java.lang.Boolean" jdbcType="BIT" property="whsyjsfjfxxdj"/>
+    <result column="HSFS_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="hsfsDm"/>
+    <result column="KQCCSZTDJ" javaType="java.lang.Boolean" jdbcType="BIT" property="kqccsztdj"/>
+    <result column="QYSDSZSFS_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="qysdszsfsDm"/>
+    <result column="DJRQ" javaType="java.util.Date" jdbcType="TIMESTAMP" property="djrq"/>
   </resultMap>
+
   <sql id="Base_Column_List">
-    ID, XNZZ_ID, NSR_ID, DJXH, NSRSBH, SHXYDM, ZZHM, NSRMC, JGBM_DM, ZGSWSKFJ_DM, NSRZT_DM, 
-    DJZCLX_DM, HY_DM, KZZTDJLX_DM, DWLSGX_DM, KJZDZZ_DM, XZQHSZ_DM, JDXZMC, JYFW, ZCDZ, 
-    SCJYDZ, KYSLRQ, CYRS, ZDSYHJKJC_DM, YBNSRRDBJ, ZZSNSLX, DZXWQY_BJ, XXWLQY_BJ, NSXYDJ, 
-    IS_DELETED, CJR, CJSJ, XGR, XGSJ
+    <!-- WARNING - @mbg.generated 请勿删除自动合并标记！ -->
+    ID, XNZZ_ID, NSR_ID, BM_ID, DEPTID, DJXH, NSRSBH, SHXYDM, ZZHM, NSRMC, JGBM_DM, SGY_JGRY_DM,
+    ZGSWSKFJ_DM, NSRZT_DM, DJZCLX_DM, HY_DM, KZZTDJLX_DM, DWLSGX_DM, KJZDZZ_DM, XZQHSZ_DM,
+    JDXZMC, JYFW, ZCDZ, SCJYDZ, KYSLRQ, CYRS, ZDSYHJKJC_DM, YBNSRRDBJ, ZZSNSLX, DZXWQY_BJ,
+    XXWLQY_BJ, NSXYDJ,STATUS, IS_DELETED, CJR, CJSJ, XGR, XGSJ, OPERATE, SYNC_FLAG, SYNC_DATE,
+    SYNC_MESSAGE, SYNC_TIMES, SYNC_CODE, REVISION,
+    ZZSQYLX_DM,YGZNSRLX_DM,WHSYJSFJFXXDJ,HSFS_DM,KQCCSZTDJ,QYSDSZSFS_DM,DJRQ,SZPQ
   </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
