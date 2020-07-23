@@ -355,6 +355,16 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     @Label("激活时间")
     private Date jhsj;
 
+    private Byte swwblh;
+
+    public Byte getSwwblh() {
+        return swwblh;
+    }
+
+    public void setSwwblh(Byte swwblh) {
+        this.swwblh = swwblh;
+    }
+
     /**
      * 虚拟组织ID
      *
