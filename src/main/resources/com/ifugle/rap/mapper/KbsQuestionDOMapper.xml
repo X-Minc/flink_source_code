@@ -32,11 +32,12 @@
     <result column="APPROVAL_STATUS" property="approvalStatus" jdbcType="TINYINT" />
     <result column="ANSWER_MD5" property="answerMD5" jdbcType="VARCHAR" />
     <result column="VOICE_ANSWER" property="voiceAnswer" jdbcType="VARCHAR" />
+    <result column="RELATION_STATUS" property="relationStatus" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     ID, QUESTION, QUESTION_TYPE, GRADE, CATEGORY, PRIMARY_KEYWORD, ALTERNATE_KEYWORD, 
     SEARCH_KEYWORD, KEYWORD_OPTION, SYNONYMS, ANSWER_SHAPE, ANSWER, REMARK, STATUS, ORIGINAL, MAP_SOURCE,
-    MAP_ID, SYNC_FLAG, SYNC_TIME, CREATOR, CREATION_DATE, MODIFIER, MODIFICATION_DATE,ANSWER_MD5,VOICE_ANSWER
+    MAP_ID, SYNC_FLAG, SYNC_TIME, CREATOR, CREATION_DATE, MODIFIER, MODIFICATION_DATE,ANSWER_MD5,VOICE_ANSWER, RELATION_STATUS
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -56,7 +57,7 @@
       STATUS, ORIGINAL, MAP_SOURCE, 
       MAP_ID, SYNC_FLAG, SYNC_TIME, 
       CREATOR, CREATION_DATE, MODIFIER, 
-      MODIFICATION_DATE)
+      MODIFICATION_DATE, RELATION_STATUS)
     values (#{id,jdbcType=BIGINT}, #{question,jdbcType=VARCHAR}, #{questionType,jdbcType=VARCHAR}, 
       #{grade,jdbcType=TINYINT}, #{category,jdbcType=VARCHAR}, #{primaryKeyword,jdbcType=VARCHAR}, 
       #{alternateKeyword,jdbcType=VARCHAR}, #{searchKeyword,jdbcType=VARCHAR}, #{keywordOption,jdbcType=TINYINT}, 
@@ -64,7 +65,7 @@
       #{status,jdbcType=TINYINT}, #{original,jdbcType=VARCHAR}, #{mapSource,jdbcType=VARCHAR}, 
       #{mapId,jdbcType=VARCHAR}, #{syncFlag,jdbcType=INTEGER}, #{syncTime,jdbcType=TIMESTAMP}, 
       #{creator,jdbcType=VARCHAR}, #{creationDate,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}, 
-      #{modificationDate,jdbcType=TIMESTAMP})
+      #{modificationDate,jdbcType=TIMESTAMP}, #{relationStatus,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.ifugle.rap.model.shuixiaomi.KbsQuestionDO" >
     insert into KBS_QUESTION
@@ -135,6 +136,9 @@
       <if test="modificationDate != null" >
         MODIFICATION_DATE,
       </if>
+      <if test="relationStatus != null">
+        RELATION_STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -202,6 +206,9 @@
       </if>
       <if test="modificationDate != null" >
         #{modificationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="relationStatus != null">
+        #{relationStatus,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -271,6 +278,9 @@
       <if test="modificationDate != null" >
         MODIFICATION_DATE = #{modificationDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="relationStatus != null">
+        RELATION_STATUS = #{relationStatus,jdbcType=TINYINT},
+      </if>
     </set>
     where ID = #{id,jdbcType=BIGINT}
   </update>
@@ -296,6 +306,7 @@
       CREATOR = #{creator,jdbcType=VARCHAR},
       CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
       MODIFIER = #{modifier,jdbcType=VARCHAR},
+      RELATION_STATUS = #{relationStatus,jdbcType=TINYINT},
       MODIFICATION_DATE = #{modificationDate,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=BIGINT}
   </update>

@@ -1,10 +1,10 @@
 package com.ifugle.rap.model.shuixiaomi;
 
 
+import com.ifugle.rap.core.model.impl.EnhanceModel;
+
 import java.sql.Timestamp;
 import java.util.Date;
-
-import com.ifugle.rap.core.model.impl.EnhanceModel;
 
 public class KbsQuestionDO extends EnhanceModel<Long> {
     private Long id;
@@ -66,6 +66,8 @@ public class KbsQuestionDO extends EnhanceModel<Long> {
     private String answerMD5;
 
     private String voiceAnswer;
+
+    private Byte relationStatus;
 
     /***
      * 判断是新增还是更新
@@ -321,7 +323,7 @@ public class KbsQuestionDO extends EnhanceModel<Long> {
                 + remark + '\'' + ", status=" + status + ", validDate=" + validDate + ", invalidDate=" + invalidDate + ", invalidReason='" + invalidReason
                 + '\'' + ", original='" + original + '\'' + ", mapSource='" + mapSource + '\'' + ", mapId='" + mapId + '\'' + ", syncFlag=" + syncFlag
                 + ", syncTime=" + syncTime + ", creator='" + creator + '\'' + ", creationDate=" + creationDate + ", modifier='" + modifier + '\''
-                + ", modificationDate=" + modificationDate + ", approvalStatus=" + approvalStatus + '}';
+                + ", modificationDate=" + modificationDate + ", relationStatus = " + relationStatus + ", approvalStatus=" + approvalStatus + '}';
     }
 
 
@@ -336,5 +338,13 @@ public class KbsQuestionDO extends EnhanceModel<Long> {
      */
     public boolean isNew() {
         return modificationDate.compareTo(creationDate) > 0 ? true : false;
+    }
+
+    public Byte getRelationStatus() {
+        return relationStatus;
+    }
+
+    public void setRelationStatus(Byte relationStatus) {
+        this.relationStatus = relationStatus;
     }
 }
