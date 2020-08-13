@@ -198,10 +198,10 @@
   </update>
 
     <select id="selectBotTrackDetailForInit" resultMap="BaseResultMap">
-        SELECT * FROM BOT_TRACK_DETAIL ORDER BY CREATION_DATE LIMIT ${first}, ${pageSize}
+        SELECT * FROM BOT_TRACK_DETAIL where BIZ_TYPE = 0 ORDER BY CREATION_DATE LIMIT ${first}, ${pageSize}
     </select>
 
     <select id="selectBotTrackDetailForSync" resultMap="BaseResultMap">
-        SELECT * FROM BOT_TRACK_DETAIL WHERE CREATION_DATE >= #{lastUpdateTime} ORDER BY CREATION_DATE LIMIT ${first},${pageSize}
+        SELECT * FROM BOT_TRACK_DETAIL WHERE CREATION_DATE >= #{lastUpdateTime} and BIZ_TYPE = 0 ORDER BY CREATION_DATE LIMIT ${first},${pageSize}
     </select>
 </mapper>
