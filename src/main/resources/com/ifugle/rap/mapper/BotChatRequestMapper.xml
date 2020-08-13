@@ -297,6 +297,6 @@
     select
     <include refid="Base_Column_List" />
     from bot_chat_request
-    where CREATION_DATE >= #{lastCreateTime} and selected = 1  order by CREATION_DATE LIMIT ${first},${pageSize}
+    where CREATION_DATE >= #{lastCreateTime} and selected = 1 and biz_type = 0  order by CREATION_DATE LIMIT ${first},${pageSize}
   </select>
 </mapper>
