@@ -296,6 +296,7 @@ public class CompriseUtils {
         hashMap.put("SELECTED", botChatRequest.getSelected());
         hashMap.put("CREATION_DATE", botChatRequest.getCreationDate() == null ? null : getLongData(botChatRequest.getCreationDate()));
         hashMap.put("DURATION", botChatRequest.getDuration());
+        hashMap.put("QUESTION_METHOD", botChatRequest.getQuestionMethod());
         hashMap.put("STATISTICAL_DATE",
                 botChatRequest.getCreationDate() == null ? null : DateUtil.format(botChatRequest.getCreationDate(), DateUtil.ISO8601_DATE));
         request.setMap(hashMap);

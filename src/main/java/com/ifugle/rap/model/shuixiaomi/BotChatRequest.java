@@ -45,6 +45,8 @@ public class BotChatRequest extends EnhanceModel<Long> {
 
     private Byte selected;
 
+    private Byte questionMethod;
+
     private Date creationDate;
 
     private Integer duration;
@@ -223,5 +225,13 @@ public class BotChatRequest extends EnhanceModel<Long> {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+
+    public Byte getQuestionMethod() {
+        return questionMethod;
+    }
+
+    public void setQuestionMethod(Byte questionMethod) {
+        this.questionMethod = questionMethod;
     }
 }

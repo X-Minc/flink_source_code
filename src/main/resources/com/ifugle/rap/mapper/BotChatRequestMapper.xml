@@ -24,11 +24,12 @@
     <result column="SELECTED" jdbcType="TINYINT" property="selected" />
     <result column="CREATION_DATE" jdbcType="TIMESTAMP" property="creationDate" />
     <result column="DURATION" jdbcType="INTEGER" property="duration" />
+    <result column="QUESTION_METHOD" jdbcType="INTEGER" property="questionMethod" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, NODE_ID, ORG_ID, CHAT_SERVER_ID, DEPT_ID, COMPANY_ID, USER_ID, SESSION_ID, MAN_SESSION_ID, 
     UTTERANCE, `TYPE`, FORMAT, KNOWLEDGE_ID, MESSAGE_ID, `READ`, TAG, FILE_NAME, CHAT_TIME,
-    CALL_LAPSED_TIME, SELECTED, CREATION_DATE, DURATION
+    CALL_LAPSED_TIME, SELECTED, CREATION_DATE, DURATION, QUESTION_METHOD
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -48,7 +49,7 @@
       KNOWLEDGE_ID, MESSAGE_ID, READ, 
       TAG, FILE_NAME, CHAT_TIME, 
       CALL_LAPSED_TIME, SELECTED, CREATION_DATE, 
-      DURATION)
+      DURATION, QUESTION_METHOD)
     values (#{id,jdbcType=BIGINT}, #{nodeId,jdbcType=INTEGER}, #{orgId,jdbcType=BIGINT}, 
       #{chatServerId,jdbcType=BIGINT}, #{deptId,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, 
       #{userId,jdbcType=BIGINT}, #{sessionId,jdbcType=BIGINT}, #{manSessionId,jdbcType=BIGINT}, 
@@ -56,7 +57,7 @@
       #{knowledgeId,jdbcType=VARCHAR}, #{messageId,jdbcType=VARCHAR}, #{read,jdbcType=TINYINT}, 
       #{tag,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{chatTime,jdbcType=TIMESTAMP}, 
       #{callLapsedTime,jdbcType=INTEGER}, #{selected,jdbcType=TINYINT}, #{creationDate,jdbcType=TIMESTAMP}, 
-      #{duration,jdbcType=INTEGER})
+      #{duration,jdbcType=INTEGER}, #{questionMethod})
   </insert>
   <insert id="insertSelective" parameterType="com.ifugle.rap.model.shuixiaomi.BotChatRequest">
     insert into bot_chat_request
@@ -127,6 +128,9 @@
       <if test="duration != null">
         DURATION,
       </if>
+      <if test="questionMethod != null">
+        QUESTION_METHOD,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -194,6 +198,9 @@
       </if>
       <if test="duration != null">
         #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="questionMethod != null">
+        #{questionMethod},
       </if>
     </trim>
   </insert>
@@ -263,6 +270,9 @@
       <if test="duration != null">
         DURATION = #{duration,jdbcType=INTEGER},
       </if>
+      <if test="questionMethod != null">
+        QUESTION_METHOD = #{questionMethod},
+      </if>
     </set>
     where ID = #{id,jdbcType=BIGINT}
   </update>
@@ -288,7 +298,8 @@
       CALL_LAPSED_TIME = #{callLapsedTime,jdbcType=INTEGER},
       SELECTED = #{selected,jdbcType=TINYINT},
       CREATION_DATE = #{creationDate,jdbcType=TIMESTAMP},
-      DURATION = #{duration,jdbcType=INTEGER}
+      DURATION = #{duration,jdbcType=INTEGER},
+      QUESTION_METHOD = #{questionMethod}
     where ID = #{id,jdbcType=BIGINT}
   </update>
 
