@@ -14,6 +14,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -396,9 +397,14 @@ public class CompriseUtils {
             hashMap.put("SGYMC", sgymcs);
         }
         if (botOutoundTaskDetail.getExcelColumn() != null) {
-            List<String> excelColumn = GsonUtil.getBean(botOutoundTaskDetail.getExcelColumn(), new TypeToken<List<String>>() {
-            }.getType());
-            hashMap.put("EXCEL_COLUMN", excelColumn);
+            try {
+                List<String> excelColumn = GsonUtil.getBean(botOutoundTaskDetail.getExcelColumn(), new TypeToken<List<String>>() {
+                }.getType());
+                hashMap.put("EXCEL_COLUMN", excelColumn);
+            }catch (Exception e){
+                logger.error("数据转化异常",e);
+            }
+
         }
         hashMap.put("MESSAGE_STATUS", botOutoundTaskDetail.getMessageStatus());
         hashMap.put("CREATION_DATE", botOutoundTaskDetail.getCreationDate() == null ? null : getLongData(botOutoundTaskDetail.getCreationDate()));
@@ -866,5 +872,13 @@ public class CompriseUtils {
         } else {
             return null;
         }
+    }
+
+
+    public static void main(String[] args) {
+        List<String> excelColumn = GsonUtil.getBean("[\"平湖市黄姑镇广源五金厂，您好！浙江税务征纳沟通平台(平湖市税务局）给您发送了关于认真核实校对人员基础数据准确性的通知信息，以及数据核实的任务，请直接点击数据核实模块，不要在待办里做，本次任务发送到每位企业的法人、财务、办税人，其中一人认真完成即，其中一人认真完成即，建议财务负责人完成。如有疑问请在各分局所税务网格群或者分局所引导直播群咨询，再次提醒，请直接点击钉钉平湖沟通平台主页数据核实模块完成任务，详细说明请看消息通知，数据核实模块也有详细任务说明及解释。\"]", new TypeToken<List<String>>() {
+        }.getType());
+
+        System.out.println(JSON.toJSONString(excelColumn));
     }
 }
