@@ -141,25 +141,11 @@ public class DataSyncServiceImpl implements DataSyncService {
         insertBotBizDataForSync();  //特别注意存在加解密的问题，容易引起线程阻塞
         insertBotConfigServerForSync();
         insertBotOutoundTaskDetailForSync();
-        //        insertYhzxXnzzNsrForSync();
-        //        insertYhzxXnzzTpcQyForSync();
         insertBotChatRequestForSync();
-        
-        /**
-         * 质检
-         */
+        /*** 质检*/
         insertBotScaTaskResultForSync();
-        
     }
 
-    /***
-     *  insert ######################################################################################################################################
-     *
-     */
-
-    /**
-     *
-     */
     private void insertBotUnawareDetailForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_UNAWARE_DETAIL");
         if (StringUtils.isEmpty(lastCreateTime)) {
@@ -184,9 +170,6 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info("#### [BOT_UNAWARE_DETAIL] 同步表数据单次结束");
     }
 
-    /**
-     *
-     */
     private void insertKbsQuestionArticleForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("KBS_QUESTION_ARTICLE");
         if (StringUtils.isEmpty(lastCreateTime)) {
