@@ -122,6 +122,13 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     private String zgdsjgDm;
 
     /**
+     * 税管员代码
+     */
+    @Size(max = 11)
+    @Label("税管员代码")
+    private String sgyDm;
+
+    /**
      * 登记注册类型代码
      */
     @Size(max = 3)
@@ -638,6 +645,25 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
      */
     public String getZgdsjgDm() {
         return zgdsjgDm;
+    }
+
+    /**
+     * 税管员代码
+     *
+     * @return the sgyDm
+     */
+    public String getSgyDm() {
+        return sgyDm;
+    }
+
+    /**
+     * 税管员代码
+     *
+     * @param sgyDm
+     *            the sgyDm to set
+     */
+    public void setSgyDm(String sgyDm) {
+        this.sgyDm = (sgyDm == null ? null : sgyDm.trim());
     }
 
     /**
@@ -1316,6 +1342,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
         result = prime * result + ((getYxcys() == null) ? 0 : getYxcys().hashCode());
         result = prime * result + ((getZggsjgDm() == null) ? 0 : getZggsjgDm().hashCode());
         result = prime * result + ((getZgdsjgDm() == null) ? 0 : getZgdsjgDm().hashCode());
+        result = prime * result + ((getSgyDm() == null) ? 0 : getSgyDm().hashCode());
         result = prime * result + ((getDjzclxDm() == null) ? 0 : getDjzclxDm().hashCode());
         result = prime * result + ((getParentDjzclxDm() == null) ? 0 : getParentDjzclxDm().hashCode());
         result = prime * result + ((getHyDm() == null) ? 0 : getHyDm().hashCode());
@@ -1383,6 +1410,7 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
                 && (this.getYxcys() == null ? other.getYxcys() == null : this.getYxcys().equals(other.getYxcys()))
                 && (this.getZggsjgDm() == null ? other.getZggsjgDm() == null : this.getZggsjgDm().equals(other.getZggsjgDm()))
                 && (this.getZgdsjgDm() == null ? other.getZgdsjgDm() == null : this.getZgdsjgDm().equals(other.getZgdsjgDm()))
+                && (this.getSgyDm() == null ? other.getSgyDm() == null : this.getSgyDm().equals(other.getSgyDm()))
                 && (this.getDjzclxDm() == null ? other.getDjzclxDm() == null : this.getDjzclxDm().equals(other.getDjzclxDm()))
                 && (this.getParentDjzclxDm() == null ? other.getParentDjzclxDm() == null : this.getParentDjzclxDm().equals(other.getParentDjzclxDm()))
                 && (this.getHyDm() == null ? other.getHyDm() == null : this.getHyDm().equals(other.getHyDm()))

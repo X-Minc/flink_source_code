@@ -14,7 +14,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.google.gson.reflect.TypeToken;
 import com.ifugle.rap.constants.SystemConstants;
@@ -56,7 +56,6 @@ import com.ifugle.rap.security.crypto.CryptZip;
 import com.ifugle.rap.utils.DecodeUtils;
 import com.ifugle.rap.utils.MyHttpRequest;
 import com.ifugle.util.DateUtil;
-import com.ifugle.util.JSONUtil;
 import com.ifugle.util.StringUtil;
 
 /**
@@ -170,6 +169,7 @@ public class CompriseUtils {
 
         hashMap.put("ZGGSJG_DM", yhzxXnzzNsr.getZggsjgDm());
         hashMap.put("ZGDSJG_DM", yhzxXnzzNsr.getZgdsjgDm());
+        hashMap.put("SGY_DM", yhzxXnzzNsr.getSgyDm());
         hashMap.put("DJZCLX_DM", yhzxXnzzNsr.getDjzclxDm());
         hashMap.put("PARENT_DJZCLX_DM", yhzxXnzzNsr.getParentDjzclxDm());
         hashMap.put("HY_DM", yhzxXnzzNsr.getHyDm());
@@ -797,7 +797,7 @@ public class CompriseUtils {
         request.setMap(hashMap);
         return request;
     }
-    
+
     public DataRequest botScaTaskResultCompriseDataRequest(BotScaTaskResultDO botScaTaskResultDO) {
         DataRequest request = new DataRequest();
         request.setCatalogType(SystemConstants.DEFAULT_TYPE);

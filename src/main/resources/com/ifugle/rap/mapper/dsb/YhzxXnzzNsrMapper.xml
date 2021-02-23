@@ -19,6 +19,7 @@
 		<result column="yxcys" javaType="java.lang.Integer" jdbcType="INTEGER" property="yxcys" />
 		<result column="zggsjg_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="zggsjgDm" />
 		<result column="zgdsjg_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="zgdsjgDm" />
+        <result column="sgy_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="sgyDm" />
 		<result column="djzclx_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="djzclxDm" />
 		<result column="parent_djzclx_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="parentDjzclxDm" />
 		<result column="hy_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="hyDm" />
@@ -59,7 +60,7 @@
 
   <sql id="Base_Column_List">
         ID, XNZZ_ID, BM_ID, DJXH, NSRSBH, SHXYDM, SHXYDM6, NSRMC, NSRJC, SJSHXYDM, NSRZT_DM,
-		JHBJ, ZDSYHBJ, YXCYS, ZGGSJG_DM, ZGDSJG_DM, DJZCLX_DM, PARENT_DJZCLX_DM, HY_DM, ZZZCBJ,
+		JHBJ, ZDSYHBJ, YXCYS, ZGGSJG_DM, ZGDSJG_DM, SGY_DM, DJZCLX_DM, PARENT_DJZCLX_DM, HY_DM, ZZZCBJ,
 		KHYH, YHZH, ZCDZ, ZCDLXDH, SCJYDZ, SCJYDLXDH, QYSDSZSBJ, ZZSNSLX, DZXWQY_BJ, XXWLQY_BJ,
 		NSXYDJ, KZZTDJLX_DM, JYFW, DJRQ, KQCCSZTDJ, HSFS_DM, KJZDZZ_DM, WHSYJSFJFXXDJ, ZZSQYLX_DM,
 		YGZNSRLX_DM, ZSZ_ZSXM_DM, QYSDSZSFS_DM, SBBM,STATUS,CORPID, IS_DELETE, CJR, CJSJ, XGR, XGSJ,JHSJ,swwblh
@@ -83,7 +84,7 @@
       jhbj, YXCYS, cjsj, 
       cjr, xgsj, xgr, NSRMC, 
       NSRJC, shxydm, shxydm6, 
-      sjshxydm, zggsjg_dm, zgdsjg_dm, 
+      sjshxydm, zggsjg_dm, zgdsjg_dm, sgy_dm,
       djzclx_dm, parent_djzclx_dm, hy_dm, 
       nsrzt_dm, zzzcbj, khyh, 
       yhzh, zcdz, zcdlxdh, 
@@ -95,7 +96,7 @@
       #{jhbj,jdbcType=TINYINT}, #{yxcys,jdbcType=INTEGER}, #{cjsj,jdbcType=TIMESTAMP}, 
       #{cjr,jdbcType=VARCHAR}, #{xgsj,jdbcType=TIMESTAMP}, #{xgr,jdbcType=VARCHAR}, #{nsrmc,jdbcType=VARCHAR}, 
       #{nsrjc,jdbcType=VARCHAR}, #{shxydm,jdbcType=VARCHAR}, #{shxydm6,jdbcType=CHAR}, 
-      #{sjshxydm,jdbcType=VARCHAR}, #{zggsjgDm,jdbcType=VARCHAR}, #{zgdsjgDm,jdbcType=VARCHAR}, 
+      #{sjshxydm,jdbcType=VARCHAR}, #{zggsjgDm,jdbcType=VARCHAR}, #{zgdsjgDm,jdbcType=VARCHAR}, #{sgyDm,jdbcType=VARCHAR},
       #{djzclxDm,jdbcType=VARCHAR}, #{parentDjzclxDm,jdbcType=VARCHAR}, #{hyDm,jdbcType=VARCHAR}, 
       #{nsrztDm,jdbcType=VARCHAR}, #{zzzcbj,jdbcType=TINYINT}, #{khyh,jdbcType=VARCHAR}, 
       #{yhzh,jdbcType=VARCHAR}, #{zcdz,jdbcType=VARCHAR}, #{zcdlxdh,jdbcType=VARCHAR}, 
@@ -169,6 +170,9 @@
       </if>
       <if test="zgdsjgDm != null">
         zgdsjg_dm,
+      </if>
+      <if test="sgyDm != null">
+        sgy_dm,
       </if>
       <if test="djzclxDm != null">
         djzclx_dm,
@@ -285,6 +289,9 @@
       </if>
       <if test="zgdsjgDm != null">
         #{zgdsjgDm,jdbcType=VARCHAR},
+      </if>
+      <if test="sgyDm != null">
+        #{sgyDm,jdbcType=VARCHAR},
       </if>
       <if test="djzclxDm != null">
         #{djzclxDm,jdbcType=VARCHAR},
@@ -403,6 +410,9 @@
       <if test="zgdsjgDm != null">
         zgdsjg_dm = #{zgdsjgDm,jdbcType=VARCHAR},
       </if>
+      <if test="sgyDm != null">
+        sgy_dm = #{sgyDm,jdbcType=VARCHAR},
+      </if>
       <if test="djzclxDm != null">
         djzclx_dm = #{djzclxDm,jdbcType=VARCHAR},
       </if>
@@ -480,6 +490,7 @@
       sjshxydm = #{sjshxydm,jdbcType=VARCHAR},
       zggsjg_dm = #{zggsjgDm,jdbcType=VARCHAR},
       zgdsjg_dm = #{zgdsjgDm,jdbcType=VARCHAR},
+      sgy_dm = #{sgyDm,jdbcType=VARCHAR},
       djzclx_dm = #{djzclxDm,jdbcType=VARCHAR},
       parent_djzclx_dm = #{parentDjzclxDm,jdbcType=VARCHAR},
       hy_dm = #{hyDm,jdbcType=VARCHAR},
