@@ -11,6 +11,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.ifugle.rap.common.lang.util.DateUtils;
 import com.ifugle.rap.elasticsearch.enums.ChannelType;
@@ -150,7 +152,12 @@ public class DataSyncBqServiceImpl implements DataSyncBqService {
             if (NullUtil.isNull(yhzxXnzzNsrs)) {
                 break;
             }
-
+            for (YhzxXnzzNsr yhzxXnzzNsr : yhzxXnzzNsrs) {
+              String swjgDmPath=  yhzxXnzzNsr.getSwjgDmPath();
+              if(NullUtil.isNotNull(swjgDmPath)){
+                  yhzxXnzzNsr.setSwjgPath(Lists.newArrayList(swjgDmPath.split("-")));
+              }
+            }
             logger.info("[YHZX_XNZZ_NSR] 查询该表的列表的size，size=" + yhzxXnzzNsrs.size());
             syncService.insertYhzxXnzzNsrAndCheckListSize(yhzxXnzzNsrs, pageSize);
             Date modificationDate = yhzxXnzzNsrs.get(yhzxXnzzNsrs.size() - 1).getXgsj();
