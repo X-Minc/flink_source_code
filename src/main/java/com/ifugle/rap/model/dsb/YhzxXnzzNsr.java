@@ -7,6 +7,8 @@ package com.ifugle.rap.model.dsb;
 import com.ifugle.rap.core.annotation.Label;
 import com.ifugle.rap.core.model.impl.EnhanceModel;
 import java.util.Date;
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -363,6 +365,9 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
     private Date jhsj;
 
     private Byte swwblh;
+
+    private String swjgDmPath;
+    private List<String> swjgPath;
 
     public Byte getSwwblh() {
         return swwblh;
@@ -1318,6 +1323,22 @@ public class YhzxXnzzNsr extends EnhanceModel<Long> {
      */
     public void setXgsj(Date xgsj) {
         this.xgsj = xgsj;
+    }
+
+    public List<String> getSwjgPath() {
+        return swjgPath;
+    }
+
+    public void setSwjgPath(List<String> swjgPath) {
+        this.swjgPath = swjgPath;
+    }
+
+    public String getSwjgDmPath() {
+        return swjgDmPath;
+    }
+
+    public void setSwjgDmPath(String swjgDmPath) {
+        this.swjgDmPath = swjgDmPath;
     }
 
     /* (non-Javadoc)

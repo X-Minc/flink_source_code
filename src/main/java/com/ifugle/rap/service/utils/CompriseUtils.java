@@ -194,6 +194,7 @@ public class CompriseUtils {
         hashMap.put("QYSDSZSFS_DM", yhzxXnzzNsr.getQysdszsfsDm());
         hashMap.put("IS_DELETE", yhzxXnzzNsr.getIsDelete());
         hashMap.put("SWWBLH", yhzxXnzzNsr.getSwwblh());
+        hashMap.put("SWJG_PATH", yhzxXnzzNsr.getSwjgPath());
         request.setMap(hashMap);
         return request;
     }
