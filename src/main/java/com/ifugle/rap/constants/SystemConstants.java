@@ -23,5 +23,5 @@ public class SystemConstants {
     /***
      * 为了支持6.0以后 版本创建的doc
      */
-    public final static String DEFAULT_TYPE = "doc";
+    public final static String DEFAULT_TYPE = "_doc";
 }
