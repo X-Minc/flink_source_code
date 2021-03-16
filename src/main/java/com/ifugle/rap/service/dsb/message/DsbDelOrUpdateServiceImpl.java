@@ -22,7 +22,7 @@ public class DsbDelOrUpdateServiceImpl implements DsbDelOrUpdateService {
     private BusinessCommonService businessCommonService;
 
     public boolean deleteYhzxXnzzNsr(String id,String tableName) {
-        return businessCommonService.delete(ChannelType.DINGTAX.getCode(), tableName, id);
+        return businessCommonService.delete(ChannelType.YHZX_XNZZ_NSR.getCode(), tableName, id);
     }
 
 }

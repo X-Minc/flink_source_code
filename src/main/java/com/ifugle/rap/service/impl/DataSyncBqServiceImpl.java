@@ -226,7 +226,7 @@ public class DataSyncBqServiceImpl implements DataSyncBqService {
             hashMap.put("ID", entry.getKey());
             hashMap.put("BQ_IDS", entry.getValue());
             request.setMap(hashMap);
-            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.DINGTAX.getCode(), request));
+            dsl.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.YHZX_XNZZ_NSR.getCode(), request));
         }
 
         return dsl.toString();
