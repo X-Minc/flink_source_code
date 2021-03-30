@@ -15,18 +15,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.ifugle.rap.canalconfig.ElasticSearchConfig;
-import com.ifugle.rap.core.config.annotation.AppCacheConfig;
 import com.ifugle.rap.core.config.annotation.AppContextConfig;
 import com.ifugle.rap.core.config.annotation.AppContextInitializer;
 import com.ifugle.rap.core.config.annotation.AppGlobalInitializer;
-import com.ifugle.rap.core.config.annotation.AppServiceConfig;
-import com.ifugle.rap.core.config.annotation.AppServletConfig;
-import com.ifugle.rap.core.config.annotation.AppWebMvcConfig;
+
+import javax.servlet.ServletConfig;
+
 
 @WebAppConfiguration
 @ActiveProfiles(profiles = "test")
-@ContextConfiguration(initializers = { AppGlobalInitializer.class, AppContextInitializer.class }, classes = { AppWebMvcConfig.class, AppServletConfig.class, AppServiceConfig.class,
-        AppContextConfig.class, AppCacheConfig.class, ElasticSearchConfig.class })
+@ContextConfiguration(initializers = { AppGlobalInitializer.class, AppContextInitializer.class }, classes = { ServletConfig.class,
+        AppContextConfig.class,  ElasticSearchConfig.class })
 @RunWith(SpringJUnit4ClassRunner.class)
 @ComponentScan(basePackages = { "com.ifugle" })
 public class BaseTest {

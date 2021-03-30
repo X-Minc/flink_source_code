@@ -36,8 +36,6 @@ import com.ifugle.rap.model.shuixiaomi.dto.KbsTagDTO;
 import com.ifugle.rap.service.SyncService;
 import com.ifugle.rap.service.thread.KbsArticleInitThread;
 import com.ifugle.rap.service.utils.CompriseUtils;
-
-import org.apache.camel.spi.AsEndpointUri;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

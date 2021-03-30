@@ -7,29 +7,15 @@ package com.ifugle.rap.test;
  * Copyright (c) 2018 Fugle Technology Co. Ltd. All Rights Reserved.
  */
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.camel.spi.AsEndpointUri;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import com.alibaba.fastjson.JSON;
-import com.ifugle.rap.canalconfig.ElasticSearchConfig;
+import com.ifugle.rap.elasticsearch.api.BusinessCommonApi;
+import com.ifugle.rap.elasticsearch.api.BusinessSearchApi;
+import com.ifugle.rap.elasticsearch.enums.ChannelType;
 import com.ifugle.rap.elasticsearch.model.DataRequest;
+import com.ifugle.rap.elasticsearch.model.RealtimeSearchResponse;
+import com.ifugle.rap.elasticsearch.model.SimpleSearchRequest;
 import com.ifugle.rap.elasticsearch.service.ElasticSearchBusinessService;
-import com.ifugle.rap.mapper.BotConfigServerMapper;
-import com.ifugle.rap.mapper.BotMediaDOMapper;
-import com.ifugle.rap.mapper.KbsQuestionDOMapper;
-import com.ifugle.rap.mapper.KbsTagDTOMapper;
-import com.ifugle.rap.mapper.YhzxxnzzcyDOMapper;
+import com.ifugle.rap.mapper.*;
 import com.ifugle.rap.model.dingtax.YhzxxnzzcyDO;
 import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
 import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
@@ -38,12 +24,16 @@ import com.ifugle.rap.service.impl.DataSyncServiceImpl;
 import com.ifugle.rap.service.redis.MessageConsumer;
 import com.ifugle.rap.service.thread.BotConfigServerInitThread;
 import com.ifugle.rap.service.thread.KbsTagInitThread;
-import com.ifugle.rap.elasticsearch.api.BusinessCommonApi;
-import com.ifugle.rap.elasticsearch.api.BusinessSearchApi;
-import com.ifugle.rap.elasticsearch.enums.ChannelType;
-import com.ifugle.rap.elasticsearch.model.RealtimeSearchResponse;
-import com.ifugle.rap.elasticsearch.model.SimpleSearchRequest;
 import com.ifugle.rap.service.utils.CompriseUtils;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *

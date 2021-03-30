@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.ifugle.rap.cache.AppPubSubService;
-import com.ifugle.rap.cache.AppSubscriber;
+//import com.ifugle.rap.cache.AppPubSubService;
+//import com.ifugle.rap.cache.AppSubscriber;
 
 /**
  * 接收税小蜜消息订阅处理
