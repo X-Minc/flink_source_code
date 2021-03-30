@@ -47,7 +47,6 @@ import com.ifugle.rap.security.crypto.CryptBase62;
 import com.ifugle.rap.security.crypto.CryptNumber;
 import com.ifugle.rap.security.crypto.CryptSimple;
 import com.ifugle.rap.service.SyncService;
-import com.ifugle.rap.service.redis.RedisMessageSubscriber;
 import com.ifugle.rap.service.rocketmq.RocketMqProducter;
 import com.ifugle.rap.service.utils.CompriseUtils;
 import com.ifugle.rap.utils.DecodeUtils;
@@ -65,9 +64,6 @@ public class SyncServiceImpl implements SyncService {
 
     @Autowired
     private CompriseUtils compriseUtils;
-
-    @Autowired
-    RedisMessageSubscriber redisMessageSubscriber;
 
     @Autowired
     RocketMqProducter rocketMqProducter;

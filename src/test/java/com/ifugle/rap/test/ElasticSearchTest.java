@@ -21,7 +21,6 @@ import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
 import com.ifugle.rap.model.shuixiaomi.KbsQuestionDO;
 import com.ifugle.rap.service.SyncService;
 import com.ifugle.rap.service.impl.DataSyncServiceImpl;
-import com.ifugle.rap.service.redis.MessageConsumer;
 import com.ifugle.rap.service.thread.BotConfigServerInitThread;
 import com.ifugle.rap.service.thread.KbsTagInitThread;
 import com.ifugle.rap.service.utils.CompriseUtils;
@@ -57,8 +56,6 @@ public class ElasticSearchTest extends  BaseTest{
     @Autowired
     private SyncService syncService;
 
-    @Autowired
-    private MessageConsumer messageConsumer;
 
     private final static Logger logger = LoggerFactory.getLogger(ElasticSearchTest.class);
 
@@ -167,11 +164,6 @@ public class ElasticSearchTest extends  BaseTest{
     public void botConfigServerInitThreadTest(){
         BotConfigServerInitThread botConfigServerInitThread = new BotConfigServerInitThread(20,syncService,botConfigServerMapper);
         botConfigServerInitThread.run();
-    }
-
-    @Test
-    public void testInsert(){
-        messageConsumer.requestData("{\"ids\":[391736],\"indexName\":\"kbs_question\",\"docName\":\"doc\",\"properties\":{\"CATEGORIES\":[10481],\"ORGANIZATIONS\":[2253],\"SYNC_FLAG\":0}}");
     }
 
 

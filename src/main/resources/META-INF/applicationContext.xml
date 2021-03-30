@@ -12,12 +12,4 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="redisMessageSubscriber" class="com.ifugle.rap.service.redis.RedisMessageSubscriber"  init-method="initiateSubscribe">
-		<property name="dataContainer" ref="dataContainer" />
-	</bean>
-
-	<bean id="messageConsumer" class="com.ifugle.rap.service.redis.MessageConsumer"  init-method="start">
-		<property name="dataContainer" ref="dataContainer" />
-	</bean>
-
 </beans>
