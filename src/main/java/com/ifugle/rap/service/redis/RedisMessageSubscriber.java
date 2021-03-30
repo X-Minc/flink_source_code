@@ -22,13 +22,13 @@ import org.springframework.stereotype.Component;
  * @author HuangLei(wenyuan)
  * @version $Id RedisMessageSubscriber.java v 0.1 2018/11/9 HuangLei(wenyuan) Exp $
  */
-@Component
+//@Component
 public class RedisMessageSubscriber  implements AppSubscriber {
 
     private final static Logger logger = LoggerFactory.getLogger(RedisMessageSubscriber.class);
 
 
-    @Autowired
+//    @Autowired
     private AppPubSubService appPubSubService;
 
     /**
