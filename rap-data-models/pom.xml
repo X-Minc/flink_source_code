@@ -33,7 +33,7 @@
         <dependency>
             <groupId>com.ifugle.rap</groupId>
             <artifactId>rap-core-es</artifactId>
-            <version>5.0.2-SNAPSHOT</version>
+            <version>5.0.2.1-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.data</groupId>
