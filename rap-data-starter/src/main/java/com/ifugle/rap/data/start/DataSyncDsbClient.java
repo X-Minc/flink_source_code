@@ -36,9 +36,8 @@ public class DataSyncDsbClient {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("[DataSyncClient] execute dsb sync ... ");
         }
-        int i=0;
+        //启动丁税宝开启
         new Thread(this::syncDsb).start();
-
     }
 
 

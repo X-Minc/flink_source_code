@@ -15,6 +15,7 @@ public class DataInitClient {
 
     @Autowired
     private DataSyncService dataSyncService;
+
     @Autowired
     private DataSyncBqService dataSyncBqService;
 
@@ -25,6 +26,9 @@ public class DataInitClient {
      */
     public void init() {
         //初始化本地文件
+        if(LOGGER.isInfoEnabled()) {
+            LOGGER.info("初始化本地文件>........");
+        }
         dataSyncService.initLocalTime();
         dataSyncBqService.initLocalTime();
     }
