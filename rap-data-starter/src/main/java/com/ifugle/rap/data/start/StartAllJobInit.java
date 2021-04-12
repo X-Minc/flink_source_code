@@ -5,8 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import com.ifugle.rap.elasticsearch.core.ConfigParamConstant;
 
@@ -16,6 +17,8 @@ import com.ifugle.rap.elasticsearch.core.ConfigParamConstant;
  * @since 4月 08, 2021 21:33
  */
 @Component
+@ConditionalOnProperty(name = "spring.datasource.type", havingValue = "org.apache.tomcat.jdbc.pool.DataSource",
+        matchIfMissing = true)
 public class StartAllJobInit  implements CommandLineRunner {
 
     protected Logger logger = LoggerFactory.getLogger(getClass().getName());
@@ -23,8 +26,11 @@ public class StartAllJobInit  implements CommandLineRunner {
     @Autowired
     DataInitClient dataInitClient;
 
+    @Autowired(required = false)
+    DataSyncDsbClient dataSyncDsbClient;
+
     @Autowired
-    DataSyncClient dataSyncClient;
+    DataSyncBotClient dataSyncBotClient;
 
     /** 连接超时，默认：5000ms */
     @Value("${es.connect.timeout}")
@@ -64,7 +70,11 @@ public class StartAllJobInit  implements CommandLineRunner {
         dataInitClient.init();
 
         logger.info("dataSync start");
-        dataSyncClient.sync();
+        if(dataSyncDsbClient!=null) {
+            dataSyncDsbClient.sync(); //同步丁税宝
+        }
+
+        dataSyncBotClient.syncBot(); //同步税小蜜
     }
 
 
