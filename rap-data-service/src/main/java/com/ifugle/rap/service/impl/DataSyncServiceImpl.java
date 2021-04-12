@@ -107,7 +107,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         insertBotTrackDetailForSync();
         insertBotChatResponseMessageForSync();
         insertKbsQuestionArticleForSync();
-        insertKbsQuestionForSync();
+        // insertKbsQuestionForSync();
         insertKbsArticleForSync();
         insertKbsReadingForSync();
         insertKbsKeywordForSync();

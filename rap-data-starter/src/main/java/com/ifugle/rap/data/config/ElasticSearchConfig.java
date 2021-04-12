@@ -24,22 +24,9 @@ import com.ifugle.rap.elasticsearch.core.ConfigParamConstant;
  * @version $Id: ElasticSearchConfig.java, v 0.1 2018年5月16日 下午3:38:14 HuangLei(wenyuan) Exp $
  */
 @Configuration
-// @ImportResource({ "classpath:elasticsearch/applicationContext-elasticsearch.xml" })
+@ImportResource({ "classpath:elasticsearch/applicationContext-elasticsearch.xml" })
 @PropertySource("classpath:elasticsearch/elasticsearch.properties")
 @ComponentScan(basePackages = { "com.ifugle.rap.elasticsearch", "com.ifugle.rap" })
 @EnableScheduling
-@Order(Ordered.LOWEST_PRECEDENCE)
 public class ElasticSearchConfig {
-
-    public ElasticSearchConfig(Environment environment) {
-
-    }
-
-    @Bean
-    public ClusterNode appClusterNode(Environment environment){
-        List<String> hosts = new ArrayList<>();
-        hosts.add(environment.getProperty(ConfigParamConstant.RAP_ES_HOST));
-        return new ClusterNode(hosts,environment.getProperty(ConfigParamConstant.RAP_ES_USERNAME),environment.getProperty(ConfigParamConstant.RAP_ES_PASSWORD));
-    }
-
 }
