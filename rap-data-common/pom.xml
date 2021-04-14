@@ -43,6 +43,10 @@
             <version>1.59</version>
         </dependency>
         <!--BouncyCastle-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <finalName>rap-dsp-common</finalName>

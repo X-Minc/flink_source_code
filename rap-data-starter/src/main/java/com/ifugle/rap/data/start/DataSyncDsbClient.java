@@ -12,15 +12,12 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
 /**
- *
  * @auther: Liuzhengyang
- *
- * 数据同步clint
+ * 丁税宝数据同步client
  */
 @Conditional(AppDsbCondition.class)
 @Service
 public class DataSyncDsbClient {
-
 
     @Autowired
     private DataSyncBqService dataSyncBqService;
@@ -36,7 +33,10 @@ public class DataSyncDsbClient {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("[DataSyncClient] execute dsb sync ... ");
         }
+<<<<<<< HEAD
         //启动丁税宝开启
+=======
+>>>>>>> feature_mumu_1.7.0_sc
         new Thread(this::syncDsb).start();
     }
 
