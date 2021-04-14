@@ -33,10 +33,7 @@ public class DataSyncDsbClient {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("[DataSyncClient] execute dsb sync ... ");
         }
-<<<<<<< HEAD
         //启动丁税宝开启
-=======
->>>>>>> feature_mumu_1.7.0_sc
         new Thread(this::syncDsb).start();
     }
 
