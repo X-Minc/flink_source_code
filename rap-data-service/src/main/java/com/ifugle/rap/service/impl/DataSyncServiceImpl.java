@@ -115,8 +115,6 @@ public class DataSyncServiceImpl implements DataSyncService {
         insertBotConfigServerForSync();
         insertBotOutoundTaskDetailForSync();
         insertBotChatRequestForSync();
-        /*** 质检*/
-        insertBotScaTaskResultForSync();
     }
 
     private void insertBotUnawareDetailForSync() {

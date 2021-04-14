@@ -17,8 +17,6 @@ import com.ifugle.rap.elasticsearch.core.ConfigParamConstant;
  * @since 4月 08, 2021 21:33
  */
 @Component
-@ConditionalOnProperty(name = "spring.datasource.type", havingValue = "org.apache.tomcat.jdbc.pool.DataSource",
-        matchIfMissing = true)
 public class StartAllJobInit  implements CommandLineRunner {
 
     protected Logger logger = LoggerFactory.getLogger(getClass().getName());
@@ -64,7 +62,6 @@ public class StartAllJobInit  implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         //初始化连接
-        initPrpperties();
         logger.info("任务{}未设置自动启动。", "dsb");
         logger.info("dataInit start");
         dataInitClient.init();
@@ -75,19 +72,6 @@ public class StartAllJobInit  implements CommandLineRunner {
         }
 
         dataSyncBotClient.syncBot(); //同步税小蜜
-    }
-
-
-
-    public void initPrpperties(){
-        System.setProperty(ConfigParamConstant.RAP_ES_HOST,hostUrl);
-        System.setProperty(ConfigParamConstant.RAP_ES_USERNAME,username);
-        System.setProperty(ConfigParamConstant.RAP_ES_PASSWORD,password);
-        System.setProperty(ConfigParamConstant.RAP_ES_CONNECTION_TIMEOUT,String.valueOf(connectTimeout));
-        System.setProperty(ConfigParamConstant.RAP_ES_SOCKET_TIMEOUT,String.valueOf(socketTimeout));
-        System.setProperty(ConfigParamConstant.RAP_ES_MAX_RETRY_TIMEOUT,String.valueOf(maxRetryTimeoutMillis));
-        System.setProperty(ConfigParamConstant.RAP_ES_MAX_CONN_TOTAL,String.valueOf(maxConnTotal));
-        System.setProperty(ConfigParamConstant.RAP_ES_MAX_CONN_PER_ROUTE,String.valueOf(maxConnPerRout));
     }
 
 }
