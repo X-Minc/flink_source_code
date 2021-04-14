@@ -107,17 +107,16 @@ public class DataSyncServiceImpl implements DataSyncService {
         insertBotTrackDetailForSync();
         insertBotChatResponseMessageForSync();
         insertKbsQuestionArticleForSync();
-        // insertKbsQuestionForSync();
         insertKbsArticleForSync();
         insertKbsReadingForSync();
         insertKbsKeywordForSync();
         insertBotMediaForSync();
         insertBotBizDataForSync();  //特别注意存在加解密的问题，容易引起线程阻塞
         insertBotConfigServerForSync();
-        // insertBotOutoundTaskDetailForSync();
+        insertBotOutoundTaskDetailForSync();
         insertBotChatRequestForSync();
         /*** 质检*/
-        // insertBotScaTaskResultForSync();
+        insertBotScaTaskResultForSync();
     }
 
     private void insertBotUnawareDetailForSync() {
