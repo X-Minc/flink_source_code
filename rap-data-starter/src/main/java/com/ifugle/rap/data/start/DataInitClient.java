@@ -25,15 +25,13 @@ public class DataInitClient {
      * 初始化文件
      */
     public void init() {
-<<<<<<< HEAD
         //初始化本地文件
         if(LOGGER.isInfoEnabled()) {
             LOGGER.info("初始化本地文件>........");
-=======
+        }
         //税小蜜初始化本地文件
         if(LOGGER.isInfoEnabled()){
             LOGGER.info("bot starting init time ");
->>>>>>> feature_mumu_1.7.0_sc
         }
         dataSyncService.initLocalTime();
         if(LOGGER.isInfoEnabled()){
