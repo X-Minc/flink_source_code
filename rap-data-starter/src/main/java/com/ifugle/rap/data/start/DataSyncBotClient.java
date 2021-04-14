@@ -5,10 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ifugle.rap.service.DataSyncBqService;
 import com.ifugle.rap.service.DataSyncService;
 
 /**
+ * 税小蜜文件操作类
  * @author ifugle
  * @version $
  * @since 4月 12, 2021 17:36
