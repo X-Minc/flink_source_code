@@ -54,7 +54,7 @@ public class SyncServiceImpl implements SyncService {
     @Autowired
     RocketMqProducter rocketMqProducter;
 
-    @Value("${spring.profiles.active}")
+    @Value("${env}")
     String env;
 
     @Value("${pageSize}")
