@@ -90,7 +90,7 @@ public class DataSyncServiceImpl implements DataSyncService {
     @Autowired
     private BotScaTaskResultDOMapper botScaTaskResultDOMapper;
 
-    @Value("${spring.profiles.active}")
+    @Value("${env}")
     String env;
 
     private final static Logger logger = LoggerFactory.getLogger(DataSyncServiceImpl.class);

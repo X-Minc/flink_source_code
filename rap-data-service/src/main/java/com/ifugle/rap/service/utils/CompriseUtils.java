@@ -47,7 +47,7 @@ public class CompriseUtils {
     @Autowired
     private CryptZip cryptZip;
 
-    @Value("${spring.profiles.active}")
+    @Value("${env}")
     String env;
 
     private static final Logger logger = LoggerFactory.getLogger(CompriseUtils.class);
