@@ -130,7 +130,7 @@ public class CompriseUtils {
             hashMap.put("NSRSBH", DecodeUtils.deodeCryptBase36Prod(yhzxXnzzNsr.getNsrsbh(), cryptBase36));
             hashMap.put("NSRJC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzNsr.getNsrjc(), cryptSimple));
 
-        } else {
+        } else if(StringUtils.equals(env, "test")||StringUtils.equals(env, "dev")){
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(yhzxXnzzNsr.getShxydm(), cryptBase36));
             hashMap.put("SHXYDM6", DecodeUtils.deodeCryptBase36Test(yhzxXnzzNsr.getShxydm6(), cryptBase36));
@@ -143,6 +143,19 @@ public class CompriseUtils {
             hashMap.put("SCJYDLXDH", DecodeUtils.decodeCryptNumberTest(yhzxXnzzNsr.getScjydlxdh(), cryptNumber));
             hashMap.put("NSRSBH", DecodeUtils.deodeCryptBase36Test(yhzxXnzzNsr.getNsrsbh(), cryptBase36));
             hashMap.put("NSRJC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getNsrjc(), cryptSimple));
+        } else{ //应用于内网不涉及加解密的需求
+            hashMap.put("NSRMC", yhzxXnzzNsr.getNsrmc());
+            hashMap.put("SHXYDM", yhzxXnzzNsr.getShxydm());
+            hashMap.put("SHXYDM6", yhzxXnzzNsr.getShxydm6());
+            hashMap.put("SJSHXYDM", yhzxXnzzNsr.getSjshxydm());
+            hashMap.put("KHYH", yhzxXnzzNsr.getKhyh());
+            hashMap.put("YHZH", yhzxXnzzNsr.getYhzh());
+            hashMap.put("ZCDZ", yhzxXnzzNsr.getZcdz());
+            hashMap.put("ZCDLXDH", yhzxXnzzNsr.getZcdlxdh());
+            hashMap.put("SCJYDZ", yhzxXnzzNsr.getScjydz());
+            hashMap.put("SCJYDLXDH", yhzxXnzzNsr.getScjydlxdh());
+            hashMap.put("NSRSBH", yhzxXnzzNsr.getNsrsbh());
+            hashMap.put("NSRJC", yhzxXnzzNsr.getNsrjc());
         }
 
         hashMap.put("ZGGSJG_DM", yhzxXnzzNsr.getZggsjgDm());
@@ -186,20 +199,24 @@ public class CompriseUtils {
         hashMap.put("NSR_ID", yhzxXnzzTpcQy.getNsrId());
         hashMap.put("DJXH", yhzxXnzzTpcQy.getDjxh());
         hashMap.put("NSRSBH", yhzxXnzzTpcQy.getNsrsbh());
-        //        hashMap.put("SHXYDM",yhzxXnzzTpcQy.getShxydm());
-        //        hashMap.put("NSRMC",yhzxXnzzTpcQy.getNsrmc());
         if (StringUtils.equals(env, "prod")) {
             hashMap.put("JDXZMC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getJdxzmc(), cryptSimple));
             hashMap.put("ZCDZ", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getZcdz(), cryptSimple));
             hashMap.put("SCJYDZ", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getScjydz(), cryptSimple));
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(yhzxXnzzTpcQy.getShxydm(), cryptBase36));
-        } else {
+        } else if(StringUtils.equals(env, "test")||StringUtils.equals(env, "dev")){
             hashMap.put("JDXZMC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzTpcQy.getJdxzmc(), cryptSimple));
             hashMap.put("ZCDZ", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzTpcQy.getZcdz(), cryptSimple));
             hashMap.put("SCJYDZ", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzTpcQy.getScjydz(), cryptSimple));
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzTpcQy.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(yhzxXnzzTpcQy.getShxydm(), cryptBase36));
+        }else{
+            hashMap.put("JDXZMC", yhzxXnzzTpcQy.getJdxzmc());
+            hashMap.put("ZCDZ", yhzxXnzzTpcQy.getZcdz());
+            hashMap.put("SCJYDZ", yhzxXnzzTpcQy.getScjydz());
+            hashMap.put("NSRMC", yhzxXnzzTpcQy.getNsrmc());
+            hashMap.put("SHXYDM", yhzxXnzzTpcQy.getShxydm());
         }
         hashMap.put("ZZHM", yhzxXnzzTpcQy.getZzhm());
         hashMap.put("JGBM_DM", yhzxXnzzTpcQy.getJgbmDm());
@@ -244,8 +261,6 @@ public class CompriseUtils {
         hashMap.put("QYSDSZSFS_DM", yhzxXnzzTpcQy.getQysdszsfsDm());
         hashMap.put("DJRQ", yhzxXnzzTpcQy.getDjrq() == null ? null : getLongData(yhzxXnzzTpcQy.getDjrq()));
         hashMap.put("SZPQ", yhzxXnzzTpcQy.getSzpq());
-
-
         request.setMap(hashMap);
         return request;
     }
@@ -320,9 +335,12 @@ public class CompriseUtils {
         if (StringUtils.equals(env, "prod")) {
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleProd(xxzxXxmx.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(xxzxXxmx.getShxydm(), cryptBase36));
-        } else {
+        } else if(StringUtils.equals(env, "test")||StringUtils.equals(env, "dev")) {
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleTest(xxzxXxmx.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(xxzxXxmx.getShxydm(), cryptBase36));
+        } else{
+            hashMap.put("NSRMC", xxzxXxmx.getNsrmc());
+            hashMap.put("SHXYDM", xxzxXxmx.getShxydm());
         }
         hashMap.put("BM_ID", xxzxXxmx.getBmId());
         hashMap.put("JHBJ", xxzxXxmx.getJhbj());
@@ -345,29 +363,25 @@ public class CompriseUtils {
         hashMap.put("MESSAGE_ID", botOutoundTaskDetail.getMessageId());
         hashMap.put("DIALOGUE_ID", botOutoundTaskDetail.getDialogueId());
         hashMap.put("RECEIVER", botOutoundTaskDetail.getReceiver());
-        //        hashMap.put("CONTENT", botOutoundTaskDetail.getContent());
-        //        hashMap.put("CALL_RECORD", botOutoundTaskDetail.getCallRecord());
-        //        hashMap.put("CALL_RECORD_URL", botOutoundTaskDetail.getCallRecordUrl());
-        //        hashMap.put("FEEDBACK_CONTENT", botOutoundTaskDetail.getFeedbackContent());
         hashMap.put("ANSWER_TIME", botOutoundTaskDetail.getAnswerTime() == null ? null : getLongData(botOutoundTaskDetail.getAnswerTime()));
         hashMap.put("HANGUP_TIME", botOutoundTaskDetail.getHangupTime() == null ? null : getLongData(botOutoundTaskDetail.getHangupTime()));
         hashMap.put("DURATION", botOutoundTaskDetail.getDuration());
         hashMap.put("DJXH", botOutoundTaskDetail.getDjxh());
-        //        hashMap.put("REMARK", botOutoundTaskDetail.getRemark());
-        //        hashMap.put("CREATOR", botOutoundTaskDetail.getCreator());
-        //        hashMap.put("MODIFIER", botOutoundTaskDetail.getModifier());
         hashMap.put("CALL_TIME", botOutoundTaskDetail.getCallTime() == null ? null : getLongData(botOutoundTaskDetail.getCallTime()));
-
         hashMap.put("STATUS", botOutoundTaskDetail.getStatus());
         hashMap.put("FEEDBACK_STATUS", botOutoundTaskDetail.getFeedbackStatus());
         if (StringUtils.equals(env, "prod")) {
             hashMap.put("QYMC", DecodeUtils.decodeCryptSimpleProd(botOutoundTaskDetail.getQymc(), cryptSimple));
             hashMap.put("RECEIVER_MOBILE", DecodeUtils.deodeCryptNumberProd(botOutoundTaskDetail.getReceiverMobile(), cryptNumber));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(botOutoundTaskDetail.getShxydm(), cryptBase36));
-        } else {
+        } else if(StringUtils.equals(env, "test")||StringUtils.equals(env, "dev")) {
             hashMap.put("QYMC", DecodeUtils.decodeCryptSimpleTest(botOutoundTaskDetail.getQymc(), cryptSimple));
             hashMap.put("RECEIVER_MOBILE", DecodeUtils.decodeCryptNumberTest(botOutoundTaskDetail.getReceiverMobile(), cryptNumber));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(botOutoundTaskDetail.getShxydm(), cryptBase36));
+        } else{
+            hashMap.put("QYMC", botOutoundTaskDetail.getQymc());
+            hashMap.put("RECEIVER_MOBILE", botOutoundTaskDetail.getReceiverMobile());
+            hashMap.put("SHXYDM", botOutoundTaskDetail.getShxydm());
         }
         hashMap.put("SWSMC", botOutoundTaskDetail.getSwsmc());
         if (botOutoundTaskDetail.getSgymc() != null) {
@@ -557,7 +571,7 @@ public class CompriseUtils {
             hashMap.put("DATA4", DecodeUtils.decodeCryptSimpleProd(bizData.getData4(), cryptSimple));
             hashMap.put("DATA4_NO_INDEX1", DecodeUtils.decodeCryptSimpleProd(bizData.getData4(), cryptSimple));
             hashMap.put("DATA5", DecodeUtils.decodeCryptSimpleProd(bizData.getData5(), cryptSimple));
-        } else {
+        } else if(StringUtils.equals(env, "test")||StringUtils.equals(env, "dev")) {
             hashMap.put("ID1", DecodeUtils.decodeCryptBase62Reverse6Test(bizData.getId1(), cryptBase62));
             hashMap.put("ID2", DecodeUtils.decodeCryptBase62Reverse6Test(bizData.getId2(), cryptBase62));
             hashMap.put("ID3", DecodeUtils.decodeCryptBase62Reverse6Test(bizData.getId3(), cryptBase62));
@@ -567,6 +581,16 @@ public class CompriseUtils {
             hashMap.put("DATA4", DecodeUtils.decodeCryptSimpleTest(bizData.getData4(), cryptSimple));
             hashMap.put("DATA4_NO_INDEX1", DecodeUtils.decodeCryptSimpleTest(bizData.getData4(), cryptSimple));
             hashMap.put("DATA5", DecodeUtils.decodeCryptSimpleTest(bizData.getData5(), cryptSimple));
+        } else{
+            hashMap.put("ID1", bizData.getId1());
+            hashMap.put("ID2", bizData.getId2());
+            hashMap.put("ID3", bizData.getId3());
+            hashMap.put("DATA1", bizData.getData1());
+            hashMap.put("DATA2", bizData.getData2());
+            hashMap.put("DATA3", bizData.getData3());
+            hashMap.put("DATA4", bizData.getData4());
+            hashMap.put("DATA4_NO_INDEX1", bizData.getData4());
+            hashMap.put("DATA5", bizData.getData5());
         }
 
         hashMap.put("BOT_BIZ_DATA_STATUS", bizData.getStatus());
@@ -853,11 +877,4 @@ public class CompriseUtils {
         }
     }
 
-
-    public static void main(String[] args) {
-        List<String> excelColumn = GsonUtil.getBean("[\"平湖市黄姑镇广源五金厂，您好！浙江税务征纳沟通平台(平湖市税务局）给您发送了关于认真核实校对人员基础数据准确性的通知信息，以及数据核实的任务，请直接点击数据核实模块，不要在待办里做，本次任务发送到每位企业的法人、财务、办税人，其中一人认真完成即，其中一人认真完成即，建议财务负责人完成。如有疑问请在各分局所税务网格群或者分局所引导直播群咨询，再次提醒，请直接点击钉钉平湖沟通平台主页数据核实模块完成任务，详细说明请看消息通知，数据核实模块也有详细任务说明及解释。\"]", new TypeToken<List<String>>() {
-        }.getType());
-
-        System.out.println(JSON.toJSONString(excelColumn));
-    }
 }
