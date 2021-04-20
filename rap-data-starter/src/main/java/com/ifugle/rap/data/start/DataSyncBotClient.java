@@ -3,8 +3,11 @@ package com.ifugle.rap.data.start;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Service;
 
+import com.ifugle.rap.data.config.AppBotCondition;
+import com.ifugle.rap.data.config.AppDsbCondition;
 import com.ifugle.rap.service.DataSyncService;
 
 /**
@@ -13,6 +16,7 @@ import com.ifugle.rap.service.DataSyncService;
  * @version $
  * @since 4月 12, 2021 17:36
  */
+@Conditional(AppBotCondition.class)
 @Service
 public class DataSyncBotClient {
 

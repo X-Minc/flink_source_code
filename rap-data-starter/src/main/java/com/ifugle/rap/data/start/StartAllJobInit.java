@@ -27,7 +27,7 @@ public class StartAllJobInit  implements CommandLineRunner {
     @Autowired(required = false)
     DataSyncDsbClient dataSyncDsbClient;
 
-    @Autowired
+    @Autowired(required = false)
     DataSyncBotClient dataSyncBotClient;
 
     /** 连接超时，默认：5000ms */
@@ -70,8 +70,9 @@ public class StartAllJobInit  implements CommandLineRunner {
         if(dataSyncDsbClient!=null) {
             dataSyncDsbClient.sync(); //同步丁税宝
         }
-
-        dataSyncBotClient.syncBot(); //同步税小蜜
+        if(dataSyncBotClient!=null) {
+            dataSyncBotClient.syncBot(); //同步税小蜜
+        }
     }
 
 }
