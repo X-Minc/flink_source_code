@@ -1,18 +1,9 @@
 package com.ifugle.rap.service.impl;
 
-import com.ifugle.rap.common.lang.util.DateUtils;
-import com.ifugle.rap.mapper.*;
-import com.ifugle.rap.mapper.dsb.XxzxXxmxMapper;
-import com.ifugle.rap.mapper.sca.BotScaTaskResultDOMapper;
-import com.ifugle.rap.mapper.zhcs.ZxArticleMapper;
-import com.ifugle.rap.model.dingtax.XxzxXxmx;
-import com.ifugle.rap.model.sca.BotScaTaskResultDO;
-import com.ifugle.rap.model.shuixiaomi.*;
-import com.ifugle.rap.model.zhcs.ZxArticle;
-import com.ifugle.rap.service.DataSyncService;
-import com.ifugle.rap.service.SyncService;
-import com.ifugle.rap.utils.CommonUtils;
-import com.ifugle.util.DateUtil;
+import java.text.MessageFormat;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +12,35 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.text.MessageFormat;
-import java.util.Date;
-import java.util.List;
+import com.ifugle.rap.common.lang.util.DateUtils;
+import com.ifugle.rap.mapper.BizDataMapper;
+import com.ifugle.rap.mapper.BotChatRequestMapper;
+import com.ifugle.rap.mapper.BotChatResponseMessageDOMapper;
+import com.ifugle.rap.mapper.BotConfigServerMapper;
+import com.ifugle.rap.mapper.BotMediaDOMapper;
+import com.ifugle.rap.mapper.BotOutoundTaskDetailMapper;
+import com.ifugle.rap.mapper.BotTrackDetailDOMapper;
+import com.ifugle.rap.mapper.BotUnawareDetailDOMapper;
+import com.ifugle.rap.mapper.KbsArticleDOMapper;
+import com.ifugle.rap.mapper.KbsKeywordDOMapper;
+import com.ifugle.rap.mapper.KbsQuestionArticleDOMapper;
+import com.ifugle.rap.mapper.KbsReadingDOMapper;
+import com.ifugle.rap.model.shuixiaomi.BizData;
+import com.ifugle.rap.model.shuixiaomi.BotChatRequest;
+import com.ifugle.rap.model.shuixiaomi.BotChatResponseMessageDO;
+import com.ifugle.rap.model.shuixiaomi.BotConfigServer;
+import com.ifugle.rap.model.shuixiaomi.BotMediaDO;
+import com.ifugle.rap.model.shuixiaomi.BotOutoundTaskDetailWithBLOBs;
+import com.ifugle.rap.model.shuixiaomi.BotTrackDetailDO;
+import com.ifugle.rap.model.shuixiaomi.BotUnawareDetailDO;
+import com.ifugle.rap.model.shuixiaomi.KbsArticleDOWithBLOBs;
+import com.ifugle.rap.model.shuixiaomi.KbsKeywordDO;
+import com.ifugle.rap.model.shuixiaomi.KbsQuestionArticleDO;
+import com.ifugle.rap.model.shuixiaomi.KbsReadingDOWithBLOBs;
+import com.ifugle.rap.service.DataSyncService;
+import com.ifugle.rap.service.SyncService;
+import com.ifugle.rap.utils.CommonUtils;
+import com.ifugle.util.DateUtil;
 
 /**
  * @author LiuZhengyang
@@ -52,22 +69,13 @@ public class DataSyncServiceImpl implements DataSyncService {
     private KbsQuestionArticleDOMapper kbsQuestionArticleDOMapper;
 
     @Autowired
-    private KbsQuestionDOMapper kbsQuestionDOMapper;
-
-    @Autowired
     private KbsReadingDOMapper kbsReadingDOMapper;
 
     @Autowired
     private KbsKeywordDOMapper kbsKeywordDOMapper;
 
     @Autowired
-    private YhzxxnzzcyDOMapper yhzxxnzzcyDOMapper;
-
-    @Autowired
     private BotMediaDOMapper botMediaDOMapper;
-
-    @Autowired
-    private ZxArticleMapper zxArticleMapper;
 
     @Autowired
     private BotConfigServerMapper botConfigServerMapper;
@@ -82,13 +90,8 @@ public class DataSyncServiceImpl implements DataSyncService {
     private BotOutoundTaskDetailMapper botOutoundTaskDetailMapper;
 
     @Autowired
-    private XxzxXxmxMapper xxzxXxmxMapper;
-
-    @Autowired
     private BotChatRequestMapper botChatRequestMapper;
-    
-    @Autowired
-    private BotScaTaskResultDOMapper botScaTaskResultDOMapper;
+
 
     @Value("${env}")
     String env;
@@ -136,6 +139,14 @@ public class DataSyncServiceImpl implements DataSyncService {
             } else {
                 break;
             }
+            if (botUnawareDetailDOS.size() < pageSize) {
+                //修改时间已经同步的时+1分钟还有没到现在，说明1分钟之内没有修改
+                if (DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "mi", 1).before(new Date())) {
+                    CommonUtils
+                            .writeLocalTimeFile(DateUtil.format(DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "ss", 1), DateUtil.ISO8601_DATEITME_LONG), "BOT_UNAWARE_DETAIL");
+                }
+                break;
+            }
             pageIndex++;
         }
         logger.info("#### [BOT_UNAWARE_DETAIL] 同步表数据单次结束");
@@ -159,6 +170,14 @@ public class DataSyncServiceImpl implements DataSyncService {
                 Date modificationDate = kbsQuestionArticleDOS.get(kbsQuestionArticleDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_QUESTION_ARTICLE");
             } else {
+                break;
+            }
+            if (kbsQuestionArticleDOS.size() < pageSize) {
+                //修改时间已经同步的时+1分钟还有没到现在，说明1分钟之内没有修改
+                if (DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "mi", 1).before(new Date())) {
+                    CommonUtils
+                            .writeLocalTimeFile(DateUtil.format(DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "ss", 1), DateUtil.ISO8601_DATEITME_LONG), "KBS_QUESTION_ARTICLE");
+                }
                 break;
             }
             pageIndex++;
@@ -186,6 +205,14 @@ public class DataSyncServiceImpl implements DataSyncService {
                 Date createDate = botTrackDetailDOS.get(botTrackDetailDOS.size() - 1).getCreationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "BOT_TRACK_DETAIL");
             } else {
+                break;
+            }
+            if (botTrackDetailDOS.size() < pageSize) {
+                //修改时间已经同步的时+1分钟还有没到现在，说明1分钟之内没有修改
+                if (DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "mi", 1).before(new Date())) {
+                    CommonUtils
+                            .writeLocalTimeFile(DateUtil.format(DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "ss", 1), DateUtil.ISO8601_DATEITME_LONG), "BOT_TRACK_DETAIL");
+                }
                 break;
             }
             pageIndex++;
@@ -216,37 +243,19 @@ public class DataSyncServiceImpl implements DataSyncService {
             } else {
                 break;
             }
+            if (botChatResponseMessageDOS.size() < pageSize) {
+                //修改时间已经同步的时+1分钟还有没到现在，说明1分钟之内没有修改
+                if (DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "mi", 1).before(new Date())) {
+                    CommonUtils
+                            .writeLocalTimeFile(DateUtil.format(DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "ss", 1), DateUtil.ISO8601_DATEITME_LONG), "BOT_CHAT_RESPONSE_MESSAGE");
+                }
+                break;
+            }
             pageIndex++;
         }
         logger.info("#### [BOT_CHAT_RESPONSE_MESSAGE] 同步表数据单次结束");
     }
 
-    /**
-     *
-     */
-    private void insertKbsQuestionForSync() {
-        String lastCreateTime = CommonUtils.readlocalTimeFile("KBS_QUESTION");
-        if (StringUtils.isEmpty(lastCreateTime)) {
-            logger.info("insertKbsQuestionForSync lastCreateTime is null");
-            return;
-        }
-        logger.info(MessageFormat.format("#### [KBS_QUESTION] 开始同步表 KBS_QUESTION 获取本地偏移时间 updateTime : {0}", lastCreateTime));
-        int pageIndex = 1;
-        while (true) {
-            Integer first = (pageIndex - 1) * pageSize;
-            List<KbsQuestionDO> kbsQuestionDOS = kbsQuestionDOMapper.selectKbsQuestionForUpdateWithLastUpdateTime(lastCreateTime, first, pageSize);
-            if (!CollectionUtils.isEmpty(kbsQuestionDOS)) {
-                logger.info("[KBS_QUESTION] 查询该表的列表的size，size=" + kbsQuestionDOS.size());
-                syncService.insertKbsQuestionAndCheckListSize(kbsQuestionDOS, pageSize);
-                Date modificationDate = kbsQuestionDOS.get(kbsQuestionDOS.size() - 1).getModificationDate();
-                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_QUESTION");
-            } else {
-                break;
-            }
-            pageIndex++;
-        }
-        logger.info("#### [KBS_QUESTION] 同步表数据单次结束");
-    }
 
     private void insertBotBizDataForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_BIZ_DATA");
@@ -265,6 +274,14 @@ public class DataSyncServiceImpl implements DataSyncService {
                 Date modificationDate = bizDataList.get(bizDataList.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "BOT_BIZ_DATA");
             } else {
+                break;
+            }
+            if (bizDataList.size() < pageSize) {
+                //修改时间已经同步的时+1分钟还有没到现在，说明1分钟之内没有修改
+                if (DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "mi", 1).before(new Date())) {
+                    CommonUtils
+                            .writeLocalTimeFile(DateUtil.format(DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "ss", 1), DateUtil.ISO8601_DATEITME_LONG), "BOT_BIZ_DATA");
+                }
                 break;
             }
             pageIndex++;
@@ -294,36 +311,17 @@ public class DataSyncServiceImpl implements DataSyncService {
             } else {
                 break;
             }
-            pageIndex++;
-        }
-        logger.info("#### [BOT_CONFIG_SERVER] 同步表数据单次结束");
-    }
-
-    /***
-     * 插入zx_article表,数据同步增量导入时调用
-     */
-    private void insertZxArticleForSync() {
-        String lastCreateTime = CommonUtils.readlocalTimeFile("ZX_ARTICLE");
-        if (StringUtils.isEmpty(lastCreateTime)) {
-            logger.info("insertZxArticleForSync lastCreateTime is null");
-            return;
-        }
-        logger.info(MessageFormat.format("#### [ZX_ARTICLE] 开始同步表 ZX_ARTICLE 获取本地偏移时间 updateTime : {0}", lastCreateTime));
-        int pageIndex = 1;
-        while (true) {
-            Integer first = (pageIndex - 1) * pageSize;
-            List<ZxArticle> zxArticles = zxArticleMapper.selectZxArticleForSync(lastCreateTime, first, pageSize);
-            if (!CollectionUtils.isEmpty(zxArticles)) {
-                logger.info("[ZX_ARTICLE] 查询该表的列表的size，size=" + zxArticles.size());
-                syncService.insertZxArticleAndCheckListSize(zxArticles, pageSize);
-                Date createDate = zxArticles.get(zxArticles.size() - 1).getCreationDate();
-                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "ZX_ARTICLE");
-            } else {
+            if (botConfigServers.size() < pageSize) {
+                //修改时间已经同步的时+1分钟还有没到现在，说明1分钟之内没有修改
+                if (DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "mi", 1).before(new Date())) {
+                    CommonUtils
+                            .writeLocalTimeFile(DateUtil.format(DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "ss", 1), DateUtil.ISO8601_DATEITME_LONG), "BOT_CONFIG_SERVER");
+                }
                 break;
             }
             pageIndex++;
         }
-        logger.info("#### [ZX_ARTICLE] 同步表数据单次结束");
+        logger.info("#### [BOT_CONFIG_SERVER] 同步表数据单次结束");
     }
 
     /***
@@ -391,6 +389,14 @@ public class DataSyncServiceImpl implements DataSyncService {
                 } else {
                     break;
                 }
+                if (botChatRequests.size() < pageSize) {
+                    //修改时间已经同步的时+1分钟还有没到现在，说明1分钟之内没有修改
+                    if (DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "mi", 1).before(new Date())) {
+                        CommonUtils
+                                .writeLocalTimeFile(DateUtil.format(DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "ss", 1), DateUtil.ISO8601_DATEITME_LONG), "BOT_CHAT_REQUEST");
+                    }
+                    break;
+                }
                 pageIndex++;
             }
         } catch (Exception e) {
@@ -399,39 +405,6 @@ public class DataSyncServiceImpl implements DataSyncService {
         logger.info("#### [BOT_CHAT_REQUEST] 同步表数据单次结束");
     }
 
-    /***
-     * 同步消息明细
-     */
-    private void insertXxzxXxmxForSync() {
-        String lastCreateTime = CommonUtils.readlocalTimeFile("XXZX_XXMX");
-        if (StringUtils.isEmpty(lastCreateTime)) {
-            logger.info("insertXxzxXxmxForSync lastCreateTime is null");
-            return;
-        }
-        int pageIndex = 1;
-        while (true) {
-            logger.info(MessageFormat.format("[XXZX_XXMX] 开始同步表 XXZX_XXMX 获取本地偏移时间 updateTime : {0}", lastCreateTime));
-            Integer first = (pageIndex - 1) * pageSize;
-            List<XxzxXxmx> xxzxXxmxs = xxzxXxmxMapper.selectXxzxXxmxForSync(lastCreateTime, first, pageSize);
-            if (!CollectionUtils.isEmpty(xxzxXxmxs)) {
-                logger.info("[XXZX_XXMX] 查询该表的列表的size，size=" + xxzxXxmxs.size());
-                syncService.insertXxzxXxmxAndCheckListSize(xxzxXxmxs, pageSize);
-                Date modificationDate = xxzxXxmxs.get(xxzxXxmxs.size() - 1).getXgsj();
-                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "XXZX_XXMX");
-                /***
-                 * 该逻辑是处理大范围修改时间是相同值的情况，减少循环offset的偏移量，start
-                 */
-                Date startDate = DateUtils.string2Date(lastCreateTime, DateUtils.simple);
-                if (modificationDate.compareTo(startDate) > 0 || xxzxXxmxs.size() < pageSize) {
-                    break;
-                }
-            } else {
-                break;
-            }
-            pageIndex++;
-        }
-        logger.info("#### [XXZX_XXMX] 同步表数据单次结束");
-    }
 
     /**
      *
@@ -454,6 +427,14 @@ public class DataSyncServiceImpl implements DataSyncService {
                 Date modificationDate = kbsArticleDOS.get(kbsArticleDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "KBS_ARTICLE");
             } else {
+                break;
+            }
+            if (kbsArticleDOS.size() < pageSize) {
+                //修改时间已经同步的时+1分钟还有没到现在，说明1分钟之内没有修改
+                if (DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "mi", 1).before(new Date())) {
+                    CommonUtils
+                            .writeLocalTimeFile(DateUtil.format(DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "ss", 1), DateUtil.ISO8601_DATEITME_LONG), "KBS_ARTICLE");
+                }
                 break;
             }
             pageIndex++;
@@ -483,6 +464,14 @@ public class DataSyncServiceImpl implements DataSyncService {
             } else {
                 break;
             }
+            if (kbsReadingDOS.size() < pageSize) {
+                //修改时间已经同步的时+1分钟还有没到现在，说明1分钟之内没有修改
+                if (DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "mi", 1).before(new Date())) {
+                    CommonUtils
+                            .writeLocalTimeFile(DateUtil.format(DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "ss", 1), DateUtil.ISO8601_DATEITME_LONG), "KBS_READING");
+                }
+                break;
+            }
             pageIndex++;
         }
         logger.info("#### [KBS_READING] 同步表数据单次结束");
@@ -510,36 +499,19 @@ public class DataSyncServiceImpl implements DataSyncService {
             } else {
                 break;
             }
+            if (kbsKeywordDOS.size() < pageSize) {
+                //修改时间已经同步的时+1分钟还有没到现在，说明1分钟之内没有修改
+                if (DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "mi", 1).before(new Date())) {
+                    CommonUtils
+                            .writeLocalTimeFile(DateUtil.format(DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "ss", 1), DateUtil.ISO8601_DATEITME_LONG), "KBS_KEYWORD");
+                }
+                break;
+            }
             pageIndex++;
         }
         logger.info("#### [KBS_KEYWORD] 同步表数据单次结束");
     }
 
-    //    /**
-    //     * @auther: Liuzhengyang
-    //     * 插入Yhzxxnzzcy 表的内容，数据增量同步时调用
-    //     */
-    //    private void insertYhzxxnzzcyForSync() {
-    //        String lastCreateTime = CommonUtils.readlocalTimeFile("yhzx_xnzz_cy");
-    //        if (StringUtils.isEmpty(lastCreateTime)) {
-    //            logger.info("insertYhzxxnzzcyForSync lastCreateTime is null");
-    //            return;
-    //        }
-    //        logger.info(MessageFormat.format("yhzx_xnzz_cy lastCreateTime : {0}", lastCreateTime));
-    //        int pageIndex = 1;
-    //        while(true) {
-    //            Integer first = (pageIndex - 1) * pageSize;
-    //            List<YhzxxnzzcyDO> yhzxxnzzcyDOs = yhzxxnzzcyDOMapper.selectYhzxxnzzcyForSync(lastCreateTime, first, pageSize);
-    //            if (!CollectionUtils.isEmpty(yhzxxnzzcyDOs)) {
-    //                syncService.insertYhzxxnzzcyAndCheckListSize(yhzxxnzzcyDOs, pageSize);
-    //                Date createDate = yhzxxnzzcyDOs.get(yhzxxnzzcyDOs.size() - 1).getCjsj();
-    //                CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createDate), "yhzx_xnzz_cy");
-    //            }else {
-    //                break;
-    //            }
-    //            pageIndex++;
-    //        }
-    //    }
 
     private void insertBotMediaForSync() {
         String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_MEDIA");
@@ -558,6 +530,14 @@ public class DataSyncServiceImpl implements DataSyncService {
                 Date createTime = botMediaDOS.get(botMediaDOS.size() - 1).getModificationDate();
                 CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(createTime), "BOT_MEDIA");
             } else {
+                break;
+            }
+            if (botMediaDOS.size() < pageSize) {
+                //修改时间已经同步的时+1分钟还有没到现在，说明1分钟之内没有修改
+                if (DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "mi", 1).before(new Date())) {
+                    CommonUtils
+                            .writeLocalTimeFile(DateUtil.format(DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "ss", 1), DateUtil.ISO8601_DATEITME_LONG), "BOT_MEDIA");
+                }
                 break;
             }
             pageIndex++;
@@ -617,6 +597,14 @@ public class DataSyncServiceImpl implements DataSyncService {
                             "BOT_OUTBOUND_TASK_DETAIL");
                 }
             } else {
+                break;
+            }
+            if (botOutoundTaskDetailWithBLOBs.size() < pageSize) {
+                //修改时间已经同步的时+1分钟还有没到现在，说明1分钟之内没有修改
+                if (DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "mi", 1).before(new Date())) {
+                    CommonUtils
+                            .writeLocalTimeFile(DateUtil.format(DateUtil.dateAdd(DateUtil.dateOf(lastCreateTime), "ss", 1), DateUtil.ISO8601_DATEITME_LONG), "BOT_OUTBOUND_TASK_DETAIL");
+                }
                 break;
             }
             pageIndex++;
@@ -700,32 +688,5 @@ public class DataSyncServiceImpl implements DataSyncService {
         }
         logger.info("init data localhost file end");
     }
-    
-    /**
-    *
-    */
-   private void insertBotScaTaskResultForSync() {
-       String lastCreateTime = CommonUtils.readlocalTimeFile("BOT_SCA_TASK_RESULT");
-       if (StringUtils.isEmpty(lastCreateTime)) {
-           logger.info("insertBotScaTaskResultForSync lastCreateTime is null");
-           return;
-       }
-       logger.info(MessageFormat.format("#### [BOT_SCA_TASK_RESULT] 开始同步表 BOT_SCA_TASK_RESULT 获取本地偏移时间 updateTime : {0}", lastCreateTime));
-       int pageIndex = 1;
-       while (true) {
-           Integer first = (pageIndex - 1) * pageSize;
-           List<BotScaTaskResultDO> botScaTaskResultDOs = botScaTaskResultDOMapper.selectBotScaTaskResultForUpdateWithLastUpdateTime(lastCreateTime, first, pageSize);
-           if (!CollectionUtils.isEmpty(botScaTaskResultDOs)) {
-               logger.info("[BOT_SCA_TASK_RESULT] 查询该表的列表的size，size=" + botScaTaskResultDOs.size());
-               syncService.insertBotScaTaskResultAndCheckListSize(botScaTaskResultDOs, pageSize);
-               Date modificationDate = botScaTaskResultDOs.get(botScaTaskResultDOs.size() - 1).getModificationDate();
-               CommonUtils.writeLocalTimeFile(DateUtils.simpleFormat(modificationDate), "BOT_SCA_TASK_RESULT");
-           } else {
-               break;
-           }
-           pageIndex++;
-       }
-       logger.info("#### [BOT_SCA_TASK_RESULT] 同步表数据单次结束");
-   }
 
 }
