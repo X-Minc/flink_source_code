@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifugle.rap.dsb.dsp.sjcq.mapper.YhzxXnzzBmMapper">
+	<resultMap id="BaseResultMap" type="com.ifugle.rap.bigdata.task.YhzxXnzzBm">
+		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+		<id column="id" javaType="java.lang.Long" jdbcType="BIGINT" property="id" />
+		<result column="xnzz_id" javaType="java.lang.Long" jdbcType="BIGINT" property="xnzzId" />
+		<result column="parent_id" javaType="java.lang.Long" jdbcType="BIGINT" property="parentId" />
+		<result column="deptid" javaType="java.lang.String" jdbcType="VARCHAR" property="deptId" />
+		<result column="bmmc" javaType="java.lang.String" jdbcType="VARCHAR" property="bmmc" />
+		<result column="parent_deptid" javaType="java.lang.String" jdbcType="VARCHAR" property="parentDeptId" />
+		<result column="swjg_dm" javaType="java.lang.Long" jdbcType="BIGINT" property="swjgDm" />
+		<result column="zggsjg_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="zggsjgDm" />
+		<result column="zgdsjg_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="zgdsjgDm" />
+		<result column="bmsx" javaType="java.lang.Byte" jdbcType="TINYINT" property="bmsx" />
+		<result column="xxtmbj" javaType="java.lang.Byte" jdbcType="TINYINT" property="xxtmbj" />
+		<result column="bmcysx" javaType="java.lang.Integer" jdbcType="INTEGER" property="bmcysx" />
+		<result column="xssx" javaType="java.lang.Long" jdbcType="BIGINT" property="xssx" />
+		<result column="ghbj" javaType="java.lang.Byte" jdbcType="TINYINT" property="ghbj" />
+		<result column="yhs" javaType="java.lang.Integer" jdbcType="INTEGER" property="yhs" />
+		<result column="qys" javaType="java.lang.Integer" jdbcType="INTEGER" property="qys" />
+		<result column="bm_path" javaType="java.lang.String" jdbcType="VARCHAR" property="bmPath" />
+		<result column="bmmc_path" javaType="java.lang.String" jdbcType="VARCHAR" property="bmmcPath" />
+		<result column="cjr" javaType="java.lang.String" jdbcType="VARCHAR" property="cjr" />
+		<result column="cjsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="cjsj" />
+		<result column="xgr" javaType="java.lang.String" jdbcType="VARCHAR" property="xgr" />
+		<result column="xgsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="xgsj" />
+		<result column="is_delete" javaType="java.lang.Byte" jdbcType="TINYINT" property="isDelete" />
+		<result column="SWJGBZ" javaType="java.lang.Byte" jdbcType="TINYINT" property="swjgbz" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+		id, xnzz_id, parent_id, deptid, bmmc, parent_deptid, swjg_dm, zggsjg_dm, zgdsjg_dm, 
+		bmsx, xxtmbj, bmcysx, xssx, ghbj, yhs, qys, bm_path, bmmc_path, cjr, cjsj, xgr, xgsj, 
+		is_delete, SWJGBZ
+	</sql>
+
+	<select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+		select /*+TDDL:slave()*/
+		<include refid="Base_Column_List" />
+		from yhzx_xnzz_bm
+		where id = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Long">
+		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+		delete from yhzx_xnzz_bm
+		where id = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+	</delete>
+
+	<insert id="insert" parameterType="com.ifugle.rap.bigdata.task.YhzxXnzzBm">
+		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into yhzx_xnzz_bm (xnzz_id, parent_id, deptid, 
+			bmmc, parent_deptid, swjg_dm, 
+			zggsjg_dm, zgdsjg_dm, bmsx, 
+			xxtmbj, bmcysx, xssx, 
+			ghbj, yhs, qys, bm_path, 
+			bmmc_path, cjr, cjsj, 
+			xgr, xgsj, is_delete, 
+			SWJGBZ)
+		values (
+			#{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long},
+			#{parentId,jdbcType=BIGINT,javaType=java.lang.Long},
+			#{deptId,jdbcType=VARCHAR,javaType=java.lang.String},
+			#{bmmc,jdbcType=VARCHAR,javaType=java.lang.String},
+			#{parentDeptId,jdbcType=VARCHAR,javaType=java.lang.String},
+			#{swjgDm,jdbcType=BIGINT,javaType=java.lang.Long},
+			#{zggsjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+			#{zgdsjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+			#{bmsx,jdbcType=TINYINT,javaType=java.lang.Byte},
+			#{xxtmbj,jdbcType=TINYINT,javaType=java.lang.Byte},
+			#{bmcysx,jdbcType=INTEGER,javaType=java.lang.Integer},
+			#{xssx,jdbcType=BIGINT,javaType=java.lang.Long},
+			#{ghbj,jdbcType=TINYINT,javaType=java.lang.Byte},
+			#{yhs,jdbcType=INTEGER,javaType=java.lang.Integer},
+			#{qys,jdbcType=INTEGER,javaType=java.lang.Integer},
+			#{bmPath,jdbcType=VARCHAR,javaType=java.lang.String},
+			#{bmmcPath,jdbcType=VARCHAR,javaType=java.lang.String},
+			#{cjr,jdbcType=VARCHAR,javaType=java.lang.String},
+			#{cjsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+			#{xgr,jdbcType=VARCHAR,javaType=java.lang.String},
+			#{xgsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+			#{isDelete,jdbcType=TINYINT,javaType=java.lang.Byte},
+			#{swjgbz,jdbcType=TINYINT,javaType=java.lang.Byte})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.ifugle.rap.bigdata.task.YhzxXnzzBm">
+		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into yhzx_xnzz_bm
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="xnzzId != null">
+				xnzz_id,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="deptId != null">
+				deptid,
+			</if>
+			<if test="bmmc != null">
+				bmmc,
+			</if>
+			<if test="parentDeptId != null">
+				parent_deptid,
+			</if>
+			<if test="swjgDm != null">
+				swjg_dm,
+			</if>
+			<if test="zggsjgDm != null">
+				zggsjg_dm,
+			</if>
+			<if test="zgdsjgDm != null">
+				zgdsjg_dm,
+			</if>
+			<if test="bmsx != null">
+				bmsx,
+			</if>
+			<if test="xxtmbj != null">
+				xxtmbj,
+			</if>
+			<if test="bmcysx != null">
+				bmcysx,
+			</if>
+			<if test="xssx != null">
+				xssx,
+			</if>
+			<if test="ghbj != null">
+				ghbj,
+			</if>
+			<if test="yhs != null">
+				yhs,
+			</if>
+			<if test="qys != null">
+				qys,
+			</if>
+			<if test="bmPath != null">
+				bm_path,
+			</if>
+			<if test="bmmcPath != null">
+				bmmc_path,
+			</if>
+			<if test="cjr != null">
+				cjr,
+			</if>
+			<if test="cjsj != null">
+				cjsj,
+			</if>
+			<if test="xgr != null">
+				xgr,
+			</if>
+			<if test="xgsj != null">
+				xgsj,
+			</if>
+			<if test="isDelete != null">
+				is_delete,
+			</if>
+			<if test="swjgbz != null">
+				SWJGBZ,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="xnzzId != null">
+				#{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=BIGINT,javaType=java.lang.Long},
+			</if>
+			<if test="deptId != null">
+				#{deptId,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="bmmc != null">
+				#{bmmc,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="parentDeptId != null">
+				#{parentDeptId,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="swjgDm != null">
+				#{swjgDm,jdbcType=BIGINT,javaType=java.lang.Long},
+			</if>
+			<if test="zggsjgDm != null">
+				#{zggsjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="zgdsjgDm != null">
+				#{zgdsjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="bmsx != null">
+				#{bmsx,jdbcType=TINYINT,javaType=java.lang.Byte},
+			</if>
+			<if test="xxtmbj != null">
+				#{xxtmbj,jdbcType=TINYINT,javaType=java.lang.Byte},
+			</if>
+			<if test="bmcysx != null">
+				#{bmcysx,jdbcType=INTEGER,javaType=java.lang.Integer},
+			</if>
+			<if test="xssx != null">
+				#{xssx,jdbcType=BIGINT,javaType=java.lang.Long},
+			</if>
+			<if test="ghbj != null">
+				#{ghbj,jdbcType=TINYINT,javaType=java.lang.Byte},
+			</if>
+			<if test="yhs != null">
+				#{yhs,jdbcType=INTEGER,javaType=java.lang.Integer},
+			</if>
+			<if test="qys != null">
+				#{qys,jdbcType=INTEGER,javaType=java.lang.Integer},
+			</if>
+			<if test="bmPath != null">
+				#{bmPath,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="bmmcPath != null">
+				#{bmmcPath,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="cjr != null">
+				#{cjr,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="cjsj != null">
+				#{cjsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+			</if>
+			<if test="xgr != null">
+				#{xgr,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="xgsj != null">
+				#{xgsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+			</if>
+			<if test="isDelete != null">
+				#{isDelete,jdbcType=TINYINT,javaType=java.lang.Byte},
+			</if>
+			<if test="swjgbz != null">
+				#{swjgbz,jdbcType=TINYINT,javaType=java.lang.Byte},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByIdSelective" parameterType="com.ifugle.rap.bigdata.task.YhzxXnzzBm">
+		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+		update yhzx_xnzz_bm
+		<set>
+			<if test="xnzzId != null">
+				xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId,jdbcType=BIGINT,javaType=java.lang.Long},
+			</if>
+			<if test="deptId != null">
+				deptid = #{deptId,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="bmmc != null">
+				bmmc = #{bmmc,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="parentDeptId != null">
+				parent_deptid = #{parentDeptId,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="swjgDm != null">
+				swjg_dm = #{swjgDm,jdbcType=BIGINT,javaType=java.lang.Long},
+			</if>
+			<if test="zggsjgDm != null">
+				zggsjg_dm = #{zggsjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="zgdsjgDm != null">
+				zgdsjg_dm = #{zgdsjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="bmsx != null">
+				bmsx = #{bmsx,jdbcType=TINYINT,javaType=java.lang.Byte},
+			</if>
+			<if test="xxtmbj != null">
+				xxtmbj = #{xxtmbj,jdbcType=TINYINT,javaType=java.lang.Byte},
+			</if>
+			<if test="bmcysx != null">
+				bmcysx = #{bmcysx,jdbcType=INTEGER,javaType=java.lang.Integer},
+			</if>
+			<if test="xssx != null">
+				xssx = #{xssx,jdbcType=BIGINT,javaType=java.lang.Long},
+			</if>
+			<if test="ghbj != null">
+				ghbj = #{ghbj,jdbcType=TINYINT,javaType=java.lang.Byte},
+			</if>
+			<if test="yhs != null">
+				yhs = #{yhs,jdbcType=INTEGER,javaType=java.lang.Integer},
+			</if>
+			<if test="qys != null">
+				qys = #{qys,jdbcType=INTEGER,javaType=java.lang.Integer},
+			</if>
+			<if test="bmPath != null">
+				bm_path = #{bmPath,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="bmmcPath != null">
+				bmmc_path = #{bmmcPath,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="cjr != null">
+				cjr = #{cjr,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="cjsj != null">
+				cjsj = #{cjsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+			</if>
+			<if test="xgr != null">
+				xgr = #{xgr,jdbcType=VARCHAR,javaType=java.lang.String},
+			</if>
+			<if test="xgsj != null">
+				xgsj = #{xgsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+			</if>
+			<if test="isDelete != null">
+				is_delete = #{isDelete,jdbcType=TINYINT,javaType=java.lang.Byte},
+			</if>
+			<if test="swjgbz != null">
+				SWJGBZ = #{swjgbz,jdbcType=TINYINT,javaType=java.lang.Byte},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+	</update>
+
+	<update id="updateById" parameterType="com.ifugle.rap.bigdata.task.YhzxXnzzBm">
+		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+		update yhzx_xnzz_bm
+		set xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long},
+			parent_id = #{parentId,jdbcType=BIGINT,javaType=java.lang.Long},
+			deptid = #{deptId,jdbcType=VARCHAR,javaType=java.lang.String},
+			bmmc = #{bmmc,jdbcType=VARCHAR,javaType=java.lang.String},
+			parent_deptid = #{parentDeptId,jdbcType=VARCHAR,javaType=java.lang.String},
+			swjg_dm = #{swjgDm,jdbcType=BIGINT,javaType=java.lang.Long},
+			zggsjg_dm = #{zggsjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+			zgdsjg_dm = #{zgdsjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+			bmsx = #{bmsx,jdbcType=TINYINT,javaType=java.lang.Byte},
+			xxtmbj = #{xxtmbj,jdbcType=TINYINT,javaType=java.lang.Byte},
+			bmcysx = #{bmcysx,jdbcType=INTEGER,javaType=java.lang.Integer},
+			xssx = #{xssx,jdbcType=BIGINT,javaType=java.lang.Long},
+			ghbj = #{ghbj,jdbcType=TINYINT,javaType=java.lang.Byte},
+			yhs = #{yhs,jdbcType=INTEGER,javaType=java.lang.Integer},
+			qys = #{qys,jdbcType=INTEGER,javaType=java.lang.Integer},
+			bm_path = #{bmPath,jdbcType=VARCHAR,javaType=java.lang.String},
+			bmmc_path = #{bmmcPath,jdbcType=VARCHAR,javaType=java.lang.String},
+			cjr = #{cjr,jdbcType=VARCHAR,javaType=java.lang.String},
+			cjsj = #{cjsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+			xgr = #{xgr,jdbcType=VARCHAR,javaType=java.lang.String},
+			xgsj = #{xgsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+			is_delete = #{isDelete,jdbcType=TINYINT,javaType=java.lang.Byte},
+			SWJGBZ = #{swjgbz,jdbcType=TINYINT,javaType=java.lang.Byte}
+		where id = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+	</update>
+
+	<select id="queryAllBmIds" resultType="com.ifugle.rap.bigdata.task.YhzxXnzzBm">
+		select /*+TDDL:slave()*/  b.id, b.parent_id as parentId, b.zggsjg_dm as zggsjgDm
+		from yhzx_xnzz_bm b
+		where 1 = 1
+		<if test="xnzzId != null">
+			and b.xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+		</if>
+	</select>
+
+	<select id="listBmByUpdate" resultType="com.ifugle.rap.dsb.dsp.es.model.DepartOds">
+		select  /*+TDDL:slave()*/
+			bm.id,
+			bm.xnzz_id as xnzzId,
+			bm.parent_id as parentId,
+			bm.cjsj,
+			bm.xgsj,
+			bm.bmsx,
+			bm.xssx,
+            bm.bmmc,
+			bm.is_delete as isDelete
+		from yhzx_xnzz_bm bm
+		where 1=1
+		<if test="xnzzId != null">
+			and bm.xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+		</if>
+		<if test="bmIds != null">
+			and bm.id in (
+				<foreach collection="bmIds" separator="," item="bmId">
+					#{bmId,jdbcType=BIGINT,javaType=java.lang.Long}
+				</foreach>
+			)
+		</if>
+		<if test="startDate != null">
+			and bm.xgsj &gt;= #{startDate,jdbcType=TIMESTAMP,javaType=java.util.Date}
+		</if>
+	</select>
+
+	<select id="listAllBmParentIds" resultType="long">
+		select /*+TDDL:slave()*/ DISTINCT parent_id from yhzx_xnzz_bm
+		where is_delete = 0
+		<if test="xnzzId != null">
+			and xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+		</if>
+		<if test="bmIds != null">
+			and parent_id in (
+			<foreach collection="bmIds" separator="," item="bmId">
+				#{bmId,jdbcType=BIGINT,javaType=java.lang.Long}
+			</foreach>
+			)
+		</if>
+	</select>
+
+
+	<select id="listAggsBmByIds" resultType="com.ifugle.rap.bigdata.task.DepartOds">
+		select /*+TDDL:slave()*/
+			id,
+			bmmc,
+		  	bmmc_path as bmmcPath
+		from yhzx_xnzz_bm
+		where is_delete = 0
+		<if test="xnzzId != null">
+			and xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+		</if>
+		<if test="bmIds != null">
+			and id in (
+			<foreach collection="bmIds" separator="," item="bmId">
+				#{bmId,jdbcType=BIGINT,javaType=java.lang.Long}
+			</foreach>
+			)
+		</if>
+		order by  bmsx, parent_id, xssx
+	</select>
+
+
+	<select id="listAggsTwoClass" resultType="com.ifugle.rap.bigdata.task.DepartOds">
+		select /*+TDDL:slave()*/
+		id,
+		bmmc,
+		bmmc_path as bmmcPath
+		from yhzx_xnzz_bm
+		where is_delete = 0
+		<if test="xnzzId != null">
+			and xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+		</if>
+		and bmsx = 2
+		and length(bm_path) - length(replace(bm_path,'-',''))=1
+		order by  bmsx, parent_id, xssx
+	</select>
+
+	<!-- 查询数据库当前日期 -->
+	<select id="getDbCurrentDate" resultType="java.util.Date">
+		select NOW()
+	</select>
+
+	<resultMap id="BaseResultMap1" type="com.ifugle.rap.bigdata.task.YhzxXnzzBm">
+		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+		<id column="id" javaType="java.lang.Long" jdbcType="BIGINT" property="id" />
+		<result column="xnzz_id" javaType="java.lang.Long" jdbcType="BIGINT" property="xnzzId" />
+		<result column="parent_id" javaType="java.lang.Long" jdbcType="BIGINT" property="parentId" />
+		<result column="deptid" javaType="java.lang.String" jdbcType="VARCHAR" property="deptId" />
+		<result column="bmmc" javaType="java.lang.String" jdbcType="VARCHAR" property="bmmc" />
+		<result column="parent_deptid" javaType="java.lang.String" jdbcType="VARCHAR" property="parentDeptId" />
+		<result column="swjg_dm" javaType="java.lang.Long" jdbcType="BIGINT" property="swjgDm" />
+		<result column="zggsjg_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="zggsjgDm" />
+		<result column="zgdsjg_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="zgdsjgDm" />
+		<result column="bmsx" javaType="java.lang.Byte" jdbcType="TINYINT" property="bmsx" />
+		<result column="xxtmbj" javaType="java.lang.Byte" jdbcType="TINYINT" property="xxtmbj" />
+		<result column="bmcysx" javaType="java.lang.Integer" jdbcType="INTEGER" property="bmcysx" />
+		<result column="xssx" javaType="java.lang.Long" jdbcType="BIGINT" property="xssx" />
+		<result column="ghbj" javaType="java.lang.Byte" jdbcType="TINYINT" property="ghbj" />
+		<result column="yhs" javaType="java.lang.Integer" jdbcType="INTEGER" property="yhs" />
+		<result column="qys" javaType="java.lang.Integer" jdbcType="INTEGER" property="qys" />
+		<result column="bm_path" javaType="java.lang.String" jdbcType="VARCHAR" property="bmPath" />
+		<result column="bmmc_path" javaType="java.lang.String" jdbcType="VARCHAR" property="bmmcPath" />
+		<result column="cjr" javaType="java.lang.String" jdbcType="VARCHAR" property="cjr" />
+		<result column="cjsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="cjsj" />
+		<result column="xgr" javaType="java.lang.String" jdbcType="VARCHAR" property="xgr" />
+		<result column="xgsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="xgsj" />
+		<result column="is_delete" javaType="java.lang.Byte" jdbcType="TINYINT" property="isDelete" />
+	</resultMap>
+
+	<sql id="Base_Column_List1">
+		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+		id, xnzz_id, parent_id, deptid, bmmc, parent_deptid, swjg_dm, zggsjg_dm, zgdsjg_dm,
+		bmsx, xxtmbj, bmcysx, xssx, ghbj, yhs, qys, bm_path, bmmc_path, cjr, cjsj, xgr, xgsj,
+		is_delete
+	</sql>
+
+
+	<resultMap extends="BaseResultMap1" id="BmChildVOMap" type="com.ifugle.rap.bigdata.task.YhzxXnzzBmChild">
+	</resultMap>
+	<select id="listByParentId" resultMap="BmChildVOMap">
+		select
+		<include refid="Base_Column_List1" />
+		from yhzx_xnzz_bm
+		where parent_id = #{parentId,jdbcType=BIGINT,javaType=java.lang.Long}
+		and xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+		<if test="bmmc != null">
+			and bmmc like CONCAT('%',#{bmmc,jdbcType=VARCHAR,javaType=java.lang.String},'%')
+		</if>
+		<if test="bmsxs != null and bmsxs.size() &gt; 0">
+			AND bmsx in
+			<foreach close=")" collection="bmsxs" item="bmsx" open="(" separator=",">
+				#{bmsx}
+			</foreach>
+		</if>
+		and is_delete = 0
+		ORDER BY xssx
+	</select>
+</mapper>

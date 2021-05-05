@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifugle.rap.dsb.dsp.base.mapper.BiDmSwjgMapper">
+    <resultMap id="BaseResultMap" type="com.ifugle.rap.bigdata.task.BiDmSwjg">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        <id column="swjg_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="swjgDm"/>
+        <result column="swjgmc" javaType="java.lang.String" jdbcType="VARCHAR" property="swjgmc"/>
+        <result column="swjgjc" javaType="java.lang.String" jdbcType="VARCHAR" property="swjgjc"/>
+        <result column="swjgbz" javaType="java.lang.Byte" jdbcType="TINYINT" property="swjgbz"/>
+        <result column="sjswjg_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="sjswjgDm"/>
+        <result column="swjg_dm_path" javaType="java.lang.String" jdbcType="VARCHAR" property="swjgDmPath"/>
+        <result column="swjgcj" javaType="java.lang.Byte" jdbcType="TINYINT" property="swjgcj"/>
+        <result column="xnzz_id" javaType="java.lang.Long" jdbcType="BIGINT" property="xnzzId"/>
+        <result column="xnzzmc" javaType="java.lang.String" jdbcType="VARCHAR" property="xnzzmc"/>
+        <result column="bm_ids" javaType="java.lang.String" jdbcType="VARCHAR" property="bmIds"/>
+        <result column="xzqhsz_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="xzqhszDm"/>
+        <result column="qybz" javaType="java.lang.Byte" jdbcType="TINYINT" property="qybz"/>
+        <result column="qyrq" javaType="java.util.Date" jdbcType="DATE" property="qyrq"/>
+        <result column="bjxsbz" javaType="java.lang.Byte" jdbcType="TINYINT" property="bjxsbz"/>
+        <result column="cjsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="cjsj"/>
+        <result column="xgsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="xgsj"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        swjg_dm, swjgjc as swjgmc, swjgjc, swjgbz, sjswjg_dm, swjg_dm_path, swjgcj, xnzz_id, xnzzmc,
+        bm_ids, xzqhsz_dm, qybz, qyrq, bjxsbz, cjsj, xgsj
+    </sql>
+
+    <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where swjg_dm = #{swjgDm,jdbcType=VARCHAR,javaType=java.lang.String}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        delete from bi_dm_swjg
+        where swjg_dm = #{swjgDm,jdbcType=VARCHAR,javaType=java.lang.String}
+    </delete>
+
+    <insert id="insert" parameterType="com.ifugle.rap.bigdata.task.BiDmSwjg">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        insert into bi_dm_swjg (swjg_dm, swjgmc, swjgjc,
+        swjgbz, sjswjg_dm, swjg_dm_path,
+        swjgcj, xnzz_id, xnzzmc,
+        bm_ids, xzqhsz_dm, qybz,
+        qyrq, cjsj, xgsj)
+        values (
+        #{swjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{swjgmc,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{swjgjc,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{swjgbz,jdbcType=TINYINT,javaType=java.lang.Byte},
+        #{sjswjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{swjgDmPath,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{swjgcj,jdbcType=TINYINT,javaType=java.lang.Byte},
+        #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long},
+        #{xnzzmc,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{bmIds,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{xzqhszDm,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{qybz,jdbcType=TINYINT,javaType=java.lang.Byte},
+        #{qyrq,jdbcType=DATE,javaType=java.util.Date},
+        #{cjsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+        #{xgsj,jdbcType=TIMESTAMP,javaType=java.util.Date})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ifugle.rap.bigdata.task.BiDmSwjg">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        insert into bi_dm_swjg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            swjg_dm,
+            <if test="swjgmc != null">
+                swjgmc,
+            </if>
+            <if test="swjgjc != null">
+                swjgjc,
+            </if>
+            <if test="swjgbz != null">
+                swjgbz,
+            </if>
+            <if test="sjswjgDm != null">
+                sjswjg_dm,
+            </if>
+            <if test="swjgDmPath != null">
+                swjg_dm_path,
+            </if>
+            <if test="swjgcj != null">
+                swjgcj,
+            </if>
+            <if test="xnzzId != null">
+                xnzz_id,
+            </if>
+            <if test="xnzzmc != null">
+                xnzzmc,
+            </if>
+            <if test="bmIds != null">
+                bm_ids,
+            </if>
+            <if test="xzqhszDm != null">
+                xzqhsz_dm,
+            </if>
+            <if test="qybz != null">
+                qybz,
+            </if>
+            <if test="qyrq != null">
+                qyrq,
+            </if>
+            <if test="cjsj != null">
+                cjsj,
+            </if>
+            <if test="xgsj != null">
+                xgsj,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{swjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+            <if test="swjgmc != null">
+                #{swjgmc,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="swjgjc != null">
+                #{swjgjc,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="swjgbz != null">
+                #{swjgbz,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            <if test="sjswjgDm != null">
+                #{sjswjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="swjgDmPath != null">
+                #{swjgDmPath,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="swjgcj != null">
+                #{swjgcj,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            <if test="xnzzId != null">
+                #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <if test="xnzzmc != null">
+                #{xnzzmc,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="bmIds != null">
+                #{bmIds,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="xzqhszDm != null">
+                #{xzqhszDm,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="qybz != null">
+                #{qybz,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            <if test="qyrq != null">
+                #{qyrq,jdbcType=DATE,javaType=java.util.Date},
+            </if>
+            <if test="cjsj != null">
+                #{cjsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            </if>
+            <if test="xgsj != null">
+                #{xgsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByIdSelective" parameterType="com.ifugle.rap.bigdata.task.BiDmSwjg">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        update bi_dm_swjg
+        <set>
+            <if test="swjgmc != null">
+                swjgmc = #{swjgmc,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="swjgjc != null">
+                swjgjc = #{swjgjc,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="swjgbz != null">
+                swjgbz = #{swjgbz,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            <if test="sjswjgDm != null">
+                sjswjg_dm = #{sjswjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="swjgDmPath != null">
+                swjg_dm_path = #{swjgDmPath,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="swjgcj != null">
+                swjgcj = #{swjgcj,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            <if test="xnzzId != null">
+                xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <if test="xnzzmc != null">
+                xnzzmc = #{xnzzmc,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="bmIds != null">
+                bm_ids = #{bmIds,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="xzqhszDm != null">
+                xzqhsz_dm = #{xzqhszDm,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="qybz != null">
+                qybz = #{qybz,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            <if test="qyrq != null">
+                qyrq = #{qyrq,jdbcType=DATE,javaType=java.util.Date},
+            </if>
+            <if test="cjsj != null">
+                cjsj = #{cjsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            </if>
+            <if test="xgsj != null">
+                xgsj = #{xgsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            </if>
+        </set>
+        where swjg_dm = #{swjgDm,jdbcType=VARCHAR,javaType=java.lang.String}
+    </update>
+
+    <update id="updateById" parameterType="com.ifugle.rap.bigdata.task.BiDmSwjg">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        update bi_dm_swjg
+        set swjgmc = #{swjgmc,jdbcType=VARCHAR,javaType=java.lang.String},
+        swjgjc = #{swjgjc,jdbcType=VARCHAR,javaType=java.lang.String},
+        swjgbz = #{swjgbz,jdbcType=TINYINT,javaType=java.lang.Byte},
+        sjswjg_dm = #{sjswjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+        swjg_dm_path = #{swjgDmPath,jdbcType=VARCHAR,javaType=java.lang.String},
+        swjgcj = #{swjgcj,jdbcType=TINYINT,javaType=java.lang.Byte},
+        xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long},
+        xnzzmc = #{xnzzmc,jdbcType=VARCHAR,javaType=java.lang.String},
+        bm_ids = #{bmIds,jdbcType=VARCHAR,javaType=java.lang.String},
+        xzqhsz_dm = #{xzqhszDm,jdbcType=VARCHAR,javaType=java.lang.String},
+        qybz = #{qybz,jdbcType=TINYINT,javaType=java.lang.Byte},
+        qyrq = #{qyrq,jdbcType=DATE,javaType=java.util.Date},
+        cjsj = #{cjsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+        xgsj = #{xgsj,jdbcType=TIMESTAMP,javaType=java.util.Date}
+        where swjg_dm = #{swjgDm,jdbcType=VARCHAR,javaType=java.lang.String}
+    </update>
+
+
+    <select id="getSwjgBySwjgdmPre" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!-- 查询swjgdm以某个值开头的 -->
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where
+        swjg_dm LIKE CONCAT(#{swjgdmPre},'%')
+        AND sybz = 1
+    </select>
+
+    <select id="getSubSwjgBySwjgdm" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!-- 查询下级税务机关 -->
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where
+        sjswjg_dm = #{sjswjgDm,jdbcType=VARCHAR,javaType=java.lang.String}
+        AND sybz = 1
+    </select>
+
+    <select id="getSwjgBySwjgdmPathPre" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!-- 根据税务机关代码层级全路径查询匹配的所有税务机关 -->
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where
+        swjg_dm_path LIKE CONCAT(#{sjswjgPath},'%')
+        AND sybz = 1
+    </select>
+
+    <select id="listSwjgDmAll" resultType="java.lang.String">
+		select /*+TDDL:slave()*/
+		swjg_dm
+		from bi_dm_swjg
+		where
+		sybz = 1
+		group by swjg_dm
+	</select>
+
+    <select id="listSwjgDmBySybz" resultType="java.lang.String">
+		select /*+TDDL:slave()*/
+		swjg_dm
+		from bi_dm_swjg
+		where
+		sybz = 1
+		group by swjg_dm
+	</select>
+
+    <select id="listAll" resultMap="BaseResultMap">
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where sybz = 1
+        group by swjg_dm
+    </select>
+
+    <select id="getSwjgDmByXnzzId" resultType="java.lang.String">
+        select /*+TDDL:slave()*/
+		swjg_dm
+        from bi_dm_swjg
+        where
+        xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+        and swjgbz = 1
+        and sybz = 1
+        limit 1
+    </select>
+
+    <select id="listBiDmSwjgs" resultMap="BaseResultMap">
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where
+        swjg_dm in
+        <foreach collection="swjgDms" item="swjgDm" open="(" close=")" separator=",">
+            #{swjgDm,jdbcType=VARCHAR,javaType=java.lang.String}
+        </foreach>
+        and sybz = 1
+        group by swjg_dm
+    </select>
+
+    <select id="selectSwjgAndSubById" resultType="java.util.Map">
+        select /*+TDDL:slave()*/
+        a.`swjg_dm` swjgdm,
+        a.swjgjc swjgmc,
+        a.xnzz_id xnzzId,
+        a.swjgbz swjgbz,
+          (CASE
+              COUNT(b.`swjg_dm`)
+              WHEN 0 THEN FALSE
+              ELSE TRUE END
+          ) hasSub
+        from
+        `bi_dm_swjg` a
+        left join `bi_dm_swjg` b
+        on a.swjg_dm = b.sjswjg_dm
+        where a.swjg_dm = #{swjgDm,jdbcType=VARCHAR,javaType=java.lang.String}
+        group by a.`swjg_dm`
+    </select>
+
+    <select id="getSwjgByXnzzId" resultMap="BaseResultMap">
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where swjgbz = 1
+        and sybz = 1
+        and xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+        limit 1
+    </select>
+
+    <select id="listSubBiDmSwjgs" resultMap="BaseResultMap">
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where sybz = 1
+        and swjg_dm not like '199%'
+        and sjswjg_dm in
+        <foreach collection="swjgDms" item="swjgDm" open="(" close=")" separator=",">
+            #{swjgDm,jdbcType=VARCHAR,javaType=java.lang.String}
+        </foreach>
+        group by swjg_dm
+    </select>
+
+<!--    <select id="getXnzzCountBySwjg" resultType="integer">-->
+<!--        select /*+TDDL:slave()*/ count(xnzz_id) from bi_dm_swjg-->
+<!--        where swjg_dm_path like concat('%',#{swjgDm},'%')-->
+<!--        and swjgbz = 1-->
+<!--        and qybz = 1-->
+<!--        and xnzz_id is not null-->
+<!--        and qyrq &lt; CURDATE()-->
+<!--    </select>-->
+
+    <resultMap id="ResultMapVO" type="com.ifugle.rap.bigdata.task.BiDmSwjgVO" extends="BaseResultMap">
+        <result column="has_sub" javaType="java.lang.Boolean" jdbcType="INTEGER" property="hasSub"/>
+    </resultMap>
+
+    <select id="listSubSwjg" resultMap="ResultMapVO">
+        select /*+TDDL:slave()*/
+            s.*,
+			if(c.sjswjg_dm is null, false, true) as has_sub
+		from bi_dm_swjg s
+		left join (
+			select d.sjswjg_dm from bi_dm_swjg d
+			group by d.sjswjg_dm
+		) c on s.swjg_dm = c.sjswjg_dm
+		where s.sybz = 1
+		and s.sjswjg_dm = #{swjgDm,jdbcType=VARCHAR,javaType=java.lang.String}
+    </select>
+
+    <select id="listSwjgBySwjgmc" resultMap="BaseResultMap">
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where sybz = 1
+        and swjgjc like concat('%', #{swjgmc}, '%')
+    </select>
+
+    <select id="listBiDmSwjgsBySjswjgDmAndLikeSwjgDm" resultMap="ResultMapVO">
+        select /*+TDDL:slave()*/
+            <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where
+        sjswjg_dm = #{sjswjgDm,jdbcType=VARCHAR,javaType=java.lang.String}
+        and swjg_dm like concat(#{swjgDm,jdbcType=VARCHAR,javaType=java.lang.String}, '%')
+        and sybz = 1
+        group by swjg_dm
+    </select>
+
+    <!-- 补充所属省市区的名称 -->
+    <resultMap id="ResultMapIncludePath" type="com.ifugle.rap.bigdata.task.BiDmSwjgPathVo" extends="BaseResultMap">
+        <result column="province" javaType="java.lang.String" jdbcType="VARCHAR" property="province"/>
+        <result column="city" javaType="java.lang.String" jdbcType="VARCHAR" property="city"/>
+        <result column="district" javaType="java.lang.String" jdbcType="VARCHAR" property="district"/>
+    </resultMap>
+
+    <select id="listSwjgIncludePath" resultMap="ResultMapIncludePath">
+        select /*+TDDL:slave()*/
+            s.swjg_dm,
+            s.swjgmc,
+            s.swjgjc,
+            s.swjgbz,
+            s.sjswjg_dm,
+            s.swjg_dm_path,
+            s.swjgcj,
+            s.xnzz_id,
+            s.xnzzmc,
+            s.bm_ids,
+            s.xzqhsz_dm,
+            s.qybz,
+            s.qyrq,
+            s.sybz,
+            s.bjxsbz,
+            case when s.swjg_dm = '00000000000' then s.swjgjc else p.swjgjc end as province,
+            c.swjgjc as city,
+            d.swjgjc as district
+        from bi_dm_swjg s
+        left join bi_dm_swjg p on p.swjgcj = 1 and p.sybz = 1 and s.swjg_dm_path like concat('%',p.swjg_dm,'%')
+        left join bi_dm_swjg c on c.swjgcj = 2 and c.sybz = 1 and s.swjg_dm_path like concat('%',c.swjg_dm,'%')
+        left join bi_dm_swjg d on d.swjgcj = 3 and d.sybz = 1 and s.swjg_dm_path like concat('%',d.swjg_dm,'%')
+        where s.sybz = 1
+        and s.swjg_dm in
+        <foreach collection="swjgDms" item="swjgDm" open="(" close=")" separator=",">
+            #{swjgDm,jdbcType=VARCHAR,javaType=java.lang.String}
+        </foreach>
+    </select>
+
+    <!-- 查询指定税务机关代码和其下级所有税务机构代码 -->
+    <select id="listSwjgDmIncludeSub" resultType="string">
+        select b.swjg_dm
+        from bi_dm_swjg a
+        join bi_dm_swjg b
+            on b.swjg_dm_path like concat(a.swjg_dm_path, '%')
+            and b.sybz = 1
+        where a.swjg_dm = #{swjgDm}
+        and a.sybz = 1
+    </select>
+
+
+    <!-- 查询需要全量抽取的虚拟组织数据，取启用时间等于昨天 -->
+    <select id="listXnzzForAllInsert" resultMap="BaseResultMap">
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where
+        swjgbz = 1
+        and qybz = 1
+        and xnzz_id is not null
+        and bm_ids is null
+        and qyrq = DATE_SUB(curdate(),INTERVAL 1 DAY)
+        <if test="xnzzId != null">
+            and xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </if>
+    </select>
+
+    <!-- 查询需要增量抽取的虚拟组织数据，取启用时间小于等于今天 -->
+    <select id="listXnzzForUpdate" resultMap="BaseResultMap">
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where
+        swjgbz = 1
+        and qybz = 1
+        and bm_ids is null
+        and xnzz_id is not null
+        and qyrq &lt; curdate()
+        <if test="xnzzId != null">
+            and xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </if>
+    </select>
+
+    <select id="listBmByXnzzId" resultMap="BaseResultMap">
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where
+        swjgbz = 2
+        and qybz = 1
+        <if test="xnzzId != null">
+            and xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </if>
+    </select>
+
+    <select id="listBmByXnzzIds" resultMap="BaseResultMap">
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where
+        swjgbz = 2
+        and qybz = 1
+        <if test="xnzzIds != null and xnzzIds.size &gt; 0">
+            and xnzz_id in
+            <foreach collection="xnzzIds" item="xnzzId" open="(" close=")" separator=",">
+                #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="listAllXnzz" resultMap="BaseResultMap">
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where
+        swjgbz = 1
+        and qybz = 1
+        and bm_ids is null
+        and xnzz_id is not null
+        <if test="qyrq != null">
+            and qyrq &lt;= #{qyrq,jdbcType=DATE,javaType=java.util.Date}
+        </if>
+    </select>
+
+    <select id="listAllQybz" resultMap="BaseResultMap">
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where qybz = 1
+        group by swjg_dm
+    </select>
+
+    <select id="listXnzzByQyrq" resultMap="BaseResultMap">
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where qybz = 1
+        and qyrq = #{qyrq,jdbcType=VARCHAR,javaType=java.lang.String}
+        <if test="xnzzId != null">
+            and xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </if>
+    </select>
+
+
+    <!-- 查询浙江虚拟组织 -->
+    <select id="listXnzzForZJSW" resultMap="BaseResultMap">
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from bi_dm_swjg
+        where
+        swjgbz = 1
+        and qybz = 1
+        and bm_ids is null
+        and xnzz_id is not null
+        and qyrq &lt; curdate()
+        and swjg_dm like '133%'
+    </select>
+
+    <select id="getMaxSwjgcj" resultType="java.lang.Integer">
+		select /*+TDDL:slave()*/
+			max(swjgcj)
+		from bi_dm_swjg
+		where
+		swjgbz = 1
+		and qybz = 1
+		and bm_ids is null
+		and xnzz_id is not null
+	</select>
+
+    <select id="getXnzzCountBySwjg" resultType="integer">
+        select /*+TDDL:slave()*/ count(xnzz_id) from bi_dm_swjg
+        where swjg_dm_path like concat('%',#{swjgDm},'%')
+        and swjgbz = 1
+        and qybz = 1
+        and xnzz_id is not null
+        and qyrq &lt; CURDATE()
+    </select>
+</mapper>

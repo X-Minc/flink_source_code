@@ -13,10 +13,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.ifugle.rap</groupId>
-            <artifactId>rap-data-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+        <groupId>com.ifugle.rap</groupId>
+        <artifactId>rap-data-common</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>

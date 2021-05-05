@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifugle.rap.dsb.dsp.sjcq.mapper.YhzxXnzzTpcJgryMapper">
+    <resultMap id="BaseResultMap" type="com.ifugle.rap.bigdata.task.YhzxXnzzTpcJgry">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        <id column="ID" javaType="java.lang.Long" jdbcType="BIGINT" property="id"/>
+        <result column="XNZZ_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="xnzzId"/>
+        <result column="YH_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="yhId"/>
+        <result column="ZGJG_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="zgjgDm"/>
+        <result column="JGLX" javaType="java.lang.Byte" jdbcType="TINYINT" property="jglx"/>
+        <result column="JGBM_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="jgbmDm"/>
+        <result column="JGRY_DM" javaType="java.lang.String" jdbcType="VARCHAR" property="jgryDm"/>
+        <result column="XM" javaType="java.lang.String" jdbcType="VARCHAR" property="xm"
+                typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler"/>
+        <result column="ZW" javaType="java.lang.String" jdbcType="VARCHAR" property="zw"
+                typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler"/>
+        <result column="SJHM" javaType="java.lang.String" jdbcType="VARCHAR" property="sjhm"
+                typeHandler="com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler"/>
+        <result column="ZJLX" javaType="java.lang.String" jdbcType="VARCHAR" property="zjlx"/>
+        <result column="ZJHM" javaType="java.lang.String" jdbcType="VARCHAR" property="zjhm"
+                typeHandler="com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler"/>
+        <result column="TBZT" javaType="java.lang.Byte" jdbcType="TINYINT" property="tbzt"/>
+        <result column="CJSJ" javaType="java.util.Date" jdbcType="TIMESTAMP" property="cjsj"/>
+        <result column="CJR" javaType="java.lang.String" jdbcType="VARCHAR" property="cjr"/>
+        <result column="XGSJ" javaType="java.util.Date" jdbcType="TIMESTAMP" property="xgsj"/>
+        <result column="XGR" javaType="java.lang.String" jdbcType="VARCHAR" property="xgr"/>
+        <result column="IS_DELETE" javaType="java.lang.Byte" jdbcType="TINYINT" property="isDelete"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        ID, XNZZ_ID, YH_ID, ZGJG_DM, JGLX, JGBM_DM, JGRY_DM, XM, ZW, SJHM, ZJLX, ZJHM, TBZT,
+        CJSJ, CJR, XGSJ, XGR, IS_DELETE
+    </sql>
+
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        select /*+TDDL:slave()*/
+        <include refid="Base_Column_List"/>
+        from YHZX_XNZZ_TPC_JGRY
+        where ID = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        delete from YHZX_XNZZ_TPC_JGRY
+        where ID = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+    </delete>
+
+    <insert id="insert" parameterType="com.ifugle.rap.bigdata.task.YhzxXnzzTpcJgry">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into YHZX_XNZZ_TPC_JGRY (XNZZ_ID, YH_ID, ZGJG_DM,
+        JGLX, JGBM_DM, JGRY_DM,
+        XM,
+        ZW,
+        SJHM,
+        ZJLX, ZJHM,
+        TBZT, CJSJ, CJR,
+        XGSJ, XGR, IS_DELETE
+        )
+        values (
+        #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long},
+        #{yhId,jdbcType=BIGINT,javaType=java.lang.Long},
+        #{zgjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{jglx,jdbcType=TINYINT,javaType=java.lang.Byte},
+        #{jgbmDm,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{jgryDm,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{xm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler},
+        #{zw,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler},
+        #{sjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler},
+        #{zjlx,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{zjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler},
+        #{tbzt,jdbcType=TINYINT,javaType=java.lang.Byte},
+        #{cjsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+        #{cjr,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{xgsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+        #{xgr,jdbcType=VARCHAR,javaType=java.lang.String},
+        #{isDelete,jdbcType=TINYINT,javaType=java.lang.Byte}
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ifugle.rap.bigdata.task.YhzxXnzzTpcJgry">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into YHZX_XNZZ_TPC_JGRY
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="xnzzId != null">
+                XNZZ_ID,
+            </if>
+            <if test="yhId != null">
+                YH_ID,
+            </if>
+            <if test="zgjgDm != null">
+                ZGJG_DM,
+            </if>
+            <if test="jglx != null">
+                JGLX,
+            </if>
+            <if test="jgbmDm != null">
+                JGBM_DM,
+            </if>
+            <if test="jgryDm != null">
+                JGRY_DM,
+            </if>
+            <if test="xm != null">
+                XM,
+            </if>
+            <if test="zw != null">
+                ZW,
+            </if>
+            <if test="sjhm != null">
+                SJHM,
+            </if>
+            <if test="zjlx != null">
+                ZJLX,
+            </if>
+            <if test="zjhm != null">
+                ZJHM,
+            </if>
+            <if test="tbzt != null">
+                TBZT,
+            </if>
+            <if test="cjsj != null">
+                CJSJ,
+            </if>
+            <if test="cjr != null">
+                CJR,
+            </if>
+            <if test="xgsj != null">
+                XGSJ,
+            </if>
+            <if test="xgr != null">
+                XGR,
+            </if>
+            <if test="isDelete != null">
+                IS_DELETE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="xnzzId != null">
+                #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <if test="yhId != null">
+                #{yhId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <if test="zgjgDm != null">
+                #{zgjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="jglx != null">
+                #{jglx,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            <if test="jgbmDm != null">
+                #{jgbmDm,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="jgryDm != null">
+                #{jgryDm,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="xm != null">
+                #{xm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler},
+            </if>
+            <if test="zw != null">
+                #{zw,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler},
+            </if>
+            <if test="sjhm != null">
+                #{sjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler},
+            </if>
+            <if test="zjlx != null">
+                #{zjlx,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="zjhm != null">
+                #{zjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler},
+            </if>
+            <if test="tbzt != null">
+                #{tbzt,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            <if test="cjsj != null">
+                #{cjsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            </if>
+            <if test="cjr != null">
+                #{cjr,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="xgsj != null">
+                #{xgsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            </if>
+            <if test="xgr != null">
+                #{xgr,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByIdSelective" parameterType="com.ifugle.rap.bigdata.task.YhzxXnzzTpcJgry">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        update YHZX_XNZZ_TPC_JGRY
+        <set>
+            <if test="xnzzId != null">
+                XNZZ_ID = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <if test="yhId != null">
+                YH_ID = #{yhId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <if test="zgjgDm != null">
+                ZGJG_DM = #{zgjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="jglx != null">
+                JGLX = #{jglx,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            <if test="jgbmDm != null">
+                JGBM_DM = #{jgbmDm,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="jgryDm != null">
+                JGRY_DM = #{jgryDm,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="xm != null">
+                XM = #{xm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler},
+            </if>
+            <if test="zw != null">
+                ZW = #{zw,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler},
+            </if>
+            <if test="sjhm != null">
+                SJHM = #{sjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler},
+            </if>
+            <if test="zjlx != null">
+                ZJLX = #{zjlx,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="zjhm != null">
+                ZJHM = #{zjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler},
+            </if>
+            <if test="tbzt != null">
+                TBZT = #{tbzt,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+            <if test="cjsj != null">
+                CJSJ = #{cjsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            </if>
+            <if test="cjr != null">
+                CJR = #{cjr,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="xgsj != null">
+                XGSJ = #{xgsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            </if>
+            <if test="xgr != null">
+                XGR = #{xgr,jdbcType=VARCHAR,javaType=java.lang.String},
+            </if>
+            <if test="isDelete != null">
+                IS_DELETE = #{isDelete,jdbcType=TINYINT,javaType=java.lang.Byte},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+    </update>
+
+    <update id="updateById" parameterType="com.ifugle.rap.bigdata.task.YhzxXnzzTpcJgry">
+        <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+        update YHZX_XNZZ_TPC_JGRY
+        set XNZZ_ID = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long},
+        YH_ID = #{yhId,jdbcType=BIGINT,javaType=java.lang.Long},
+        ZGJG_DM = #{zgjgDm,jdbcType=VARCHAR,javaType=java.lang.String},
+        JGLX = #{jglx,jdbcType=TINYINT,javaType=java.lang.Byte},
+        JGBM_DM = #{jgbmDm,jdbcType=VARCHAR,javaType=java.lang.String},
+        JGRY_DM = #{jgryDm,jdbcType=VARCHAR,javaType=java.lang.String},
+        XM = #{xm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler},
+        ZW = #{zw,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler},
+        SJHM = #{sjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler},
+        ZJLX = #{zjlx,jdbcType=VARCHAR,javaType=java.lang.String},
+        ZJHM = #{zjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler},
+        TBZT = #{tbzt,jdbcType=TINYINT,javaType=java.lang.Byte},
+        CJSJ = #{cjsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+        CJR = #{cjr,jdbcType=VARCHAR,javaType=java.lang.String},
+        XGSJ = #{xgsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
+        XGR = #{xgr,jdbcType=VARCHAR,javaType=java.lang.String},
+        IS_DELETE = #{isDelete,jdbcType=TINYINT,javaType=java.lang.Byte}
+        where ID = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+    </update>
+
+    <select id="listByAddTpcJgry" resultType="com.ifugle.rap.utils.UserOds">
+        select /*+TDDL:slave()*/
+        ry.XNZZ_ID as xnzzId, ry.ID as yhNsrId, ry.YH_ID as yhId, bmys.BM_ID as bmId,
+        ry.TBZT as tbzt, ry.IS_DELETE as isDelete, ry.CJSJ as cjsj, ry.XGSJ as xgsj,
+        ry.IS_DELETE as yhIsDelete, ry.CJSJ as yhCjsj, ry.XGSJ as yhXgsj,
+        0 as yhType, 1 as cysx
+        from YHZX_XNZZ_TPC_JGRY ry FORCE INDEX (PRIMARY)
+        left join YHZX_XNZZ_BMYS bmys
+        on ry.XNZZ_ID = bmys.XNZZ_ID
+        and ry.JGBM_DM = bmys.JGBM_DM
+        and bmys.XNZZ_ID = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+        and bmys.BMSX = 1
+        and bmys.IS_DELETE = 0
+        where ry.XNZZ_ID = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+        <if test="startId != null">
+            and ry.ID > #{startId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </if>
+        <if test="startDate != null">
+            and ry.CJSJ &gt;= #{startDate,jdbcType=TIMESTAMP,javaType=java.util.Date}
+        </if>
+        <if test="endDate != null">
+            and ry.CJSJ &lt;= #{endDate,jdbcType=TIMESTAMP,javaType=java.util.Date}
+        </if>
+        and ry.YH_ID is null
+        order by ry.ID
+        limit #{pageNum}
+    </select>
+
+    <select id="listByUpdateTpcJgry" resultType="com.ifugle.rap.utils.UserOds">
+		select /*+TDDL:slave()*/
+		ry.XNZZ_ID as xnzzId, ry.ID as yhNsrId, ry.YH_ID as yhId, bmys.BM_ID as bmId,
+		ry.TBZT as tbzt, ry.IS_DELETE as isDelete, ry.CJSJ as cjsj, ry.XGSJ as xgsj,
+		ry.IS_DELETE as yhIsDelete, ry.CJSJ as yhCjsj, ry.XGSJ as yhXgsj,
+		0 as yhType, 1 as cysx
+		from YHZX_XNZZ_TPC_JGRY ry FORCE INDEX (IDX_XGSJ)
+		left join YHZX_XNZZ_BMYS bmys
+		on ry.XNZZ_ID = bmys.XNZZ_ID
+		and ry.JGBM_DM = bmys.JGBM_DM
+		and bmys.XNZZ_ID = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+        and bmys.BMSX = 1
+		and bmys.IS_DELETE = 0
+		where ry.XNZZ_ID = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+        <if test="startId != null">
+            and ry.ID > #{startId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </if>
+        <if test="startDate != null">
+            and ry.XGSJ &gt;= #{startDate,jdbcType=TIMESTAMP,javaType=java.util.Date}
+        </if>
+        <if test="endDate != null">
+            and ry.XGSJ &lt;= #{endDate,jdbcType=TIMESTAMP,javaType=java.util.Date}
+        </if>
+		and ry.YH_ID is null
+        order by ry.ID
+        limit #{pageNum}
+	</select>
+
+    <select id="listByUpdateTpcJgryByBmys" resultType="com.ifugle.rap.utils.UserOds">
+        select /*+TDDL:slave()*/
+        ry.XNZZ_ID as xnzzId, ry.ID as yhNsrId, ry.YH_ID as yhId, bmys.BM_ID as bmId,
+        ry.TBZT as tbzt, ry.IS_DELETE as isDelete, ry.CJSJ as cjsj, ry.XGSJ as xgsj,
+        ry.IS_DELETE as yhIsDelete, ry.CJSJ as yhCjsj, ry.XGSJ as yhXgsj,
+        0 as yhType, 1 as cysx
+        from YHZX_XNZZ_TPC_JGRY ry FORCE INDEX (PRIMARY)
+        left join YHZX_XNZZ_BMYS bmys
+        on ry.XNZZ_ID = bmys.XNZZ_ID
+        and ry.JGBM_DM = bmys.JGBM_DM
+        and bmys.XNZZ_ID = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+        and bmys.BMSX = 1
+        and bmys.IS_DELETE = 0
+        where ry.XNZZ_ID = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+        <if test="startId != null">
+            and ry.ID > #{startId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </if>
+        <if test="startDate != null">
+            and bmys.XGSJ &gt;= #{startDate,jdbcType=TIMESTAMP,javaType=java.util.Date}
+        </if>
+        <if test="endDate != null">
+            and bmys.XGSJ &lt;= #{endDate,jdbcType=TIMESTAMP,javaType=java.util.Date}
+        </if>
+        and ry.YH_ID is null
+        order by ry.ID
+        limit #{pageNum}
+    </select>
+
+    <select id="listByDeleteTpcJgry" resultType="com.ifugle.rap.utils.UserOds">
+		select /*+TDDL:slave()*/
+		ry.XNZZ_ID as xnzzId, ry.ID as yhNsrId, ry.YH_ID as yhId, bmys.BM_ID as bmId,
+		ry.TBZT as tbzt, ry.IS_DELETE as isDelete, ry.CJSJ as cjsj, ry.XGSJ as xgsj,
+		ry.IS_DELETE as yhIsDelete, ry.CJSJ as yhCjsj, ry.XGSJ as yhXgsj,
+		0 as yhType, 1 as cysx
+		from YHZX_XNZZ_TPC_JGRY ry FORCE INDEX (IDX_XGSJ)
+		left join YHZX_XNZZ_BMYS bmys
+		on ry.XNZZ_ID = bmys.XNZZ_ID
+		and ry.JGBM_DM = bmys.JGBM_DM
+		and bmys.XNZZ_ID = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+        and bmys.BMSX = 1
+		and bmys.IS_DELETE = 0
+		where ry.XNZZ_ID = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+        <if test="startId != null">
+            and ry.ID > #{startId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </if>
+        <if test="startDate != null">
+		    and ry.XGSJ &gt;= #{startDate,jdbcType=TIMESTAMP,javaType=java.util.Date}
+        </if>
+        <if test="endDate != null">
+		    and ry.XGSJ &lt;= #{endDate,jdbcType=TIMESTAMP,javaType=java.util.Date}
+        </if>
+		and ry.YH_ID is not null
+        order by ry.ID
+        limit #{pageNum}
+	</select>
+
+</mapper>
