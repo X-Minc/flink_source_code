@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ifugle.rap.bigdata.task.BiDmSwjg;
 import com.ifugle.rap.bigdata.task.EsTypeForm;
 import com.ifugle.rap.bigdata.task.service.BiDmSwjgService;
+import com.ifugle.rap.bigdata.task.service.EsCompanyRealtimeService;
 import com.ifugle.rap.bigdata.task.service.EsDepartOdsService;
 import com.ifugle.rap.bigdata.task.service.EsUserAllTagService;
 import com.ifugle.rap.bigdata.task.service.EsUserRealtimeService;
@@ -41,6 +42,9 @@ public class RealTimeUpdateTaskServiceImpl implements RealTimeUpdateTaskService 
     @Autowired
     EsUserRealtimeService esUserRealtimeService;
 
+    @Autowired
+    EsCompanyRealtimeService esCompanyRealtimeService;
+
 
     @Override
     public void getUpdateDataToEs(String startTime) {
@@ -60,7 +64,7 @@ public class RealTimeUpdateTaskServiceImpl implements RealTimeUpdateTaskService 
             // 更新增量实时用户标签数据
             Set<Long> bmForUser = esUserRealtimeService.updateUserRealTimeByAdd(xnzz, null);
             // // 更新增量实时企业标签数据
-            // Set<Long> bmForCompany = esCompanyRealtimeService.updateCompanyRealTimeByAdd(xnzz, null);
+            Set<Long> bmForCompany = esCompanyRealtimeService.updateCompanyRealTimeByAdd(xnzz, null);
             // 删除用户全量实时标签表中无效数据
             EsTypeForm all = new EsTypeForm(EsIndexConstant.USER_ALL_TAG, null);
             esUserAllTagService.deleteInvalidUserAllTagByXnzzId(xnzz.getXnzzId(), null, null, all);
