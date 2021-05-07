@@ -19,7 +19,7 @@ public class EsIndexConstant {
     /**
      * 用户全量标签表
      */
-    public static final String USER_ALL_TAG = "sync_user_all_tag" + ES_SUFFIX;
+    public static final String USER_ALL_TAG = "user_all_tag" + ES_SUFFIX;
     /**
      * 企业全量标签表
      */
@@ -31,7 +31,7 @@ public class EsIndexConstant {
     /**
      * 部门ODS表
      */
-    public static final String DEPART_ODS = "sync_depart_ods" + ES_SUFFIX;
+    public static final String DEPART_ODS = "depart_ods" + ES_SUFFIX;
 
     /**
      * 钉钉群组表
