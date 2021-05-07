@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 @Conditional(TaskCondition.class)
-public class DepartmentOdsTask {
+public class AllOdsTask {
 
     @Autowired
     private BiDmSwjgService biDmSwjgService;
@@ -33,8 +33,7 @@ public class DepartmentOdsTask {
     @Autowired
     private RealTimeUpdateTaskService realTimeUpdateTaskService;
 
-    //@Scheduled(cron = "0 30 2 * * ?")
-    // @Scheduled(cron ="0 */1 * * * ?") //每一分钟执行一次
+    @Scheduled(cron = "0 0 * * *  ?") //每小时执行一次
     public void action() {
         List<BiDmSwjg> xnzzList = biDmSwjgService.listXnzzForAllInsert();
         if (xnzzList.size() > 0) {

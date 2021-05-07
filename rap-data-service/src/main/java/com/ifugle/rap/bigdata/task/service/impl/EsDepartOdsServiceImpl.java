@@ -50,6 +50,9 @@ public class EsDepartOdsServiceImpl implements EsDepartOdsService {
 
     @Override
     public Set<Long> insertOrUpdateDepartToEsByXnzz(BiDmSwjg xnzz, Date startDate) {
+        if(xnzz==null){
+          return new HashSet<>();
+        }
         log.info("增量更新部门数据开始：xnzzId = {}, startTime = {}", xnzz.getXnzzId(), DateUtil.toISO8601DateTime(startDate));
         long startTimeMillis = System.currentTimeMillis();
         List<DepartOds> departList = yhzxXnzzBmService.listBmByUpdate(xnzz.getXnzzId(), null, startDate);

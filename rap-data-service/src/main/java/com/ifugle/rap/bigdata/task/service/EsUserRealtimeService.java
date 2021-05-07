@@ -12,6 +12,12 @@ import com.ifugle.rap.bigdata.task.BiDmSwjg;
  */
 public interface EsUserRealtimeService {
 
-    public Set<Long> updateUserRealTimeByAdd(BiDmSwjg xnzz, Date startDate);
+    /**
+     * 从增量用户数据更新到全量用户实时标签表
+     * @param xnzz
+     * @param startDate
+     * @return 返回需要汇总的虚拟组织及其部门
+     */
+    Set<Long> updateUserRealTimeByAdd(BiDmSwjg xnzz, Date startDate);
 
 }

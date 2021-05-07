@@ -18,14 +18,14 @@ public class SjtjConfig {
 
     private static final String TPC_XNZZ = "dsb.sjtj.tpc.xnzzid";
 
-    static {
-        try {
-            InputStream in = SjtjConfig.class.getClassLoader().getResourceAsStream("sjtj-config.properties");
-            properties.load(in);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    // static {
+    //     try {
+    //         InputStream in = SjtjConfig.class.getClassLoader().getResourceAsStream("sjtj-config.properties");
+    //         properties.load(in);
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     /**
      * 获取需要抽取中间表数据的虚拟组织ID

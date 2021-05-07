@@ -459,7 +459,7 @@
         and qybz = 1
         and xnzz_id is not null
         and bm_ids is null
-        and qyrq = DATE_SUB(curdate(),INTERVAL 1 DAY)
+        /*and qyrq = DATE_SUB(curdate(),INTERVAL 1000 DAY)*/
         <if test="xnzzId != null">
             and xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
         </if>
