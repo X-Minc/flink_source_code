@@ -17,7 +17,7 @@ import com.ifugle.rap.bigdata.task.service.RealTimeUpdateTaskService;
  * @since 4月 25, 2021 10:11
  */
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/")
 public class ApplicationController {
 
     @Autowired
