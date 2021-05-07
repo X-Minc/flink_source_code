@@ -6,19 +6,27 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.reflect.TypeToken;
 import com.ifugle.rap.bigdata.task.BiDmSwjg;
 import com.ifugle.rap.bigdata.task.DepartOds;
+import com.ifugle.rap.bigdata.task.es.HitsResponseEntity;
+import com.ifugle.rap.bigdata.task.es.SearchResponseEntity;
 import com.ifugle.rap.bigdata.task.service.EsDepartOdsService;
 import com.ifugle.rap.bigdata.task.service.EsService;
 import com.ifugle.rap.bigdata.task.service.YhzxXnzzBmService;
 import com.ifugle.rap.bigdata.task.util.EsKeyUtil;
+import com.ifugle.rap.constants.EsCode;
 import com.ifugle.rap.constants.EsIndexConstant;
+import com.ifugle.rap.exception.DsbServiceException;
+import com.ifugle.rap.utils.PageUtils;
 import com.ifugle.util.DateUtil;
 import com.ifugle.util.NullUtil;
 
@@ -75,6 +83,91 @@ public class EsDepartOdsServiceImpl implements EsDepartOdsService {
         return upBmIds;
     }
 
+    @Override
+    public Map<Long, List<Long>> getAllDepartBmIds(Long... xnzzId) {
+        List<Long> xnzzIds = null;
+        if (NullUtil.isNotNull(xnzzId)) {
+            xnzzIds = Lists.newArrayList(xnzzId);
+        }
+        Map<Long, List<Long>> bmParentMap = getAllBmIds(xnzzIds, null);
+        return bmParentMap;
+    }
+
+    /**
+     * 查询部门表，生成部门路径
+     *
+     * @param xnzzIds
+     *
+     * @return
+     */
+    private Map<Long, List<Long>> getAllBmIds(List<Long> xnzzIds, List<Long> bmIds) {
+        List<DepartOds> allDepart = allDepart(xnzzIds, bmIds);
+        Map<Long, List<Long>> bmParentMap = new HashMap<>();
+        for (DepartOds ods : allDepart) {
+            bmParentMap.put(ods.getId(), ods.getBmIds());
+        }
+        return bmParentMap;
+    }
+
+    @Override
+    public List<DepartOds> allDepart(List<Long> xnzzIds, List<Long> bmIds) {
+        int page = 1;
+        int size = EsCode.ES_FIND_PAGE_NUM;
+
+        Map<String, Object> querySearch = Maps.newHashMapWithExpectedSize(2);
+        if (NullUtil.isNotNull(xnzzIds)) {
+            querySearch.put("xnzz_id", xnzzIds);
+        }
+        if (NullUtil.isNotNull(bmIds)) {
+            querySearch.put("id", bmIds);
+        }
+        SearchResponseEntity<DepartOds> entity = scrollQueryByPage(querySearch, 3, page, size);
+        HitsResponseEntity<DepartOds> hits = entity.getHits();
+        String scrollId = entity.getScrollId();
+        int total = hits.getTotal().getValue();
+        int totalPage = PageUtils.getTotalPage(total, size);
+        List<DepartOds> departList = hits.getHits().stream().map(depart -> depart.getSource()).collect(Collectors.toList());
+
+        try {
+            while (totalPage > page) {
+                page++;
+                hits = scrollQueryByPage(scrollId, 3, size);
+                List<DepartOds> list = hits.getHits().stream().map(depart -> depart.getSource()).collect(Collectors.toList());
+                departList.addAll(list);
+            }
+        } catch (DsbServiceException e) {
+            deleteScrollQueryByPage(scrollId);
+            log.error("获取部门列表：error：{}", e.getMessage());
+            throw new DsbServiceException(e.getMessage());
+        }
+
+        return departList;
+    }
+
+    @Override
+    public SearchResponseEntity<DepartOds> scrollQueryByPage(Map<String, Object> querySearch, int scrollTime, int page, int size) {
+        SearchResponseEntity<DepartOds> entity = esService.scrollQueryByPage(EsIndexConstant.DEPART_ODS,
+                querySearch, new TypeToken<SearchResponseEntity<DepartOds>>() {
+                }.getType(), scrollTime, page, size);
+        return entity;
+    }
+
+    @Override
+    public HitsResponseEntity<DepartOds> scrollQueryByPage(String scrollId, int scrollTime, int size) {
+        SearchResponseEntity<DepartOds> entity = esService.scrollQueryByPage(scrollId, scrollTime,
+                new TypeToken<SearchResponseEntity<DepartOds>>() {
+                }.getType());
+        HitsResponseEntity<DepartOds> hits = entity.getHits();
+        if (NullUtil.isNull(hits) || NullUtil.isNull(hits.getHits()) || hits.getHits().size() < size) {
+            esService.deleteScrollQueryByPage(scrollId);
+        }
+        return hits;
+    }
+
+    @Override
+    public void deleteScrollQueryByPage(String scrollId) {
+        esService.deleteScrollQueryByPage(scrollId);
+    }
 
     /**
      * 全量部门新增覆盖，不判断变更
@@ -195,7 +288,7 @@ public class EsDepartOdsServiceImpl implements EsDepartOdsService {
         List<Long> children = bmChildIds.get(bmId);
         if (NullUtil.isNotNull(children)) {
             for (Long child : children) {
-                updateChildBmIds(child, updateList, bmParentIds, bmChildIds);
+                // updateChildBmIds(child, updateList, bmParentIds, bmChildIds);
             }
         }
     }

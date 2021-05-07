@@ -1,8 +1,10 @@
 package com.ifugle.rap.bigdata.task.service;
 
 import java.util.Date;
+import java.util.List;
 
 import com.ifugle.rap.bigdata.task.EsTypeForm;
+import com.ifugle.rap.bigdata.task.UserAllTag;
 
 /**
  * @author WenYuan
@@ -24,5 +26,12 @@ public interface EsUserAllTagService {
     void deleteEsAlreadyExistJgry(Date startDate, Date endDate, Long xnzzId, EsTypeForm... type);
 
     void deleteEsAlreadyExistQyry(Date startDate, Date endDate, Long xnzzId, EsTypeForm... type);
+
+    /**
+     * 根据keyId列表，查询全量标签表的数据
+     *
+     * @param keyIds
+     */
+    List<UserAllTag> listByKeyIds(List<String> keyIds);
 
 }

@@ -1,17 +1,24 @@
 package com.ifugle.rap.bigdata.task.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
+import com.google.gson.reflect.TypeToken;
 import com.ifugle.rap.bigdata.task.EsTypeForm;
+import com.ifugle.rap.bigdata.task.UserAllTag;
+import com.ifugle.rap.bigdata.task.es.MgetResponseEntity;
+import com.ifugle.rap.bigdata.task.es.ResponseEntity;
 import com.ifugle.rap.bigdata.task.service.EsService;
 import com.ifugle.rap.bigdata.task.service.EsUserAllTagService;
 import com.ifugle.rap.bigdata.task.service.UserOdsService;
 import com.ifugle.rap.bigdata.task.util.EsKeyUtil;
+import com.ifugle.rap.constants.EsIndexConstant;
 import com.ifugle.rap.constants.SjtjConfig;
 import com.ifugle.rap.utils.UserOds;
 import com.ifugle.util.NullUtil;
@@ -71,6 +78,19 @@ public class EsUserAllTagServiceImpl implements EsUserAllTagService {
             startId = deleteUserList.get((deleteUserList.size() - 1)).getYhNsrId();
             deleteEs(deleteUserList, xnzzId);
         }
+    }
+
+    @Override
+    public List<UserAllTag> listByKeyIds(List<String> keyIds) {
+        List<ResponseEntity<UserAllTag>> result = esService.multiGet(EsIndexConstant.USER_ALL_TAG,
+                keyIds, new TypeToken<MgetResponseEntity<UserAllTag>>() {
+                }.getType());
+        if (NullUtil.isNull(result)) {
+            return new ArrayList<>();
+        }
+
+        List<UserAllTag> userAllTagList = result.stream().map(entity -> entity.getSource()).collect(Collectors.toList());
+        return userAllTagList;
     }
 
     /**

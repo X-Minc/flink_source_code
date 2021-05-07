@@ -68,10 +68,10 @@ public class StartAllJobInit  implements CommandLineRunner {
 
         logger.info("dataSync start");
         if(dataSyncDsbClient!=null) {
-            dataSyncDsbClient.sync(); //同步丁税宝
+            // dataSyncDsbClient.sync(); //同步丁税宝
         }
         if(dataSyncBotClient!=null) {
-            dataSyncBotClient.syncBot(); //同步税小蜜
+            // dataSyncBotClient.syncBot(); //同步税小蜜
         }
     }
 

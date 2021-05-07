@@ -15,6 +15,7 @@ import com.ifugle.rap.bigdata.task.EsTypeForm;
 import com.ifugle.rap.bigdata.task.service.BiDmSwjgService;
 import com.ifugle.rap.bigdata.task.service.EsDepartOdsService;
 import com.ifugle.rap.bigdata.task.service.EsUserAllTagService;
+import com.ifugle.rap.bigdata.task.service.EsUserRealtimeService;
 import com.ifugle.rap.bigdata.task.service.YhzxXnzzBmService;
 import com.ifugle.rap.bigdata.task.service.impl.RealTimeUpdateTaskServiceImpl;
 import com.ifugle.rap.constants.EsIndexConstant;
@@ -46,6 +47,9 @@ public class UserAllTagRealtimeDataUpdateTask {
 
     @Autowired
     private EsDepartOdsService esDepartOdsService;
+
+    @Autowired
+    private EsUserRealtimeService esUserRealtimeService;
 
     /**
      * 定时器运行状态
@@ -85,7 +89,6 @@ public class UserAllTagRealtimeDataUpdateTask {
         }
         Date currentDate = null;
         try {
-
             RealTimeUpdateTaskServiceImpl.taskLock.lock();
             running = true;
             log.info("增量更新实时标签表及部门汇总表数据开始");
@@ -108,15 +111,15 @@ public class UserAllTagRealtimeDataUpdateTask {
 
             for (BiDmSwjg xnzz : xnzzList) {
                 // 增量抽取部门数据到ES
-                Set<Long> bmForDept = esDepartOdsService.insertOrUpdateDepartToEsByXnzz(xnzz, startDate);
-                // // 更新增量实时用户标签数据
-                // Set<Long> bmForUser = esUserRealtimeService.updateUserRealTimeByAdd(xnzz, startDate);
+                esDepartOdsService.insertOrUpdateDepartToEsByXnzz(xnzz, startDate);
+                // 更新增量实时用户标签数据
+                Set<Long> bmForUser = esUserRealtimeService.updateUserRealTimeByAdd(xnzz, startDate);
                 // // 更新增量实时企业标签数据
                 // Set<Long> bmForCompany = esCompanyRealtimeService.updateCompanyRealTimeByAdd(xnzz, startDate);
 
                 // 删除用户全量实时标签表中无效数据
-                EsTypeForm all = new EsTypeForm(EsIndexConstant.USER_ALL_TAG, null);
-                esUserAllTagService.deleteInvalidUserAllTagByXnzzId(xnzz.getXnzzId(), startDate, null, all);
+                // EsTypeForm all = new EsTypeForm(EsIndexConstant.USER_ALL_TAG, null);
+                // esUserAllTagService.deleteInvalidUserAllTagByXnzzId(xnzz.getXnzzId(), startDate, null, all);
 
                 // 待汇总部门ID加入队列进行汇总计算
                 // addToQueue(bmForDept, bmForUser, bmForCompany);

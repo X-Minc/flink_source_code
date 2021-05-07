@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ifugle.rap.dsb.dsp.sjcq.mapper.YhzxXnzzTpcQyryMapper">
-	<resultMap id="BaseResultMap" type="com.ifugle.rap.dsb.dsp.sjcq.model.YhzxXnzzTpcQyry">
+<mapper namespace="com.ifugle.rap.mapper.bigdata.YhzxXnzzTpcQyryMapper">
+	<resultMap id="BaseResultMap" type="com.ifugle.rap.bigdata.task.YhzxXnzzTpcQyry">
 		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
 		<id column="ID" javaType="java.lang.Long" jdbcType="BIGINT" property="id" />
 		<result column="XNZZ_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="xnzzId" />
@@ -43,7 +43,7 @@
 		where ID = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
 	</delete>
 
-	<insert id="insert" parameterType="com.ifugle.rap.dsb.dsp.sjcq.model.YhzxXnzzTpcQyry">
+	<insert id="insert" parameterType="com.ifugle.rap.bigdata.task.YhzxXnzzTpcQyry">
 		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
 		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
 			SELECT LAST_INSERT_ID()
@@ -78,7 +78,7 @@
 			)
 	</insert>
 
-	<insert id="insertSelective" parameterType="com.ifugle.rap.dsb.dsp.sjcq.model.YhzxXnzzTpcQyry">
+	<insert id="insertSelective" parameterType="com.ifugle.rap.bigdata.task.YhzxXnzzTpcQyry">
 		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
 		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
 			SELECT LAST_INSERT_ID()
@@ -192,7 +192,7 @@
 		</trim>
 	</insert>
 
-	<update id="updateByIdSelective" parameterType="com.ifugle.rap.dsb.dsp.sjcq.model.YhzxXnzzTpcQyry">
+	<update id="updateByIdSelective" parameterType="com.ifugle.rap.bigdata.task.YhzxXnzzTpcQyry">
 		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
 		update YHZX_XNZZ_TPC_QYRY
 		<set>
@@ -251,7 +251,7 @@
 		where ID = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
 	</update>
 
-	<update id="updateById" parameterType="com.ifugle.rap.dsb.dsp.sjcq.model.YhzxXnzzTpcQyry">
+	<update id="updateById" parameterType="com.ifugle.rap.bigdata.task.YhzxXnzzTpcQyry">
 		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
 		update YHZX_XNZZ_TPC_QYRY
 		set XNZZ_ID = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long},
@@ -274,7 +274,7 @@
 		where ID = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
 	</update>
 
-	<select id="listByAddTpcQyry" resultType="com.ifugle.rap.dsb.dsp.es.model.UserOds">
+	<select id="listByAddTpcQyry" resultType="com.ifugle.rap.utils.UserOds">
 		select /*+TDDL:slave()*/
 			t.xnzz_id as xnzzId,
 			t.id as yhNsrId,
@@ -308,7 +308,7 @@
 		limit #{pageNum}
 	</select>
 
-	<select id="listByUpdateTpcQyry" resultType="com.ifugle.rap.dsb.dsp.es.model.UserOds">
+	<select id="listByUpdateTpcQyry" resultType="com.ifugle.rap.utils.UserOds">
 		select /*+TDDL:slave()*/
 			t.xnzz_id as xnzzId,
 			t.id as yhNsrId,
@@ -343,7 +343,7 @@
 		limit #{pageNum}
 	</select>
 
-	<select id="listByDeleteTpcQyry" resultType="com.ifugle.rap.dsb.dsp.es.model.UserOds">
+	<select id="listByDeleteTpcQyry" resultType="com.ifugle.rap.utils.UserOds">
 		select /*+TDDL:slave()*/
 			t.xnzz_id as xnzzId,
 			t.id as yhNsrId,

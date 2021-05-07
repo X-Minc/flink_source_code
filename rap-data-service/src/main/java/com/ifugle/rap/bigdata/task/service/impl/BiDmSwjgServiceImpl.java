@@ -25,9 +25,6 @@ public class BiDmSwjgServiceImpl implements BiDmSwjgService {
     @Autowired
     private BiDmSwjgMapper biDmSwjgMapper;
 
-    @Autowired
-    private YhzxXnzzBmMapper yhzxXnzzBmMapper;
-
     @Override
     public List<BiDmSwjg> listXnzzForAllInsert() {
         return biDmSwjgMapper.listXnzzForAllInsert(null);

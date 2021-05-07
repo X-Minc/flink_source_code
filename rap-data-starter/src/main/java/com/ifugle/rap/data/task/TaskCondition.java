@@ -15,7 +15,7 @@ public class TaskCondition implements Condition {
      * 是否启用ES定时任务
      */
     public static String TASK_ENABLE =
-            NullUtil.isNull(System.getProperty("rap.sjtj.task.enable")) ? "false" : System.getProperty("rap.sjtj.task.enable");
+            NullUtil.isNull(System.getProperty("rap.sjtj.task.enable")) ? "true" : System.getProperty("rap.sjtj.task.enable");
 
     /**
      * 是否启用ES定时任务， true则启动， false则不启动

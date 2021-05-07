@@ -1,6 +1,7 @@
 package com.ifugle.rap.bigdata.task.util;
 
 import com.ifugle.rap.bigdata.task.DepartOds;
+import com.ifugle.rap.bigdata.task.UserAllTag;
 import com.ifugle.rap.utils.UserOds;
 import com.ifugle.util.NullUtil;
 import com.ifugle.util.SHA1Util;
@@ -68,6 +69,24 @@ public class EsKeyUtil {
         keyId.append(NullUtil.isNotNull(user.getYhNsrId()) ? user.getYhNsrId() : "");
         keyId.append("_");
         keyId.append(NullUtil.isNotNull(user.getNsrId()) ? user.getNsrId() : "");
+        return SHA1Util.base64Digest(keyId.toString(), "utf-8");
+    }
+
+    /**
+     * 获取UserAllTag的key值
+     *
+     * @param allTag
+     *
+     * @return
+     */
+    public static String getUserAllTagKey(UserAllTag allTag) {
+        StringBuilder keyId = new StringBuilder();
+        keyId.append(allTag.getXnzzId())
+                .append("_").append(allTag.getYhType());
+        keyId.append("_");
+        keyId.append(NullUtil.isNotNull(allTag.getYhNsrId()) ? allTag.getYhNsrId() : "");
+        keyId.append("_");
+        keyId.append(NullUtil.isNotNull(allTag.getNsrId()) ? allTag.getNsrId() : "");
         return SHA1Util.base64Digest(keyId.toString(), "utf-8");
     }
 }

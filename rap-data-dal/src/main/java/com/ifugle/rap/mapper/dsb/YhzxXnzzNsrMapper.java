@@ -1,5 +1,6 @@
 package com.ifugle.rap.mapper.dsb;
 
+import com.ifugle.rap.bigdata.task.CompanyOds;
 import com.ifugle.rap.core.mapper.BaseMapper;
 import com.ifugle.rap.model.dsb.YhzxXnzzNsr;
 import org.apache.ibatis.annotations.Param;
@@ -57,4 +58,5 @@ public interface YhzxXnzzNsrMapper extends BaseMapper<YhzxXnzzNsr, Long> {
     List<YhzxXnzzNsr> selectYhzxXnzzNsrForUpdateWithLastUpdateTime(@Param("lastUpdateTime") String lastUpdateTime, @Param("first") Integer first,
                                                                    @Param("pageSize") Integer pageSize);
 
+    List<CompanyOds> listByIds(Long xnzzId, List<Long> nsrIds);
 }

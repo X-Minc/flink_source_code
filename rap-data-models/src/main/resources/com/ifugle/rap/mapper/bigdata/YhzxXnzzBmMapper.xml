@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ifugle.rap.dsb.dsp.sjcq.mapper.YhzxXnzzBmMapper">
+<mapper namespace="com.ifugle.rap.mapper.bigdata.YhzxXnzzBmMapper">
 	<resultMap id="BaseResultMap" type="com.ifugle.rap.bigdata.task.YhzxXnzzBm">
 		<!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
 		<id column="id" javaType="java.lang.Long" jdbcType="BIGINT" property="id" />
@@ -354,7 +354,7 @@
 		</if>
 	</select>
 
-	<select id="listBmByUpdate" resultType="com.ifugle.rap.dsb.dsp.es.model.DepartOds">
+	<select id="listBmByUpdate" resultType="com.ifugle.rap.bigdata.task.DepartOds">
 		select  /*+TDDL:slave()*/
 			bm.id,
 			bm.xnzz_id as xnzzId,

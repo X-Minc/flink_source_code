@@ -114,6 +114,47 @@
         <result column="SWJG_DM_PATH" javaType="java.lang.String" jdbcType="VARCHAR" property="swjgDmPath" />
   </resultMap>
 
+
+
+  <resultMap id="CompanyOdsResultMap" type="com.ifugle.rap.bigdata.task.CompanyOds">
+    <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
+    <result column="id" javaType="java.lang.Long" jdbcType="BIGINT" property="nsrId" />
+    <result column="xnzz_id" javaType="java.lang.Long" jdbcType="BIGINT" property="xnzzId" />
+    <result column="bm_id" javaType="java.lang.Long" jdbcType="BIGINT" property="bmId" />
+    <result column="nsrsbh" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrsbh" />
+    <result column="shxydm" javaType="java.lang.String" jdbcType="VARCHAR" property="shxydm" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler" />
+    <result column="nsrmc" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrmc" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler" />
+    <result column="zdsyhbj" javaType="java.lang.Byte" jdbcType="TINYINT" property="zdsyhbj" />
+    <result column="jhbj" javaType="java.lang.Byte" jdbcType="TINYINT" property="jhbj" />
+    <result column="yxcys" javaType="java.lang.Integer" jdbcType="INTEGER" property="yxcys" />
+    <result column="djzclx_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="djzclxDm" />
+    <result column="hy_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="hyDm" />
+    <result column="nsrzt_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrztDm" />
+    <result column="zzzcbj" javaType="java.lang.Byte" jdbcType="TINYINT" property="zzzcbj" />
+    <result column="zzsnslx" javaType="java.lang.Byte" jdbcType="TINYINT" property="zzsnslx" />
+    <result column="dzxwqy_bj" javaType="java.lang.Byte" jdbcType="TINYINT" property="dzxwqyBj" />
+    <result column="xxwlqy_bj" javaType="java.lang.Byte" jdbcType="TINYINT" property="xxwlqyBj" />
+    <result column="nsxydj" javaType="java.lang.Byte" jdbcType="TINYINT" property="nsxydj" />
+    <result column="is_delete" javaType="java.lang.Boolean" jdbcType="BIT" property="isDelete" />
+    <result column="cjsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="cjsj" />
+    <result column="xgsj" javaType="java.util.Date" jdbcType="TIMESTAMP" property="xgsj" />
+    <result column="djxh" javaType="java.lang.String" jdbcType="VARCHAR" property="djxh" />
+    <result column="zggsjg_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="zggsjgDm" />
+    <result column="nsrjc" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrjc" />
+    <result column="sjshxydm" javaType="java.lang.String" jdbcType="VARCHAR" property="sjshxydm" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler" />
+    <result column="khyh" javaType="java.lang.String" jdbcType="VARCHAR" property="khyh" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler" />
+    <result column="yhzh" javaType="java.lang.String" jdbcType="VARCHAR" property="yhzh" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler" />
+    <result column="zcdz" javaType="java.lang.String" jdbcType="VARCHAR" property="zcdz" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler" />
+    <result column="zcdlxdh" javaType="java.lang.String" jdbcType="VARCHAR" property="zcdlxdh" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler" />
+    <result column="scjydz" javaType="java.lang.String" jdbcType="VARCHAR" property="scjydz" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler" />
+    <result column="scjydlxdh" javaType="java.lang.String" jdbcType="VARCHAR" property="scjydlxdh" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler" />
+    <result column="kzztdjlx_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="kzztdjlxDm" />
+    <result column="jyfw" javaType="java.lang.String" jdbcType="VARCHAR" property="jyfw" />
+    <result column="cjr" javaType="java.lang.String" jdbcType="VARCHAR" property="cjr" />
+    <result column="xgr" javaType="java.lang.String" jdbcType="VARCHAR" property="xgr" />
+    <result column="swwblh" javaType="java.lang.Byte" jdbcType="TINYINT" property="swwblh" />
+  </resultMap>
+
   <sql id="Base_Column_List">
         ID, XNZZ_ID, BM_ID, DJXH, NSRSBH, SHXYDM, SHXYDM6, NSRMC, NSRJC, SJSHXYDM, NSRZT_DM,
 		JHBJ, ZDSYHBJ, YXCYS, ZGGSJG_DM, ZGDSJG_DM, SGY_DM, DJZCLX_DM, PARENT_DJZCLX_DM, HY_DM, ZZZCBJ,
@@ -603,6 +644,59 @@
     <include refid="Base_Column_List" />
     from yhzx_xnzz_nsr
     WHERE xgsj > #{lastUpdateTime} LIMIT ${first},${pageSize}
+  </select>
+
+  <select id="listByIds" resultMap="CompanyOdsResultMap">
+    select /*+TDDL:slave()*/
+    nsr.id,
+    nsr.xnzz_id,
+    nsr.bm_id,
+    nsr.djxh,
+    nsr.nsrsbh,
+    nsr.shxydm,
+    nsr.nsrmc,
+    nsr.nsrjc,
+    nsr.sjshxydm,
+    nsr.nsrzt_dm,
+    nsr.jhbj,
+    nsr.zdsyhbj,
+    nsr.yxcys,
+    nsr.zggsjg_dm,
+    nsr.djzclx_dm,
+    nsr.hy_dm,
+    nsr.zzzcbj,
+    nsr.khyh,
+    nsr.yhzh,
+    nsr.zcdz,
+    nsr.zcdlxdh,
+    nsr.scjydz,
+    nsr.scjydlxdh,
+    nsr.zzsnslx,
+    nsr.dzxwqy_bj,
+    nsr.xxwlqy_bj,
+    nsr.nsxydj,
+    nsr.kzztdjlx_dm,
+    nsr.jyfw,
+    nsr.is_delete,
+    nsr.cjr,
+    nsr.cjsj,
+    nsr.xgr,
+    nsr.xgsj,
+    nsr.swwblh
+    from yhzx_xnzz_nsr nsr FORCE INDEX (PRIMARY)
+    where 1=1
+    <if test="xnzzId != null">
+      and nsr.xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+    </if>
+    <if test="nsrIds != null and nsrIds.size > 0">
+      and nsr.id in
+      <foreach close=")" collection="nsrIds" index="index" item="nsrId" open="(" separator=",">
+        #{nsrId}
+      </foreach>
+    </if>
+    <if test="nsrIds == null or nsrIds.size == 0">
+      and 1=2
+    </if>
   </select>
 
 </mapper>

@@ -28,4 +28,8 @@ public interface YhzxXnzzTpcJgryMapper extends BaseMapper<YhzxXnzzTpcJgry, Long>
      */
     List<UserOds> listByDeleteTpcJgry(@Param("xnzzId") Long xnzzId, @Param("startDate") Date startDate,
             @Param("endDate") Date endDate, @Param("startId") Long startId, @Param("pageNum") int pageNum);
+
+    List<UserOds> listByAddTpcJgry(Long xnzzId, Date startDate, Date endDate, Long startId, int pageNum);
+
+    List<UserOds> listByUpdateTpcJgryByBmys(Long xnzzId, Date startDate, Date endDate, Long startId, int pageNum);
 }

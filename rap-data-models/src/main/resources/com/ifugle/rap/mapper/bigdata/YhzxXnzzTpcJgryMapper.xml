@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ifugle.rap.dsb.dsp.sjcq.mapper.YhzxXnzzTpcJgryMapper">
+<mapper namespace="com.ifugle.rap.mapper.bigdata.YhzxXnzzTpcJgryMapper">
     <resultMap id="BaseResultMap" type="com.ifugle.rap.bigdata.task.YhzxXnzzTpcJgry">
         <!-- WARNING - @mbggenerated 请勿删除自动合并标记！ -->
         <id column="ID" javaType="java.lang.Long" jdbcType="BIGINT" property="id"/>
