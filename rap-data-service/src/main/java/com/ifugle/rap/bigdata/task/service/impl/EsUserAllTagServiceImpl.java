@@ -3,23 +3,34 @@ package com.ifugle.rap.bigdata.task.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gson.reflect.TypeToken;
+import com.ifugle.rap.bigdata.task.CompanyOds;
 import com.ifugle.rap.bigdata.task.EsTypeForm;
 import com.ifugle.rap.bigdata.task.UserAllTag;
+import com.ifugle.rap.bigdata.task.es.DslRequestBuild;
+import com.ifugle.rap.bigdata.task.es.HitsResponseEntity;
 import com.ifugle.rap.bigdata.task.es.MgetResponseEntity;
 import com.ifugle.rap.bigdata.task.es.ResponseEntity;
+import com.ifugle.rap.bigdata.task.es.SearchResponseEntity;
 import com.ifugle.rap.bigdata.task.service.EsService;
 import com.ifugle.rap.bigdata.task.service.EsUserAllTagService;
 import com.ifugle.rap.bigdata.task.service.UserOdsService;
 import com.ifugle.rap.bigdata.task.util.EsKeyUtil;
+import com.ifugle.rap.constants.DsbCode;
+import com.ifugle.rap.constants.EsCode;
 import com.ifugle.rap.constants.EsIndexConstant;
 import com.ifugle.rap.constants.SjtjConfig;
+import com.ifugle.rap.exception.DsbServiceException;
+import com.ifugle.rap.utils.ListUtil;
+import com.ifugle.rap.utils.PageUtils;
 import com.ifugle.rap.utils.UserOds;
 import com.ifugle.util.NullUtil;
 
@@ -141,5 +152,100 @@ public class EsUserAllTagServiceImpl implements EsUserAllTagService {
         if (exist) {
             esService.multiDelete(esTypeForm.getIndex(), keyIds);
         }
+    }
+
+
+    @Override
+    public void updateTpcQyryBm(Map<Long, CompanyOds> companyMap) {
+        List<Long> nsrIdList = new ArrayList<>(companyMap.keySet());
+
+        List<List<Long>> split = ListUtil.split(nsrIdList, EsCode.ES_PARAM_NUM);
+        for (List<Long> nsrIds : split) {
+            int page = 1;
+            int size = EsCode.ES_FIND_PAGE_NUM;
+            Map<String, Object> querySearch = Maps.newHashMap();
+            querySearch.put("nsr_id", nsrIds);
+            querySearch.put("yh_type", EsCode.EsYhType.TPC);
+            querySearch.put("cysx_tag", DsbCode.Cysx.CYSX_QYRY);
+
+            SearchResponseEntity<UserAllTag> entity = scrollQueryByPage(querySearch, 3, page, size);
+            HitsResponseEntity<UserAllTag> hits = entity.getHits();
+            String scrollId = entity.getScrollId();
+            int total = hits.getTotal().getValue();
+            int totalPage = PageUtils.getTotalPage(total, size);
+            updateTpcQyryBmById(hits, companyMap);
+
+            try {
+                while (totalPage > page) {
+                    page++;
+                    hits = scrollQueryByPage(scrollId, 3, size);
+                    updateTpcQyryBmById(hits, companyMap);
+                }
+            } catch (DsbServiceException e) {
+                deleteScrollQueryByPage(scrollId);
+                throw new DsbServiceException(e);
+            }
+        }
+    }
+    /**
+     * 更新中间表企业用户的部门ID
+     *
+     * @param hits
+     * @param companyMap
+     */
+    private void updateTpcQyryBmById(HitsResponseEntity<UserAllTag> hits, Map<Long, CompanyOds> companyMap) {
+        Map<String, UserAllTag> updateMap = Maps.newHashMap();
+        List<ResponseEntity<UserAllTag>> list = hits.getHits();
+        for (ResponseEntity<UserAllTag> responseEntity : list) {
+            UserAllTag allTag = responseEntity.getSource();
+            // 更新bmId和bmIds
+            UserAllTag updateTag = new UserAllTag();
+            updateTag.setBmId(companyMap.get(allTag.getNsrId()).getBmId());
+            updateTag.setBmIds(companyMap.get(allTag.getNsrId()).getBmIds());
+            String key = EsKeyUtil.getUserAllTagKey(allTag);
+            updateMap.put(key, updateTag);
+        }
+        if (updateMap.size() > 0) {
+            esService.multiUpdate(EsIndexConstant.USER_ALL_TAG, updateMap);
+        }
+    }
+    @Override
+    public void deleteScrollQueryByPage(String scrollId) {
+        esService.deleteScrollQueryByPage(scrollId);
+    }
+    @Override
+    public SearchResponseEntity<UserAllTag> scrollQueryByPage(Map<String, Object> querySearch, int scrollTime, int page, int size) {
+        SearchResponseEntity<UserAllTag> entity = esService.scrollQueryByPage(EsIndexConstant.USER_ALL_TAG,
+                querySearch, new TypeToken<SearchResponseEntity<UserAllTag>>() {
+                }.getType(), scrollTime, page, size);
+        return entity;
+    }
+
+    @Override
+    public SearchResponseEntity<UserAllTag> scrollQueryByPage(String index, Map<String, Object> querySearch, int scrollTime, int page, int size) {
+        SearchResponseEntity<UserAllTag> entity = esService.scrollQueryByPage(index,
+                querySearch, new TypeToken<SearchResponseEntity<UserAllTag>>() {
+                }.getType(), scrollTime, page, size);
+        return entity;
+    }
+
+    @Override
+    public SearchResponseEntity<UserAllTag> scrollQueryByPage(DslRequestBuild build, int scrollTime, int page, int size) {
+        SearchResponseEntity<UserAllTag> entity = esService
+                .scrollQueryByPage(EsIndexConstant.USER_ALL_TAG, new TypeToken<SearchResponseEntity<UserAllTag>>() {
+                }.getType(), build, scrollTime, page, size);
+        return entity;
+    }
+
+    @Override
+    public HitsResponseEntity<UserAllTag> scrollQueryByPage(String scrollId, int scrollTime, int size) {
+        SearchResponseEntity<UserAllTag> entity = esService.scrollQueryByPage(scrollId, scrollTime,
+                new TypeToken<SearchResponseEntity<UserAllTag>>() {
+                }.getType());
+        HitsResponseEntity<UserAllTag> hits = entity.getHits();
+        if (NullUtil.isNull(hits) || NullUtil.isNull(hits.getHits()) || hits.getHits().size() < size) {
+            esService.deleteScrollQueryByPage(scrollId);
+        }
+        return hits;
     }
 }

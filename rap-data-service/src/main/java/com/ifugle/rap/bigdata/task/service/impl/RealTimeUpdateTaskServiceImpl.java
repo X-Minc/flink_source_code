@@ -1,6 +1,5 @@
 package com.ifugle.rap.bigdata.task.service.impl;
 
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -8,18 +7,14 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.ifugle.rap.bigdata.task.BiDmSwjg;
 import com.ifugle.rap.bigdata.task.EsTypeForm;
 import com.ifugle.rap.bigdata.task.service.BiDmSwjgService;
 import com.ifugle.rap.bigdata.task.service.EsDepartOdsService;
 import com.ifugle.rap.bigdata.task.service.EsUserAllTagService;
+import com.ifugle.rap.bigdata.task.service.EsUserRealtimeService;
 import com.ifugle.rap.bigdata.task.service.RealTimeUpdateTaskService;
-import com.ifugle.rap.constants.EsCode;
 import com.ifugle.rap.constants.EsIndexConstant;
-import com.ifugle.rap.utils.ListUtil;
-import com.ifugle.util.NullUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,9 +35,12 @@ public class RealTimeUpdateTaskServiceImpl implements RealTimeUpdateTaskService 
     @Autowired
     private EsDepartOdsService esDepartOdsService;
 
-
     @Autowired
     private EsUserAllTagService esUserAllTagService;
+
+    @Autowired
+    EsUserRealtimeService esUserRealtimeService;
+
 
     @Override
     public void getUpdateDataToEs(String startTime) {
@@ -59,8 +57,8 @@ public class RealTimeUpdateTaskServiceImpl implements RealTimeUpdateTaskService 
 
             // 增量抽取部门数据
             Set<Long> bmForDept = esDepartOdsService.insertOrUpdateDepartToEsByXnzz(xnzz, null);
-            // // 更新增量实时用户标签数据
-            // Set<Long> bmForUser = esUserRealtimeService.updateUserRealTimeByAdd(xnzz, null);
+            // 更新增量实时用户标签数据
+            Set<Long> bmForUser = esUserRealtimeService.updateUserRealTimeByAdd(xnzz, null);
             // // 更新增量实时企业标签数据
             // Set<Long> bmForCompany = esCompanyRealtimeService.updateCompanyRealTimeByAdd(xnzz, null);
             // 删除用户全量实时标签表中无效数据

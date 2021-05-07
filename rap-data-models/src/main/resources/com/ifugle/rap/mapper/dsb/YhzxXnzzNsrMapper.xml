@@ -699,4 +699,61 @@
     </if>
   </select>
 
+  <select id="listByUpdateCompany" resultMap="CompanyOdsResultMap">
+    select /*+TDDL:slave()*/
+    nsr.id,
+    nsr.xnzz_id,
+    nsr.bm_id,
+    nsr.nsrsbh,
+    nsr.shxydm,
+    nsr.nsrmc,
+    nsr.zdsyhbj,
+    nsr.jhbj,
+    nsr.yxcys,
+    nsr.djzclx_dm,
+    nsr.hy_dm,
+    nsr.nsrzt_dm,
+    nsr.zzzcbj,
+    nsr.zzsnslx,
+    nsr.dzxwqy_bj,
+    nsr.xxwlqy_bj,
+    nsr.nsxydj,
+    nsr.is_delete,
+    nsr.cjsj,
+    nsr.xgsj,
+    nsr.swwblh
+    from yhzx_xnzz_nsr nsr
+    where nsr.xnzz_id = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+    <if test="startId != null">
+      and nsr.id > #{startId,jdbcType=BIGINT,javaType=java.lang.Long}
+    </if>
+    <if test="startDate != null">
+      and nsr.xgsj &gt;= #{startDate,jdbcType=TIMESTAMP,javaType=java.util.Date}
+    </if>
+    <if test="endDate != null">
+      and nsr.xgsj &lt;= #{endDate,jdbcType=TIMESTAMP,javaType=java.util.Date}
+    </if>
+    order by nsr.id
+    limit #{pageNum}
+  </select>
+
+
+  <select id="listBqByNsrId" resultType="com.ifugle.rap.bigdata.task.YhzxXnzzNsrBq">
+    select /*+TDDL:slave()*/ bq.NSR_ID as nsrId, GROUP_CONCAT(bq.BQ_ID) bqIds
+    from YHZX_XNZZ_NSR_BQ bq
+    where bq.QYBJ = 1
+    <if test="xnzzId != null">
+      and bq.XNZZ_ID = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long}
+    </if>
+    <if test="nsrIds != null and nsrIds.size > 0">
+      and bq.NSR_ID in
+      <foreach close=")" collection="nsrIds" index="index" item="nsrId" open="(" separator=",">
+        #{nsrId}
+      </foreach>
+    </if>
+    <if test="nsrIds == null or nsrIds.size == 0">
+      and 1=2
+    </if>
+    group by bq.NSR_ID
+  </select>
 </mapper>

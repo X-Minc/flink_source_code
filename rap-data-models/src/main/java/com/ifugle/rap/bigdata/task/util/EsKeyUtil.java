@@ -1,5 +1,7 @@
 package com.ifugle.rap.bigdata.task.util;
 
+import com.ifugle.rap.bigdata.task.CompanyAllTag;
+import com.ifugle.rap.bigdata.task.CompanyOds;
 import com.ifugle.rap.bigdata.task.DepartOds;
 import com.ifugle.rap.bigdata.task.UserAllTag;
 import com.ifugle.rap.utils.UserOds;
@@ -89,4 +91,26 @@ public class EsKeyUtil {
         keyId.append(NullUtil.isNotNull(allTag.getNsrId()) ? allTag.getNsrId() : "");
         return SHA1Util.base64Digest(keyId.toString(), "utf-8");
     }
+
+    public static String getCompanyOdsKey(CompanyOds company) {
+        StringBuilder keyId = new StringBuilder();
+        keyId.append(company.getXnzzId())
+                .append("_").append(company.getNsrId());
+        return SHA1Util.base64Digest(keyId.toString(), "utf-8");
+    }
+
+    /**
+     * 获取CompanyAllTag的key值
+     *
+     * @param company
+     *
+     * @return
+     */
+    public static String getCompanyAllTagKey(CompanyAllTag company) {
+        StringBuilder keyId = new StringBuilder();
+        keyId.append(company.getXnzzId())
+                .append("_").append(company.getNsrId());
+        return SHA1Util.base64Digest(keyId.toString(), "utf-8");
+    }
+
 }
