@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 @Conditional(TaskCondition.class)
-public class UserAllTagRealtimeDataUpdateTask {
+public class RealtimeDataTask {
 
 
     @Autowired
