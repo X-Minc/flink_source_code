@@ -12,6 +12,7 @@ import de.codecentric.boot.admin.server.config.EnableAdminServer;
 public class DspApplication {
     public static void main(String[] args) {
         System.setProperty("rap.sql.maxRows","100000");
+        System.setProperty("rap.allow.snapshot","true");
         SpringApplication.run(DspApplication.class, args);
     }
 }

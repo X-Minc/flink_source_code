@@ -172,7 +172,7 @@ public class SyncServiceImpl implements SyncService {
         List<Long> ids  = new ArrayList<>();
         for (YhzxXnzzNsr yhzxXnzzNsr : yhzxXnzzNsrs) {
             DataRequest request = compriseUtils.yhzxXnzzNsrCompriseDataRequest(yhzxXnzzNsr, cryptSimple, cryptBase36, cryptNumber);
-            DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.YHZX_XNZZ_NSR.getCode(), request));
+            DSL.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(ChannelType.DINGTAX.getCode(), request));
             ids.add(yhzxXnzzNsr.getId());
         }
         if (CollectionUtils.isNotEmpty(ids) && ids.size() != pageSize) {

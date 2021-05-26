@@ -192,7 +192,7 @@ public class CompriseUtils {
 
     public DataRequest yhzxXnzzTpcQyCompriseDataRequest(YhzxXnzzTpcQy yhzxXnzzTpcQy, CryptSimple cryptSimple, CryptBase36 cryptBase36) {
         DataRequest request = new DataRequest();
-        request.setCatalogType(SystemConstants.DEFAULT_TYPE);
+        request.setCatalogType("doc");
         Map<String, Object> hashMap = new HashMap<>(16);
         hashMap.put("ID", yhzxXnzzTpcQy.getId());
         hashMap.put("XNZZ_ID", yhzxXnzzTpcQy.getXnzzId());
