@@ -1,15 +1,15 @@
 #开发环境运行
 java  -Xms1024m -Xmx1024m  -jar rap-data-starter.jar --spring.profiles.active=dev
-
+java -Xms1024m -Xmx1024m -Dspring.profiles.active=dev -jar rap-data-starter.jar 
 #测试环境运行
 java  -Xms1024m -Xmx1024m  -jar rap-data-starter.jar --spring.profiles.active=test
-
+java -Xms1024m -Xmx1024m -Dspring.profiles.active=test -jar rap-data-starter.jar 
 #生产环境运行
 java -Xms1024m -Xmx1024m  -jar rap-data-starter.jar --spring.profiles.active=prod
-
+java -Xms1024m -Xmx1024m -Dspring.profiles.active=prod -jar rap-data-starter.jar 
 #上海模拟环境运行
 java -Xms1024m -Xmx1024m  -jar rap-data-starter.jar --spring.profiles.active=prod
-
+java -Xms1024m -Xmx1024m -Dspring.profiles.active=prod -jar rap-data-starter.jar 
 #开发es配置
 -Drap.es.url=30.40.36.183:3006
 -Drap.es.username=elastic
