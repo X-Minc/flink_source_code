@@ -122,8 +122,8 @@
     <result column="xnzz_id" javaType="java.lang.Long" jdbcType="BIGINT" property="xnzzId" />
     <result column="bm_id" javaType="java.lang.Long" jdbcType="BIGINT" property="bmId" />
     <result column="nsrsbh" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrsbh" />
-    <result column="shxydm" javaType="java.lang.String" jdbcType="VARCHAR" property="shxydm" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler" />
-    <result column="nsrmc" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrmc" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler" />
+    <result column="shxydm" javaType="java.lang.String" jdbcType="VARCHAR" property="shxydm" />
+    <result column="nsrmc" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrmc" />
     <result column="zdsyhbj" javaType="java.lang.Byte" jdbcType="TINYINT" property="zdsyhbj" />
     <result column="jhbj" javaType="java.lang.Byte" jdbcType="TINYINT" property="jhbj" />
     <result column="yxcys" javaType="java.lang.Integer" jdbcType="INTEGER" property="yxcys" />
@@ -141,13 +141,13 @@
     <result column="djxh" javaType="java.lang.String" jdbcType="VARCHAR" property="djxh" />
     <result column="zggsjg_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="zggsjgDm" />
     <result column="nsrjc" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrjc" />
-    <result column="sjshxydm" javaType="java.lang.String" jdbcType="VARCHAR" property="sjshxydm" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler" />
-    <result column="khyh" javaType="java.lang.String" jdbcType="VARCHAR" property="khyh" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler" />
-    <result column="yhzh" javaType="java.lang.String" jdbcType="VARCHAR" property="yhzh" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler" />
-    <result column="zcdz" javaType="java.lang.String" jdbcType="VARCHAR" property="zcdz" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler" />
-    <result column="zcdlxdh" javaType="java.lang.String" jdbcType="VARCHAR" property="zcdlxdh" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler" />
-    <result column="scjydz" javaType="java.lang.String" jdbcType="VARCHAR" property="scjydz" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler" />
-    <result column="scjydlxdh" javaType="java.lang.String" jdbcType="VARCHAR" property="scjydlxdh" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler" />
+    <result column="sjshxydm" javaType="java.lang.String" jdbcType="VARCHAR" property="sjshxydm" />
+    <result column="khyh" javaType="java.lang.String" jdbcType="VARCHAR" property="khyh" />
+    <result column="yhzh" javaType="java.lang.String" jdbcType="VARCHAR" property="yhzh" />
+    <result column="zcdz" javaType="java.lang.String" jdbcType="VARCHAR" property="zcdz" />
+    <result column="zcdlxdh" javaType="java.lang.String" jdbcType="VARCHAR" property="zcdlxdh" />
+    <result column="scjydz" javaType="java.lang.String" jdbcType="VARCHAR" property="scjydz" />
+    <result column="scjydlxdh" javaType="java.lang.String" jdbcType="VARCHAR" property="scjydlxdh" />
     <result column="kzztdjlx_dm" javaType="java.lang.String" jdbcType="VARCHAR" property="kzztdjlxDm" />
     <result column="jyfw" javaType="java.lang.String" jdbcType="VARCHAR" property="jyfw" />
     <result column="cjr" javaType="java.lang.String" jdbcType="VARCHAR" property="cjr" />

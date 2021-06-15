@@ -7,13 +7,13 @@
 		<result column="XNZZ_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="xnzzId" />
 		<result column="YH_ID" javaType="java.lang.Long" jdbcType="BIGINT" property="yhId" />
 		<result column="DJXH" javaType="java.lang.String" jdbcType="VARCHAR" property="djxh" />
-		<result column="SHXYDM" javaType="java.lang.String" jdbcType="VARCHAR" property="shxydm" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler" />
-		<result column="NSRSBH" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrsbh" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler" />
-		<result column="XM" javaType="java.lang.String" jdbcType="VARCHAR" property="xm" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler" />
-		<result column="SJHM" javaType="java.lang.String" jdbcType="VARCHAR" property="sjhm" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler" />
+		<result column="SHXYDM" javaType="java.lang.String" jdbcType="VARCHAR" property="shxydm" />
+		<result column="NSRSBH" javaType="java.lang.String" jdbcType="VARCHAR" property="nsrsbh" />
+		<result column="XM" javaType="java.lang.String" jdbcType="VARCHAR" property="xm" />
+		<result column="SJHM" javaType="java.lang.String" jdbcType="VARCHAR" property="sjhm" />
 		<result column="RYLX_DM" javaType="java.lang.String" jdbcType="CHAR" property="rylxDm" />
 		<result column="ZJLX" javaType="java.lang.String" jdbcType="VARCHAR" property="zjlx" />
-		<result column="ZJHM" javaType="java.lang.String" jdbcType="VARCHAR" property="zjhm" typeHandler="com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler" />
+		<result column="ZJHM" javaType="java.lang.String" jdbcType="VARCHAR" property="zjhm" />
 		<result column="GPY_ID" javaType="java.lang.String" jdbcType="VARCHAR" property="gpyId" />
 		<result column="TBZT" javaType="java.lang.Byte" jdbcType="TINYINT" property="tbzt" />
 		<result column="CJSJ" javaType="java.util.Date" jdbcType="TIMESTAMP" property="cjsj" />
@@ -61,13 +61,13 @@
 			#{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long},
 			#{yhId,jdbcType=BIGINT,javaType=java.lang.Long},
 			#{djxh,jdbcType=VARCHAR,javaType=java.lang.String},
-			#{shxydm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler}, 
-			#{nsrsbh,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler}, 
-			#{xm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler}, 
-			#{sjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler}, 
+			#{shxydm,jdbcType=VARCHAR,javaType=java.lang.String},
+			#{nsrsbh,jdbcType=VARCHAR,javaType=java.lang.String},
+			#{xm,jdbcType=VARCHAR,javaType=java.lang.String},
+			#{sjhm,jdbcType=VARCHAR,javaType=java.lang.String},
 			#{rylxDm,jdbcType=CHAR,javaType=java.lang.String},
 			#{zjlx,jdbcType=VARCHAR,javaType=java.lang.String},
-			#{zjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler},
+			#{zjhm,jdbcType=VARCHAR,javaType=java.lang.String},
 			#{gpyId,jdbcType=VARCHAR,javaType=java.lang.String},
 			#{tbzt,jdbcType=TINYINT,javaType=java.lang.Byte},
 			#{cjsj,jdbcType=TIMESTAMP,javaType=java.util.Date},
@@ -148,16 +148,16 @@
 				#{djxh,jdbcType=VARCHAR,javaType=java.lang.String},
 			</if>
 			<if test="shxydm != null">
-				#{shxydm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler},
+				#{shxydm,jdbcType=VARCHAR,javaType=java.lang.String},
 			</if>
 			<if test="nsrsbh != null">
-				#{nsrsbh,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler},
+				#{nsrsbh,jdbcType=VARCHAR,javaType=java.lang.String},
 			</if>
 			<if test="xm != null">
-				#{xm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler},
+				#{xm,jdbcType=VARCHAR,javaType=java.lang.String},
 			</if>
 			<if test="sjhm != null">
-				#{sjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler},
+				#{sjhm,jdbcType=VARCHAR,javaType=java.lang.String},
 			</if>
 			<if test="rylxDm != null">
 				#{rylxDm,jdbcType=CHAR,javaType=java.lang.String},
@@ -166,7 +166,7 @@
 				#{zjlx,jdbcType=VARCHAR,javaType=java.lang.String},
 			</if>
 			<if test="zjhm != null">
-				#{zjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler},
+				#{zjhm,jdbcType=VARCHAR,javaType=java.lang.String},
 			</if>
 			<if test="gpyId != null">
 				#{gpyId,jdbcType=VARCHAR,javaType=java.lang.String},
@@ -206,16 +206,16 @@
 				DJXH = #{djxh,jdbcType=VARCHAR,javaType=java.lang.String},
 			</if>
 			<if test="shxydm != null">
-				SHXYDM = #{shxydm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler},
+				SHXYDM = #{shxydm,jdbcType=VARCHAR,javaType=java.lang.String},
 			</if>
 			<if test="nsrsbh != null">
-				NSRSBH = #{nsrsbh,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler},
+				NSRSBH = #{nsrsbh,jdbcType=VARCHAR,javaType=java.lang.String},
 			</if>
 			<if test="xm != null">
-				XM = #{xm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler},
+				XM = #{xm,jdbcType=VARCHAR,javaType=java.lang.String},
 			</if>
 			<if test="sjhm != null">
-				SJHM = #{sjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler},
+				SJHM = #{sjhm,jdbcType=VARCHAR,javaType=java.lang.String},
 			</if>
 			<if test="rylxDm != null">
 				RYLX_DM = #{rylxDm,jdbcType=CHAR,javaType=java.lang.String},
@@ -224,7 +224,7 @@
 				ZJLX = #{zjlx,jdbcType=VARCHAR,javaType=java.lang.String},
 			</if>
 			<if test="zjhm != null">
-				ZJHM = #{zjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler},
+				ZJHM = #{zjhm,jdbcType=VARCHAR,javaType=java.lang.String},
 			</if>
 			<if test="gpyId != null">
 				GPY_ID = #{gpyId,jdbcType=VARCHAR,javaType=java.lang.String},
@@ -257,13 +257,13 @@
 		set XNZZ_ID = #{xnzzId,jdbcType=BIGINT,javaType=java.lang.Long},
 			YH_ID = #{yhId,jdbcType=BIGINT,javaType=java.lang.Long},
 			DJXH = #{djxh,jdbcType=VARCHAR,javaType=java.lang.String},
-			SHXYDM = #{shxydm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler},
-			NSRSBH = #{nsrsbh,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler},
-			XM = #{xm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptSimpleStringTypeHandler},
-			SJHM = #{sjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptNumberStringTypeHandler},
+			SHXYDM = #{shxydm,jdbcType=VARCHAR,javaType=java.lang.String},
+			NSRSBH = #{nsrsbh,jdbcType=VARCHAR,javaType=java.lang.String},
+			XM = #{xm,jdbcType=VARCHAR,javaType=java.lang.String},
+			SJHM = #{sjhm,jdbcType=VARCHAR,javaType=java.lang.String},
 			RYLX_DM = #{rylxDm,jdbcType=CHAR,javaType=java.lang.String},
 			ZJLX = #{zjlx,jdbcType=VARCHAR,javaType=java.lang.String},
-			ZJHM = #{zjhm,jdbcType=VARCHAR,javaType=java.lang.String,typeHandler=com.ifugle.rap.sql.mybatis.type.CryptBase36StringTypeHandler},
+			ZJHM = #{zjhm,jdbcType=VARCHAR,javaType=java.lang.String},
 			GPY_ID = #{gpyId,jdbcType=VARCHAR,javaType=java.lang.String},
 			TBZT = #{tbzt,jdbcType=TINYINT,javaType=java.lang.Byte},
 			CJSJ = #{cjsj,jdbcType=TIMESTAMP,javaType=java.util.Date},

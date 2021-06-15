@@ -13,6 +13,7 @@ public class DspApplication {
     public static void main(String[] args) {
         System.setProperty("rap.sql.maxRows","100000");
         System.setProperty("rap.allow.snapshot","true");
+        System.setProperty("rap.crypto.key","IzxxW5L7UAdFl1huMCrg2TKs6+B/WeTCFCY+h2M2n5c");
         SpringApplication.run(DspApplication.class, args);
     }
 }
