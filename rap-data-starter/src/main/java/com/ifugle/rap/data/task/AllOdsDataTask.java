@@ -34,10 +34,12 @@ public class AllOdsDataTask {
     private RealTimeUpdateTaskService realTimeUpdateTaskService;
 
     @Scheduled(cron = "0 0 * * *  ?") //每小时执行一次
-    public void action() {
+    public void action() throws InterruptedException {
+        Thread.sleep(5000);
         List<BiDmSwjg> xnzzList = biDmSwjgService.listXnzzForAllInsert();
         if (xnzzList.size() > 0) {
             for (BiDmSwjg xnzz : xnzzList) {
+
                 log.info("全量抽取实时数据开始，xnzzId = {}", xnzz.getXnzzId());
                 realTimeUpdateTaskService.getUpdateDataToEs(xnzz.getXnzzId());
                 log.info("全量抽取实时数据结束，xnzzId = {}", xnzz.getXnzzId());

@@ -64,7 +64,8 @@ public class RealtimeDataTask {
 
 
     @Scheduled(cron = "0 0/2 * * * ?")
-    public void run() {
+    public void run() throws InterruptedException {
+        Thread.sleep(5000);
         if (isUndoTime()) {
             // 每日增量更新期间不做实时更新
             log.info("系统每天0：30~5:00之间不运行更新....");
