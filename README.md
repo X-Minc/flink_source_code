@@ -31,4 +31,4 @@ is_bot_open=true
 
 全部
 
-java -Xms1024m -Xmx1024m -Dspring.profiles.active=prod -Dspring.datasource.url=XXX -Dspring.datasource.username=XXX -Dspring.datasource.password=XXX -Des.url=XXX -Des.username=XXX -Des.password=XXX -jar rap-data-starter.jar 
+java -Xms1024m -Xmx1024m -Dspring.profiles.active=alpha -Dspring.datasource.url=jdbc:mysql://172.30.37.164:3303/dsbtest?useUnicode=true&characterEncoding=UTF-8&useSSL=false -Dspring.datasource.username=dsbtest -Dspring.datasource.password=rap1bpm2ifm3qrm4Test -Drap.es.url=172.30.37.164:3006 -Drap.es.username=elastic -Drap.es.password=8RWTLqfPPrjXnTWoplWylldOS_K9u -jar rap-data-starter.jar 
