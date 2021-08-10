@@ -27,3 +27,8 @@ is_bot_open=false
 若只开启税小蜜同步
 is_dsb_open=false
 is_bot_open=true
+
+
+全部
+
+java -Xms1024m -Xmx1024m -Dspring.profiles.active=prod -Dspring.datasource.url=XXX -Dspring.datasource.username=XXX -Dspring.datasource.password=XXX -Des.url=XXX -Des.username=XXX -Des.password=XXX -jar rap-data-starter.jar 

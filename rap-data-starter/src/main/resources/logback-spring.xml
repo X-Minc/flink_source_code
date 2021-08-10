@@ -82,6 +82,19 @@
             <onMismatch>DENY</onMismatch>
         </filter>
     </appender>
+
+  <!--  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        &lt;!&ndash;encoder 默认配置为PatternLayoutEncoder&ndash;&gt;
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger Line:%-3L - %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        &lt;!&ndash;此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息&ndash;&gt;
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
+    </appender>-->
+
     <logger name="org.springframework" level="WARN" />
     <logger name="org.hibernate" level="WARN" />
 
@@ -89,5 +102,6 @@
     <root level="INFO">
         <appender-ref ref="FILEERROR" />
         <appender-ref ref="FILEINFO" />
+<!--        <appender-ref ref="STDOUT" />-->
     </root>
 </configuration>
