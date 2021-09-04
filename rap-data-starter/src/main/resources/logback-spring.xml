@@ -83,25 +83,25 @@
         </filter>
     </appender>
 
-  <!--  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        &lt;!&ndash;encoder 默认配置为PatternLayoutEncoder&ndash;&gt;
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!--encoder 默认配置为PatternLayoutEncoder-->
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger Line:%-3L - %msg%n</pattern>
             <charset>utf-8</charset>
         </encoder>
-        &lt;!&ndash;此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息&ndash;&gt;
+        <!--此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息-->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>debug</level>
+            <level>info</level>
         </filter>
-    </appender>-->
+    </appender>
 
     <logger name="org.springframework" level="WARN" />
     <logger name="org.hibernate" level="WARN" />
 
     <!-- 生产环境下，将此级别配置为适合的级别，以免日志文件太多或影响程序性能 -->
-    <root level="INFO">
+    <root level="info">
         <appender-ref ref="FILEERROR" />
         <appender-ref ref="FILEINFO" />
-<!--        <appender-ref ref="STDOUT" />-->
+        <appender-ref ref="STDOUT" />
     </root>
 </configuration>
