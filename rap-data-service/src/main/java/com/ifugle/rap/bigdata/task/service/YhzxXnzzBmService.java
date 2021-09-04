@@ -55,4 +55,14 @@ public interface YhzxXnzzBmService {
      * @return
      */
     Date getDbCurrentDate();
+
+    /**
+     * 查询部门表中所有的parent_id
+     *
+     * @param xnzzId
+     * @param bmIds
+     *
+     * @return
+     */
+    List<Long> listAllBmParentIds(Long xnzzId, List<Long> bmIds);
 }

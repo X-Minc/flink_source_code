@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,12 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.reflect.TypeToken;
 import com.ifugle.rap.bigdata.task.BiDmSwjg;
+import com.ifugle.rap.bigdata.task.DepartAggDw;
 import com.ifugle.rap.bigdata.task.DepartOds;
 import com.ifugle.rap.bigdata.task.es.HitsResponseEntity;
+import com.ifugle.rap.bigdata.task.es.ResponseEntity;
 import com.ifugle.rap.bigdata.task.es.SearchResponseEntity;
+import com.ifugle.rap.bigdata.task.service.EsDepartAggDwService;
 import com.ifugle.rap.bigdata.task.service.EsDepartOdsService;
 import com.ifugle.rap.bigdata.task.service.EsService;
 import com.ifugle.rap.bigdata.task.service.YhzxXnzzBmService;
@@ -47,6 +51,9 @@ public class EsDepartOdsServiceImpl implements EsDepartOdsService {
 
     @Autowired
     private EsService esService;
+
+    @Autowired
+    EsDepartAggDwService esDepartAggDwService;
 
     @Override
     public Set<Long> insertOrUpdateDepartToEsByXnzz(BiDmSwjg xnzz, Date startDate) {
@@ -77,7 +84,7 @@ public class EsDepartOdsServiceImpl implements EsDepartOdsService {
         updateEs(departList);
 
         // 更新部门汇总表的部门信息   注意：无需更新
-        // updateDepartAggDwBm(xnzz.getXnzzId(), departList, bmParentIds);
+        updateDepartAggDwBm(xnzz.getXnzzId(), departList, bmParentIds);
 
         long time = (System.currentTimeMillis() - startTimeMillis) / 1000;
         log.info("增量更新部门数据结束：xnzzId = {}，更新数据{}条，需要汇总的部门数量为{}，耗时{}s",
@@ -93,6 +100,16 @@ public class EsDepartOdsServiceImpl implements EsDepartOdsService {
             xnzzIds = Lists.newArrayList(xnzzId);
         }
         Map<Long, List<Long>> bmParentMap = getAllBmIds(xnzzIds, null);
+        return bmParentMap;
+    }
+
+    @Override
+    public Map<Long, List<Long>> getAllDepartBmIds(Long xnzzId, List<Long> bmIds) {
+        List<Long> xnzzIds = null;
+        if (NullUtil.isNotNull(xnzzId)) {
+            xnzzIds = Lists.newArrayList(xnzzId);
+        }
+        Map<Long, List<Long>> bmParentMap = getAllBmIds(xnzzIds, bmIds);
         return bmParentMap;
     }
 
@@ -238,8 +255,8 @@ public class EsDepartOdsServiceImpl implements EsDepartOdsService {
             updateMap.put("bm_ids", updateList.get(bmId));
 
             esService.updateByQuery(EsIndexConstant.USER_ALL_TAG, queryMap, updateMap);
-            // esService.updateByQuery(EsIndexConstant.COMPANY_ALL_TAG, queryMap, updateMap);
-            // esService.updateByQuery(EsIndexConstant.DEPART_AGG_DW, queryMap, updateMap);
+            esService.updateByQuery(EsIndexConstant.COMPANY_ALL_TAG, queryMap, updateMap);
+            esService.updateByQuery(EsIndexConstant.DEPART_AGG_DW, queryMap, updateMap);
         }
 
         // 部门表及部门及下级更新bmIds
@@ -291,7 +308,7 @@ public class EsDepartOdsServiceImpl implements EsDepartOdsService {
         List<Long> children = bmChildIds.get(bmId);
         if (NullUtil.isNotNull(children)) {
             for (Long child : children) {
-                // updateChildBmIds(child, updateList, bmParentIds, bmChildIds);
+                updateChildBmIds(child, updateList, bmParentIds, bmChildIds);
             }
         }
     }
@@ -312,4 +329,196 @@ public class EsDepartOdsServiceImpl implements EsDepartOdsService {
             esService.multiInsertOrUpdate(EsIndexConstant.DEPART_ODS, list);
         }
     }
+
+
+    /**
+     * 对部门汇总表已存在的部门信息进行更新
+     *
+     * @param xnzzId
+     * @param departList
+     * @param bmIdsMap
+     */
+    private void updateDepartAggDwBm(Long xnzzId, List<DepartOds> departList, Map<Long, List<Long>> bmIdsMap) {
+        Set<Long> aggDwBmIds = getDepartAggDwBmIds(xnzzId);
+        // 获取该虚拟组织所有上级部门ID，用于判断是否叶子节点部门
+        List<Long> parentIdList = yhzxXnzzBmService.listAllBmParentIds(xnzzId, null);
+        Set<Long> parentIds = parentIdList.stream().collect(Collectors.toSet());
+        // 部门汇总表部门信息更新
+        Map<String, DepartAggDw> updateMap = Maps.newHashMap();
+        Map<String, DepartAggDw> insertMap = Maps.newHashMap();
+        for (DepartOds depart : departList) {
+            DepartAggDw aggDw = new DepartAggDw();
+            BeanUtils.copyProperties(depart, aggDw);
+            aggDw.setXnzzId(depart.getXnzzId());
+            aggDw.setBmId(depart.getId());
+            aggDw.setBmmc(depart.getBmmc());
+            aggDw.setBmsx(depart.getBmsx());
+            aggDw.setXssx(depart.getXssx());
+            aggDw.setPBmId(depart.getParentId());
+            aggDw.setIsDelete(depart.getIsDelete());
+            aggDw.setBmIds(bmIdsMap.get(depart.getId()));
+            if (parentIds.contains(aggDw.getBmId())) {
+                // 包含子节点的部门不是叶子节点
+                aggDw.setIsLeafBm(false);
+            } else {
+                // 不包含子节点的部门是叶子节点
+                aggDw.setIsLeafBm(true);
+            }
+
+            // 在当前部门汇总表不存在的部门ID，做新增操作
+            if (!aggDwBmIds.contains(depart.getId())) {
+                // 汇总数量初始为0
+                aggDw.initialize();
+                insertMap.put(EsKeyUtil.getDepartAggDwKey(aggDw), aggDw);
+            } else {
+                // 存在的做更新操作
+                updateMap.put(EsKeyUtil.getDepartAggDwKey(aggDw), aggDw);
+            }
+        }
+
+        // 更新部门汇总表部门信息到ES
+        if (updateMap.size() > 0) {
+            esService.multiUpdate(EsIndexConstant.DEPART_AGG_DW, updateMap);
+            log.info("更新部门数据：xnzzId = {}, count = {}", xnzzId, updateMap.size());
+        }
+        // 新增部门汇总
+        if (insertMap.size() > 0) {
+            esService.multiInsertOrUpdate(EsIndexConstant.DEPART_AGG_DW, insertMap);
+            log.info("新增部门数据：xnzzId = {}, count = {}", xnzzId, insertMap.size());
+        }
+    }
+
+
+    /**
+     * 查询该虚拟组织在部门汇总表已存在的部门ID
+     *
+     * @param xnzzId
+     *
+     * @return
+     */
+    @Override
+    public Set<Long> getDepartAggDwBmIds(Long xnzzId) {
+        Set<Long> bmIds = Sets.newHashSet();
+        Map<String, Object> queryParam = Maps.newHashMap();
+        queryParam.put("xnzz_id", xnzzId);
+
+        int page = 1;
+        int size = EsCode.ES_FIND_PAGE_NUM;
+        SearchResponseEntity<DepartAggDw> entity = esDepartAggDwService.scrollQueryByPage(queryParam, 3, page, size);
+        HitsResponseEntity<DepartAggDw> hits = entity.getHits();
+        String scrollId = entity.getScrollId();
+        int total = hits.getTotal().getValue();
+        int totalPage = PageUtils.getTotalPage(total, size);
+        getBmIds(hits, bmIds);
+
+        try {
+            while (totalPage > page) {
+                page++;
+                hits = esDepartAggDwService.scrollQueryByPage(scrollId, 3, size);
+                getBmIds(hits, bmIds);
+            }
+        } catch (DsbServiceException e) {
+            esDepartAggDwService.deleteScrollQueryByPage(scrollId);
+            log.error("获取部门汇总表已存在的部门ID失败：{}", e.getMessage());
+        }
+        return bmIds;
+    }
+
+    /**
+     * 获取部门ID字段
+     *
+     * @param hits
+     * @param bmIds
+     */
+    private void getBmIds(HitsResponseEntity<DepartAggDw> hits, Set<Long> bmIds) {
+        List<ResponseEntity<DepartAggDw>> list = hits.getHits();
+        for (ResponseEntity<DepartAggDw> entity : list) {
+            bmIds.add(entity.getSource().getBmId());
+        }
+    }
+
+    /**
+     * 获取parentId列表
+     * @param xnzzId
+     * @param bmIds
+     * @return
+     */
+    @Override
+    public Set<Long> listAllBmParentIds(Long xnzzId, List<Long> bmIds) {
+        int page = 1;
+        int size = EsCode.ES_FIND_PAGE_NUM;
+
+        Map<String, Object> querySearch = Maps.newHashMapWithExpectedSize(2);
+        if (NullUtil.isNotNull(xnzzId)) {
+            querySearch.put("xnzz_id", xnzzId);
+        }
+        if (NullUtil.isNotNull(bmIds)) {
+            querySearch.put("parent_id", bmIds);
+        }
+        querySearch.put("is_delete", "false");
+
+        SearchResponseEntity<DepartOds> entity = scrollQueryByPage(querySearch, 3, page, size);
+        HitsResponseEntity<DepartOds> hits = entity.getHits();
+        String scrollId = entity.getScrollId();
+        int total = hits.getTotal().getValue();
+        int totalPage = PageUtils.getTotalPage(total, size);
+        List<DepartOds> departList = hits.getHits().stream().map(depart -> depart.getSource()).collect(Collectors.toList());
+
+        try {
+            while (totalPage > page) {
+                page++;
+                hits = scrollQueryByPage(scrollId, 3, size);
+                List<DepartOds> list = hits.getHits().stream().map(depart -> depart.getSource()).collect(Collectors.toList());
+                departList.addAll(list);
+            }
+        } catch (DsbServiceException e) {
+            deleteScrollQueryByPage(scrollId);
+            log.error("获取父级部门ID列表：error：{}", e.getMessage());
+            throw new DsbServiceException(e.getMessage());
+        }
+        List<Long> parentIdList = departList.stream().map(DepartOds::getParentId).collect(Collectors.toList());
+        return parentIdList.stream().collect(Collectors.toSet());
+    }
+
+    /**
+     * 根据虚拟组织和部门id查询部门信息
+     * @param xnzzId
+     * @param bmIds
+     * @return
+     */
+    @Override
+    public List<DepartOds> listDepart(Long xnzzId, List<Long> bmIds) {
+        int page = 1;
+        int size = EsCode.ES_FIND_PAGE_NUM;
+
+        Map<String, Object> querySearch = Maps.newHashMapWithExpectedSize(2);
+        if (NullUtil.isNotNull(xnzzId)) {
+            querySearch.put("xnzz_id", xnzzId);
+        }
+        if (NullUtil.isNotNull(bmIds)) {
+            querySearch.put("id", bmIds);
+        }
+        SearchResponseEntity<DepartOds> entity = scrollQueryByPage(querySearch, 3, page, size);
+        HitsResponseEntity<DepartOds> hits = entity.getHits();
+        String scrollId = entity.getScrollId();
+        int total = hits.getTotal().getValue();
+        int totalPage = PageUtils.getTotalPage(total, size);
+        List<DepartOds> departList = hits.getHits().stream().map(depart -> depart.getSource()).collect(Collectors.toList());
+
+        try {
+            while (totalPage > page) {
+                page++;
+                hits = scrollQueryByPage(scrollId, 3, size);
+                List<DepartOds> list = hits.getHits().stream().map(depart -> depart.getSource()).collect(Collectors.toList());
+                departList.addAll(list);
+            }
+        } catch (DsbServiceException e) {
+            deleteScrollQueryByPage(scrollId);
+            log.error("获取部门列表：error：{}", e.getMessage());
+            throw new DsbServiceException(e.getMessage());
+        }
+
+        return departList;
+    }
+
 }

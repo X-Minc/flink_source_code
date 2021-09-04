@@ -2,6 +2,7 @@ package com.ifugle.rap.bigdata.task.util;
 
 import com.ifugle.rap.bigdata.task.CompanyAllTag;
 import com.ifugle.rap.bigdata.task.CompanyOds;
+import com.ifugle.rap.bigdata.task.DepartAggDw;
 import com.ifugle.rap.bigdata.task.DepartOds;
 import com.ifugle.rap.bigdata.task.UserAllTag;
 import com.ifugle.rap.utils.UserOds;
@@ -113,4 +114,18 @@ public class EsKeyUtil {
         return SHA1Util.base64Digest(keyId.toString(), "utf-8");
     }
 
+
+    /**
+     * 获取部门汇总表的KeyId
+     *
+     * @param departAggDw
+     *
+     * @return
+     */
+    public static String getDepartAggDwKey(DepartAggDw departAggDw) {
+        StringBuilder keyId = new StringBuilder();
+        keyId.append(departAggDw.getXnzzId())
+                .append("_").append(departAggDw.getBmId());
+        return SHA1Util.base64Digest(keyId.toString(), "utf-8");
+    }
 }

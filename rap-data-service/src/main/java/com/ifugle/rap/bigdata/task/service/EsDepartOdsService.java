@@ -34,16 +34,51 @@ public interface EsDepartOdsService {
      */
     Map<Long, List<Long>> getAllDepartBmIds(Long... xnzzId);
 
+    /**
+     * 获取指定部门ID的部门路径
+     * @param xnzzId
+     * @param bmIds
+     * @return
+     */
+    Map<Long, List<Long>> getAllDepartBmIds(Long xnzzId, List<Long> bmIds);
 
 
-    public List<DepartOds> allDepart(List<Long> xnzzIds, List<Long> bmIds);
+    List<DepartOds> allDepart(List<Long> xnzzIds, List<Long> bmIds);
 
 
-    public SearchResponseEntity<DepartOds> scrollQueryByPage(Map<String, Object> querySearch, int scrollTime, int page, int size);
+    SearchResponseEntity<DepartOds> scrollQueryByPage(Map<String, Object> querySearch, int scrollTime, int page, int size);
 
 
-    public HitsResponseEntity<DepartOds> scrollQueryByPage(String scrollId, int scrollTime, int size);
+    HitsResponseEntity<DepartOds> scrollQueryByPage(String scrollId, int scrollTime, int size);
 
 
-    public void deleteScrollQueryByPage(String scrollId);
+    void deleteScrollQueryByPage(String scrollId);
+
+
+    /**
+     * 查询该虚拟组织在部门汇总表已存在的部门ID
+     *
+     * @param xnzzId
+     *
+     * @return
+     */
+    Set<Long> getDepartAggDwBmIds(Long xnzzId);
+
+    /**
+     * 获取parentId列表
+     * @param xnzzId
+     * @param bmIds
+     * @return
+     */
+    Set<Long> listAllBmParentIds(Long xnzzId, List<Long> bmIds);
+
+    /**
+     * 根据部门id查询部门信息
+     * @param xnzzId
+     * @param bmIds
+     * @return
+     */
+    List<DepartOds> listDepart(Long xnzzId, List<Long> bmIds);
+
+
 }

@@ -97,4 +97,17 @@ public class YhzxXnzzBmServiceImpl implements YhzxXnzzBmService {
     public Date getDbCurrentDate() {
         return yhzxXnzzBmMapper.getDbCurrentDate();
     }
+
+    /**
+     * 查询部门表中所有的parent_id
+     *
+     * @param xnzzId
+     * @param bmIds
+     *
+     * @return
+     */
+    @Override
+    public List<Long> listAllBmParentIds(Long xnzzId, List<Long> bmIds) {
+        return yhzxXnzzBmMapper.listAllBmParentIds(xnzzId, bmIds);
+    }
 }
