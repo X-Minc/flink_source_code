@@ -1,10 +1,11 @@
 package com.ifugle.rap.data.task;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import com.google.common.collect.Sets;
+import com.ifugle.rap.constants.EsCode;
+import com.ifugle.rap.service.impl.DepartAggBmIdQueueRedisService;
+import com.ifugle.rap.utils.ListUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
@@ -57,6 +58,9 @@ public class RealtimeDataTask {
     @Autowired
     EsCompanyRealtimeService esCompanyRealtimeService;
 
+    @Autowired
+    private DepartAggBmIdQueueRedisService departAggBmIdQueueRedisService;
+
     /**
      * 定时器运行状态
      */
@@ -98,18 +102,20 @@ public class RealtimeDataTask {
             for (BiDmSwjg xnzz : xnzzList) {
                 // 增量抽取部门数据到ES
                 log.info("开始同步depart数据：xnzz = {}, startTime = {}", JSON.toJSONString(xnzz),DateUtil.toISO8601DateTime(startDate));
-                esDepartOdsService.insertOrUpdateDepartToEsByXnzz(xnzz, startDate);
+                Set<Long> bmForDept =esDepartOdsService.insertOrUpdateDepartToEsByXnzz(xnzz, startDate);
                 // 更新增量实时用户标签数据
                 log.info("更新增量实时用户标签数据：xnzz = {}, startTime = {}", JSON.toJSONString(xnzz),DateUtil.toISO8601DateTime(startDate));
-                esUserRealtimeService.updateUserRealTimeByAdd(xnzz, startDate);
+                Set<Long> bmForUser=esUserRealtimeService.updateUserRealTimeByAdd(xnzz, startDate);
                 // 更新增量实时企业标签数据
                 log.info("更新增量实时企业标签数据：xnzz = {}, startTime = {}", JSON.toJSONString(xnzz),DateUtil.toISO8601DateTime(startDate));
-                esCompanyRealtimeService.updateCompanyRealTimeByAdd(xnzz, startDate);
+                Set<Long> bmForCompany =esCompanyRealtimeService.updateCompanyRealTimeByAdd(xnzz, startDate);
                 // 删除用户全量实时标签表中无效数据
                 EsTypeForm all = new EsTypeForm(EsIndexConstant.USER_ALL_TAG, null);
                 log.info("删除用户全量实时标签表中无效数据：xnzz = {}, startTime = {}", JSON.toJSONString(xnzz),DateUtil.toISO8601DateTime(startDate));
                 esUserAllTagService.deleteInvalidUserAllTagByXnzzId(xnzz.getXnzzId(), startDate, null, all);
 
+                // 待汇总部门ID加入队列进行汇总计算
+                addToQueue(bmForDept, bmForUser, bmForCompany);
             }
         } finally {
             RealTimeUpdateTaskServiceImpl.taskLock.unlock();
@@ -149,4 +155,32 @@ public class RealtimeDataTask {
         return false;
     }
 
+
+
+    /**
+     * 将部门更新、用户更新、企业更新得到的待汇总部门ID做去重合并，加入汇总部门队列
+     * @param bmIdsForDept
+     * @param bmIdsForUser
+     * @param bmIdsForCompany
+     */
+    private void addToQueue(Set<Long> bmIdsForDept, Set<Long> bmIdsForUser, Set<Long> bmIdsForCompany) {
+        Set<Long> bmIdsSet = Sets.newHashSet();
+        if (NullUtil.isNotNull(bmIdsForDept)) {
+            bmIdsSet.addAll(bmIdsForDept);
+        }
+        if (NullUtil.isNotNull(bmIdsForUser)) {
+            bmIdsSet.addAll(bmIdsForUser);
+        }
+        if (NullUtil.isNotNull(bmIdsForCompany)) {
+            bmIdsSet.addAll(bmIdsForCompany);
+        }
+
+        if (NullUtil.isNotNull(bmIdsSet)) {
+            List<Long> bmIdsList = new ArrayList<>(bmIdsSet);
+            List<List<Long>> bmIdsSplit = ListUtil.split(bmIdsList, EsCode.BM_BATCH_NUM * 50);
+            for (List<Long> bmIds : bmIdsSplit) {
+                departAggBmIdQueueRedisService.addBmIdToQueue(bmIds);
+            }
+        }
+    }
 }

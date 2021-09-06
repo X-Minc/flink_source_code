@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ifugle.rap.service.impl.DepartAggRedisService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,8 +47,8 @@ public class EsDepartAggDwServiceImpl implements EsDepartAggDwService {
     @Autowired
     private EsDepartOdsService esDepartOdsService;
 
-    // @Autowired
-    // private DepartAggRedisService departAggRedisService;
+     @Autowired
+     private DepartAggRedisService departAggRedisService;
 
     /**
      * 按虚拟组织对各部门做全量汇总统计
@@ -110,7 +111,7 @@ public class EsDepartAggDwServiceImpl implements EsDepartAggDwService {
         // 按部门汇总后的数据添加到dataMap
         aggregateStatistics(departList, parentIds, bmIdsMap, dataMap);
         // // 将计算完的数据添加到redis
-        // departAggRedisService.addDepartAggDwItems(dataMap);
+        departAggRedisService.addDepartAggDwItems(dataMap);
 
         log.info("按部门增量汇总结束：bmIds = {}", bmIds);
     }
