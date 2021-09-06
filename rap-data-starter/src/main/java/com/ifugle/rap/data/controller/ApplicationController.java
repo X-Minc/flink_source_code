@@ -62,7 +62,15 @@ public class ApplicationController {
     @RequestMapping(value = "/getUpdateDataToEs", method = RequestMethod.GET)
     public Map<String, Object> getUpdateDataToEs(String startTime) {
         Map<String, Object> result = Maps.newHashMapWithExpectedSize(1);
-        realTimeUpdateTaskService.getUpdateDataToEs(startTime);
+        /***
+         * 异步进行执行
+         */
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                realTimeUpdateTaskService.getUpdateDataToEs(startTime);
+            }
+        });
+        t.start();
         result.put("success", true);
         return result;
     }
