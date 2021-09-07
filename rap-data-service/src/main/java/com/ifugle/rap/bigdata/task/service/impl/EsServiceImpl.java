@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.google.common.collect.Maps;
 import com.google.gson.reflect.TypeToken;
@@ -58,6 +59,9 @@ public class EsServiceImpl<T> implements EsService<T> {
     private EsCommonService esCommonService;
     @Autowired
     private BulkBusinessCommonService bulkBusinessCommonService;
+
+    @Value("${conflict.retry.count}")
+    private Integer retryCount=0;
 
     @Override
     public Map<String, Object> singleInsertOrUpdate(String index, String keyId, Map<String, Object> dataMap) {
@@ -183,7 +187,8 @@ public class EsServiceImpl<T> implements EsService<T> {
                 String key = entry.getKey();
                 T value = entry.getValue();
                 String json = GsonUtil.toJson(value);
-                sb.append("{\"update\":{\"_id\": \"" + key + "\"}}");
+//                sb.append("{\"update\":{\"_id\": \"" + key + "\"}}");
+                sb.append("{\"update\":{\"_id\": \"" + key + "\",\"retry_on_conflict\":" + retryCount + "}}");
                 sb.append("\n");
                 sb.append("{\"doc\":").append(json).append("}");
                 sb.append("\n");
