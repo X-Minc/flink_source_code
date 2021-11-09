@@ -54,7 +54,7 @@ public class UserAllTag implements Serializable {
      * 人员类型代码(1: 法人 2: 财务负责人 3: 办税人 4: 其他办税人 5: 购票员)
      */
     @SerializedName("rylx_tag")
-    private Byte rylxTag;
+    private Integer rylxTag;
 
     /**
      * 认证级别(0=未认证，1=强制认证，2=短信认证，16=刷脸认证)
