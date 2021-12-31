@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.apache.http.util.EntityUtils;
@@ -17,6 +18,7 @@ import org.elasticsearch.client.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
@@ -46,9 +48,34 @@ public class BulkTemplateRepository<T> {
     @Autowired
     private ClusterNode clusterNode;
 
+    @Value("${es.socket.timeout}")
+    private Integer socketTimeOut;
+
+    @Value("${es.url}")
+    private String esUrl;
+
+    @Value("${es.password}")
+    private String password;
+
+    @Value("${es.username}")
+    private String username;
+
+    @Value("${es.max.retry.timeout}")
+    private Integer maxRetryTimeout;
+
+    @Value("${es.connect.timeout}")
+    private Integer connTimeOut;
+
     private RestClient getClient() {
         if (this.restClient == null) {
-            this.restClient = this.clusterNode.getRestClient();
+            String[] url_port = esUrl.split(":", -1);
+            this.clusterNode.setHttpHosts(new HttpHost[]{new HttpHost(url_port[0], Integer.parseInt(url_port[1]))});
+            this.clusterNode.setUsername(username);
+            this.clusterNode.setPassword(password);
+            this.clusterNode.setConnectTimeout(connTimeOut);
+            this.clusterNode.setSocketTimeout(socketTimeOut);
+            this.clusterNode.setMaxRetryTimeoutMillis(maxRetryTimeout);
+            this.restClient = this.clusterNode.secureConnect();
         }
         return this.restClient;
     }
@@ -102,9 +129,7 @@ public class BulkTemplateRepository<T> {
      *
      * @param index
      * @param query
-     * @param scrollTime
-     *         分钟数 0：浅分页，大于0：快照分页
-     *
+     * @param scrollTime 分钟数 0：浅分页，大于0：快照分页
      * @return
      */
     public Response queryListByDSL(String index, String query, int scrollTime) {
@@ -172,7 +197,6 @@ public class BulkTemplateRepository<T> {
      * 判断ES index是否存在
      *
      * @param index
-     *
      * @return
      */
     public boolean getIndexExist(String index) {
@@ -205,7 +229,6 @@ public class BulkTemplateRepository<T> {
      *
      * @param index
      * @param entity
-     *
      * @return
      */
     public Response updateByQuery(String index, HttpEntity entity, Map<String, String> paramMap) {
@@ -238,7 +261,6 @@ public class BulkTemplateRepository<T> {
      * 根据task查询后台执行结果
      *
      * @param task
-     *
      * @return
      */
     public Response tasks(String task) {
@@ -269,7 +291,6 @@ public class BulkTemplateRepository<T> {
      *
      * @param index
      * @param entity
-     *
      * @return
      */
     public Response settings(String index, HttpEntity entity) {
@@ -299,7 +320,6 @@ public class BulkTemplateRepository<T> {
      * 手动刷新
      *
      * @param index
-     *
      * @return
      */
     public Response refresh(String index) {
@@ -323,6 +343,45 @@ public class BulkTemplateRepository<T> {
         }
 
         return indexResponse;
+    }
+
+    public <OUT> OUT queryListByDSL(String index, String query, DataFormat<OUT> dataFormat) {
+        StringBuffer urlSB = new StringBuffer(16);
+        urlSB.append("/").append(index).append("/_search");
+        OUT results = null;
+        Map<String, String> paramMap = new HashMap();
+        // 优化json参数
+        paramMap.put("pretty", "true");
+
+        Response indexResponse = null;
+        NStringEntity entity = new NStringEntity(query, ContentType.APPLICATION_JSON);
+
+        try {
+            indexResponse = getClient().performRequest("GET", urlSB.toString(), paramMap, entity, new Header[0]);
+        } catch (Exception var12) {
+            this.logger.error(var12.getMessage(), var12);
+        }
+
+        if (indexResponse == null) {
+            this.logger.error("queryListByDSL  DSL error , return null");
+            return results;
+        } else {
+            ObjectMapper mapper = new ObjectMapper();
+
+            try {
+                String queryResult = EntityUtils.toString(indexResponse.getEntity());
+                this.logger.debug("indexResponse result = " + queryResult);
+                results = dataFormat.format(queryResult);
+                return results;
+            } catch (Exception var11) {
+                this.logger.error(MessageFormat.format("queryListByDSL transport json to List error , msg : {0}", new Object[]{var11}));
+                return results;
+            }
+        }
+    }
+
+    public interface DataFormat<OUT> {
+        OUT format(String in);
     }
 
     public QueryEntity<T> queryListByDSL(String index, String query) {
@@ -355,7 +414,7 @@ public class BulkTemplateRepository<T> {
                 });
                 return results;
             } catch (Exception var11) {
-                this.logger.error(MessageFormat.format("queryListByDSL transport json to List error , msg : {0}", new Object[] { var11 }));
+                this.logger.error(MessageFormat.format("queryListByDSL transport json to List error , msg : {0}", new Object[]{var11}));
                 return results;
             }
         }
@@ -388,7 +447,7 @@ public class BulkTemplateRepository<T> {
                 results = GsonUtil.fromJson(queryResult, AggsResponseEntity.class);
                 return results;
             } catch (Exception var11) {
-                this.logger.error(MessageFormat.format("queryListByDSL transport json to List error , msg : {0}", new Object[] { var11 }));
+                this.logger.error(MessageFormat.format("queryListByDSL transport json to List error , msg : {0}", new Object[]{var11}));
                 return results;
             }
         }
@@ -399,7 +458,6 @@ public class BulkTemplateRepository<T> {
      *
      * @param index
      * @param entity
-     *
      * @return
      */
     public Response deleteByQuery(String index, HttpEntity entity) {
@@ -430,7 +488,6 @@ public class BulkTemplateRepository<T> {
      *
      * @param index
      * @param id
-     *
      * @return
      */
     public HitEntity<Map<String, Object>> getById(String index, String id) {
@@ -467,15 +524,16 @@ public class BulkTemplateRepository<T> {
 
     /**
      * 复制索引
+     *
      * @param oldIndexName
      * @param newIndexName
      * @return
      */
-    public boolean creatIndexAndMapping(String oldIndexName,String newIndexName){
+    public boolean creatIndexAndMapping(String oldIndexName, String newIndexName) {
         String url = "/" + oldIndexName + "/_mapping";
-        String url2 = "/" + newIndexName+"/";
+        String url2 = "/" + newIndexName + "/";
 
-        Response response=null;
+        Response response = null;
         try {
             response = getClient().performRequest("GET", url2);
         } catch (Exception e) {
@@ -494,7 +552,7 @@ public class BulkTemplateRepository<T> {
             JSONObject jsonObject = JSONObject.parseObject(queryResult).getJSONObject(oldIndexName);
             String rs = jsonObject.toJSONString();
             entity = new NStringEntity(rs, ContentType.APPLICATION_JSON);
-            indexResponse = getClient().performRequest("PUT",url2,Collections.singletonMap("pretty", "true"), entity);
+            indexResponse = getClient().performRequest("PUT", url2, Collections.singletonMap("pretty", "true"), entity);
             queryResult = EntityUtils.toString(indexResponse.getEntity());
             jsonObject = JSONObject.parseObject(queryResult);
             return jsonObject.getBoolean("acknowledged");

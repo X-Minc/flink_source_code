@@ -67,7 +67,7 @@ public class RealtimeDataTask {
     private static boolean running = false;
 
 
-    @Scheduled(cron = "0 0/2 * * * ?")
+//    @Scheduled(cron = "0 0/2 * * * ?")
     public void run() throws InterruptedException {
         Thread.sleep(5000);
         if (isUndoTime()) {

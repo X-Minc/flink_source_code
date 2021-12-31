@@ -33,7 +33,7 @@ public class AllOdsDataTask {
     @Autowired
     private RealTimeUpdateTaskService realTimeUpdateTaskService;
 
-    @Scheduled(cron = "0 0 * * *  ?") //每小时执行一次
+//    @Scheduled(cron = "0 0 * * *  ?") //每小时执行一次
     public void action() throws InterruptedException {
         Thread.sleep(5000);
         List<BiDmSwjg> xnzzList = biDmSwjgService.listXnzzForAllInsert();
