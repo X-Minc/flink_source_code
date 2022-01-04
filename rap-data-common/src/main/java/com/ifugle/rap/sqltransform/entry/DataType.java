@@ -1,4 +1,6 @@
-package com.ifugle.rap.utils.sqltransformutil.transform.base;
+package com.ifugle.rap.sqltransform.entry;
+
+import com.ifugle.rap.sqltransform.baseenum.KeyWord;
 
 /**
  * @author Minc

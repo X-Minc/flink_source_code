@@ -1,11 +1,13 @@
-package com.ifugle.rap.utils.sqltransformutil.transform;
+package com.ifugle.rap.sqltransform.entry;
 
-import com.ifugle.rap.utils.sqltransformutil.transform.base.DataType;
-import com.ifugle.rap.utils.sqltransformutil.transform.base.KeyWord;
+import com.ifugle.rap.sqltransform.baseenum.KeyWord;
 
 import java.io.Serializable;
 
 /**
+ * sql实体类，目前只支持以下关键字
+ * select,from,where,group_by,order_by,limit
+ *
  * @author Minc
  * @date 2021/12/31 16:37
  */
@@ -16,6 +18,7 @@ public class SqlEntry implements Serializable {
     private DataType group_by;
     private DataType order_by;
     private DataType limit;
+    private DataType glimit;
 
     public SqlEntry() {
         select = new DataType(KeyWord.select);
@@ -24,6 +27,15 @@ public class SqlEntry implements Serializable {
         group_by = new DataType(KeyWord.group_by);
         order_by = new DataType(KeyWord.order_by);
         limit = new DataType(KeyWord.limit);
+        glimit = new DataType(KeyWord.group_limit);
+    }
+
+    public DataType getGlimit() {
+        return glimit;
+    }
+
+    public void setGlimit(DataType glimit) {
+        this.glimit = glimit;
     }
 
     public DataType getSelect() {
@@ -81,6 +93,7 @@ public class SqlEntry implements Serializable {
         if (group_by.getKey().getKeyword().equals(data)) return group_by;
         if (order_by.getKey().getKeyword().equals(data)) return order_by;
         if (limit.getKey().getKeyword().equals(data)) return limit;
+        if (glimit.getKey().getKeyword().equals(data)) return glimit;
         return null;
     }
 }
