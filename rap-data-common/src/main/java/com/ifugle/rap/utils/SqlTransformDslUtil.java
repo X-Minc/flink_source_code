@@ -1,6 +1,7 @@
 package com.ifugle.rap.utils;
 
-import com.ifugle.rap.sqltransform.base.ExtractorBase;
+import com.ifugle.rap.sqltransform.base.CommonFiledExtractorBase;
+import com.ifugle.rap.sqltransform.base.SpecialFiledExtractorBase;
 import com.ifugle.rap.sqltransform.entry.DataType;
 import com.ifugle.rap.sqltransform.baseenum.KeyWord;
 import com.ifugle.rap.sqltransform.entry.SqlEntry;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
  */
 public class SqlTransformDslUtil {
     private static final StringBuilder BUILDER = new StringBuilder();
+
 
     /**
      * 获得sql转换后的实体类
@@ -58,14 +60,18 @@ public class SqlTransformDslUtil {
     /**
      * 将结果转换为自定义规格结果
      *
-     * @param in            结果
-     * @param extractorBase 提取器
-     * @param <IN>          结果类型
-     * @param <OUT>         返回类型
+     * @param in                        结果
+     * @param specialFiledExtractorBase 特殊提取器
+     * @param commonFiledExtractorBase  公共字段提取器
+     * @param <IN>                      结果类型
+     * @param <OUT>                     返回类
      * @return 规格化后的类型
      */
-    public <IN, OUT> OUT getFormatData(IN in, ExtractorBase<IN, OUT> extractorBase) {
-        return extractorBase.getFormatData(in);
+    public static <IN, OUT> OUT getFormatData(IN in,
+                                              SpecialFiledExtractorBase<IN, OUT> specialFiledExtractorBase,
+                                              CommonFiledExtractorBase<IN, OUT> commonFiledExtractorBase) throws Exception {
+        OUT formatData = specialFiledExtractorBase.getFormatData(in);
+        return commonFiledExtractorBase.customSetData(formatData);
     }
 
     /**

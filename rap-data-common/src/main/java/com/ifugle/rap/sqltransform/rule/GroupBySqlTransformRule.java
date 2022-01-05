@@ -5,6 +5,9 @@ import com.ifugle.rap.sqltransform.base.TransformBase;
 import com.ifugle.rap.sqltransform.entry.DataType;
 import com.ifugle.rap.sqltransform.entry.SqlEntry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Minc
  * 默认sql转dsl逻辑
@@ -15,9 +18,11 @@ public class GroupBySqlTransformRule implements TransformBase<String> {
     //嵌套分组
     private static final String GROUP_MODEL_INNER = "\"aggregations\": {\"{var}\":{ \"aggregations\":{}, \"terms\": {\"field\": \"{var}\"}}}";
     //非嵌套
-    private static final String GROUP_MODEL = "\"aggregations\":{\"group_by_field\":{\"composite\":{\"size\":{sizeValue},\"sources\":[{var}]}}}";
+    private static final String GROUP_MODEL = "\"aggregations\":{\"group_by_field\":{\"composite\":{\"size\":{sizeValue},\"sources\":[{var}]},\"aggregations\":{{agg}}}}";
     //非嵌套对象
     private static final String INNER_OBJ = "{\"{var}\":{\"terms\":{\"field\":\"{var}\"}}}";
+    //count distinct
+    private static final String COUNT_DISTINCT_MODEL = "\"{filed}_count\":{\"cardinality\":{\"field\":\"{filed}\"}}";
 
     @Override
     public String getTransformPart(SqlEntry sqlEntry) throws Exception {
@@ -34,10 +39,38 @@ public class GroupBySqlTransformRule implements TransformBase<String> {
                 else BUILDER.append(",").append(elementModel);
             }
             String groupSize = getGroupSize(sqlEntry, hasGroupBy);
+            String countDsl = getCountDsl(getCountVar(sqlEntry));
             return groupSize.equals("") ?
-                    GROUP_MODEL.replace("\"size\":{sizeValue},", "").replace("{var}", BUILDER.toString()) :
-                    GROUP_MODEL.replace("{sizeValue}", groupSize).replace("{var}", BUILDER.toString());
+                    GROUP_MODEL.replace("{sizeValue}", "100000").replace("{var}", BUILDER.toString()).replace("{agg}", countDsl) :
+                    GROUP_MODEL.replace("{sizeValue}", groupSize).replace("{var}", BUILDER.toString()).replace("{agg}", countDsl);
         }
+    }
+
+    private String getCountDsl(List<String> countVars) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String countVar : countVars) {
+            if (stringBuilder.length() == 0)
+                stringBuilder.append(COUNT_DISTINCT_MODEL.replace("{filed}", countVar));
+            else
+                stringBuilder.append(",").append(COUNT_DISTINCT_MODEL.replace("{filed}", countVar));
+        }
+        return stringBuilder.toString();
+    }
+
+    private List<String> getCountVar(SqlEntry sqlEntry) {
+        List<String> resultList = null;
+        DataType select = sqlEntry.getSelect();
+        String[] split = select.getValue().split(",", -1);
+        if (split.length != 0) {
+            for (String s : split) {
+                if (s.contains("count")) {
+                    if (resultList == null)
+                        resultList = new ArrayList<>();
+                    resultList.add(s.substring(s.indexOf("(") + 1, s.indexOf(")")));
+                }
+            }
+        }
+        return resultList;
     }
 
     private String getGroupSize(SqlEntry sqlEntry, Boolean isGroupBy) throws Exception {
