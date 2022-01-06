@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface InnerSyncService {
     void insertIndexDay(List<IndexDayModel> indexDayModelList)throws Exception;
+    void insertIndex30Day(List<IndexDayModel> indexDayModelList)throws Exception;
+    void insertIndexMonth(List<IndexDayModel> indexDayModelList)throws Exception;
 }

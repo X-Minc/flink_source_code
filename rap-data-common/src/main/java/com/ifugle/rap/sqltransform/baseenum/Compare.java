@@ -11,7 +11,10 @@ public enum Compare {
     lt("<", "lt"),
     lte("<=", "lte"),
     in("in(", "in"),
-    term("=", "term");
+    term("=", "term"),
+    notTerm("!=", "term"),
+    like("like ", "like"),
+    notLike("notlike", "like");
     private final String compareOperate;
     private final String mean;
 

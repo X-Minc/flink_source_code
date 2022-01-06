@@ -12,10 +12,12 @@ import com.ifugle.rap.sqltransform.entry.SqlEntry;
 public class WhereSqlTransformRule implements TransformBase<String> {
     private static final StringBuilder BUILDER = new StringBuilder();
     private static final String orModel = "{\"terms\":{\"{var}\":{value}}}";
-    private static final String whereModel = "\"query\":{\"bool\":{\"filter\":[{var}]}}";
+    private static final String whereModel = "\"query\":{\"bool\":{\"must\":[{mustVar}],\"must_not\":[{mustNotVar}]}}";
     private static final String whereSize = "\"size\":{var}";
     private static final String rangeModel = "{\"range\":{\"{var}\":{\"{range}\":{value}}}}";
-    private static final String equalModel = "{\"term\":{\"{var}\":{value}}}";
+    private static final String equalAndNotModel = "{\"term\":{\"{var}\":{value}}}";
+    private static final String likeModel = "{\"wildcard\":{\"{filed}\":{\"value\":{value}}}}";
+
 
     @Override
     public String getTransformPart(SqlEntry sqlEntry) throws Exception {
@@ -25,8 +27,7 @@ public class WhereSqlTransformRule implements TransformBase<String> {
             return "";
         } else {
             String[] values = where.getValue().split("and");
-            String queryCondition = getQueryCondition(values);
-            String wherePart = whereModel.replace("{var}", queryCondition);
+            String wherePart = getQueryCondition(values);
             Integer size = getWhereSize(sqlEntry);
             if (size != null) {
                 String whereSizePart = whereSize.replace("{var}", size.toString());
@@ -44,35 +45,54 @@ public class WhereSqlTransformRule implements TransformBase<String> {
     }
 
     private String getQueryCondition(String[] values) throws Exception {
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder mustStringBuilder = new StringBuilder();
+        StringBuilder mustNotStringBuilder = new StringBuilder();
         for (String value : values) {
             Compare fitCompareOperate = getFitCompareOperate(value);
             if (fitCompareOperate != null) {
                 String[] splitData = value.split(fitCompareOperate.getCompareOperate().replace("(", "\\("), -1);
-                if (fitCompareOperate.equals(Compare.term)) {
-                    stringBuilder.append(equalModel.replace("{var}", splitData[0])
-                                    .replace("{value}", splitData[1]))
-                            .append(",");
-                } else if (fitCompareOperate.getCompareOperate().equals("in(")) {
-                    stringBuilder.append(orModel
-                                    .replace("{var}", splitData[0])
-                                    .replace("{value}", "[" + splitData[1].replace(")", "") + "]"))
-                            .append(",");
-                } else {
-                    if (splitData[1].contains("-")) {
-                        String pre = splitData[1].substring(0, 11);
-                        String suf = splitData[1].substring(11);
-                        splitData[1] = pre + " " + suf;
+                if (fitCompareOperate.equals(Compare.notLike) || fitCompareOperate.equals(Compare.notTerm)) {
+                    if (fitCompareOperate.equals(Compare.notLike)) {
+                        mustNotStringBuilder.append(likeModel.replace("{filed}", splitData[0])
+                                        .replace("{value}", splitData[1]))
+                                .append(",");
+                    } else {
+                        mustNotStringBuilder.append(equalAndNotModel.replace("{var}", splitData[0])
+                                        .replace("{value}", splitData[1]))
+                                .append(",");
                     }
-                    stringBuilder.append(rangeModel
-                                    .replace("{var}", splitData[0])
-                                    .replace("{value}", splitData[1])
-                                    .replace("{range}", fitCompareOperate.getMean()))
-                            .append(",");
+                } else {
+                    if (fitCompareOperate.equals(Compare.term)) {
+                        mustStringBuilder.append(equalAndNotModel.replace("{var}", splitData[0])
+                                        .replace("{value}", splitData[1]))
+                                .append(",");
+                    } else if (fitCompareOperate.getCompareOperate().equals("in(")) {
+                        mustStringBuilder.append(orModel
+                                        .replace("{var}", splitData[0])
+                                        .replace("{value}", "[" + splitData[1].replace(")", "") + "]"))
+                                .append(",");
+                    } else {
+                        if (splitData[1].contains("-")) {
+                            String pre = splitData[1].substring(0, 11);
+                            String suf = splitData[1].substring(11);
+                            splitData[1] = pre + " " + suf;
+                        }
+                        mustStringBuilder.append(rangeModel
+                                        .replace("{var}", splitData[0])
+                                        .replace("{value}", splitData[1])
+                                        .replace("{range}", fitCompareOperate.getMean()))
+                                .append(",");
+                    }
                 }
             }
         }
-        return stringBuilder.substring(0, stringBuilder.length() - 1);
+        String must = "";
+        if (mustStringBuilder.length() != 0)
+            must = mustStringBuilder.substring(0, mustStringBuilder.length() - 1);
+        String mustNot = "";
+        if (mustNotStringBuilder.length() != 0)
+            mustNot = mustNotStringBuilder.substring(0, mustNotStringBuilder.length() - 1);
+        return whereModel.replace("{mustVar}", must).replace("{mustNotVar}", mustNot);
     }
 
     private void initBuilder() {
@@ -90,12 +110,15 @@ public class WhereSqlTransformRule implements TransformBase<String> {
             return Compare.lt;
         } else if (value.contains(Compare.in.getCompareOperate())) {
             return Compare.in;
+        } else if (value.contains(Compare.notTerm.getCompareOperate())) {
+            return Compare.notTerm;
+        } else if (value.contains(Compare.term.getCompareOperate())) {
+            return Compare.term;
+        } else if (value.contains(Compare.notLike.getCompareOperate())) {
+            return Compare.notLike;
         } else {
-            if (value.contains(Compare.term.getCompareOperate())) {
-                return Compare.term;
-            } else {
-                return null;
-            }
+            if (value.contains(Compare.like.getCompareOperate())) return Compare.like;
+            else return null;
         }
     }
 }

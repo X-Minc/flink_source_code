@@ -118,4 +118,18 @@ public class TimeUtil {
     public synchronized static Long getLongDate(String stringTimeStamp, String format, Long offset) throws Exception {
         return new SimpleDateFormat(format).parse(stringTimeStamp).getTime() + offset;
     }
+
+    /**
+     * @param field  CALENDAR的静态属性
+     * @param amount 偏移量
+     * @param format string日期的时间格式
+     * @return 便宜后日期
+     * @throws Exception 异常
+     */
+    public synchronized static String getBeforeTime(int field, int amount, String format) throws Exception {
+        CALENDAR.setTime(new Date());
+        CALENDAR.add(field, amount);
+        Date d = CALENDAR.getTime();
+        return new SimpleDateFormat(format).format(d);
+    }
 }

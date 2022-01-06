@@ -22,7 +22,9 @@ public class GroupBySqlTransformRule implements TransformBase<String> {
     //非嵌套对象
     private static final String INNER_OBJ = "{\"{var}\":{\"terms\":{\"field\":\"{var}\"}}}";
     //count distinct
-    private static final String COUNT_DISTINCT_MODEL = "\"{filed}_count\":{\"cardinality\":{\"field\":\"{filed}\"}}";
+    private static final String COUNT_DISTINCT_MODEL = "\"count\":{\"cardinality\":{\"field\":\"{filed}\"}}";
+    //sum
+    private static final String SUM_MODEL = "\"sum\":{\"sum\":{\"field\":\"{filed}\"}}";
 
     @Override
     public String getTransformPart(SqlEntry sqlEntry) throws Exception {
@@ -39,31 +41,43 @@ public class GroupBySqlTransformRule implements TransformBase<String> {
                 else BUILDER.append(",").append(elementModel);
             }
             String groupSize = getGroupSize(sqlEntry, hasGroupBy);
-            String countDsl = getCountDsl(getCountVar(sqlEntry));
+            String countDsl = getKeyDsl(COUNT_DISTINCT_MODEL, getKeyVar(sqlEntry, "count"));
+            String sumDsl = getKeyDsl(SUM_MODEL, getKeyVar(sqlEntry, "sum"));
+            List<String> dslPart = new ArrayList<>();
+            dslPart.add(countDsl);
+            dslPart.add(sumDsl);
+            String totalDsl = getKeyDsl(null, dslPart);
             return groupSize.equals("") ?
-                    GROUP_MODEL.replace("{sizeValue}", "100000").replace("{var}", BUILDER.toString()).replace("{agg}", countDsl) :
-                    GROUP_MODEL.replace("{sizeValue}", groupSize).replace("{var}", BUILDER.toString()).replace("{agg}", countDsl);
+                    GROUP_MODEL.replace("{sizeValue}", "100000").replace("{var}", BUILDER.toString()).replace("{agg}", totalDsl) :
+                    GROUP_MODEL.replace("{sizeValue}", groupSize).replace("{var}", BUILDER.toString()).replace("{agg}", totalDsl);
         }
     }
 
-    private String getCountDsl(List<String> countVars) {
+    private String getKeyDsl(String model, List<String> countVars) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (String countVar : countVars) {
-            if (stringBuilder.length() == 0)
-                stringBuilder.append(COUNT_DISTINCT_MODEL.replace("{filed}", countVar));
-            else
-                stringBuilder.append(",").append(COUNT_DISTINCT_MODEL.replace("{filed}", countVar));
+        if (countVars != null) {
+            for (String countVar : countVars) {
+                if (!countVar.equals("")){
+                    if (stringBuilder.length() == 0) {
+                        if (model != null) stringBuilder.append(model.replace("{filed}", countVar));
+                        else stringBuilder.append(countVar);
+                    } else {
+                        if (model != null) stringBuilder.append(",").append(model.replace("{filed}", countVar));
+                        else stringBuilder.append(",").append(countVar);
+                    }
+                }
+            }
         }
         return stringBuilder.toString();
     }
 
-    private List<String> getCountVar(SqlEntry sqlEntry) {
+    private List<String> getKeyVar(SqlEntry sqlEntry, String key) {
         List<String> resultList = null;
         DataType select = sqlEntry.getSelect();
         String[] split = select.getValue().split(",", -1);
         if (split.length != 0) {
             for (String s : split) {
-                if (s.contains("count")) {
+                if (s.contains(key)) {
                     if (resultList == null)
                         resultList = new ArrayList<>();
                     resultList.add(s.substring(s.indexOf("(") + 1, s.indexOf(")")));

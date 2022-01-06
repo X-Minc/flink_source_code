@@ -1,13 +1,21 @@
 package com.ifugle.rap.dsp;
 
+import com.ifugle.rap.utils.TimeUtil;
+
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author Minc
  * @date 2021/12/30 15:44
  */
 public class Test {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
+        System.out.println();
+    }
+
+    private static void test() {
         String testSql = "select xnzz_id,bm_id,count(bm_id) from table group by xnzz_id,bm_id";
         String pageStart = "\"from\": var";
         String pageEnd = "\"size\": var";

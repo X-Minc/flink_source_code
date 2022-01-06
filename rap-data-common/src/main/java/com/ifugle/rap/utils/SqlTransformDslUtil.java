@@ -2,13 +2,19 @@ package com.ifugle.rap.utils;
 
 import com.ifugle.rap.sqltransform.base.CommonFiledExtractorBase;
 import com.ifugle.rap.sqltransform.base.SpecialFiledExtractorBase;
+import com.ifugle.rap.sqltransform.commonfiledextractor.CommonFiledExtractor;
 import com.ifugle.rap.sqltransform.entry.DataType;
 import com.ifugle.rap.sqltransform.baseenum.KeyWord;
 import com.ifugle.rap.sqltransform.entry.SqlEntry;
 import com.ifugle.rap.sqltransform.base.TransformBase;
+import com.ifugle.rap.sqltransform.entry.SqlTask;
+import com.ifugle.rap.sqltransform.entry.TimeCondition;
+import com.ifugle.rap.sqltransform.specialfiledextractor.AggregationSpecialFiledExtractor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
@@ -19,6 +25,67 @@ import java.util.stream.Collectors;
 public class SqlTransformDslUtil {
     private static final StringBuilder BUILDER = new StringBuilder();
 
+    /**
+     * 预处理
+     *
+     * @param sql                              sql，请在where条件中加上{time_condition}
+     * @param day                              是否查询day
+     * @param days30                           是否查询30day
+     * @param month                            是否按照month查询
+     * @param aggregationSpecialFiledExtractor 特殊字段提取集合，数量和公共字段集合保持一致
+     * @param commonFiledExtractors            公共字段提取集合，数量和特殊字段集合保持一致
+     * @throws Exception 异常
+     */
+    public static List<SqlTask> doPreTransform(String sql,
+                                               Boolean day,
+                                               Boolean days30,
+                                               Boolean month,
+                                               List<AggregationSpecialFiledExtractor> aggregationSpecialFiledExtractor,
+                                               List<CommonFiledExtractor> commonFiledExtractors
+    ) throws Exception {
+        sql = sql.toLowerCase(Locale.ROOT);
+        List<SqlTask> sqls = new ArrayList<>();
+        for (int i = 0; i < Math.max(commonFiledExtractors.size(), aggregationSpecialFiledExtractor.size()); i++) {
+            if (day) {
+                TimeCondition dayCondition = TimeCondition.valueOf("day");
+                sqls.add(new SqlTask(
+                                sql.replace("{time_condition}", dayCondition.getCondition()),
+                                dayCondition.getTableType(),
+                                aggregationSpecialFiledExtractor.get(i),
+                                commonFiledExtractors.get(i)
+                        )
+                );
+                day = false;
+                continue;
+            }
+            if (days30) {
+                TimeCondition days30Condition = TimeCondition.valueOf("days30");
+                String date = TimeUtil.getStringDate(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss", -1000L * 60 * 60 * 24 * 30);
+                sqls.add(new SqlTask(
+                                sql.replace("{time_condition}", days30Condition.getCondition().replace("{time}", date)),
+                                days30Condition.getTableType(),
+                                aggregationSpecialFiledExtractor.get(i),
+                                commonFiledExtractors.get(i)
+                        )
+                );
+                days30 = false;
+                continue;
+            }
+            if (month) {
+                TimeCondition monthCondition = TimeCondition.valueOf("month");
+                String time = TimeUtil.getStringDate(System.currentTimeMillis(), "yyyy-MM");
+                sqls.add(new SqlTask(
+                                sql.replace("{time_condition}", monthCondition.getCondition().replace("{time}", time)),
+                                monthCondition.getTableType(),
+                                aggregationSpecialFiledExtractor.get(i),
+                                commonFiledExtractors.get(i)
+                        )
+                );
+                month = false;
+            }
+        }
+        return sqls;
+    }
 
     /**
      * 获得sql转换后的实体类
@@ -70,8 +137,14 @@ public class SqlTransformDslUtil {
     public static <IN, OUT> OUT getFormatData(IN in,
                                               SpecialFiledExtractorBase<IN, OUT> specialFiledExtractorBase,
                                               CommonFiledExtractorBase<IN, OUT> commonFiledExtractorBase) throws Exception {
-        OUT formatData = specialFiledExtractorBase.getFormatData(in);
-        return commonFiledExtractorBase.customSetData(formatData);
+        if (specialFiledExtractorBase == null && commonFiledExtractorBase == null)
+            throw new Exception("未设置数据提取器！");
+        OUT out = null;
+        if (specialFiledExtractorBase != null)
+            out = specialFiledExtractorBase.getFormatData(in);
+        if (commonFiledExtractorBase != null)
+            out = commonFiledExtractorBase.customSetData(out);
+        return out;
     }
 
     /**

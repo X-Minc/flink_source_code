@@ -4,7 +4,8 @@ package com.ifugle.rap.sqltransform.entry;
  * @author Minc
  * @date 2022/1/4 11:07
  */
-public class IndexDayModel {
+public class IndexDayModel implements Cloneable{
+
     //统计日期
     private Integer cycleId;
     //节点ID(同统计日期)Partition(hash())
@@ -26,9 +27,9 @@ public class IndexDayModel {
     //维度数据代码3
     private String dimData3;
     //增加数
-    private Integer inc_count = 0;
+    private Integer incCount = 0;
     //增加数,按照增量标签汇总
-    private Integer inc2_count = 0;
+    private Integer inc2Count = 0;
     //净增数
     private Integer netIncCount = 0;
     //减少数
@@ -163,20 +164,20 @@ public class IndexDayModel {
         this.dimData3 = dimData3;
     }
 
-    public Integer getInc_count() {
-        return inc_count;
+    public Integer getIncCount() {
+        return incCount;
     }
 
-    public void setInc_count(Integer inc_count) {
-        this.inc_count = inc_count;
+    public void setIncCount(Integer incCount) {
+        this.incCount = incCount;
     }
 
-    public Integer getInc2_count() {
-        return inc2_count;
+    public Integer getInc2Count() {
+        return inc2Count;
     }
 
-    public void setInc2_count(Integer inc2_count) {
-        this.inc2_count = inc2_count;
+    public void setInc2Count(Integer inc2Count) {
+        this.inc2Count = inc2Count;
     }
 
     public Integer getNetIncCount() {
@@ -377,5 +378,16 @@ public class IndexDayModel {
 
     public void setTotalAmountShareRat(Double totalAmountShareRat) {
         this.totalAmountShareRat = totalAmountShareRat;
+    }
+
+    @Override
+    public IndexDayModel clone() {
+        try {
+            IndexDayModel clone = (IndexDayModel) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

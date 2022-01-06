@@ -18,7 +18,9 @@ import com.ifugle.rap.model.sca.BotScaTaskResultDO;
 import com.ifugle.rap.model.shuixiaomi.*;
 import com.ifugle.rap.model.zhcs.ZxArticle;
 import com.ifugle.rap.security.crypto.*;
+import com.ifugle.rap.sqltransform.entry.IndexDayModel;
 import com.ifugle.rap.utils.DecodeUtils;
+import com.ifugle.rap.utils.MD5Util;
 import com.ifugle.rap.utils.MyHttpRequest;
 import com.ifugle.util.DateUtil;
 import com.ifugle.util.StringUtil;
@@ -130,7 +132,7 @@ public class CompriseUtils {
             hashMap.put("NSRSBH", DecodeUtils.deodeCryptBase36Prod(yhzxXnzzNsr.getNsrsbh(), cryptBase36));
             hashMap.put("NSRJC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzNsr.getNsrjc(), cryptSimple));
 
-        } else if(StringUtils.equals(env, "test")||StringUtils.equals(env, "dev")){
+        } else if (StringUtils.equals(env, "test") || StringUtils.equals(env, "dev")) {
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(yhzxXnzzNsr.getShxydm(), cryptBase36));
             hashMap.put("SHXYDM6", DecodeUtils.deodeCryptBase36Test(yhzxXnzzNsr.getShxydm6(), cryptBase36));
@@ -143,7 +145,7 @@ public class CompriseUtils {
             hashMap.put("SCJYDLXDH", DecodeUtils.decodeCryptNumberTest(yhzxXnzzNsr.getScjydlxdh(), cryptNumber));
             hashMap.put("NSRSBH", DecodeUtils.deodeCryptBase36Test(yhzxXnzzNsr.getNsrsbh(), cryptBase36));
             hashMap.put("NSRJC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzNsr.getNsrjc(), cryptSimple));
-        } else{ //应用于内网不涉及加解密的需求
+        } else { //应用于内网不涉及加解密的需求
             hashMap.put("NSRMC", yhzxXnzzNsr.getNsrmc());
             hashMap.put("SHXYDM", yhzxXnzzNsr.getShxydm());
             hashMap.put("SHXYDM6", yhzxXnzzNsr.getShxydm6());
@@ -205,13 +207,13 @@ public class CompriseUtils {
             hashMap.put("SCJYDZ", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getScjydz(), cryptSimple));
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleProd(yhzxXnzzTpcQy.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(yhzxXnzzTpcQy.getShxydm(), cryptBase36));
-        } else if(StringUtils.equals(env, "test")||StringUtils.equals(env, "dev")){
+        } else if (StringUtils.equals(env, "test") || StringUtils.equals(env, "dev")) {
             hashMap.put("JDXZMC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzTpcQy.getJdxzmc(), cryptSimple));
             hashMap.put("ZCDZ", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzTpcQy.getZcdz(), cryptSimple));
             hashMap.put("SCJYDZ", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzTpcQy.getScjydz(), cryptSimple));
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleTest(yhzxXnzzTpcQy.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(yhzxXnzzTpcQy.getShxydm(), cryptBase36));
-        }else{
+        } else {
             hashMap.put("JDXZMC", yhzxXnzzTpcQy.getJdxzmc());
             hashMap.put("ZCDZ", yhzxXnzzTpcQy.getZcdz());
             hashMap.put("SCJYDZ", yhzxXnzzTpcQy.getScjydz());
@@ -335,10 +337,10 @@ public class CompriseUtils {
         if (StringUtils.equals(env, "prod")) {
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleProd(xxzxXxmx.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(xxzxXxmx.getShxydm(), cryptBase36));
-        } else if(StringUtils.equals(env, "test")||StringUtils.equals(env, "dev")) {
+        } else if (StringUtils.equals(env, "test") || StringUtils.equals(env, "dev")) {
             hashMap.put("NSRMC", DecodeUtils.decodeCryptSimpleTest(xxzxXxmx.getNsrmc(), cryptSimple));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(xxzxXxmx.getShxydm(), cryptBase36));
-        } else{
+        } else {
             hashMap.put("NSRMC", xxzxXxmx.getNsrmc());
             hashMap.put("SHXYDM", xxzxXxmx.getShxydm());
         }
@@ -352,7 +354,7 @@ public class CompriseUtils {
     }
 
     public DataRequest botOutoundTaskDetailCompriseDataRequest(BotOutoundTaskDetailWithBLOBs botOutoundTaskDetail, CryptSimple cryptSimple,
-            CryptNumber cryptNumber, CryptBase36 cryptBase36) {
+                                                               CryptNumber cryptNumber, CryptBase36 cryptBase36) {
         DataRequest request = new DataRequest();
         request.setCatalogType(SystemConstants.DEFAULT_TYPE);
         Map<String, Object> hashMap = new HashMap<>(16);
@@ -374,11 +376,11 @@ public class CompriseUtils {
             hashMap.put("QYMC", DecodeUtils.decodeCryptSimpleProd(botOutoundTaskDetail.getQymc(), cryptSimple));
             hashMap.put("RECEIVER_MOBILE", DecodeUtils.deodeCryptNumberProd(botOutoundTaskDetail.getReceiverMobile(), cryptNumber));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Prod(botOutoundTaskDetail.getShxydm(), cryptBase36));
-        } else if(StringUtils.equals(env, "test")||StringUtils.equals(env, "dev")) {
+        } else if (StringUtils.equals(env, "test") || StringUtils.equals(env, "dev")) {
             hashMap.put("QYMC", DecodeUtils.decodeCryptSimpleTest(botOutoundTaskDetail.getQymc(), cryptSimple));
             hashMap.put("RECEIVER_MOBILE", DecodeUtils.decodeCryptNumberTest(botOutoundTaskDetail.getReceiverMobile(), cryptNumber));
             hashMap.put("SHXYDM", DecodeUtils.deodeCryptBase36Test(botOutoundTaskDetail.getShxydm(), cryptBase36));
-        } else{
+        } else {
             hashMap.put("QYMC", botOutoundTaskDetail.getQymc());
             hashMap.put("RECEIVER_MOBILE", botOutoundTaskDetail.getReceiverMobile());
             hashMap.put("SHXYDM", botOutoundTaskDetail.getShxydm());
@@ -394,8 +396,8 @@ public class CompriseUtils {
                 List<String> excelColumn = GsonUtil.getBean(botOutoundTaskDetail.getExcelColumn(), new TypeToken<List<String>>() {
                 }.getType());
                 hashMap.put("EXCEL_COLUMN", excelColumn);
-            }catch (Exception e){
-                logger.error("数据转化异常",e);
+            } catch (Exception e) {
+                logger.error("数据转化异常", e);
             }
 
         }
@@ -443,6 +445,64 @@ public class CompriseUtils {
         hashMap.put("jhsj", yhzxxnzzcyDO.getJhsj() == null ? null : getLongData(yhzxxnzzcyDO.getJhsj()));
         request.setMap(hashMap);
         return request;
+    }
+
+    public DataRequest IndexDetailDataRequest(IndexDayModel indexDayModel) {
+        DataRequest request = new DataRequest();
+        request.setCatalogType("_doc");
+        Map<String, Object> hashMap = new HashMap<>(32);
+        hashMap.put("id", MD5Util.stringToMD5(getIndexKey(indexDayModel)));
+        hashMap.put("cycle_id", indexDayModel.getCycleId());
+        hashMap.put("node_id", indexDayModel.getNodeId());
+        hashMap.put("org_id", indexDayModel.getOrgId());
+        hashMap.put("index", indexDayModel.getIndex());
+        hashMap.put("dim1", indexDayModel.getDim1());
+        hashMap.put("dim_data1", indexDayModel.getDimData1());
+        hashMap.put("dim2", indexDayModel.getDim2());
+        hashMap.put("dim_data2", indexDayModel.getDimData2());
+        hashMap.put("dim3", indexDayModel.getDim3());
+        hashMap.put("dim_data3", indexDayModel.getDimData3());
+        hashMap.put("inc_count", indexDayModel.getIncCount());
+        hashMap.put("net_inc_count", indexDayModel.getNetIncCount());
+        hashMap.put("dec_count", indexDayModel.getDecCount());
+        hashMap.put("total_count", indexDayModel.getTotalCount());
+        hashMap.put("inc_amount", indexDayModel.getIncAmount());
+        hashMap.put("net_inc_amount", indexDayModel.getNetIncAmount());
+        hashMap.put("dec_amount", indexDayModel.getDecAmount());
+        hashMap.put("total_amount", indexDayModel.getTotalAmount());
+        hashMap.put("inc_count_chain_rat", indexDayModel.getIncCountChainRat());
+        hashMap.put("inc_count_link_rat", indexDayModel.getIncCountLinkRat());
+        hashMap.put("net_inc_count_chain_rat", indexDayModel.getNetIncCountChainRat());
+        hashMap.put("net_inc_count_link_rat", indexDayModel.getNetIncCountLinkRat());
+        hashMap.put("dec_count_chain_rat", indexDayModel.getDecCountChainRat());
+        hashMap.put("dec_count_link_rat", indexDayModel.getDecCountLinkRat());
+        hashMap.put("total_count_chain_rat", indexDayModel.getTotalCountChainRat());
+        hashMap.put("total_count_link_rat", indexDayModel.getTotalCountLinkRat());
+        hashMap.put("total_count_share_rat", indexDayModel.getTotalCountShareRat());
+        hashMap.put("inc_amount_chain_rat", indexDayModel.getIncAmountChainRat());
+        hashMap.put("inc_amount_link_rat", indexDayModel.getIncAmountLinkRat());
+        hashMap.put("net_inc_amount_chain_rat", indexDayModel.getNetIncAmountChainRat());
+        hashMap.put("net_inc_amount_link_rat", indexDayModel.getNetIncAmountLinkRat());
+        hashMap.put("dec_amount_chain_rat", indexDayModel.getDecAmountChainRat());
+        hashMap.put("dec_amount_link_rat", indexDayModel.getDecAmountLinkRat());
+        hashMap.put("total_amount_chain_rat", indexDayModel.getTotalAmountChainRat());
+        hashMap.put("total_amount_link_rat", indexDayModel.getTotalAmountLinkRat());
+        hashMap.put("total_amount_share_rat", indexDayModel.getTotalAmountShareRat());
+        request.setMap(hashMap);
+        return request;
+    }
+
+    public String getIndexKey(IndexDayModel indexDayModel) {
+        return indexDayModel.getCycleId() + "," +
+                indexDayModel.getNodeId() + "," +
+                indexDayModel.getOrgId() + "," +
+                indexDayModel.getIndex() + "," +
+                indexDayModel.getDim1() + "," +
+                indexDayModel.getDimData1() + "," +
+                indexDayModel.getDim2() + "," +
+                indexDayModel.getDimData2() + "," +
+                indexDayModel.getDim3() + "," +
+                indexDayModel.getDimData3();
     }
 
     public DataRequest botUnawareDetailCompriseDataRequest(BotUnawareDetailDO botUnawareDetailDO) {
@@ -571,7 +631,7 @@ public class CompriseUtils {
             hashMap.put("DATA4", DecodeUtils.decodeCryptSimpleProd(bizData.getData4(), cryptSimple));
             hashMap.put("DATA4_NO_INDEX1", DecodeUtils.decodeCryptSimpleProd(bizData.getData4(), cryptSimple));
             hashMap.put("DATA5", DecodeUtils.decodeCryptSimpleProd(bizData.getData5(), cryptSimple));
-        } else if(StringUtils.equals(env, "test")||StringUtils.equals(env, "dev")) {
+        } else if (StringUtils.equals(env, "test") || StringUtils.equals(env, "dev")) {
             hashMap.put("ID1", DecodeUtils.decodeCryptBase62Reverse6Test(bizData.getId1(), cryptBase62));
             hashMap.put("ID2", DecodeUtils.decodeCryptBase62Reverse6Test(bizData.getId2(), cryptBase62));
             hashMap.put("ID3", DecodeUtils.decodeCryptBase62Reverse6Test(bizData.getId3(), cryptBase62));
@@ -581,7 +641,7 @@ public class CompriseUtils {
             hashMap.put("DATA4", DecodeUtils.decodeCryptSimpleTest(bizData.getData4(), cryptSimple));
             hashMap.put("DATA4_NO_INDEX1", DecodeUtils.decodeCryptSimpleTest(bizData.getData4(), cryptSimple));
             hashMap.put("DATA5", DecodeUtils.decodeCryptSimpleTest(bizData.getData5(), cryptSimple));
-        } else{
+        } else {
             hashMap.put("ID1", bizData.getId1());
             hashMap.put("ID2", bizData.getId2());
             hashMap.put("ID3", bizData.getId3());
@@ -820,7 +880,8 @@ public class CompriseUtils {
         List<String> ruleIds = Lists.newArrayList();
         String hitRuleIds = botScaTaskResultDO.getHitRuleIds();
         if (StringUtil.isNotBlank(hitRuleIds)) {
-            Type type = new TypeToken<List<BotScaRuleHitStatus>>() {}.getType();
+            Type type = new TypeToken<List<BotScaRuleHitStatus>>() {
+            }.getType();
             List<BotScaRuleHitStatus> list = GsonUtil.getBean(hitRuleIds, type);
             List<String> ruleIdList = list.stream().map(BotScaRuleHitStatus::getRid).collect(Collectors.toList());
             if (!CollectionUtils.isEmpty(ruleIdList)) {
