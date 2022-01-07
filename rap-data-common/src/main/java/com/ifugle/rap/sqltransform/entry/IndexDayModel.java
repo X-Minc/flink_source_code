@@ -4,28 +4,28 @@ package com.ifugle.rap.sqltransform.entry;
  * @author Minc
  * @date 2022/1/4 11:07
  */
-public class IndexDayModel implements Cloneable{
+public class IndexDayModel implements Cloneable {
 
     //统计日期
-    private Integer cycleId;
+    private Integer cycleId = 0;
     //节点ID(同统计日期)Partition(hash())
-    private Integer nodeId;
+    private Integer nodeId = 0;
     //虚拟组织ID，跨组织汇总组织ID为0
-    private Long orgId;
+    private Long orgId = 0L;
     //指标代码
-    private String index;
+    private String index = "";
     //维度代码1
-    private String dim1;
+    private String dim1 = "";
     //维度数据代码1
-    private String dimData1;
+    private String dimData1 = "";
     //维度代码2
-    private String dim2;
+    private String dim2 = "";
     //维度数据代码2
-    private String dimData2;
+    private String dimData2 = "";
     //维度代码3
-    private String dim3;
+    private String dim3 = "";
     //维度数据代码3
-    private String dimData3;
+    private String dimData3 = "";
     //增加数
     private Integer incCount = 0;
     //增加数,按照增量标签汇总
@@ -80,6 +80,207 @@ public class IndexDayModel implements Cloneable{
     private Double totalAmountLinkRat = 0.0;
     //累计金额占比
     private Double totalAmountShareRat = 0.0;
+
+    public static IndexDayModelBuilder builder() {
+        return new IndexDayModelBuilder(new IndexDayModel());
+    }
+
+    public static class IndexDayModelBuilder {
+        private final IndexDayModel indexDayModel;
+
+        public IndexDayModelBuilder(IndexDayModel indexDayModel) {
+            this.indexDayModel = indexDayModel;
+        }
+
+        public IndexDayModelBuilder setCycleId(Integer cycleId) {
+            this.indexDayModel.cycleId = cycleId;
+            return this;
+        }
+
+        public IndexDayModelBuilder setNodeId(Integer nodeId) {
+            this.indexDayModel.nodeId = nodeId;
+            return this;
+        }
+
+        public IndexDayModelBuilder setOrgId(Long orgId) {
+            this.indexDayModel.orgId = orgId;
+            return this;
+        }
+
+        public IndexDayModelBuilder setIndex(String index) {
+            this.indexDayModel.index = index;
+            return this;
+        }
+
+        public IndexDayModelBuilder setDim1(String dim1) {
+            this.indexDayModel.dim1 = dim1;
+            return this;
+        }
+
+        public IndexDayModelBuilder setDimData1(String dimData1) {
+            this.indexDayModel.dimData1 = dimData1;
+            return this;
+        }
+
+        public IndexDayModelBuilder setDim2(String dim2) {
+            this.indexDayModel.dim2 = dim2;
+            return this;
+        }
+
+        public IndexDayModelBuilder setDimData2(String dimData2) {
+            this.indexDayModel.dimData2 = dimData2;
+            return this;
+        }
+
+        public IndexDayModelBuilder setDim3(String dim3) {
+            this.indexDayModel.dim3 = dim3;
+            return this;
+        }
+
+        public IndexDayModelBuilder setDimData3(String dimData3) {
+            this.indexDayModel.dimData3 = dimData3;
+            return this;
+        }
+
+        public IndexDayModelBuilder setIncCount(Integer incCount) {
+            this.indexDayModel.incCount = incCount;
+            return this;
+        }
+
+        public IndexDayModelBuilder setInc2Count(Integer inc2Count) {
+            this.indexDayModel.inc2Count = inc2Count;
+            return this;
+        }
+
+        public IndexDayModelBuilder setNetIncCount(Integer netIncCount) {
+            this.indexDayModel.netIncCount = netIncCount;
+            return this;
+        }
+
+        public IndexDayModelBuilder setDecCount(Integer decCount) {
+            this.indexDayModel.decCount = decCount;
+            return this;
+        }
+
+        public IndexDayModelBuilder setTotalCount(Integer totalCount) {
+            this.indexDayModel.totalCount = totalCount;
+            return this;
+        }
+
+        public IndexDayModelBuilder setIncAmount(Double incAmount) {
+            this.indexDayModel.incAmount = incAmount;
+            return this;
+        }
+
+        public IndexDayModelBuilder setNetIncAmount(Double netIncAmount) {
+            this.indexDayModel.netIncAmount = netIncAmount;
+            return this;
+        }
+
+        public IndexDayModelBuilder setDecAmount(Double decAmount) {
+            this.indexDayModel.decAmount = decAmount;
+            return this;
+        }
+
+        public IndexDayModelBuilder setTotalAmount(Double totalAmount) {
+            this.indexDayModel.totalAmount = totalAmount;
+            return this;
+        }
+
+        public IndexDayModelBuilder setIncCountChainRat(Double incCountChainRat) {
+            this.indexDayModel.incCountChainRat = incCountChainRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setIncCountLinkRat(Double incCountLinkRat) {
+            this.indexDayModel.incCountLinkRat = incCountLinkRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setNetIncCountChainRat(Double netIncCountChainRat) {
+            this.indexDayModel.netIncCountChainRat = netIncCountChainRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setNetIncCountLinkRat(Double netIncCountLinkRat) {
+            this.indexDayModel.netIncCountLinkRat = netIncCountLinkRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setDecCountChainRat(Double decCountChainRat) {
+            this.indexDayModel.decCountChainRat = decCountChainRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setDecCountLinkRat(Double decCountLinkRat) {
+            this.indexDayModel.decCountLinkRat = decCountLinkRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setTotalCountChainRat(Double totalCountChainRat) {
+            this.indexDayModel.totalCountChainRat = totalCountChainRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setTotalCountLinkRat(Double totalCountLinkRat) {
+            this.indexDayModel.totalCountLinkRat = totalCountLinkRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setTotalCountShareRat(Double totalCountShareRat) {
+            this.indexDayModel.totalCountShareRat = totalCountShareRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setIncAmountChainRat(Double incAmountChainRat) {
+            this.indexDayModel.incAmountChainRat = incAmountChainRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setIncAmountLinkRat(Double incAmountLinkRat) {
+            this.indexDayModel.incAmountLinkRat = incAmountLinkRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setNetIncAmountChainRat(Double netIncAmountChainRat) {
+            this.indexDayModel.netIncAmountChainRat = netIncAmountChainRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setNetIncAmountLinkRat(Double netIncAmountLinkRat) {
+            this.indexDayModel.netIncAmountLinkRat = netIncAmountLinkRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setDecAmountChainRat(Double decAmountChainRat) {
+            this.indexDayModel.decAmountChainRat = decAmountChainRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setDecAmountLinkRat(Double decAmountLinkRat) {
+            this.indexDayModel.decAmountLinkRat = decAmountLinkRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setTotalAmountChainRat(Double totalAmountChainRat) {
+            this.indexDayModel.totalAmountChainRat = totalAmountChainRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setTotalAmountLinkRat(Double totalAmountLinkRat) {
+            this.indexDayModel.totalAmountLinkRat = totalAmountLinkRat;
+            return this;
+        }
+
+        public IndexDayModelBuilder setTotalAmountShareRat(Double totalAmountShareRat) {
+            this.indexDayModel.totalAmountShareRat = totalAmountShareRat;
+            return this;
+        }
+
+        public IndexDayModel build() {
+            return indexDayModel.clone();
+        }
+    }
 
     /*********************************************************************************************************************
      get,set

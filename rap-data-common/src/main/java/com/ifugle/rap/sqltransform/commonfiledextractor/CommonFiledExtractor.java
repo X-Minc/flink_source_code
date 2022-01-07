@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class CommonFiledExtractor implements CommonFiledExtractorBase<JSONObject, List<IndexDayModel>>, Cloneable {
     private String index = "";
+    private Long orgId = 0L;
     private String dim1 = "";
     private String dim2 = "";
     private String dimData2 = "";
@@ -25,6 +26,7 @@ public class CommonFiledExtractor implements CommonFiledExtractorBase<JSONObject
     public static CommonFiledExtractorBuilder builder() {
         return new CommonFiledExtractorBuilder(new CommonFiledExtractor());
     }
+
 
     @Override
     public List<IndexDayModel> customSetData(List<IndexDayModel> indexDayModelList) throws Exception {
@@ -67,6 +69,11 @@ public class CommonFiledExtractor implements CommonFiledExtractorBase<JSONObject
 
         public CommonFiledExtractorBuilder setIndex(String index) {
             this.commonFiledExtractor.index = index;
+            return this;
+        }
+
+        public CommonFiledExtractorBuilder setOrgId(Long orgId) {
+            this.commonFiledExtractor.orgId = orgId;
             return this;
         }
 

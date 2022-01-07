@@ -17,6 +17,7 @@ public class WhereSqlTransformRule implements TransformBase<String> {
     private static final String rangeModel = "{\"range\":{\"{var}\":{\"{range}\":{value}}}}";
     private static final String equalAndNotModel = "{\"term\":{\"{var}\":{value}}}";
     private static final String likeModel = "{\"wildcard\":{\"{filed}\":{\"value\":{value}}}}";
+    private static final String nullModel = "{\"exists\":{\"field\":\"{filed}\"}}";
 
 
     @Override
@@ -51,10 +52,13 @@ public class WhereSqlTransformRule implements TransformBase<String> {
             Compare fitCompareOperate = getFitCompareOperate(value);
             if (fitCompareOperate != null) {
                 String[] splitData = value.split(fitCompareOperate.getCompareOperate().replace("(", "\\("), -1);
-                if (fitCompareOperate.equals(Compare.notLike) || fitCompareOperate.equals(Compare.notTerm)) {
+                if (fitCompareOperate.equals(Compare.notLike) || fitCompareOperate.equals(Compare.notTerm) || fitCompareOperate.equals(Compare.isNull)) {
                     if (fitCompareOperate.equals(Compare.notLike)) {
                         mustNotStringBuilder.append(likeModel.replace("{filed}", splitData[0])
                                         .replace("{value}", splitData[1]))
+                                .append(",");
+                    } else if (fitCompareOperate.equals(Compare.isNull)) {
+                        mustNotStringBuilder.append(nullModel.replace("{filed}", splitData[0]))
                                 .append(",");
                     } else {
                         mustNotStringBuilder.append(equalAndNotModel.replace("{var}", splitData[0])
@@ -70,6 +74,9 @@ public class WhereSqlTransformRule implements TransformBase<String> {
                         mustStringBuilder.append(orModel
                                         .replace("{var}", splitData[0])
                                         .replace("{value}", "[" + splitData[1].replace(")", "") + "]"))
+                                .append(",");
+                    } else if (fitCompareOperate.equals(Compare.isNotNull)) {
+                        mustStringBuilder.append(nullModel.replace("{filed}", splitData[0]))
                                 .append(",");
                     } else {
                         if (splitData[1].contains("-")) {
@@ -100,7 +107,11 @@ public class WhereSqlTransformRule implements TransformBase<String> {
     }
 
     private Compare getFitCompareOperate(String value) throws Exception {
-        if (value.contains(Compare.gte.getCompareOperate()))
+        if (value.contains(Compare.isNotNull.getCompareOperate())) {
+            return Compare.isNotNull;
+        } else if (value.contains(Compare.isNull.getCompareOperate())) {
+            return Compare.isNull;
+        } else if (value.contains(Compare.gte.getCompareOperate()))
             return Compare.gte;
         else if (value.contains(Compare.gt.getCompareOperate()))
             return Compare.gt;

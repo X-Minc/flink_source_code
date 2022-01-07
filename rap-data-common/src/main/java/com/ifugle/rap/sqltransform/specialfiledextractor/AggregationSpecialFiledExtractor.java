@@ -36,4 +36,66 @@ public class AggregationSpecialFiledExtractor implements SpecialFiledExtractorBa
         void dealWith(IndexDayModel indexDayModel, JSONObject data);
     }
 
+    public static class DealWithIncAndSuperior implements DealWithMid {
+
+        @Override
+        public void dealWith(IndexDayModel indexDayModel, JSONObject data) {
+            Integer idCount = data.getJSONObject("count").getInteger("value");
+            Integer xnzzId = data.getJSONObject("key").getInteger("xnzz_id");
+            String swjgDm = data.getJSONObject("key").getString("swjg_dms");
+            if (idCount != null)
+                indexDayModel.setIncCount(idCount);
+            indexDayModel.setOrgId(0L);
+            if (swjgDm != null)
+                indexDayModel.setDimData1(swjgDm);
+        }
+    }
+
+    public static class DealWithIncAndSelf implements DealWithMid {
+
+        @Override
+        public void dealWith(IndexDayModel indexDayModel, JSONObject data) {
+            Integer idCount = data.getJSONObject("count").getInteger("value");
+            Integer xnzzId = data.getJSONObject("key").getInteger("xnzz_id");
+            String swjgDm = data.getJSONObject("key").getString("swjg_dm");
+            if (idCount != null)
+                indexDayModel.setIncCount(idCount);
+            if (xnzzId != null)
+                indexDayModel.setOrgId((long) xnzzId);
+            if (swjgDm != null)
+                indexDayModel.setDimData1(swjgDm);
+        }
+    }
+
+    public static class DealWithTotalAndSuperior implements DealWithMid {
+
+        @Override
+        public void dealWith(IndexDayModel indexDayModel, JSONObject data) {
+            Integer idCount = data.getJSONObject("count").getInteger("value");
+            Integer xnzzId = data.getJSONObject("key").getInteger("xnzz_id");
+            String swjgDm = data.getJSONObject("key").getString("swjg_dms");
+            if (idCount != null)
+                indexDayModel.setTotalCount(idCount);
+            indexDayModel.setOrgId(0L);
+            if (swjgDm != null)
+                indexDayModel.setDimData1(swjgDm);
+        }
+    }
+
+    public static class DealWithTotalAndSelf implements DealWithMid {
+
+        @Override
+        public void dealWith(IndexDayModel indexDayModel, JSONObject data) {
+            Integer idCount = data.getJSONObject("count").getInteger("value");
+            Integer xnzzId = data.getJSONObject("key").getInteger("xnzz_id");
+            String swjgDm = data.getJSONObject("key").getString("swjg_dm");
+            if (idCount != null)
+                indexDayModel.setTotalCount(idCount);
+            if (xnzzId != null)
+                indexDayModel.setOrgId((long) xnzzId);
+            if (swjgDm != null)
+                indexDayModel.setDimData1(swjgDm);
+        }
+    }
+
 }

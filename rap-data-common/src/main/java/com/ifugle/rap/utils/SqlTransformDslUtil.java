@@ -41,8 +41,8 @@ public class SqlTransformDslUtil {
                                                Boolean days30,
                                                Boolean month,
                                                List<AggregationSpecialFiledExtractor> aggregationSpecialFiledExtractor,
-                                               List<CommonFiledExtractor> commonFiledExtractors
-    ) throws Exception {
+                                               List<CommonFiledExtractor> commonFiledExtractors,
+                                               String timeFiled) throws Exception {
         sql = sql.toLowerCase(Locale.ROOT);
         List<SqlTask> sqls = new ArrayList<>();
         for (int i = 0; i < Math.max(commonFiledExtractors.size(), aggregationSpecialFiledExtractor.size()); i++) {
@@ -62,7 +62,7 @@ public class SqlTransformDslUtil {
                 TimeCondition days30Condition = TimeCondition.valueOf("days30");
                 String date = TimeUtil.getStringDate(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss", -1000L * 60 * 60 * 24 * 30);
                 sqls.add(new SqlTask(
-                                sql.replace("{time_condition}", days30Condition.getCondition().replace("{time}", date)),
+                                sql.replace("{time_condition}", days30Condition.getCondition().replace("{time}", date).replace("{time_filed}", timeFiled)),
                                 days30Condition.getTableType(),
                                 aggregationSpecialFiledExtractor.get(i),
                                 commonFiledExtractors.get(i)
@@ -75,7 +75,7 @@ public class SqlTransformDslUtil {
                 TimeCondition monthCondition = TimeCondition.valueOf("month");
                 String time = TimeUtil.getStringDate(System.currentTimeMillis(), "yyyy-MM");
                 sqls.add(new SqlTask(
-                                sql.replace("{time_condition}", monthCondition.getCondition().replace("{time}", time)),
+                                sql.replace("{time_condition}", monthCondition.getCondition().replace("{time}", time).replace("{time_filed}", timeFiled)),
                                 monthCondition.getTableType(),
                                 aggregationSpecialFiledExtractor.get(i),
                                 commonFiledExtractors.get(i)

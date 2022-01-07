@@ -14,7 +14,9 @@ public enum Compare {
     term("=", "term"),
     notTerm("!=", "term"),
     like("like ", "like"),
-    notLike("notlike", "like");
+    notLike("notlike", "like"),
+    isNotNull("isnotnull","isnotnull"),
+    isNull("isnull","isnull");
     private final String compareOperate;
     private final String mean;
 
