@@ -345,7 +345,7 @@ public class SyncTask {
      * @param isQz 是否为群组
      * @return 特殊的上级字段提取器集合（包含，当天，30天，当月）
      */
-    private List<AggregationSpecialFiledExtractor> getSpecialSuperiorAgg(Boolean isQz) {
+    private List<AggregationSpecialFiledExtractor> getSpecialSuperiorAgg(Boolean isQz) throws Exception {
         AggregationSpecialFiledExtractor aggregationSpecialFiledExtractor = new AggregationSpecialFiledExtractor(new AggregationSpecialFiledExtractor.DealWithTotalAndSuperior());
         AggregationSpecialFiledExtractor aggregationSpecialFiledExtractorInc = new AggregationSpecialFiledExtractor(new AggregationSpecialFiledExtractor.DealWithIncAndSuperior());
         List<AggregationSpecialFiledExtractor> aggregationSpecialFiledExtractorArrayList = new ArrayList<>();
@@ -461,7 +461,7 @@ public class SyncTask {
      * @param keySelector 合并集合key选择器以及合并操作
      * @return 集合
      */
-    private List<IndexDayModel> leftJoin(List<IndexDayModel> remain, List<IndexDayModel> leave, KeySelector<IndexDayModel> keySelector) {
+    private List<IndexDayModel> leftJoin(List<IndexDayModel> remain, List<IndexDayModel> leave, KeySelector<IndexDayModel> keySelector) throws Exception {
         if (keySelector != null) {
             for (IndexDayModel indexDayModel : remain) {
                 String key = keySelector.getKey(indexDayModel);
