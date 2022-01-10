@@ -10,6 +10,14 @@ import java.util.List;
  */
 public interface SyncMapper {
     void insertIndexDay(List<IndexDayModel> indexDayModelList);
+
     void insertIndex30Day(List<IndexDayModel> indexDayModelList);
+
     void insertIndexMonth(List<IndexDayModel> indexDayModelList);
+
+    List<IndexDayModel> getIndexDayList();
+
+    List<IndexDayModel> getIndex30DaysList();
+
+    List<IndexDayModel> getIndexMonthList();
 }

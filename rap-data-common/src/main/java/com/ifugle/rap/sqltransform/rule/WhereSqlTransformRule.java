@@ -2,6 +2,7 @@ package com.ifugle.rap.sqltransform.rule;
 
 import com.ifugle.rap.sqltransform.base.TransformBase;
 import com.ifugle.rap.sqltransform.baseenum.Compare;
+import com.ifugle.rap.sqltransform.baseenum.KeyWord;
 import com.ifugle.rap.sqltransform.entry.DataType;
 import com.ifugle.rap.sqltransform.entry.SqlEntry;
 
@@ -9,7 +10,7 @@ import com.ifugle.rap.sqltransform.entry.SqlEntry;
  * @author Minc
  * @date 2022/1/4 14:12
  */
-public class WhereSqlTransformRule implements TransformBase<String> {
+public class WhereSqlTransformRule extends TransformBase<String> {
     private static final StringBuilder BUILDER = new StringBuilder();
     private static final String orModel = "{\"terms\":{\"{var}\":{value}}}";
     private static final String whereModel = "\"query\":{\"bool\":{\"must\":[{mustVar}],\"must_not\":[{mustNotVar}]}}";
@@ -18,6 +19,10 @@ public class WhereSqlTransformRule implements TransformBase<String> {
     private static final String equalAndNotModel = "{\"term\":{\"{var}\":{value}}}";
     private static final String likeModel = "{\"wildcard\":{\"{filed}\":{\"value\":{value}}}}";
     private static final String nullModel = "{\"exists\":{\"field\":\"{filed}\"}}";
+
+    public WhereSqlTransformRule() {
+        super(KeyWord.where);
+    }
 
 
     @Override

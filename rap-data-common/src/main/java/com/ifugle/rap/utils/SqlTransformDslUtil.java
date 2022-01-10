@@ -11,10 +11,7 @@ import com.ifugle.rap.sqltransform.entry.SqlTask;
 import com.ifugle.rap.sqltransform.entry.TimeCondition;
 import com.ifugle.rap.sqltransform.specialfiledextractor.AggregationSpecialFiledExtractor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -110,6 +107,29 @@ public class SqlTransformDslUtil {
      */
     @SafeVarargs
     public static String getTransformedDsl(SqlEntry sqlStructure, TransformBase<String>... transformBases) throws Exception {
+        BUILDER.delete(0, BUILDER.length()).append("{");
+        for (TransformBase<String> transformBase : transformBases) {
+            String transformPart = transformBase.getTransformPart(sqlStructure);
+            if (BUILDER.length() == 1) {
+                BUILDER.append(transformPart);
+            } else {
+                if (!transformPart.equals(""))
+                    BUILDER.append(",").append(transformPart);
+            }
+        }
+        BUILDER.append("}");
+        return BUILDER.toString();
+    }
+
+    /**
+     * 将sql实体类转换为dsl
+     *
+     * @param sqlStructure   sql实体类
+     * @param transformBases 转换操作
+     * @return dsl语句
+     * @throws Exception 异常
+     */
+    public static String getTransformedDsl(SqlEntry sqlStructure, Queue<TransformBase<String>> transformBases) throws Exception {
         BUILDER.delete(0, BUILDER.length()).append("{");
         for (TransformBase<String> transformBase : transformBases) {
             String transformPart = transformBase.getTransformPart(sqlStructure);

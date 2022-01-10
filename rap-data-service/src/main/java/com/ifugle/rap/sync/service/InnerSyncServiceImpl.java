@@ -31,4 +31,19 @@ public class InnerSyncServiceImpl implements InnerSyncService {
     public void insertIndexMonth(List<IndexDayModel> indexDayModelList) throws Exception {
         syncMapper.insertIndexMonth(indexDayModelList);
     }
+
+    @Override
+    public List<IndexDayModel> getIndexDayList() throws Exception {
+        return syncMapper.getIndexDayList();
+    }
+
+    @Override
+    public List<IndexDayModel> getIndex30DaysList() throws Exception {
+        return syncMapper.getIndex30DaysList();
+    }
+
+    @Override
+    public List<IndexDayModel> getIndexMonthList() throws Exception {
+        return syncMapper.getIndexMonthList();
+    }
 }

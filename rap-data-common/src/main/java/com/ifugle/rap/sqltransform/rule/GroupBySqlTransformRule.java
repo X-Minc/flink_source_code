@@ -2,6 +2,7 @@ package com.ifugle.rap.sqltransform.rule;
 
 
 import com.ifugle.rap.sqltransform.base.TransformBase;
+import com.ifugle.rap.sqltransform.baseenum.KeyWord;
 import com.ifugle.rap.sqltransform.entry.DataType;
 import com.ifugle.rap.sqltransform.entry.SqlEntry;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * 默认sql转dsl逻辑
  * @date 2021/12/30 16:39
  */
-public class GroupBySqlTransformRule implements TransformBase<String> {
+public class GroupBySqlTransformRule extends TransformBase<String> {
     private static final StringBuilder BUILDER = new StringBuilder();
     //嵌套分组
     private static final String GROUP_MODEL_INNER = "\"aggregations\": {\"{var}\":{ \"aggregations\":{}, \"terms\": {\"field\": \"{var}\"}}}";
@@ -25,6 +26,10 @@ public class GroupBySqlTransformRule implements TransformBase<String> {
     private static final String COUNT_DISTINCT_MODEL = "\"count\":{\"cardinality\":{\"field\":\"{filed}\"}}";
     //sum
     private static final String SUM_MODEL = "\"sum\":{\"sum\":{\"field\":\"{filed}\"}}";
+
+    public GroupBySqlTransformRule() {
+        super(KeyWord.group_by);
+    }
 
     @Override
     public String getTransformPart(SqlEntry sqlEntry) throws Exception {
@@ -57,7 +62,7 @@ public class GroupBySqlTransformRule implements TransformBase<String> {
         StringBuilder stringBuilder = new StringBuilder();
         if (countVars != null) {
             for (String countVar : countVars) {
-                if (!countVar.equals("")){
+                if (!countVar.equals("")) {
                     if (stringBuilder.length() == 0) {
                         if (model != null) stringBuilder.append(model.replace("{filed}", countVar));
                         else stringBuilder.append(countVar);

@@ -1,6 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ifugle.rap.mapper.sync.SyncMapper">
+    <resultMap id="indexDay" type="com.ifugle.rap.sqltransform.entry.IndexDayModel">
+        <id property="cycleId" column="cycle_id"/>
+        <id property="orgId" column="org_id"/>
+        <id property="index" column="index"/>
+        <id property="dim1" column="dim1"/>
+        <id property="dimData1" column="dim_data1"/>
+        <id property="dim2" column="dim2"/>
+        <id property="dimData2" column="dim_data2"/>
+        <id property="dim3" column="dim3"/>
+        <id property="dimData3" column="dim_data3"/>
+        <result property="incCount" column="inc_count"/>
+        <result property="nodeId" column="node_id"/>
+        <result property="netIncCount" column="net_inc_count"/>
+        <result property="decCount" column="dec_count"/>
+        <result property="totalCount" column="total_count"/>
+        <result property="incAmount" column="inc_amount"/>
+        <result property="netIncAmount" column="net_inc_amount"/>
+        <result property="decAmount" column="dec_amount"/>
+        <result property="totalAmount" column="total_amount"/>
+        <result property="incCountChainRat" column="inc_count_chain_rat"/>
+        <result property="incCountLinkRat" column="inc_count_link_rat"/>
+        <result property="netIncCountChainRat" column="net_inc_count_chain_rat"/>
+        <result property="netIncCountLinkRat" column="net_inc_count_link_rat"/>
+        <result property="decCountChainRat" column="dec_count_chain_rat"/>
+        <result property="decCountLinkRat" column="dec_count_link_rat"/>
+        <result property="totalCountChainRat" column="total_count_chain_rat"/>
+        <result property="totalCountLinkRat" column="total_count_link_rat"/>
+        <result property="totalCountShareRat" column="total_count_share_rat"/>
+        <result property="incAmountChainRat" column="inc_amount_chain_rat"/>
+        <result property="incAmountLinkRat" column="inc_amount_link_rat"/>
+        <result property="netIncAmountChainRat" column="net_inc_amount_chain_rat"/>
+        <result property="netIncAmountLinkRat" column="net_inc_amount_link_rat"/>
+        <result property="decAmountChainRat" column="dec_amount_chain_rat"/>
+        <result property="decAmountLinkRat" column="dec_amount_link_rat"/>
+        <result property="totalAmountChainRat" column="total_amount_chain_rat"/>
+        <result property="totalAmountLinkRat" column="total_amount_link_rat"/>
+        <result property="totalAmountShareRat" column="total_amount_share_rat"/>
+    </resultMap>
+
     <insert id="insertIndexDay" parameterType="com.ifugle.rap.sqltransform.entry.IndexDayModel">
         replace into bi_index_day
         (
@@ -251,4 +290,967 @@
             )
         </foreach>
     </insert>
+
+    <select id="getIndexDayList" resultMap="indexDay">
+        select DATE_FORMAT(date_sub(CURRENT_DATE, interval 1 day), '%Y%m%d')             as cycle_id,
+
+               DATE_FORMAT(date_sub(CURRENT_DATE, interval 1 day), '%Y%m%d')             as node_id,
+
+               case when d.org_id is not null then d.org_id else s.org_id end            as org_id,
+
+               case when d.org_id is not null then d.`index` else s.`index` end          as `index`,
+
+               case when d.org_id is not null then d.dim1 else s.dim1 end                as dim1,
+
+               case when d.org_id is not null then d.dim_data1 else s.dim_data1 end      as dim_data1,
+
+               case when d.org_id is not null then d.dim2 else s.dim2 end                as dim2,
+
+               case when d.org_id is not null then d.dim_data2 else s.dim_data2 end      as dim_data2,
+
+               case when d.org_id is not null then d.dim3 else s.dim3 end                as dim3,
+
+               case when d.org_id is not null then d.dim_data3 else s.dim_data3 end      as dim_data3,
+
+               case when d.org_id is not null then d.inc_count else 0 end                as inc_count,
+
+               -- 0 as inc2_count,
+
+               case when d.org_id is not null then d.net_inc_count else 0 end            as net_inc_count,
+
+               case when d.org_id is not null then d.dec_count else 0 end                as dec_count,
+
+               case when d.org_id is not null then d.total_count else 0 end              as total_count,
+
+               case when d.org_id is not null then d.inc_amount else 0 end               as inc_amount,
+
+               case when d.org_id is not null then d.net_inc_amount else 0 end           as net_inc_amount,
+
+               case when d.org_id is not null then d.dec_amount else 0 end               as dec_amount,
+
+               case
+                   when d.org_id is not null then d.total_amount
+                   else
+                       0 end                                                             as total_amount,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.inc_count_chain_rat &gt; 9999.99 then 9999.99
+
+                           when d.inc_count_chain_rat &lt; -9999.99 then -9999.99
+
+                           else d.inc_count_chain_rat
+                           end
+
+                   else 0 end                                                            as inc_count_chain_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.inc_count_link_rat &gt; 9999.99 then 9999.99
+
+                           when d.inc_count_link_rat &lt; -9999.99 then -9999.99
+
+                           else d.inc_count_link_rat
+                           end
+
+                   else 0 end                                                            as inc_count_link_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.net_inc_count_chain_rat &gt; 9999.99 then 9999.99
+
+                           when d.net_inc_count_chain_rat &lt; -9999.99 then -9999.99
+
+                           else d.net_inc_count_chain_rat
+                           end
+
+                   else 0 end                                                            as net_inc_count_chain_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.net_inc_count_link_rat &gt; 9999.99 then 9999.99
+
+                           when d.net_inc_count_link_rat &lt; -9999.99 then -9999.99
+
+                           else d.net_inc_count_link_rat
+                           end
+
+                   else 0 end                                                            as net_inc_count_link_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.dec_count_chain_rat &gt; 9999.99 then 9999.99
+
+                           when d.dec_count_chain_rat &lt; -9999.99 then -9999.99
+
+                           else d.dec_count_chain_rat
+                           end
+
+                   else 0 end                                                            as dec_count_chain_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.dec_count_link_rat &gt; 9999.99 then 9999.99
+
+                           when d.dec_count_link_rat &lt; -9999.99 then -9999.99
+
+                           else d.dec_count_link_rat
+                           end
+
+                   else 0 end                                                            as dec_count_link_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.total_count_chain_rat &gt; 9999.99 then 9999.99
+
+                           when d.total_count_chain_rat &lt; -9999.99 then -9999.99
+
+                           else d.total_count_chain_rat
+                           end
+
+                   else 0 end                                                            as total_count_chain_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.total_count_link_rat &gt; 9999.99 then 9999.99
+
+                           when d.total_count_link_rat &lt; -9999.99 then -9999.99
+
+                           else d.total_count_link_rat
+                           end
+
+                   else 0 end                                                            as total_count_link_rat,
+
+               case when d.org_id is not null then d.total_count_share_rat else 0 end    as total_count_share_rat,
+
+               case when d.org_id is not null then d.inc_amount_chain_rat else 0 end     as inc_amount_chain_rat,
+
+               case when d.org_id is not null then d.inc_amount_link_rat else 0 end      as inc_amount_link_rat,
+
+               case when d.org_id is not null then d.net_inc_amount_chain_rat else 0 end as net_inc_amount_chain_rat,
+
+               case when d.org_id is not null then d.net_inc_amount_link_rat else 0 end  as net_inc_amount_link_rat,
+
+               case when d.org_id is not null then d.dec_amount_chain_rat else 0 end     as dec_amount_chain_rat,
+
+               case when d.org_id is not null then d.dec_amount_link_rat else 0 end      as dec_amount_link_rat,
+
+               case when d.org_id is not null then d.total_amount_chain_rat else 0 end   as total_amount_chain_rat,
+
+               case when d.org_id is not null then d.total_amount_link_rat else 0 end    as total_amount_link_rat,
+
+               case when d.org_id is not null then d.total_amount_share_rat else 0 end   as total_amount_share_rat
+
+        from (
+                 select /* + MAPJOIN(s) */
+
+                     s.xnzz_id        as org_id,
+
+                     d.`index`,
+
+                     d.dim1,
+
+                     s.swjg_dm        as dim_data1,
+
+                     d.dim2,
+
+                     d.dim_data2,
+
+                     d.dim3,
+
+                     d.dim_data3
+                         ,
+                     d.is_total_index as is_total_index
+
+                 from (
+                          select swjg_dm, 0 as xnzz_id
+
+                          from bi_dm_swjg
+
+                          where sybz = 1
+
+                            and swjgbz != 2
+
+        and swjg_dm not like '199%'
+
+                          union all
+
+                          select swjg_dm, xnzz_id
+
+                          from bi_dm_swjg
+
+                          where sybz = 1
+
+                            and swjgbz in (1
+                              , 2)
+
+                            and xnzz_id is not null
+                      ) s
+                          join
+
+                      (
+                          select /* + MAPJOIN(d) */
+
+                              d.code           as `index`,
+                              '1001'           as dim1,
+                              ''               as dim2,
+                              ''               as dim_data2,
+                              ''               as dim3,
+                              ''               as dim_data3,
+                              d.is_total_index as
+                                                  is_total_index
+
+                          from bi_dm_index d
+
+                          where d.code in (40040, 40042, 40043, 40044)
+
+                          UNION ALL
+
+                          select /* + MAPJOIN(d) */
+
+                              d.code           as `index`,
+                              '1001'           as dim1,
+                              m.dim_code       as dim2,
+                              m.code           as dim_data2,
+                              ''               as dim3,
+                              ''               as
+                                                  dim_data3,
+                              d.is_total_index as is_total_index
+
+                          from bi_dm_index d
+
+                                   join bi_dm_dim_data m on m.dim_code = '1004' and m.code in ('1', '5')
+
+                          where d.code in ('20010', '20070', '20060', '20040')
+
+                          UNION ALL
+
+                          select /* + MAPJOIN(d) */
+
+                              d.code              as `index`
+                               , '1001'           as dim1
+                               , m.dim_code       as dim2
+                               , m.code           as dim_data2
+                               , ''               as dim3
+                               , ''               as dim_data3
+
+                               , d.is_total_index as is_total_index
+
+                          from bi_dm_index d
+
+                                   join bi_dm_dim_data m on m.dim_code = '1004' and m.code in ('1', '5')
+
+                          where d.code in ('10010', '10020', '10030')
+
+                          UNION ALL
+
+                          select /* + MAPJOIN(d) */
+
+                              d.code           as `index`,
+                              '1001'           as dim1,
+                              m.dim_code       as dim2,
+                              m.code           as dim_data2,
+                              ''               as dim3,
+                              ''               as
+                                                  dim_data3,
+                              d.is_total_index as is_total_index
+
+                          from bi_dm_index d
+
+                                   join bi_dm_dim_data m on m.dim_code = '1005'
+
+                          where d.code in ('40052', '40053', '40054', '40055', '40062', '40066')
+
+                            and m.code in (1, 2)
+
+                          union all
+
+                          select /* + MAPJOIN(d) */
+
+                              d.code           as `index`,
+                              '1001'           as dim1,
+                              '1005'           as dim2,
+                              '1'              as dim_data2,
+                              m.dim_code       as dim3,
+                              m.code           as
+                                                  dim_data3,
+                              d.is_total_index as is_total_index
+
+                          from bi_dm_index d
+
+                                   join bi_dm_dim_data m on m.dim_code = '1011'
+
+                          where d.code in ('40054', '40055', '40062', '40066')
+                      ) d on 1 = 1
+             ) s
+
+                 left outer join bi_index_day d
+                                 on d.org_id = s.org_id
+                                     and d.`index` = s.`index`
+                                     and d.dim1 = s.dim1
+                                     and d.dim_data1 = s.dim_data1
+                                     and d.dim2 = s.dim2
+                                     and d.dim_data2 = s.dim_data2
+                                     and d.dim3 = s.dim3
+                                     and d.dim_data3 = s.dim_data3
+                                     and d.cycle_id = DATE_FORMAT(date_sub(CURRENT_DATE, interval 1 day), '%Y%m%d');
+    </select>
+
+    <select id="getIndex30DaysList" resultMap="indexDay">
+        select DATE_FORMAT(date_sub(CURRENT_DATE, interval 1 day), '%Y%m%d')             as cycle_id,
+
+               DATE_FORMAT(date_sub(CURRENT_DATE, interval 1 day), '%Y%m%d')             as node_id,
+
+               case when d.org_id is not null then d.org_id else s.org_id end            as org_id,
+
+               case when d.org_id is not null then d.`index` else s.`index` end          as `index`,
+
+               case when d.org_id is not null then d.dim1 else s.dim1 end                as dim1,
+
+               case when d.org_id is not null then d.dim_data1 else s.dim_data1 end      as dim_data1,
+
+               case when d.org_id is not null then d.dim2 else s.dim2 end                as dim2,
+
+               case when d.org_id is not null then d.dim_data2 else s.dim_data2 end      as dim_data2,
+
+               case when d.org_id is not null then d.dim3 else s.dim3 end                as dim3,
+
+               case when d.org_id is not null then d.dim_data3 else s.dim_data3 end      as dim_data3,
+
+               case when d.org_id is not null then d.inc_count else 0 end                as inc_count,
+
+               -- 0 as inc2_count,
+
+               case when d.org_id is not null then d.net_inc_count else 0 end            as net_inc_count,
+
+               case when d.org_id is not null then d.dec_count else 0 end                as dec_count,
+
+               case when d.org_id is not null then d.total_count else 0 end              as total_count,
+
+               case when d.org_id is not null then d.inc_amount else 0 end               as inc_amount,
+
+               case when d.org_id is not null then d.net_inc_amount else 0 end           as net_inc_amount,
+
+               case when d.org_id is not null then d.dec_amount else 0 end               as dec_amount,
+
+               case
+                   when d.org_id is not null then d.total_amount
+                   else
+                       0 end                                                             as total_amount,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.inc_count_chain_rat &gt; 9999.99 then 9999.99
+
+                           when d.inc_count_chain_rat &lt; -9999.99 then -9999.99
+
+                           else d.inc_count_chain_rat
+                           end
+
+                   else 0 end                                                            as inc_count_chain_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.inc_count_link_rat &gt; 9999.99 then 9999.99
+
+                           when d.inc_count_link_rat &lt; -9999.99 then -9999.99
+
+                           else d.inc_count_link_rat
+                           end
+
+                   else 0 end                                                            as inc_count_link_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.net_inc_count_chain_rat &gt; 9999.99 then 9999.99
+
+                           when d.net_inc_count_chain_rat &lt; -9999.99 then -9999.99
+
+                           else d.net_inc_count_chain_rat
+                           end
+
+                   else 0 end                                                            as net_inc_count_chain_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.net_inc_count_link_rat &gt; 9999.99 then 9999.99
+
+                           when d.net_inc_count_link_rat &lt; -9999.99 then -9999.99
+
+                           else d.net_inc_count_link_rat
+                           end
+
+                   else 0 end                                                            as net_inc_count_link_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.dec_count_chain_rat &gt; 9999.99 then 9999.99
+
+                           when d.dec_count_chain_rat &lt; -9999.99 then -9999.99
+
+                           else d.dec_count_chain_rat
+                           end
+
+                   else 0 end                                                            as dec_count_chain_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.dec_count_link_rat &gt; 9999.99 then 9999.99
+
+                           when d.dec_count_link_rat &lt; -9999.99 then -9999.99
+
+                           else d.dec_count_link_rat
+                           end
+
+                   else 0 end                                                            as dec_count_link_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.total_count_chain_rat &gt; 9999.99 then 9999.99
+
+                           when d.total_count_chain_rat &lt; -9999.99 then -9999.99
+
+                           else d.total_count_chain_rat
+                           end
+
+                   else 0 end                                                            as total_count_chain_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.total_count_link_rat &gt; 9999.99 then 9999.99
+
+                           when d.total_count_link_rat &lt; -9999.99 then -9999.99
+
+                           else d.total_count_link_rat
+                           end
+
+                   else 0 end                                                            as total_count_link_rat,
+
+               case when d.org_id is not null then d.total_count_share_rat else 0 end    as total_count_share_rat,
+
+               case when d.org_id is not null then d.inc_amount_chain_rat else 0 end     as inc_amount_chain_rat,
+
+               case when d.org_id is not null then d.inc_amount_link_rat else 0 end      as inc_amount_link_rat,
+
+               case when d.org_id is not null then d.net_inc_amount_chain_rat else 0 end as net_inc_amount_chain_rat,
+
+               case when d.org_id is not null then d.net_inc_amount_link_rat else 0 end  as net_inc_amount_link_rat,
+
+               case when d.org_id is not null then d.dec_amount_chain_rat else 0 end     as dec_amount_chain_rat,
+
+               case when d.org_id is not null then d.dec_amount_link_rat else 0 end      as dec_amount_link_rat,
+
+               case when d.org_id is not null then d.total_amount_chain_rat else 0 end   as total_amount_chain_rat,
+
+               case when d.org_id is not null then d.total_amount_link_rat else 0 end    as total_amount_link_rat,
+
+               case when d.org_id is not null then d.total_amount_share_rat else 0 end   as total_amount_share_rat
+
+        from (
+                 select /* + MAPJOIN(s) */
+
+                     s.xnzz_id        as org_id,
+
+                     d.`index`,
+
+                     d.dim1,
+
+                     s.swjg_dm        as dim_data1,
+
+                     d.dim2,
+
+                     d.dim_data2,
+
+                     d.dim3,
+
+                     d.dim_data3
+                         ,
+                     d.is_total_index as is_total_index
+
+                 from (
+                          select swjg_dm, 0 as xnzz_id
+
+                          from bi_dm_swjg
+
+                          where sybz = 1
+
+                            and swjgbz != 2
+
+        and swjg_dm not like '199%'
+
+                          union all
+
+                          select swjg_dm, xnzz_id
+
+                          from bi_dm_swjg
+
+                          where sybz = 1
+
+                            and swjgbz in (1
+                              , 2)
+
+                            and xnzz_id is not null
+                      ) s
+                          join
+
+                      (
+                          select /* + MAPJOIN(d) */
+
+                              d.code           as `index`,
+                              '1001'           as dim1,
+                              ''               as dim2,
+                              ''               as dim_data2,
+                              ''               as dim3,
+                              ''               as dim_data3,
+                              d.is_total_index as
+                                                  is_total_index
+
+                          from bi_dm_index d
+
+                          where d.code in (40040, 40042, 40043, 40044)
+
+                          UNION ALL
+
+                          select /* + MAPJOIN(d) */
+
+                              d.code           as `index`,
+                              '1001'           as dim1,
+                              m.dim_code       as dim2,
+                              m.code           as dim_data2,
+                              ''               as dim3,
+                              ''               as
+                                                  dim_data3,
+                              d.is_total_index as is_total_index
+
+                          from bi_dm_index d
+
+                                   join bi_dm_dim_data m on m.dim_code = '1004' and m.code in ('1', '5')
+
+                          where d.code in ('20010', '20070', '20060', '20040')
+
+                          UNION ALL
+
+                          select /* + MAPJOIN(d) */
+
+                              d.code              as `index`
+                               , '1001'           as dim1
+                               , m.dim_code       as dim2
+                               , m.code           as dim_data2
+                               , ''               as dim3
+                               , ''               as dim_data3
+
+                               , d.is_total_index as is_total_index
+
+                          from bi_dm_index d
+
+                                   join bi_dm_dim_data m on m.dim_code = '1004' and m.code in ('1', '5')
+
+                          where d.code in ('10010', '10020', '10030')
+
+                          UNION ALL
+
+                          select /* + MAPJOIN(d) */
+
+                              d.code           as `index`,
+                              '1001'           as dim1,
+                              m.dim_code       as dim2,
+                              m.code           as dim_data2,
+                              ''               as dim3,
+                              ''               as
+                                                  dim_data3,
+                              d.is_total_index as is_total_index
+
+                          from bi_dm_index d
+
+                                   join bi_dm_dim_data m on m.dim_code = '1005'
+
+                          where d.code in ('40052', '40053', '40054', '40055', '40062', '40066')
+
+                            and m.code in (1, 2)
+
+                          union all
+
+                          select /* + MAPJOIN(d) */
+
+                              d.code           as `index`,
+                              '1001'           as dim1,
+                              '1005'           as dim2,
+                              '1'              as dim_data2,
+                              m.dim_code       as dim3,
+                              m.code           as
+                                                  dim_data3,
+                              d.is_total_index as is_total_index
+
+                          from bi_dm_index d
+
+                                   join bi_dm_dim_data m on m.dim_code = '1011'
+
+                          where d.code in ('40054', '40055', '40062', '40066')
+                      ) d on 1 = 1
+             ) s
+
+                 left outer join bi_index_day d
+                                 on d.org_id = s.org_id
+                                     and d.`index` = s.`index`
+                                     and d.dim1 = s.dim1
+                                     and d.dim_data1 = s.dim_data1
+                                     and d.dim2 = s.dim2
+                                     and d.dim_data2 = s.dim_data2
+                                     and d.dim3 = s.dim3
+                                     and d.dim_data3 = s.dim_data3
+                                     and d.cycle_id = DATE_FORMAT(date_sub(CURRENT_DATE, interval 1 day), '%Y%m%d');
+    </select>
+
+    <select id="getIndexMonthList" resultMap="indexDay">
+        select DATE_FORMAT(date_sub(CURRENT_DATE, interval 1 month), '%Y%m')             as cycle_id,
+
+               DATE_FORMAT(date_sub(CURRENT_DATE, interval 1 month), '%Y%m')             as node_id,
+
+               case when d.org_id is not null then d.org_id else s.org_id end            as org_id,
+
+               case when d.org_id is not null then d.`index` else s.`index` end          as `index`,
+
+               case when d.org_id is not null then d.dim1 else s.dim1 end                as dim1,
+
+               case when d.org_id is not null then d.dim_data1 else s.dim_data1 end      as dim_data1,
+
+               case when d.org_id is not null then d.dim2 else s.dim2 end                as dim2,
+
+               case when d.org_id is not null then d.dim_data2 else s.dim_data2 end      as dim_data2,
+
+               case when d.org_id is not null then d.dim3 else s.dim3 end                as dim3,
+
+               case when d.org_id is not null then d.dim_data3 else s.dim_data3 end      as dim_data3,
+
+               case when d.org_id is not null then d.inc_count else 0 end                as inc_count,
+
+               -- 0 as inc2_count,
+
+               case when d.org_id is not null then d.net_inc_count else 0 end            as net_inc_count,
+
+               case when d.org_id is not null then d.dec_count else 0 end                as dec_count,
+
+               case when d.org_id is not null then d.total_count else 0 end              as total_count,
+
+               case when d.org_id is not null then d.inc_amount else 0 end               as inc_amount,
+
+               case when d.org_id is not null then d.net_inc_amount else 0 end           as net_inc_amount,
+
+               case when d.org_id is not null then d.dec_amount else 0 end               as dec_amount,
+
+               case
+                   when d.org_id is not null then d.total_amount
+                   else
+                       0 end                                                             as total_amount,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.inc_count_chain_rat &gt; 9999.99 then 9999.99
+
+                           when d.inc_count_chain_rat &lt; -9999.99 then -9999.99
+
+                           else d.inc_count_chain_rat
+                           end
+
+                   else 0 end                                                            as inc_count_chain_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.inc_count_link_rat &gt; 9999.99 then 9999.99
+
+                           when d.inc_count_link_rat &lt; -9999.99 then -9999.99
+
+                           else d.inc_count_link_rat
+                           end
+
+                   else 0 end                                                            as inc_count_link_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.net_inc_count_chain_rat &gt; 9999.99 then 9999.99
+
+                           when d.net_inc_count_chain_rat &lt; -9999.99 then -9999.99
+
+                           else d.net_inc_count_chain_rat
+                           end
+
+                   else 0 end                                                            as net_inc_count_chain_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.net_inc_count_link_rat &gt; 9999.99 then 9999.99
+
+                           when d.net_inc_count_link_rat &lt; -9999.99 then -9999.99
+
+                           else d.net_inc_count_link_rat
+                           end
+
+                   else 0 end                                                            as net_inc_count_link_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.dec_count_chain_rat &gt; 9999.99 then 9999.99
+
+                           when d.dec_count_chain_rat &lt; -9999.99 then -9999.99
+
+                           else d.dec_count_chain_rat
+                           end
+
+                   else 0 end                                                            as dec_count_chain_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.dec_count_link_rat &gt; 9999.99 then 9999.99
+
+                           when d.dec_count_link_rat &lt; -9999.99 then -9999.99
+
+                           else d.dec_count_link_rat
+                           end
+
+                   else 0 end                                                            as dec_count_link_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.total_count_chain_rat &gt; 9999.99 then 9999.99
+
+                           when d.total_count_chain_rat &lt; -9999.99 then -9999.99
+
+                           else d.total_count_chain_rat
+                           end
+
+                   else 0 end                                                            as total_count_chain_rat,
+
+               case
+                   when d.org_id is not null then
+                       case
+
+                           when d.total_count_link_rat &gt; 9999.99 then 9999.99
+
+                           when d.total_count_link_rat &lt; -9999.99 then -9999.99
+
+                           else d.total_count_link_rat
+                           end
+
+                   else 0 end                                                            as total_count_link_rat,
+
+               case when d.org_id is not null then d.total_count_share_rat else 0 end    as total_count_share_rat,
+
+               case when d.org_id is not null then d.inc_amount_chain_rat else 0 end     as inc_amount_chain_rat,
+
+               case when d.org_id is not null then d.inc_amount_link_rat else 0 end      as inc_amount_link_rat,
+
+               case when d.org_id is not null then d.net_inc_amount_chain_rat else 0 end as net_inc_amount_chain_rat,
+
+               case when d.org_id is not null then d.net_inc_amount_link_rat else 0 end  as net_inc_amount_link_rat,
+
+               case when d.org_id is not null then d.dec_amount_chain_rat else 0 end     as dec_amount_chain_rat,
+
+               case when d.org_id is not null then d.dec_amount_link_rat else 0 end      as dec_amount_link_rat,
+
+               case when d.org_id is not null then d.total_amount_chain_rat else 0 end   as total_amount_chain_rat,
+
+               case when d.org_id is not null then d.total_amount_link_rat else 0 end    as total_amount_link_rat,
+
+               case when d.org_id is not null then d.total_amount_share_rat else 0 end   as total_amount_share_rat
+
+        from (
+                 select /* + MAPJOIN(s) */
+
+                     s.xnzz_id        as org_id,
+
+                     d.`index`,
+
+                     d.dim1,
+
+                     s.swjg_dm        as dim_data1,
+
+                     d.dim2,
+
+                     d.dim_data2,
+
+                     d.dim3,
+
+                     d.dim_data3
+                         ,
+                     d.is_total_index as is_total_index
+
+                 from (
+                          select swjg_dm, 0 as xnzz_id
+
+                          from bi_dm_swjg
+
+                          where sybz = 1
+
+                            and swjgbz != 2
+
+        and swjg_dm not like '199%'
+
+                          union all
+
+                          select swjg_dm, xnzz_id
+
+                          from bi_dm_swjg
+
+                          where sybz = 1
+
+                            and swjgbz in (1
+                              , 2)
+
+                            and xnzz_id is not null
+                      ) s
+                          join
+
+                      (
+                          select /* + MAPJOIN(d) */
+
+                              d.code           as `index`,
+                              '1001'           as dim1,
+                              ''               as dim2,
+                              ''               as dim_data2,
+                              ''               as dim3,
+                              ''               as dim_data3,
+                              d.is_total_index as
+                                                  is_total_index
+
+                          from bi_dm_index d
+
+                          where d.code in (40040, 40042, 40043, 40044)
+
+                          UNION ALL
+
+                          select /* + MAPJOIN(d) */
+
+                              d.code           as `index`,
+                              '1001'           as dim1,
+                              m.dim_code       as dim2,
+                              m.code           as dim_data2,
+                              ''               as dim3,
+                              ''               as
+                                                  dim_data3,
+                              d.is_total_index as is_total_index
+
+                          from bi_dm_index d
+
+                                   join bi_dm_dim_data m on m.dim_code = '1004' and m.code in ('1', '5')
+
+                          where d.code in ('20010', '20070', '20060', '20040')
+
+                          UNION ALL
+
+                          select /* + MAPJOIN(d) */
+
+                              d.code              as `index`
+                               , '1001'           as dim1
+                               , m.dim_code       as dim2
+                               , m.code           as dim_data2
+                               , ''               as dim3
+                               , ''               as dim_data3
+
+                               , d.is_total_index as is_total_index
+
+                          from bi_dm_index d
+
+                                   join bi_dm_dim_data m on m.dim_code = '1004' and m.code in ('1', '5')
+
+                          where d.code in ('10010', '10020', '10030')
+
+                          UNION ALL
+
+                          select /* + MAPJOIN(d) */
+
+                              d.code           as `index`,
+                              '1001'           as dim1,
+                              m.dim_code       as dim2,
+                              m.code           as dim_data2,
+                              ''               as dim3,
+                              ''               as
+                                                  dim_data3,
+                              d.is_total_index as is_total_index
+
+                          from bi_dm_index d
+
+                                   join bi_dm_dim_data m on m.dim_code = '1005'
+
+                          where d.code in ('40052', '40053', '40054', '40055', '40062', '40066')
+
+                            and m.code in (1, 2)
+
+                          union all
+
+                          select /* + MAPJOIN(d) */
+
+                              d.code           as `index`,
+                              '1001'           as dim1,
+                              '1005'           as dim2,
+                              '1'              as dim_data2,
+                              m.dim_code       as dim3,
+                              m.code           as
+                                                  dim_data3,
+                              d.is_total_index as is_total_index
+
+                          from bi_dm_index d
+
+                                   join bi_dm_dim_data m on m.dim_code = '1011'
+
+                          where d.code in ('40054', '40055', '40062', '40066')
+                      ) d on 1 = 1
+             ) s
+
+                 left outer join bi_index_mon d
+                                 on d.org_id = s.org_id
+                                     and d.`index` = s.`index`
+                                     and d.dim1 = s.dim1
+                                     and d.dim_data1 = s.dim_data1
+                                     and d.dim2 = s.dim2
+                                     and d.dim_data2 = s.dim_data2
+                                     and d.dim3 = s.dim3
+                                     and d.dim_data3 = s.dim_data3
+                                     and d.cycle_id = DATE_FORMAT(date_sub(CURRENT_DATE, interval 1 month), '%Y%m');
+    </select>
 </mapper>
