@@ -1,4 +1,4 @@
-package com.ifugle.rap.data.task;
+package com.ifugle.rap.data.task.sync;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ifugle.rap.bigdata.task.service.BulkTemplateRepository;
@@ -6,8 +6,9 @@ import com.ifugle.rap.elasticsearch.model.DataRequest;
 import com.ifugle.rap.elasticsearch.service.ElasticSearchBusinessService;
 import com.ifugle.rap.service.utils.CompriseUtils;
 import com.ifugle.rap.sqltransform.base.KeySelector;
-import com.ifugle.rap.sqltransform.base.SqlTaskScheduleFactory;
+import com.ifugle.rap.sqltransform.base.BaseSqlTaskScheduleFactory;
 import com.ifugle.rap.sqltransform.base.TransformBase;
+import com.ifugle.rap.sqltransform.entry.BoardIndexDayModel;
 import com.ifugle.rap.sqltransform.entry.IndexDayModel;
 import com.ifugle.rap.sqltransform.entry.SqlEntry;
 import com.ifugle.rap.sqltransform.entry.SqlTask;
@@ -15,7 +16,7 @@ import com.ifugle.rap.sqltransform.keySelector.DayMergeBeforeSelector;
 import com.ifugle.rap.sqltransform.keySelector.Days30MergeBeforeSelector;
 import com.ifugle.rap.sqltransform.keySelector.MergeDayAndMonthKeySelector;
 import com.ifugle.rap.sqltransform.keySelector.MonthMergeBeforeSelector;
-import com.ifugle.rap.sqltransform.specialfiledextractor.SelectSpecialFiledExtractor;
+import com.ifugle.rap.sqltransform.specialfiledextractor.SimpleSelectSpecialFiledExtractor;
 import com.ifugle.rap.sync.service.InnerSyncService;
 import com.ifugle.rap.utils.MD5Util;
 import com.ifugle.rap.utils.SqlTransformDslUtil;
@@ -32,7 +33,7 @@ import java.util.*;
  * @date 2022/1/10 10:43
  */
 @Component
-public class SyncFactory extends SqlTaskScheduleFactory {
+public class SyncFactory extends BaseSqlTaskScheduleFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(SyncFactory.class);
     private static final String selectSql = "select * from {table_name}  where id=\"{id}\"";
     private static final List<IndexDayModel> nowDayTotalList = new ArrayList<>();
@@ -56,6 +57,13 @@ public class SyncFactory extends SqlTaskScheduleFactory {
     private CompriseUtils compriseUtils;
 
     @Override
+    public void runAllTask() throws Exception {
+        init();
+        super.runAllTask();
+        sweepUp();
+    }
+
+    @Override
     public Map<Integer, List<IndexDayModel>> doSearchAndGainResult(SqlTask sqlTask, Queue<TransformBase<String>> transformBases) throws Exception {
         Map<Integer, List<IndexDayModel>> map = new HashMap<>();
         //转换实体类
@@ -65,15 +73,11 @@ public class SyncFactory extends SqlTaskScheduleFactory {
         //dsl请求elasticsearch
         JSONObject resultJsonObj = esTemplateRepository.queryListByDSL(sqlEntry.getFrom().getValue(), dsl, JSONObject::parseObject);
         //结果格式化
-        List<IndexDayModel> formatData = null;
-        try {
-            formatData = SqlTransformDslUtil.getFormatData(
-                    resultJsonObj,
-                    sqlTask.getSpecialFiledExtractorBase(),
-                    sqlTask.getCommonFiledExtractor());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        List<IndexDayModel> formatData;
+        formatData = SqlTransformDslUtil.getFormatData(
+                resultJsonObj,
+                sqlTask.getSpecialFiledExtractorBase(),
+                sqlTask.getCommonFiledExtractor());
         map.put(sqlTask.getTableType(), formatData == null ? new ArrayList<>() : formatData);
         return map;
     }
@@ -119,8 +123,10 @@ public class SyncFactory extends SqlTaskScheduleFactory {
         }
     }
 
-    @Override
-    public void init() throws Exception {
+    /**
+     * 初始化
+     */
+    private void init() throws Exception {
         StringBuilder dslInsert = new StringBuilder(32);
         List<IndexDayModel> indexDayList = innerSyncService.getIndexDayList();
         List<IndexDayModel> index30DaysList = innerSyncService.getIndex30DaysList();
@@ -135,6 +141,9 @@ public class SyncFactory extends SqlTaskScheduleFactory {
         innerSyncService.insertIndexMonth(indexMonthList);
     }
 
+    /**
+     * 批量插入elasticsearch
+     */
     private void batchInsertToElasticsearch(StringBuilder dslInsert, List<IndexDayModel> indexDayModelList, String indexName) throws Exception {
         try {
             Queue<IndexDayModel> indexDayModels = new LinkedList<>(indexDayModelList);
@@ -173,7 +182,7 @@ public class SyncFactory extends SqlTaskScheduleFactory {
             clone.setNodeId(date);
             String indexKey = compriseUtils.getIndexKey(clone);
             String selectSql = SyncFactory.selectSql.replace("{table_name}", indexName).replace("{id}", MD5Util.stringToMD5(indexKey));
-            SqlTask sqlTask = new SqlTask(selectSql, 1, new SelectSpecialFiledExtractor(), null);
+            SqlTask sqlTask = new SqlTask(selectSql, 1, new SimpleSelectSpecialFiledExtractor(), null);
             Map<Integer, List<IndexDayModel>> integerListMap = doSearchAndGainResult(sqlTask, this.baseTransforms);
             beforeListData.addAll(integerListMap.get(1));
             DataRequest request = compriseUtils.IndexDetailDataRequest(formatDatum);
@@ -204,5 +213,19 @@ public class SyncFactory extends SqlTaskScheduleFactory {
             }
         }
         return remain;
+    }
+
+    /**
+     * 扫尾工作
+     */
+    private void sweepUp() throws Exception {
+        try {
+            List<BoardIndexDayModel> boardIndexDayModels = innerSyncService.sweepUp();
+            if (boardIndexDayModels.size() != 0)
+                innerSyncService.insertBoardIndexDay(boardIndexDayModels);
+            LOGGER.info("看板数据插入成功！");
+        } catch (Exception e) {
+            throw new Exception("看板数据插入时发生错误！", e);
+        }
     }
 }

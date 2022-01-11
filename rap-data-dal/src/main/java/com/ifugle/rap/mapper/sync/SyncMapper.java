@@ -1,5 +1,6 @@
 package com.ifugle.rap.mapper.sync;
 
+import com.ifugle.rap.sqltransform.entry.BoardIndexDayModel;
 import com.ifugle.rap.sqltransform.entry.IndexDayModel;
 
 import java.util.List;
@@ -15,9 +16,13 @@ public interface SyncMapper {
 
     void insertIndexMonth(List<IndexDayModel> indexDayModelList);
 
+    void insertBoardIndexDay(List<BoardIndexDayModel> indexDayModelList);
+
     List<IndexDayModel> getIndexDayList();
 
     List<IndexDayModel> getIndex30DaysList();
 
     List<IndexDayModel> getIndexMonthList();
+
+    List<BoardIndexDayModel> sweepUp();
 }

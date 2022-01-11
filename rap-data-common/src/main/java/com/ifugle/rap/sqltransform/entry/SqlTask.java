@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ifugle.rap.sqltransform.base.CommonFiledExtractorBase;
 import com.ifugle.rap.sqltransform.base.SpecialFiledExtractorBase;
 import com.ifugle.rap.sqltransform.commonfiledextractor.CommonFiledExtractor;
-import com.ifugle.rap.sqltransform.specialfiledextractor.AggregationSpecialFiledExtractor;
+import com.ifugle.rap.sqltransform.specialfiledextractor.SingleAggregationSpecialFiledExtractor;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class SqlTask {
         return specialFiledExtractorBase;
     }
 
-    public void setSpecialFiledExtractorBase(AggregationSpecialFiledExtractor specialFiledExtractorBase) {
+    public void setSpecialFiledExtractorBase(SingleAggregationSpecialFiledExtractor specialFiledExtractorBase) {
         this.specialFiledExtractorBase = specialFiledExtractorBase;
     }
 

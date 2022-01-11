@@ -9,7 +9,7 @@ import com.ifugle.rap.sqltransform.entry.SqlEntry;
 import com.ifugle.rap.sqltransform.base.TransformBase;
 import com.ifugle.rap.sqltransform.entry.SqlTask;
 import com.ifugle.rap.sqltransform.entry.TimeCondition;
-import com.ifugle.rap.sqltransform.specialfiledextractor.AggregationSpecialFiledExtractor;
+import com.ifugle.rap.sqltransform.specialfiledextractor.SingleAggregationSpecialFiledExtractor;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,7 +29,7 @@ public class SqlTransformDslUtil {
      * @param day                              是否查询day
      * @param days30                           是否查询30day
      * @param month                            是否按照month查询
-     * @param aggregationSpecialFiledExtractor 特殊字段提取集合，数量和公共字段集合保持一致
+     * @param singleAggregationSpecialFiledExtractor 特殊字段提取集合，数量和公共字段集合保持一致
      * @param commonFiledExtractors            公共字段提取集合，数量和特殊字段集合保持一致
      * @throws Exception 异常
      */
@@ -37,18 +37,18 @@ public class SqlTransformDslUtil {
                                                Boolean day,
                                                Boolean days30,
                                                Boolean month,
-                                               List<AggregationSpecialFiledExtractor> aggregationSpecialFiledExtractor,
+                                               List<SingleAggregationSpecialFiledExtractor> singleAggregationSpecialFiledExtractor,
                                                List<CommonFiledExtractor> commonFiledExtractors,
                                                String timeFiled) throws Exception {
         sql = sql.toLowerCase(Locale.ROOT);
         List<SqlTask> sqls = new ArrayList<>();
-        for (int i = 0; i < Math.max(commonFiledExtractors.size(), aggregationSpecialFiledExtractor.size()); i++) {
+        for (int i = 0; i < Math.max(commonFiledExtractors.size(), singleAggregationSpecialFiledExtractor.size()); i++) {
             if (day) {
                 TimeCondition dayCondition = TimeCondition.valueOf("day");
                 sqls.add(new SqlTask(
                                 sql.replace("{time_condition}", dayCondition.getCondition()),
                                 dayCondition.getTableType(),
-                                aggregationSpecialFiledExtractor.get(i),
+                                singleAggregationSpecialFiledExtractor.get(i),
                                 commonFiledExtractors.get(i)
                         )
                 );
@@ -61,7 +61,7 @@ public class SqlTransformDslUtil {
                 sqls.add(new SqlTask(
                                 sql.replace("{time_condition}", days30Condition.getCondition().replace("{time}", date).replace("{time_filed}", timeFiled)),
                                 days30Condition.getTableType(),
-                                aggregationSpecialFiledExtractor.get(i),
+                                singleAggregationSpecialFiledExtractor.get(i),
                                 commonFiledExtractors.get(i)
                         )
                 );
@@ -74,7 +74,7 @@ public class SqlTransformDslUtil {
                 sqls.add(new SqlTask(
                                 sql.replace("{time_condition}", monthCondition.getCondition().replace("{time}", time).replace("{time_filed}", timeFiled)),
                                 monthCondition.getTableType(),
-                                aggregationSpecialFiledExtractor.get(i),
+                                singleAggregationSpecialFiledExtractor.get(i),
                                 commonFiledExtractors.get(i)
                         )
                 );

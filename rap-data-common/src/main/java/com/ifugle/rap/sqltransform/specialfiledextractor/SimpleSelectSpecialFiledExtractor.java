@@ -12,7 +12,7 @@ import java.util.List;
  * @author Minc
  * @date 2022/1/4 10:46
  */
-public class SelectSpecialFiledExtractor implements SpecialFiledExtractorBase<JSONObject, List<IndexDayModel>> {
+public class SimpleSelectSpecialFiledExtractor implements SpecialFiledExtractorBase<JSONObject, List<IndexDayModel>> {
 
     @Override
     public List<IndexDayModel> getFormatData(JSONObject jsonObject) throws Exception {

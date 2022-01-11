@@ -1,6 +1,7 @@
 package com.ifugle.rap.sync.service;
 
 import com.ifugle.rap.mapper.sync.SyncMapper;
+import com.ifugle.rap.sqltransform.entry.BoardIndexDayModel;
 import com.ifugle.rap.sqltransform.entry.IndexDayModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,11 @@ public class InnerSyncServiceImpl implements InnerSyncService {
     }
 
     @Override
+    public void insertBoardIndexDay(List<BoardIndexDayModel> boardIndexDayModels) throws Exception {
+        syncMapper.insertBoardIndexDay(boardIndexDayModels);
+    }
+
+    @Override
     public List<IndexDayModel> getIndexDayList() throws Exception {
         return syncMapper.getIndexDayList();
     }
@@ -45,5 +51,10 @@ public class InnerSyncServiceImpl implements InnerSyncService {
     @Override
     public List<IndexDayModel> getIndexMonthList() throws Exception {
         return syncMapper.getIndexMonthList();
+    }
+
+    @Override
+    public List<BoardIndexDayModel> sweepUp() throws Exception {
+        return syncMapper.sweepUp();
     }
 }

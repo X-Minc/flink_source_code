@@ -40,6 +40,17 @@
         <result property="totalAmountShareRat" column="total_amount_share_rat"/>
     </resultMap>
 
+    <resultMap id="BoardIndexDay" type="com.ifugle.rap.sqltransform.entry.BoardIndexDayModel">
+        <id property="cycleId" column="cycle_id"/>
+        <id property="xnzzId" column="xnzz_id"/>
+        <id property="swjg_dm" column="swjg_dm"/>
+        <result property="nodeId" column="node_id"/>
+        <result property="userActiveRate" column="user_active_rate"/>
+        <result property="nsrActiveRate" column="nsr_active_rate"/>
+        <result property="nsrActiveRateIndividual" column="nsr_active_rate_individual"/>
+        <result property="nsrActiveRateQy" column="nsr_active_rate_qy"/>
+    </resultMap>
+
     <insert id="insertIndexDay" parameterType="com.ifugle.rap.sqltransform.entry.IndexDayModel">
         replace into bi_index_day
         (
@@ -287,6 +298,32 @@
             #{item.totalAmountChainRat},
             #{item.totalAmountLinkRat},
             #{item.totalAmountShareRat}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertBoardIndexDay" parameterType="com.ifugle.rap.sqltransform.entry.BoardIndexDayModel">
+        replace into bi_board_index_day (
+        cycle_id,
+        node_id,
+        xnzz_id,
+        swjg_dm,
+        user_active_rate,
+        nsr_active_rate,
+        nsr_active_rate_individual,
+        nsr_active_rate_qy
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.cycleId},
+            #{item.nodeId},
+            #{item.xnzzId},
+            #{item.swjg_dm},
+            #{item.userActiveRate},
+            #{item.nsrActiveRate},
+            #{item.nsrActiveRateIndividual},
+            #{item.nsrActiveRateQy}
             )
         </foreach>
     </insert>
@@ -1252,5 +1289,82 @@
                                      and d.dim3 = s.dim3
                                      and d.dim_data3 = s.dim_data3
                                      and d.cycle_id = DATE_FORMAT(date_sub(CURRENT_DATE, interval 1 month), '%Y%m');
+    </select>
+
+    <select id="sweepUp" resultMap="BoardIndexDay">
+        select a.cycle_id,
+               a.node_id,
+               a.xnzz_id,
+               a.swjg_dm,
+               if(`user` = 0, 0, ifnull(user_active / `user`, 0))    as user_active_rate,
+               if(nsr = 0, 0, ifnull(nsr_active / nsr, 0))           as nsr_active_rate,
+               if(nsr_individual = 0, 0,
+                  ifnull(nsr_active_individual / nsr_individual, 0)) as nsr_active_rate_individual,
+               if(nsr_qy = 0, 0, ifnull(nsr_active_qy / nsr_qy, 0))  as nsr_active_rate_qy
+        from (
+                 select cycle_id,
+                        node_id,
+                        org_id                         as xnzz_id,
+                        dim_data1                      as swjg_dm,
+                        ifnull(sum(case
+                                       when `index` = '10010' and dim_data2 = '5' and dim_data3 = '' then total_count
+                                       else 0 end), 0) as `user`,
+                        ifnull(sum(case
+                                       when `index` = '10010' and dim_data2 = '1' and dim_data3 = '' then total_count
+                                       else 0 end), 0) as user_active,
+                        ifnull(sum(case
+                                       when `index` = '20010' and dim_data2 = '5' and dim_data3 = '' then total_count
+                                       else 0 end), 0) as nsr,
+                        ifnull(sum(case
+                                       when `index` = '20010' and dim_data2 = '1' and dim_data3 = '' then total_count
+                                       else 0 end), 0) as nsr_active,
+                        ifnull(sum(case
+                                       when `index` = '20040' and dim_data2 = '5' and dim_data3 = '' then total_count
+                                       else 0 end), 0) as nsr_individual,
+                        ifnull(sum(case
+                                       when `index` = '20040' and dim_data2 = '1' and dim_data3 = '' then total_count
+                                       else 0 end), 0) as nsr_active_individual,
+                        ifnull(sum(case
+                                       when `index` = '40062' and dim_data2 = '1' and dim_data3 = '' then inc_count
+                                       else 0 end), 0) as nsr_push_msg_month,
+                        ifnull(sum(case
+                                       when `index` = '40062' and dim_data2 = '2' and dim_data3 = '' then inc_count
+                                       else 0 end), 0) as nsr_data_collect_month,
+                        ifnull(sum(case
+                                       when `index` = '40062' and dim_data2 = '3' and dim_data3 = '' then inc_count
+                                       else 0 end), 0) as nsr_data_check_month,
+                        ifnull(sum(case
+                                       when `index` = '20060' and dim_data2 = '5' and dim_data3 = '' then total_count
+                                       else 0 end), 0) as nsr_unknown_type,
+                        ifnull(sum(case
+                                       when `index` = '20060' and dim_data2 = '1' and dim_data3 = '' then total_count
+                                       else 0 end), 0) as nsr_active_unknown_type,
+                        ifnull(sum(case
+                                       when `index` = '20070' and dim_data2 = '5' and dim_data3 = '' then total_count
+                                       else 0 end), 0) as nsr_qy,
+                        ifnull(sum(case
+                                       when `index` = '20070' and dim_data2 = '1' and dim_data3 = '' then total_count
+                                       else 0 end), 0) as nsr_active_qy,
+                        ifnull(sum(case
+                                       when `index` = '40040' and dim_data2 = '' and dim_data3 = '' then total_count
+                                       else 0 end), 0) as `group`,
+                        ifnull(sum(case
+                                       when `index` = '40042' and dim_data2 = '' and dim_data3 = '' then total_count
+                                       else 0 end), 0) as group_user_distinct,
+                        ifnull(sum(case
+                                       when `index` = '40043' and dim_data2 = '' and dim_data3 = '' then total_count
+                                       else 0 end), 0) as group_nsr,
+                        ifnull(sum(case
+                                       when `index` = '40044' and dim_data2 = '' and dim_data3 = '' then total_count
+                                       else 0 end), 0) as group_nsr_general
+                 from bi_index_day
+                 where cycle_id = 20220105
+                   AND dim1 = '1001'
+                   AND `INDEX` IN
+                       ('10010', '20010', '20040', '40062', '20060', '20070', '40040', '40042', '40043', '40044')
+                   AND dim_data2 IN ('1', '5', '')
+                   AND dim3 = ''
+                 group by org_id, dim_data1
+             ) a
     </select>
 </mapper>

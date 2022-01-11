@@ -12,10 +12,10 @@ import java.util.List;
  * @author Minc
  * @date 2022/1/4 10:46
  */
-public class AggregationSpecialFiledExtractor implements SpecialFiledExtractorBase<JSONObject, List<IndexDayModel>> {
-    private DealWithMid dealWithMid;
+public class SingleAggregationSpecialFiledExtractor implements SpecialFiledExtractorBase<JSONObject, List<IndexDayModel>> {
+    private final DealWithMid dealWithMid;
 
-    public AggregationSpecialFiledExtractor(DealWithMid dealWithMid) {
+    public SingleAggregationSpecialFiledExtractor(DealWithMid dealWithMid) {
         this.dealWithMid = dealWithMid;
     }
 
@@ -41,7 +41,6 @@ public class AggregationSpecialFiledExtractor implements SpecialFiledExtractorBa
         @Override
         public void dealWith(IndexDayModel indexDayModel, JSONObject data) {
             Integer idCount = data.getJSONObject("count").getInteger("value");
-            Integer xnzzId = data.getJSONObject("key").getInteger("xnzz_id");
             String swjgDm = data.getJSONObject("key").getString("swjg_dms");
             if (idCount != null)
                 indexDayModel.setIncCount(idCount);
@@ -72,7 +71,6 @@ public class AggregationSpecialFiledExtractor implements SpecialFiledExtractorBa
         @Override
         public void dealWith(IndexDayModel indexDayModel, JSONObject data) {
             Integer idCount = data.getJSONObject("count").getInteger("value");
-            Integer xnzzId = data.getJSONObject("key").getInteger("xnzz_id");
             String swjgDm = data.getJSONObject("key").getString("swjg_dms");
             if (idCount != null)
                 indexDayModel.setTotalCount(idCount);

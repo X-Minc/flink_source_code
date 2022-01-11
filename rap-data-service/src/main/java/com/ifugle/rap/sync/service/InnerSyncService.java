@@ -1,5 +1,6 @@
 package com.ifugle.rap.sync.service;
 
+import com.ifugle.rap.sqltransform.entry.BoardIndexDayModel;
 import com.ifugle.rap.sqltransform.entry.IndexDayModel;
 
 import java.util.List;
@@ -15,9 +16,13 @@ public interface InnerSyncService {
 
     void insertIndexMonth(List<IndexDayModel> indexDayModelList) throws Exception;
 
+    void insertBoardIndexDay(List<BoardIndexDayModel> boardIndexDayModels) throws Exception;
+
     List<IndexDayModel> getIndexDayList() throws Exception;
 
     List<IndexDayModel> getIndex30DaysList() throws Exception;
 
     List<IndexDayModel> getIndexMonthList() throws Exception;
+
+    List<BoardIndexDayModel> sweepUp() throws Exception;
 }

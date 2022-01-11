@@ -10,7 +10,7 @@ import java.util.*;
  * @author Minc
  * @date 2022/1/10 9:40
  */
-public abstract class SqlTaskScheduleFactory {
+public abstract class BaseSqlTaskScheduleFactory {
     protected Queue<TransformBase<String>> baseTransforms = new LinkedList<>();
     protected Queue<SqlTask> sqlTaskQueue = new LinkedList<>();
 
@@ -72,15 +72,10 @@ public abstract class SqlTaskScheduleFactory {
      */
     public abstract void dealWithResult(Map<Integer, List<IndexDayModel>> map) throws Exception;
 
-    /**
-     * 初始化
-     */
-    public abstract void init() throws Exception;
 
     //运行
     public void runAllTask() throws Exception {
         SqlTask sqlTask = null;
-        init();
         while ((sqlTask = sqlTaskQueue.poll()) != null) {
             Map<Integer, List<IndexDayModel>> integerListMap = doSearchAndGainResult(sqlTask, baseTransforms);
             dealWithResult(integerListMap);
