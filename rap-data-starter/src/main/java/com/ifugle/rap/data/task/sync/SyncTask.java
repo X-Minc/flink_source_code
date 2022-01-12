@@ -75,8 +75,9 @@ public class SyncTask {
                     nsrIndex20040_5(),
                     nsrIndex20010_5(),
                     nsrIndex20010_1(),
-                    qzIndex40042(),
+                    qzIndex40044(),
                     qzIndex40043(),
+                    qzIndex40042(),
                     qzIndex40040()
             );
             syncFactory.runAllTask();
@@ -622,6 +623,23 @@ public class SyncTask {
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
                 .setIndex("40043")
+                .setDim1("1001");
+        /*----------------------------------------------action-----------------------------------------------*/
+        //组织
+        return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, true, "cjsj");
+    }
+
+    /**
+     * 群组—40044 群组一般纳税人数（户）
+     */
+    private List<SqlTask> qzIndex40044() throzws Exception {
+        //组织
+        String selfSql = "select xnzz_id,swjg_dm,count(nsr_id) from bigdata_yhzx_qz_cy where qlx=2 and is_deleted=0 and swjgbz in (1,2) and zzsnslx=1 {time_condition} group by xnzz_id,swjg_dm limit 0 glimit 100000";
+        String superiorSql = "select xnzz_id,swjg_dms,count(nsr_id) from bigdata_yhzx_qz_cy where qlx=2 and is_deleted=0 and swjgbz in (1,2) and zzsnslx=1 {time_condition} group by xnzz_id,swjg_dms limit 0 glimit 100000";
+        //通用字段提取
+        CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
+                .builder()
+                .setIndex("40044")
                 .setDim1("1001");
         /*----------------------------------------------action-----------------------------------------------*/
         //组织
