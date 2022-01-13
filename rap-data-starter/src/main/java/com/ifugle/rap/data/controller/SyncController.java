@@ -16,7 +16,8 @@ import java.util.Map;
  * @author Minc
  * @date 2022/1/12 17:40
  */
-@RestController(value = "/sync")
+@RestController
+@RequestMapping(value = "/sync")
 public class SyncController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SyncController.class);
 
