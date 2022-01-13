@@ -20,7 +20,7 @@ package org.apache.flink.runtime.jobgraph;
 
 import java.util.Objects;
 
-/** An ID for physical instance of the operator. */
+/** 操作员的物理实例的 ID。*/
 public class OperatorInstanceID {
 
     private final int subtaskId;

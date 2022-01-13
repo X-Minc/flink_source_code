@@ -39,8 +39,7 @@ import java.util.Map;
 import static org.apache.flink.util.Preconditions.checkNotNull;
 
 /**
- * A container for {@link InputFormat InputFormats} and {@link OutputFormat OutputFormats}, along
- * with their {@link Configuration}.
+ * {@link InputFormat InputFormats} 和 {@link OutputFormat OutputFormats} 及其 {@link Configuration} 的容器。
  */
 public class InputOutputFormatContainer {
 
@@ -180,7 +179,7 @@ public class InputOutputFormatContainer {
     }
 
     /**
-     * Container for multiple wrappers containing {@link InputFormat} and {@link OutputFormat} code.
+     * 包含 {@link InputFormat} 和 {@link OutputFormat} 代码的多个包装器的容器。
      */
     public static class FormatUserCodeTable implements Serializable {
 

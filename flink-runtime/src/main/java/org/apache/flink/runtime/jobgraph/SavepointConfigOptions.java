@@ -23,11 +23,11 @@ import org.apache.flink.configuration.ConfigOption;
 
 import static org.apache.flink.configuration.ConfigOptions.key;
 
-/** The {@link ConfigOption configuration options} used when restoring from a savepoint. */
+/** 从保存点恢复时使用的 {@link ConfigOption 配置选项}。 */
 @PublicEvolving
 public class SavepointConfigOptions {
 
-    /** The path to a savepoint that will be used to bootstrap the pipeline's state. */
+    /** 将用于引导管道状态的保存点的路径。*/
     public static final ConfigOption<String> SAVEPOINT_PATH =
             key("execution.savepoint.path")
                     .stringType()

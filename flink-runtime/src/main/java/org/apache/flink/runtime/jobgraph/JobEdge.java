@@ -23,49 +23,47 @@ import org.apache.flink.runtime.io.network.api.writer.SubtaskStateMapper;
 import static org.apache.flink.util.Preconditions.checkNotNull;
 
 /**
- * This class represent edges (communication channels) in a job graph. The edges always go from an
- * intermediate result partition to a job vertex. An edge is parametrized with its {@link
- * DistributionPattern}.
+ * 此类表示作业图中的边（通信通道）。
+ * 边总是从中间结果分区到作业顶点。
+ * 一条边用它的形状参数化 {@link DistributionPattern}.
  */
 public class JobEdge implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** The vertex connected to this edge. */
+    /** 连接到此边的顶点。 */
     private final JobVertex target;
 
-    /** The distribution pattern that should be used for this job edge. */
+    /** 应用于此作业边缘的分布模式。 */
     private final DistributionPattern distributionPattern;
 
-    /** The channel rescaler that should be used for this job edge on downstream side. */
+    /** 应用于下游侧此作业边缘的通道重缩放器。 */
     private SubtaskStateMapper downstreamSubtaskStateMapper = SubtaskStateMapper.ROUND_ROBIN;
 
-    /** The channel rescaler that should be used for this job edge on upstream side. */
+    /** 应用于上游侧此作业边缘的通道重缩放器。 */
     private SubtaskStateMapper upstreamSubtaskStateMapper = SubtaskStateMapper.ROUND_ROBIN;
 
-    /** The data set at the source of the edge, may be null if the edge is not yet connected. */
+    /** 如果边缘尚未连接，则边缘源处的数据集可能为空。 */
     private IntermediateDataSet source;
 
-    /** The id of the source intermediate data set. */
+    /** 源中间数据集的id。 */
     private IntermediateDataSetID sourceId;
 
     /**
-     * Optional name for the data shipping strategy (forward, partition hash, rebalance, ...), to be
-     * displayed in the JSON plan.
+     * 数据传送策略的可选名称（转发、分区哈希、重新平衡等），将显示在JSON计划中。
      */
     private String shipStrategyName;
 
     /**
-     * Optional name for the pre-processing operation (sort, combining sort, ...), to be displayed
-     * in the JSON plan.
+     * 预处理操作（排序、组合排序等）的可选名称，将显示在JSON计划中。
      */
     private String preProcessingOperationName;
 
-    /** Optional description of the caching inside an operator, to be displayed in the JSON plan. */
+    /** 操作符内部缓存的可选描述，将显示在JSON计划中。 */
     private String operatorLevelCachingDescription;
 
     /**
-     * Constructs a new job edge, that connects an intermediate result to a consumer task.
+     * 构造一个新的作业边缘，将中间结果连接到使用者任务。
      *
      * @param source The data set that is at the source of this edge.
      * @param target The operation that is at the target of this edge.
@@ -83,8 +81,7 @@ public class JobEdge implements java.io.Serializable {
     }
 
     /**
-     * Constructs a new job edge that refers to an intermediate result via the Id, rather than
-     * directly through the intermediate data set structure.
+     * 构造一个新的作业边缘，该边缘通过Id引用中间结果，而不是直接通过中间数据集结构。
      *
      * @param sourceId The id of the data set that is at the source of this edge.
      * @param target The operation that is at the target of this edge.
@@ -103,8 +100,7 @@ public class JobEdge implements java.io.Serializable {
     }
 
     /**
-     * Returns the data set at the source of the edge. May be null, if the edge refers to the source
-     * via an ID and has not been connected.
+     * 返回边缘源处的数据集。如果边缘通过ID引用源并且尚未连接，则可能为空。
      *
      * @return The data set at the source of the edge
      */

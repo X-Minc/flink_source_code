@@ -32,7 +32,7 @@ import java.util.Map;
 import static org.apache.flink.util.Preconditions.checkNotNull;
 import static org.apache.flink.util.Preconditions.checkState;
 
-/** Class that manages all the connections between tasks. */
+/** 管理任务之间所有连接的类。*/
 public class EdgeManager {
 
     private final Map<IntermediateResultPartitionID, List<ConsumerVertexGroup>> partitionConsumers =
@@ -44,6 +44,7 @@ public class EdgeManager {
     private final Map<IntermediateResultPartitionID, List<ConsumedPartitionGroup>>
             consumedPartitionsById = new HashMap<>();
 
+    //将下游消费者顶点加入上有分区的消费数组，
     public void connectPartitionWithConsumerVertexGroup(
             IntermediateResultPartitionID resultPartitionId,
             ConsumerVertexGroup consumerVertexGroup) {

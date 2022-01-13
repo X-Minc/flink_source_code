@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Builder for the {@link JobGraph}. */
+/**{@link JobGraph} 的构建器。*/
 public class JobGraphBuilder {
 
     private final JobType jobType;

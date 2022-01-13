@@ -33,13 +33,11 @@ import java.util.stream.Collectors;
 public class EdgeManagerBuildUtil {
 
     /**
-     * Calculate the connections between {@link ExecutionJobVertex} and {@link IntermediateResult} *
-     * based on the {@link DistributionPattern}.
+     * 根据 {@link DistributionPattern} 计算 {@link ExecutionJobVertex} 和 {@link IntermediateResult} 之间的连接。
      *
-     * @param vertex the downstream consumer {@link ExecutionJobVertex}
-     * @param intermediateResult the upstream consumed {@link IntermediateResult}
-     * @param distributionPattern the {@link DistributionPattern} of the edge that connects the
-     *     upstream {@link IntermediateResult} and the downstream {@link IntermediateResult}
+     * @param vertex 下游消费者 {@link ExecutionJobVertex}
+     * @param intermediateResult 上游消费的 {@link IntermediateResult}
+     * @param distributionPattern 连接上游 {@link IntermediateResult} 和下游 {@link IntermediateResult} 的边的 {@link DistributionPattern}
      */
     static void connectVertexToResult(
             ExecutionJobVertex vertex,

@@ -99,7 +99,8 @@ public class ExecutionJobVertex
 
     private final SlotSharingGroup slotSharingGroup;
 
-    @Nullable private final CoLocationGroup coLocationGroup;
+    @Nullable
+    private final CoLocationGroup coLocationGroup;
 
     private final InputSplit[] inputSplits;
 
@@ -407,9 +408,7 @@ public class ExecutionJobVertex
                 }
             }
 
-            // fetch the intermediate result via ID. if it does not exist, then it either has not
-            // been created, or the order
-            // in which this method is called for the job vertices is not a topological order
+            // 通过 ID 获取中间结果。如果它不存在，那么它要么尚未创建，要么为作业顶点调用此方法的顺序不是拓扑顺序
             IntermediateResult ires = intermediateDataSets.get(edge.getSourceId());
             if (ires == null) {
                 throw new JobException(
@@ -427,7 +426,7 @@ public class ExecutionJobVertex
     //  Actions
     // ---------------------------------------------------------------------------------------------
 
-    /** Cancels all currently running vertex executions. */
+    /** 取消所有当前正在运行的顶点执行。 */
     public void cancel() {
         for (ExecutionVertex ev : getTaskVertices()) {
             ev.cancel();
@@ -503,8 +502,9 @@ public class ExecutionJobVertex
      * on.
      *
      * @param verticesPerState The number of vertices in each state (indexed by the ordinal of the
-     *     ExecutionState values).
+     *         ExecutionState values).
      * @param parallelism The parallelism of the ExecutionJobVertex
+     *
      * @return The aggregate state of this ExecutionJobVertex.
      */
     public static ExecutionState getAggregateJobVertexState(

@@ -22,7 +22,7 @@ import org.apache.flink.runtime.jobgraph.DistributionPattern;
 import org.apache.flink.runtime.jobgraph.JobEdge;
 import org.apache.flink.runtime.jobgraph.JobVertexID;
 
-/** Default implementation of {@link LogicalEdge}. It is an adapter of {@link JobEdge}. */
+/** {@link LogicalEdge} 的默认实现。它是 {@link JobEdge} 的适配器。*/
 public class DefaultLogicalEdge implements LogicalEdge {
 
     private final DistributionPattern distributionPattern;

@@ -40,7 +40,7 @@ import java.util.List;
 
 import static org.apache.flink.util.Preconditions.checkNotNull;
 
-/** The base class for job vertexes. */
+/** 作业顶点的基类。 */
 public class JobVertex implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,10 +57,9 @@ public class JobVertex implements java.io.Serializable {
     private final JobVertexID id;
 
     /**
-     * The IDs of all operators contained in this vertex.
+     * 此顶点中包含的所有运算符的 ID。
      *
-     * <p>The ID pairs are stored depth-first post-order; for the forking chain below the ID's would
-     * be stored as [D, E, B, C, A].
+     * <p>ID 对以深度优先的后序存储；对于 ID 下方的分叉链，将存储为 [D, E, B, C, A]。
      *
      * <pre>
      *  A - B - D
@@ -68,84 +67,81 @@ public class JobVertex implements java.io.Serializable {
      *    C    E
      * </pre>
      *
-     * <p>This is the same order that operators are stored in the {@code StreamTask}.
+     * <p>这与运算符在 {@code StreamTask} 中的存储顺序相同。
      */
     private final List<OperatorIDPair> operatorIDs;
 
-    /** List of produced data sets, one per writer. */
+    /** 生成的数据集列表，每个作者一个。 */
     private final ArrayList<IntermediateDataSet> results = new ArrayList<>();
 
-    /** List of edges with incoming data. One per Reader. */
+    /** 带有传入数据的边列表。每个读者一个。 */
     private final ArrayList<JobEdge> inputs = new ArrayList<>();
 
-    /** The list of factories for operator coordinators. */
+    /** 操作员协调员的工厂列表。 */
     private final ArrayList<SerializedValue<OperatorCoordinator.Provider>> operatorCoordinators =
             new ArrayList<>();
 
-    /** Number of subtasks to split this task into at runtime. */
+    /** 在运行时将此任务拆分为的子任务数。 */
     private int parallelism = ExecutionConfig.PARALLELISM_DEFAULT;
 
-    /** Maximum number of subtasks to split this task into a runtime. */
+    /** 将此任务拆分为运行时的最大子任务数。 */
     private int maxParallelism = MAX_PARALLELISM_DEFAULT;
 
-    /** The minimum resource of the vertex. */
+    /** 顶点的最小资源。 */
     private ResourceSpec minResources = ResourceSpec.DEFAULT;
 
-    /** The preferred resource of the vertex. */
+    /** 顶点的首选资源。 */
     private ResourceSpec preferredResources = ResourceSpec.DEFAULT;
 
-    /** Custom configuration passed to the assigned task at runtime. */
+    /** 自定义配置在运行时传递给分配的任务。 */
     private Configuration configuration;
 
-    /** The class of the invokable. */
+    /** 可调用的类。 */
     private String invokableClassName;
 
-    /** Indicates of this job vertex is stoppable or not. */
+    /** 指示此作业顶点是否可停止。 */
     private boolean isStoppable = false;
 
     /** Optionally, a source of input splits. */
     private InputSplitSource<?> inputSplitSource;
 
     /**
-     * The name of the vertex. This will be shown in runtime logs and will be in the runtime
-     * environment.
+     * 顶点的名称。这将显示在运行时日志中，并将在运行时环境中。
      */
     private String name;
 
     /**
-     * Optionally, a sharing group that allows subtasks from different job vertices to run
-     * concurrently in one slot.
+     * 可选地，允许来自不同作业顶点的子任务在一个槽中同时运行的共享组。
      */
-    @Nullable private SlotSharingGroup slotSharingGroup;
+    @Nullable
+    private SlotSharingGroup slotSharingGroup;
 
-    /** The group inside which the vertex subtasks share slots. */
-    @Nullable private CoLocationGroupImpl coLocationGroup;
+    /** 顶点子任务共享槽的组。 */
+    @Nullable
+    private CoLocationGroupImpl coLocationGroup;
 
     /**
-     * Optional, the name of the operator, such as 'Flat Map' or 'Join', to be included in the JSON
-     * plan.
+     * 可选，要包含在 JSON 计划中的运算符的名称，例如“平面地图”或“加入”。
      */
     private String operatorName;
 
     /**
-     * Optional, the description of the operator, like 'Hash Join', or 'Sorted Group Reduce', to be
-     * included in the JSON plan.
+     * 可选，运算符的描述，如“Hash Join”或“Sorted Group Reduce”，将包含在 JSON 计划中。
      */
     private String operatorDescription;
 
-    /** Optional, pretty name of the operator, to be displayed in the JSON plan. */
+    /** 可选的，漂亮的操作员名称，将显示在 JSON 计划中。 */
     private String operatorPrettyName;
 
     /**
-     * Optional, the JSON for the optimizer properties of the operator result, to be included in the
-     * JSON plan.
+     * 可选，运算符结果的优化器属性的 JSON，将包含在 JSON 计划中。
      */
     private String resultOptimizerProperties;
 
     // --------------------------------------------------------------------------------------------
 
     /**
-     * Constructs a new job vertex and assigns it with the given name.
+     * 构造一个新的作业顶点并为其分配给定的名称。
      *
      * @param name The name of the new job vertex.
      */
@@ -154,7 +150,7 @@ public class JobVertex implements java.io.Serializable {
     }
 
     /**
-     * Constructs a new job vertex and assigns it with the given name.
+     * 构造一个新的作业顶点并为其分配给定的名称。
      *
      * @param name The name of the new job vertex.
      * @param id The id of the job vertex.
@@ -168,7 +164,7 @@ public class JobVertex implements java.io.Serializable {
     }
 
     /**
-     * Constructs a new job vertex and assigns it with the given name.
+     * 构造一个新的作业顶点并为其分配给定的名称。
      *
      * @param name The name of the new job vertex.
      * @param primaryId The id of the job vertex.
@@ -183,7 +179,7 @@ public class JobVertex implements java.io.Serializable {
     // --------------------------------------------------------------------------------------------
 
     /**
-     * Returns the ID of this job vertex.
+     * 返回此作业顶点的 ID。
      *
      * @return The ID of this job vertex
      */
@@ -259,9 +255,10 @@ public class JobVertex implements java.io.Serializable {
     }
 
     /**
-     * Returns the invokable class which represents the task of this vertex.
+     * 返回代表此顶点任务的可调用类。
      *
      * @param cl The classloader used to resolve user-defined classes
+     *
      * @return The invokable class, <code>null</code> if it is not set
      */
     public Class<? extends TaskInvokable> getInvokableClass(ClassLoader cl) {
@@ -316,7 +313,7 @@ public class JobVertex implements java.io.Serializable {
      * Sets the maximum parallelism for the task.
      *
      * @param maxParallelism The maximum parallelism to be set. must be between 1 and
-     *     Short.MAX_VALUE.
+     *         Short.MAX_VALUE.
      */
     public void setMaxParallelism(int maxParallelism) {
         this.maxParallelism = maxParallelism;
@@ -422,9 +419,10 @@ public class JobVertex implements java.io.Serializable {
      * means that the respective vertex must be a (transitive) input of this vertex.
      *
      * @param strictlyCoLocatedWith The vertex whose subtasks to co-locate this vertex's subtasks
-     *     with.
+     *         with.
+     *
      * @throws IllegalArgumentException Thrown, if this vertex and the vertex to co-locate with are
-     *     not in a common slot sharing group.
+     *         not in a common slot sharing group.
      * @see #setSlotSharingGroup(SlotSharingGroup)
      */
     public void setStrictlyCoLocatedWith(JobVertex strictlyCoLocatedWith) {
@@ -530,18 +528,21 @@ public class JobVertex implements java.io.Serializable {
      * when the job starts.
      *
      * @param loader The class loader for user defined code.
+     *
      * @throws Exception The method may throw exceptions which cause the job to fail immediately.
      */
-    public void initializeOnMaster(ClassLoader loader) throws Exception {}
+    public void initializeOnMaster(ClassLoader loader) throws Exception {
+    }
 
     /**
-     * A hook that can be overwritten by sub classes to implement logic that is called by the master
-     * after the job completed.
+     * 一个可以被子类覆盖的钩子，以实现在作业完成后由主控调用的逻辑。
      *
      * @param loader The class loader for user defined code.
+     *
      * @throws Exception The method may throw exceptions which cause the job to fail immediately.
      */
-    public void finalizeOnMaster(ClassLoader loader) throws Exception {}
+    public void finalizeOnMaster(ClassLoader loader) throws Exception {
+    }
 
     // --------------------------------------------------------------------------------------------
 

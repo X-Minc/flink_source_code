@@ -33,7 +33,7 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Utilities for generating {@link JobGraph}. */
+/** 用于生成 {@link JobGraph} 的实用程序。 */
 public enum JobGraphUtils {
     ;
 

@@ -70,10 +70,10 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
 public class ConfigOptions {
 
     /**
-     * Starts building a new {@link ConfigOption}.
+     * 开始构建一个新的 {@link ConfigOption}。
      *
-     * @param key The key for the config option.
-     * @return The builder for the config option with the given key.
+     * @param key 配置选项的键。
+     * @return 具有给定键的配置选项的构建器。
      */
     public static OptionBuilder key(String key) {
         checkNotNull(key);

@@ -53,15 +53,12 @@ import java.util.stream.Collectors;
 import static org.apache.flink.util.Preconditions.checkNotNull;
 
 /**
- * The JobGraph represents a Flink dataflow program, at the low level that the JobManager accepts.
- * All programs from higher level APIs are transformed into JobGraphs.
+ * JobGraph表示一个Flink数据流程序，处于JobManager接受的低级别。来自更高级别API的所有程序都转换为JobGraph。
+ * <p>JobGraph是连接在一起以形成DAG的顶点和中间结果的图形。
+ * 请注意，迭代（反馈边）当前未在JobGraph内部编码，
+ * 而是在某些特殊顶点内部编码，这些顶点在它们之间建立反馈通道。
  *
- * <p>The JobGraph is a graph of vertices and intermediate results that are connected together to
- * form a DAG. Note that iterations (feedback edges) are currently not encoded inside the JobGraph
- * but inside certain special vertices that establish the feedback channel amongst themselves.
- *
- * <p>The JobGraph defines the job-wide configuration settings, while each vertex and intermediate
- * result define the characteristics of the concrete operation and intermediate data.
+ * <p>JobGraph定义作业范围的配置设置，而每个顶点和中间结果定义具体操作和中间数据的特征。
  */
 public class JobGraph implements Serializable {
 
@@ -69,11 +66,11 @@ public class JobGraph implements Serializable {
 
     // --- job and configuration ---
 
-    /** List of task vertices included in this job graph. */
+    /** 此作业图中包含的任务顶点列表。*/
     private final Map<JobVertexID, JobVertex> taskVertices =
             new LinkedHashMap<JobVertexID, JobVertex>();
 
-    /** The job configuration attached to this job. */
+    /** 附加到此作业的作业配置。*/
     private final Configuration jobConfiguration = new Configuration();
 
     /** ID of this job. May be set if specific job id is desired (e.g. session management) */
@@ -249,6 +246,7 @@ public class JobGraph implements Serializable {
      * serialized copy.
      *
      * @param executionConfig The ExecutionConfig to be serialized.
+     *
      * @throws IOException Thrown if the serialization of the ExecutionConfig fails
      */
     public void setExecutionConfig(ExecutionConfig executionConfig) throws IOException {
@@ -370,8 +368,9 @@ public class JobGraph implements Serializable {
      * Searches for a vertex with a matching ID and returns it.
      *
      * @param id the ID of the vertex to search for
+     *
      * @return the vertex with the matching ID or <code>null</code> if no vertex with such ID could
-     *     be found
+     *         be found
      */
     public JobVertex findVertexByID(JobVertexID id) {
         return this.taskVertices.get(id);
@@ -510,7 +509,8 @@ public class JobGraph implements Serializable {
      * Adds the given jar files to the {@link JobGraph} via {@link JobGraph#addJar}.
      *
      * @param jarFilesToAttach a list of the {@link URL URLs} of the jar files to attach to the
-     *     jobgraph.
+     *         jobgraph.
+     *
      * @throws RuntimeException if a jar URL is not valid.
      */
     public void addJars(final List<URL> jarFilesToAttach) {
@@ -536,7 +536,7 @@ public class JobGraph implements Serializable {
      * Adds the path of a custom file required to run the job on a task manager.
      *
      * @param name a name under which this artifact will be accessible through {@link
-     *     DistributedCache}
+     *         DistributedCache}
      * @param file path of a custom file required to run the job on a task manager
      */
     public void addUserArtifact(String name, DistributedCache.DistributedCacheEntry file) {
@@ -572,7 +572,7 @@ public class JobGraph implements Serializable {
     }
 
     /**
-     * Checks whether the JobGraph has user code JAR files attached.
+     * 检查JobGraph是否附加了用户代码JAR文件。
      *
      * @return True, if the JobGraph has user code JAR files attached, false otherwise.
      */
@@ -581,7 +581,7 @@ public class JobGraph implements Serializable {
     }
 
     /**
-     * Returns a set of BLOB keys referring to the JAR files required to run this job.
+     * 返回一组BLOB键，这些键引用运行此作业所需的JAR文件。
      *
      * @return set of BLOB keys referring to the JAR files required to run this job
      */
