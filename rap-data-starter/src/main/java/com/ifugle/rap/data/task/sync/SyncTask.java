@@ -61,6 +61,10 @@ public class SyncTask {
                     xxIndex40054_1(),
                     xxIndex40053_1(),
                     xxIndex40052_1(),
+                    nsrIndex20020_1(),
+                    nsrIndex20020_5(),
+                    nsrIndex20021_1(),
+                    nsrIndex20021_5(),
                     nsrIndex10030_5(),
                     nsrIndex10030_1(),
                     nsrIndex10010_5(),
@@ -75,6 +79,7 @@ public class SyncTask {
                     nsrIndex20040_5(),
                     nsrIndex20010_5(),
                     nsrIndex20010_1(),
+                    qzIndex40049(),
                     qzIndex40044(),
                     qzIndex40043(),
                     qzIndex40042(),
@@ -541,6 +546,82 @@ public class SyncTask {
     }
 
     /**
+     * 纳税人—20021-1 小规模纳税人激活企业数
+     */
+    private List<SqlTask> nsrIndex20021_1() throws Exception {
+        //组织
+        String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=2 AND jhbj=1 {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
+        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=2 AND jhbj=1 {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        //通用字段提取
+        CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
+                .builder()
+                .setIndex("20021")
+                .setDim1("1001")
+                .setDim2("1004")
+                .setDimData2("1");
+        /*----------------------------------------------action-----------------------------------------------*/
+        //组织
+        return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, false, "cjsj");
+    }
+
+    /**
+     * 纳税人—20021-5 小规模纳税人总企业数
+     */
+    private List<SqlTask> nsrIndex20021_5() throws Exception {
+        //组织
+        String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=2 {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
+        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=2 {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        //通用字段提取
+        CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
+                .builder()
+                .setIndex("20021")
+                .setDim1("1001")
+                .setDim2("1004")
+                .setDimData2("5");
+        /*----------------------------------------------action-----------------------------------------------*/
+        //组织
+        return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, false, "cjsj");
+    }
+
+    /**
+     * 纳税人—20020-1 一般纳税人激活企业数
+     */
+    private List<SqlTask> nsrIndex20020_1() throws Exception {
+        //组织
+        String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=1 AND jhbj=1 {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
+        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=1 AND jhbj=1 {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        //通用字段提取
+        CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
+                .builder()
+                .setIndex("20020")
+                .setDim1("1001")
+                .setDim2("1004")
+                .setDimData2("1");
+        /*----------------------------------------------action-----------------------------------------------*/
+        //组织
+        return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, false, "cjsj");
+    }
+
+    /**
+     * 纳税人—20020-5 一般纳税人总企业数
+     */
+    private List<SqlTask> nsrIndex20020_5() throws Exception {
+        //组织
+        String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=1 {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
+        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=1 {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        //通用字段提取
+        CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
+                .builder()
+                .setIndex("20020")
+                .setDim1("1001")
+                .setDim2("1004")
+                .setDimData2("5");
+        /*----------------------------------------------action-----------------------------------------------*/
+        //组织
+        return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, false, "cjsj");
+    }
+
+    /**
      * 纳税人—20010-1 激活纳税人数
      */
     private List<SqlTask> nsrIndex20010_1() throws Exception {
@@ -640,6 +721,23 @@ public class SyncTask {
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
                 .setIndex("40044")
+                .setDim1("1001");
+        /*----------------------------------------------action-----------------------------------------------*/
+        //组织
+        return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, true, "cjsj");
+    }
+
+    /**
+     * 群组—40049群组平台群总数
+     */
+    private List<SqlTask> qzIndex40049() throws Exception {
+        //组织
+        String selfSql = "select xnzz_id,swjg_dm,count(qz_mb_id) from bigdata_yhzx_qz where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by xnzz_id,swjg_dm limit 0 glimit 100000";
+        String superiorSql = "select xnzz_id,swjg_dms,count(qz_mb_id) from bigdata_yhzx_qz where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by xnzz_id,swjg_dms limit 0 glimit 100000";
+        //通用字段提取
+        CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
+                .builder()
+                .setIndex("40049")
                 .setDim1("1001");
         /*----------------------------------------------action-----------------------------------------------*/
         //组织
