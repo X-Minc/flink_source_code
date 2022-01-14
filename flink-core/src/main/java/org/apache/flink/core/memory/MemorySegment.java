@@ -48,7 +48,7 @@ import static org.apache.flink.core.memory.MemoryUtils.getByteBufferAddress;
  *
  * <ul>
  *   <li>它提供了额外的二进制比较、交换和复制方法。
- *   <li>It uses collapsed checks for range check and memory segment disposal.
+ *   <li>它使用折叠检查进行范围检查和内存段处理。
  *   <li>It offers absolute positioning methods for bulk put/get methods, to guarantee thread safe
  *       use.
  *   <li>It offers explicit big-endian / little-endian access methods, rather than tracking
@@ -67,24 +67,23 @@ import static org.apache.flink.core.memory.MemoryUtils.getByteBufferAddress;
 @Internal
 public final class MemorySegment {
 
-    /** System property for activating multiple free segment check, for testing purpose. */
+    /** 用于激活多个空闲段检查的系统属性，用于测试目的。 */
     public static final String CHECK_MULTIPLE_FREE_PROPERTY =
             "flink.tests.check-segment-multiple-free";
 
     private static final boolean checkMultipleFree =
             System.getProperties().containsKey(CHECK_MULTIPLE_FREE_PROPERTY);
 
-    /** The unsafe handle for transparent memory copied (heap / off-heap). */
+    /** 复制透明内存的不安全句柄（堆外）。 */
     @SuppressWarnings("restriction")
     private static final sun.misc.Unsafe UNSAFE = MemoryUtils.UNSAFE;
 
-    /** The beginning of the byte array contents, relative to the byte array object. */
+    /** 字节数组内容的开始，相对于字节数组对象。 */
     @SuppressWarnings("restriction")
     private static final long BYTE_ARRAY_BASE_OFFSET = UNSAFE.arrayBaseOffset(byte[].class);
 
     /**
-     * Constant that flags the byte order. Because this is a boolean constant, the JIT compiler can
-     * use this well to aggressively eliminate the non-applicable code paths.
+     * 标志字节顺序的常量。因为这是一个布尔常量，JIT 编译器可以很好地利用它来积极地消除不适用的代码路径。
      */
     private static final boolean LITTLE_ENDIAN =
             (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN);
