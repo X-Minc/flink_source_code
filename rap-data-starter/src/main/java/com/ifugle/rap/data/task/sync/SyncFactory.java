@@ -40,10 +40,7 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
     private static final String MID_INDEX_NAME_DAY = "bigdata_bi_index_day";
     private static final String MID_INDEX_NAME_30DAYS = "bigdata_bi_index_30days";
     private static final String MID_INDEX_NAME_MONTH = "bigdata_bi_index_month";
-    private static final int INSERT_THRESHOLD = 500;
-    private static final String DAY_INDEX = "bigdata_bi_index_day";
-    private static final String DAYS30_INDEX = "bigdata_bi_index_30days";
-    private static final String MONTH_INDEX = "bigdata_bi_index_month";
+
     @Autowired
     private BulkTemplateRepository<Map<String, Object>> esTemplateRepository;
 
@@ -58,7 +55,6 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
 
     @Override
     public void runAllTask() throws Exception {
-        init();
         super.runAllTask();
         sweepUp();
     }
@@ -120,49 +116,6 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
                 default:
                     break;
             }
-        }
-    }
-
-    /**
-     * 初始化
-     */
-    private void init() throws Exception {
-        StringBuilder dslInsert = new StringBuilder(32);
-        List<IndexDayModel> indexDayList = innerSyncService.getIndexDayList();
-        List<IndexDayModel> index30DaysList = innerSyncService.getIndex30DaysList();
-        List<IndexDayModel> indexMonthList = innerSyncService.getIndexMonthList();
-        //es初始化
-        batchInsertToElasticsearch(dslInsert, indexDayList, DAY_INDEX);
-        batchInsertToElasticsearch(dslInsert, index30DaysList, DAYS30_INDEX);
-        batchInsertToElasticsearch(dslInsert, indexMonthList, MONTH_INDEX);
-        //mysql初始化
-        innerSyncService.insertIndexDay(indexDayList);
-        innerSyncService.insertIndex30Day(index30DaysList);
-        innerSyncService.insertIndexMonth(indexMonthList);
-    }
-
-    /**
-     * 批量插入elasticsearch
-     */
-    private void batchInsertToElasticsearch(StringBuilder dslInsert, List<IndexDayModel> indexDayModelList, String indexName) throws Exception {
-        try {
-            Queue<IndexDayModel> indexDayModels = new LinkedList<>(indexDayModelList);
-            int count = 0;
-            IndexDayModel model;
-            while ((model = indexDayModels.poll()) != null) {
-                if (count <= INSERT_THRESHOLD && indexDayModels.peek() != null) {
-                    DataRequest request = compriseUtils.IndexDetailDataRequest(model);
-                    dslInsert.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(indexName, request));
-                    count++;
-                } else {
-                    elasticSearchBusinessService.bulkOperation(dslInsert.toString());
-                    dslInsert.delete(0, dslInsert.length());
-                    LOGGER.info(indexName + "索引初始化" + count + "条同步成功！");
-                    count = 0;
-                }
-            }
-        } catch (Exception e) {
-            throw new Exception(indexName + "初始化同步失败！", e);
         }
     }
 

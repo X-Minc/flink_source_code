@@ -1,13 +1,19 @@
 package com.ifugle.rap.data.task.sync;
 
+import com.ifugle.rap.bigdata.task.service.BulkTemplateRepository;
+import com.ifugle.rap.elasticsearch.model.DataRequest;
+import com.ifugle.rap.elasticsearch.service.ElasticSearchBusinessService;
+import com.ifugle.rap.service.utils.CompriseUtils;
 import com.ifugle.rap.sqltransform.base.CommonFiledExtractorBase;
 import com.ifugle.rap.sqltransform.base.SpecialFiledExtractorBase;
 import com.ifugle.rap.sqltransform.base.TransformBase;
 import com.ifugle.rap.sqltransform.commonfiledextractor.CommonFiledExtractor;
+import com.ifugle.rap.sqltransform.entry.IndexDayModel;
 import com.ifugle.rap.sqltransform.entry.SqlTask;
 import com.ifugle.rap.sqltransform.rule.GroupBySqlTransformRule;
 import com.ifugle.rap.sqltransform.rule.WhereSqlTransformRule;
 import com.ifugle.rap.sqltransform.specialfiledextractor.SingleAggregationSpecialFiledExtractor;
+import com.ifugle.rap.sync.service.InnerSyncService;
 import com.ifugle.rap.utils.SqlTransformDslUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +24,8 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 /**
+ * 使用说明
+ * <p>
  * 当前提供字段提取器正对单字段count。
  * 比如select a,b,count(c) from d group by a,b；
  * 如果要分day和30day以及月，请务必在where后加{time_condition}
@@ -36,10 +44,23 @@ import java.util.*;
  */
 @Component
 public class SyncTask {
+    private static final int INSERT_THRESHOLD = 500;
+    private static final String DAY_INDEX = "bigdata_bi_index_day";
+    private static final String DAYS30_INDEX = "bigdata_bi_index_30days";
+    private static final String MONTH_INDEX = "bigdata_bi_index_month";
     private static final Logger LOGGER = LoggerFactory.getLogger(SyncTask.class);
 
     @Autowired
     SyncFactory syncFactory;
+
+    @Autowired
+    private InnerSyncService innerSyncService;
+
+    @Autowired
+    private ElasticSearchBusinessService elasticSearchBusinessService;
+
+    @Autowired
+    private CompriseUtils compriseUtils;
 
     @Scheduled(fixedDelay = 1000L * 60 * 30)
     public void getQuery() {
@@ -52,8 +73,8 @@ public class SyncTask {
                     xxIndex40055_1_3(),
                     xxIndex40055_1_2(),
                     xxIndex40055_1_1(),
-                    xxIndex40054_1_2(),
                     xxIndex40054_1_3(),
+                    xxIndex40054_1_2(),
                     xxIndex40054_1_1(),
                     xxIndex40066_1(),
                     xxIndex40062_1(),
@@ -88,6 +109,15 @@ public class SyncTask {
             syncFactory.runAllTask();
         } catch (Exception e) {
             LOGGER.error("产生错误！", e);
+        }
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    private void initDaily() {
+        try {
+            init();
+        } catch (Exception e) {
+            LOGGER.error("初始化时发生错误！" + e);
         }
     }
 
@@ -819,5 +849,48 @@ public class SyncTask {
             singleAggregationSpecialFiledExtractorArrayList.add(singleAggregationSpecialFiledExtractorInc);
         singleAggregationSpecialFiledExtractorArrayList.add(singleAggregationSpecialFiledExtractorInc);
         return singleAggregationSpecialFiledExtractorArrayList;
+    }
+
+    /**
+     * 初始化
+     */
+    private void init() throws Exception {
+        StringBuilder dslInsert = new StringBuilder(32);
+        List<IndexDayModel> indexDayList = innerSyncService.getIndexDayList();
+        List<IndexDayModel> index30DaysList = innerSyncService.getIndex30DaysList();
+        List<IndexDayModel> indexMonthList = innerSyncService.getIndexMonthList();
+        //es初始化
+        batchInsertToElasticsearch(dslInsert, indexDayList, DAY_INDEX);
+        batchInsertToElasticsearch(dslInsert, index30DaysList, DAYS30_INDEX);
+        batchInsertToElasticsearch(dslInsert, indexMonthList, MONTH_INDEX);
+        //mysql初始化
+        innerSyncService.insertIndexDay(indexDayList);
+        innerSyncService.insertIndex30Day(index30DaysList);
+        innerSyncService.insertIndexMonth(indexMonthList);
+    }
+
+    /**
+     * 批量插入elasticsearch
+     */
+    private void batchInsertToElasticsearch(StringBuilder dslInsert, List<IndexDayModel> indexDayModelList, String indexName) throws Exception {
+        try {
+            Queue<IndexDayModel> indexDayModels = new LinkedList<>(indexDayModelList);
+            int count = 0;
+            IndexDayModel model;
+            while ((model = indexDayModels.poll()) != null) {
+                if (count <= INSERT_THRESHOLD && indexDayModels.peek() != null) {
+                    DataRequest request = compriseUtils.IndexDetailDataRequest(model);
+                    dslInsert.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(indexName, request));
+                    count++;
+                } else {
+                    elasticSearchBusinessService.bulkOperation(dslInsert.toString());
+                    dslInsert.delete(0, dslInsert.length());
+                    LOGGER.info(indexName + "索引初始化" + count + "条同步成功！");
+                    count = 0;
+                }
+            }
+        } catch (Exception e) {
+            throw new Exception(indexName + "初始化同步失败！", e);
+        }
     }
 }
