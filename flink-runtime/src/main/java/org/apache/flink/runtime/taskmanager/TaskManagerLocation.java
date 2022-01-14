@@ -35,9 +35,9 @@ import static org.apache.flink.util.Preconditions.checkArgument;
 import static org.apache.flink.util.Preconditions.checkNotNull;
 
 /**
- * This class encapsulates the connection information of a TaskManager. It describes the host where
- * the TaskManager operates and its server port for data exchange. This class also contains
- * utilities to work with the TaskManager's host name, which is used to localize work assignments.
+ * 该类封装了TaskManager的连接信息。
+ * 它描述了 TaskManager 运行所在的主机及其用于数据交换的服务器端口。
+ * 此类还包含使用 TaskManager 的主机名的实用程序，该主机名用于本地化工作分配。
  */
 public class TaskManagerLocation implements Comparable<TaskManagerLocation>, java.io.Serializable {
 
@@ -75,7 +75,7 @@ public class TaskManagerLocation implements Comparable<TaskManagerLocation>, jav
      * @param inetAddress the network address the instance's task manager binds its sockets to
      * @param dataPort the port instance's task manager expects to receive transfer envelopes on
      * @param hostNameSupplier the supplier for obtaining fully-qualified domain name and pure
-     *     hostname of the task manager
+     *         hostname of the task manager
      */
     @VisibleForTesting
     public TaskManagerLocation(
@@ -204,6 +204,7 @@ public class TaskManagerLocation implements Comparable<TaskManagerLocation>, jav
      * Gets the fully qualified hostname of the TaskManager based on the network address.
      *
      * @param inetAddress the network address that the TaskManager binds its sockets to
+     *
      * @return fully qualified hostname of the TaskManager
      */
     private static String getFqdnHostName(InetAddress inetAddress) {
@@ -225,6 +226,7 @@ public class TaskManagerLocation implements Comparable<TaskManagerLocation>, jav
      * Gets the hostname of the TaskManager based on the network address.
      *
      * @param inetAddress the network address that the TaskManager binds its sockets to
+     *
      * @return hostname of the TaskManager
      */
     public static String getHostName(InetAddress inetAddress) {

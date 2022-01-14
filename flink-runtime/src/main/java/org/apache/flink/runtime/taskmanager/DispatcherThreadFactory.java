@@ -23,8 +23,7 @@ import org.apache.flink.util.FatalExitExceptionHandler;
 import java.util.concurrent.ThreadFactory;
 
 /**
- * Thread factory that creates threads with a given name, associates them with a given thread group,
- * and set them to daemon mode.
+ * 线程工厂创建具有给定名称的线程，将它们与给定线程组相关联，并将它们设置为守护程序模式。
  */
 public class DispatcherThreadFactory implements ThreadFactory {
 
@@ -33,10 +32,10 @@ public class DispatcherThreadFactory implements ThreadFactory {
     private final String threadName;
 
     /**
-     * Creates a new thread factory.
+     * 创建一个新的线程工厂。
      *
-     * @param group The group that the threads will be associated with.
-     * @param threadName The name for the threads.
+     * @param group 线程将关联的组。
+     * @param threadName 线程的名称。
      */
     public DispatcherThreadFactory(ThreadGroup group, String threadName) {
         this.group = group;

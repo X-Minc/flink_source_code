@@ -71,11 +71,9 @@ import java.util.stream.Collectors;
 import static org.apache.flink.util.Preconditions.checkNotNull;
 
 /**
- * An {@code ExecutionJobVertex} is part of the {@link ExecutionGraph}, and the peer to the {@link
- * JobVertex}.
+ * {@code ExecutionJobVertex} 是 {@link ExecutionGraph} 的一部分，也是 {@link JobVertex} 的对等点。
  *
- * <p>The {@code ExecutionJobVertex} corresponds to a parallelized operation. It contains an {@link
- * ExecutionVertex} for each parallel instance of that operation.
+ * <p>{@code ExecutionJobVertex} 对应于并行化操作。它包含该操作的每个并行实例的 {@link ExecutionVertex}。
  */
 public class ExecutionJobVertex
         implements AccessExecutionJobVertex, Archiveable<ArchivedExecutionJobVertex> {
@@ -107,9 +105,7 @@ public class ExecutionJobVertex
     private final ResourceProfile resourceProfile;
 
     /**
-     * Either store a serialized task information, which is for all sub tasks the same, or the
-     * permanent blob key of the offloaded task information BLOB containing the serialized task
-     * information.
+     * 要么存储一个序列化的任务信息，它对于所有子任务都相同，要么存储包含序列化任务信息的卸载任务信息 BLOB 的永久 blob 键。
      */
     private Either<SerializedValue<TaskInformation>, PermanentBlobKey> taskInformationOrBlobKey =
             null;
@@ -434,9 +430,9 @@ public class ExecutionJobVertex
     }
 
     /**
-     * Cancels all currently running vertex executions.
+     * 取消所有当前正在运行的顶点执行。
      *
-     * @return A future that is complete once all tasks have canceled.
+     * @return 取消所有任务后完成的未来。
      */
     public CompletableFuture<Void> cancelWithFuture() {
         return FutureUtils.waitForAll(mapExecutionVertices(ExecutionVertex::cancel));

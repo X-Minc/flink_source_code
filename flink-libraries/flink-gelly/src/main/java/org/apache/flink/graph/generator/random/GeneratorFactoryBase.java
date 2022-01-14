@@ -24,8 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This base class handles the task of dividing the requested work into the appropriate number of
- * blocks of near-equal size.
+ * 这个基类处理将请求的工作划分为大小接近相等的适当数量的块的任务。
  *
  * @param <T> the type of the {@code RandomGenerator}
  */

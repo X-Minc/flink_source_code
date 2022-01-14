@@ -42,14 +42,14 @@ public class JsonPlanGenerator {
             final JsonFactory factory = new JsonFactory();
             final JsonGenerator gen = factory.createGenerator(writer);
 
-            // start of everything
+            // 一切的开始
             gen.writeStartObject();
             gen.writeStringField("jid", jg.getJobID().toString());
             gen.writeStringField("name", jg.getName());
             gen.writeStringField("type", jg.getJobType().name());
             gen.writeArrayFieldStart("nodes");
 
-            // info per vertex
+            // 每个顶点的信息
             for (JobVertex vertex : jg.getVertices()) {
 
                 String operator =
@@ -70,7 +70,7 @@ public class JsonPlanGenerator {
                                 ? vertex.getOperatorPrettyName()
                                 : vertex.getName();
 
-                // make sure the encoding is HTML pretty
+                // 确保编码是漂亮的 HTML
                 description = StringEscapeUtils.escapeHtml4(description);
                 description = description.replace("\n", "<br/>");
                 description = description.replace("\\", "&#92;");
@@ -88,7 +88,7 @@ public class JsonPlanGenerator {
                 gen.writeStringField("description", description);
 
                 if (!vertex.isInputVertex()) {
-                    // write the input edge properties
+                    // 编写输入边属性
                     gen.writeArrayFieldStart("inputs");
 
                     List<JobEdge> inputs = vertex.getInputs();
@@ -99,9 +99,11 @@ public class JsonPlanGenerator {
                         }
 
                         JobVertex predecessor = edge.getSource().getProducer();
-
+                        //获取表示输入的船舶策略的名称，如“转发”、“分区哈希”、“重新平衡”、“广播”等
                         String shipStrategy = edge.getShipStrategyName();
+                        //获取此输入的前处理操作的名称。
                         String preProcessingOperation = edge.getPreProcessingOperationName();
+                        //获取此输入的操作员级缓存描述。
                         String operatorLevelCaching = edge.getOperatorLevelCachingDescription();
 
                         gen.writeStartObject();

@@ -142,8 +142,7 @@ public class JobEdge implements java.io.Serializable {
     // --------------------------------------------------------------------------------------------
 
     /**
-     * Gets the name of the ship strategy for the represented input, like "forward", "partition
-     * hash", "rebalance", "broadcast", ...
+     * 获取表示输入的船舶策略的名称，如“转发”、“分区哈希”、“重新平衡”、“广播”等
      *
      * @return The name of the ship strategy for the represented input, or null, if none was set.
      */
@@ -201,7 +200,7 @@ public class JobEdge implements java.io.Serializable {
     }
 
     /**
-     * Gets the name of the pro-processing operation for this input.
+     * 获取此输入的前处理操作的名称。
      *
      * @return The name of the pro-processing operation, or null, if none was set.
      */
@@ -219,7 +218,7 @@ public class JobEdge implements java.io.Serializable {
     }
 
     /**
-     * Gets the operator-level caching description for this input.
+     * 获取此输入的操作员级缓存描述。
      *
      * @return The description of operator-level caching, or null, is none was set.
      */

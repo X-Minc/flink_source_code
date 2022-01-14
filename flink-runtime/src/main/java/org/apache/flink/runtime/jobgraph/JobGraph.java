@@ -66,11 +66,11 @@ public class JobGraph implements Serializable {
 
     // --- job and configuration ---
 
-    /** 此作业图中包含的任务顶点列表。*/
+    /** 此作业图中包含的任务顶点列表。 */
     private final Map<JobVertexID, JobVertex> taskVertices =
             new LinkedHashMap<JobVertexID, JobVertex>();
 
-    /** 附加到此作业的作业配置。*/
+    /** 附加到此作业的作业配置。 */
     private final Configuration jobConfiguration = new Configuration();
 
     /** ID of this job. May be set if specific job id is desired (e.g. session management) */
@@ -279,7 +279,7 @@ public class JobGraph implements Serializable {
     }
 
     /**
-     * Returns an Iterable to iterate all vertices registered with the job graph.
+     * 返回一个 Iterable 以迭代在作业图上注册的所有顶点。
      *
      * @return an Iterable to iterate all vertices registered with the job graph
      */
@@ -448,15 +448,15 @@ public class JobGraph implements Serializable {
         return sorted;
     }
 
+    //添加没有新前任的节点
     private void addNodesThatHaveNoNewPredecessors(
             JobVertex start, List<JobVertex> target, Set<JobVertex> remaining) {
 
-        // forward traverse over all produced data sets and all their consumers
+        // 前向遍历所有生成的数据集及其所有消费者
         for (IntermediateDataSet dataSet : start.getProducedDataSets()) {
             for (JobEdge edge : dataSet.getConsumers()) {
 
-                // a vertex can be added, if it has no predecessors that are still in the
-                // 'remaining' set
+                // 可以添加一个顶点，如果它没有仍在剩余集合中的前任
                 JobVertex v = edge.getTarget();
                 if (!remaining.contains(v)) {
                     continue;
@@ -465,7 +465,7 @@ public class JobGraph implements Serializable {
                 boolean hasNewPredecessors = false;
 
                 for (JobEdge e : v.getInputs()) {
-                    // skip the edge through which we came
+                    // 跳过我们来过的边缘
                     if (e == edge) {
                         continue;
                     }
