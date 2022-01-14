@@ -12,18 +12,16 @@ import java.util.*;
  */
 public abstract class BaseSqlTaskScheduleFactory {
     protected Queue<TransformBase<String>> baseTransforms = new LinkedList<>();
-    protected Queue<SqlTask> sqlTaskQueue = new LinkedList<>();
+    protected Queue<List<SqlTask>> sqlTaskQueue = new LinkedList<>();
 
 
     @SafeVarargs
     public final void addSqlTasks(List<SqlTask>... sqlLists) {
-        for (List<SqlTask> sqlList : sqlLists) {
-            sqlTaskQueue.addAll(sqlList);
-        }
+        sqlTaskQueue.addAll(Arrays.asList(sqlLists));
     }
 
     public final void addSqlTasks(List<SqlTask> sqlList) {
-        sqlTaskQueue.addAll(sqlList);
+        sqlTaskQueue.add(sqlList);
     }
 
 
@@ -75,10 +73,16 @@ public abstract class BaseSqlTaskScheduleFactory {
 
     //运行
     public void runAllTask() throws Exception {
-        SqlTask sqlTask = null;
-        while ((sqlTask = sqlTaskQueue.poll()) != null) {
-            Map<Integer, List<IndexDayModel>> integerListMap = doSearchAndGainResult(sqlTask, baseTransforms);
-            dealWithResult(integerListMap);
+        List<SqlTask> sqlTasks;
+        while ((sqlTasks = sqlTaskQueue.poll()) != null) {
+            try {
+                for (SqlTask sqlTask : sqlTasks) {
+                    Map<Integer, List<IndexDayModel>> integerListMap = doSearchAndGainResult(sqlTask, baseTransforms);
+                    dealWithResult(integerListMap);
+                }
+            } catch (Exception e) {
+                throw new Exception("执行任务" + sqlTasks + "时，发生错误", e);
+            }
         }
     }
 }
