@@ -35,11 +35,15 @@ import java.util.*;
 @Component
 public class SyncFactory extends BaseSqlTaskScheduleFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(SyncFactory.class);
-    private static final String selectSql = "select * from {table_name}  where id=\"{id}\"";
-    private static final List<IndexDayModel> nowDayTotalList = new ArrayList<>();
+    private static final String SELECT_SQL = "select * from {table_name}  where id=\"{id}\"";
+    private static final List<IndexDayModel> NOW_DAY_TOTAL_LIST = new ArrayList<>();
     private static final String MID_INDEX_NAME_DAY = "bigdata_bi_index_day";
     private static final String MID_INDEX_NAME_30DAYS = "bigdata_bi_index_30days";
     private static final String MID_INDEX_NAME_MONTH = "bigdata_bi_index_month";
+    private static final int INSERT_THRESHOLD = 500;
+    private static final String DAY_INDEX = "bigdata_bi_index_day";
+    private static final String DAYS30_INDEX = "bigdata_bi_index_30days";
+    private static final String MONTH_INDEX = "bigdata_bi_index_month";
 
     @Autowired
     private BulkTemplateRepository<Map<String, Object>> esTemplateRepository;
@@ -88,8 +92,8 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
                 case 1:
                     if (entry.getValue().size() > 0) {
                         beforeList = outPutEs(entry.getValue(), MID_INDEX_NAME_DAY, Calendar.DAY_OF_MONTH, -1, "yyyyMMdd");
-                        nowDayTotalList.clear();
-                        nowDayTotalList.addAll(entry.getValue());
+                        NOW_DAY_TOTAL_LIST.clear();
+                        NOW_DAY_TOTAL_LIST.addAll(entry.getValue());
                         mid = leftJoin(entry.getValue(), beforeList, new DayMergeBeforeSelector());
                         innerSyncService.insertIndexDay(mid);
                     }
@@ -102,7 +106,7 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
                     }
                     break;
                 case 3:
-                    List<IndexDayModel> mergedList = entry.getValue().size() == 0 ? leftJoin(nowDayTotalList, entry.getValue(), null) : leftJoin(entry.getValue(), nowDayTotalList, new MergeDayAndMonthKeySelector());
+                    List<IndexDayModel> mergedList = entry.getValue().size() == 0 ? leftJoin(NOW_DAY_TOTAL_LIST, entry.getValue(), null) : leftJoin(entry.getValue(), NOW_DAY_TOTAL_LIST, new MergeDayAndMonthKeySelector());
                     beforeList = outPutEs(mergedList, MID_INDEX_NAME_MONTH, Calendar.MONTH, -1, "yyyyMM");
                     mid = leftJoin(mergedList, beforeList, new MonthMergeBeforeSelector());
                     if (mid.size() != 0) {
@@ -134,7 +138,7 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
             clone.setCycleId(date);
             clone.setNodeId(date);
             String indexKey = compriseUtils.getIndexKey(clone);
-            String selectSql = SyncFactory.selectSql.replace("{table_name}", indexName).replace("{id}", MD5Util.stringToMD5(indexKey));
+            String selectSql = SyncFactory.SELECT_SQL.replace("{table_name}", indexName).replace("{id}", MD5Util.stringToMD5(indexKey));
             SqlTask sqlTask = new SqlTask(selectSql, 1, new SimpleSelectSpecialFiledExtractor(), null);
             Map<Integer, List<IndexDayModel>> integerListMap = doSearchAndGainResult(sqlTask, this.baseTransforms);
             beforeListData.addAll(integerListMap.get(1));
@@ -166,6 +170,49 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
             }
         }
         return remain;
+    }
+
+    /**
+     * 初始化
+     */
+    public void init() throws Exception {
+        StringBuilder dslInsert = new StringBuilder(32);
+        List<IndexDayModel> indexDayList = innerSyncService.getIndexDayList();
+        List<IndexDayModel> index30DaysList = innerSyncService.getIndex30DaysList();
+        List<IndexDayModel> indexMonthList = innerSyncService.getIndexMonthList();
+        //es初始化
+        batchInsertToElasticsearch(dslInsert, indexDayList, DAY_INDEX);
+        batchInsertToElasticsearch(dslInsert, index30DaysList, DAYS30_INDEX);
+        batchInsertToElasticsearch(dslInsert, indexMonthList, MONTH_INDEX);
+        //mysql初始化
+        innerSyncService.insertIndexDay(indexDayList);
+        innerSyncService.insertIndex30Day(index30DaysList);
+        innerSyncService.insertIndexMonth(indexMonthList);
+    }
+
+    /**
+     * 批量插入elasticsearch
+     */
+    private void batchInsertToElasticsearch(StringBuilder dslInsert, List<IndexDayModel> indexDayModelList, String indexName) throws Exception {
+        try {
+            Queue<IndexDayModel> indexDayModels = new LinkedList<>(indexDayModelList);
+            int count = 0;
+            IndexDayModel model;
+            while ((model = indexDayModels.poll()) != null) {
+                if (count <= INSERT_THRESHOLD && indexDayModels.peek() != null) {
+                    DataRequest request = compriseUtils.IndexDetailDataRequest(model);
+                    dslInsert.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(indexName, request));
+                    count++;
+                } else {
+                    elasticSearchBusinessService.bulkOperation(dslInsert.toString());
+                    dslInsert.delete(0, dslInsert.length());
+                    LOGGER.info(indexName + "索引初始化" + count + "条同步成功！");
+                    count = 0;
+                }
+            }
+        } catch (Exception e) {
+            throw new Exception(indexName + "初始化同步失败！", e);
+        }
     }
 
     /**
