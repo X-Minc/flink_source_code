@@ -47,7 +47,7 @@ import static org.apache.flink.core.memory.MemoryUtils.getByteBufferAddress;
  * <p>此类在概念上实现了与 Java 的 {@link java.nio.ByteBuffer} 类似的目的。我们添加这个专门的类有多种原因：
  *
  * <ul>
- *   <li>It offers additional binary compare, swap, and copy methods.
+ *   <li>它提供了额外的二进制比较、交换和复制方法。
  *   <li>It uses collapsed checks for range check and memory segment disposal.
  *   <li>It offers absolute positioning methods for bulk put/get methods, to guarantee thread safe
  *       use.
