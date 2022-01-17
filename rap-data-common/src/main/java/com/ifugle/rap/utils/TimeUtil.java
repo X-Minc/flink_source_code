@@ -1,5 +1,6 @@
 package com.ifugle.rap.utils;
 
+import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -123,12 +124,15 @@ public class TimeUtil {
      * @param field  CALENDAR的静态属性
      * @param amount 偏移量
      * @param format string日期的时间格式
-     * @return 便宜后日期
+     * @return 偏移后日期
      * @throws Exception 异常
      */
-    public synchronized static String getBeforeTime(int field, int amount, String format) throws Exception {
+    public synchronized static String getBeforeTime(int[] field, int[] amount, String format) throws Exception {
+        if (field.length != amount.length) throw new Exception("请保证日期字段和偏移量数组长度相同！");
         CALENDAR.setTime(new Date());
-        CALENDAR.add(field, amount);
+        for (int i = 0; i < field.length; i++) {
+            CALENDAR.add(field[i], amount[i]);
+        }
         Date d = CALENDAR.getTime();
         return new SimpleDateFormat(format).format(d);
     }

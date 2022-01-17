@@ -12,6 +12,7 @@ import com.ifugle.rap.utils.SqlTransformDslUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -44,9 +45,11 @@ public class SyncTask {
     @Autowired
     SyncFactory syncFactory;
 
+    @Async
     @Scheduled(fixedDelay = 1000L * 60 * 30)
     public void getQuery() {
         try {
+            initDaily();
             syncFactory.addTransforms(
                     new GroupBySqlTransformRule(),
                     new WhereSqlTransformRule()
@@ -94,8 +97,9 @@ public class SyncTask {
         }
     }
 
+    @Async
     @Scheduled(cron = "0 0 0 * * ?")
-    private void initDaily() {
+    public void initDaily() {
         try {
             syncFactory.init();
         } catch (Exception e) {
@@ -112,7 +116,7 @@ public class SyncTask {
      */
     private List<SqlTask> xxIndex40055_1_3() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) ANDdjzclx_flag =\"3\" {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"3\" {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"3\" {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -132,7 +136,7 @@ public class SyncTask {
      */
     private List<SqlTask> xxIndex40055_1_2() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) ANDdjzclx_flag =\"2\" {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"2\" {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"2\" {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -152,7 +156,7 @@ public class SyncTask {
      */
     private List<SqlTask> xxIndex40055_1_1() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"1\" {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"1\" {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"1\" {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -172,7 +176,7 @@ public class SyncTask {
      */
     private List<SqlTask> xxIndex40054_1_3() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"3\"  {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"3\" {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"3\" {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -192,7 +196,7 @@ public class SyncTask {
      */
     private List<SqlTask> xxIndex40054_1_2() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"2\"  {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"2\" {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"2\" {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -212,7 +216,7 @@ public class SyncTask {
      */
     private List<SqlTask> xxIndex40054_1_1() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"1\" GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"1\" GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"1\" GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -232,7 +236,7 @@ public class SyncTask {
      */
     private List<SqlTask> xxIndex40066_1() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -250,7 +254,7 @@ public class SyncTask {
      */
     private List<SqlTask> xxIndex40062_1() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -268,7 +272,7 @@ public class SyncTask {
      */
     private List<SqlTask> xxIndex40055_1() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -286,7 +290,7 @@ public class SyncTask {
      */
     private List<SqlTask> xxIndex40054_1() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -304,7 +308,7 @@ public class SyncTask {
      */
     private List<SqlTask> xxIndex40053_1() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(xxzb_id) FROM bigdata_xxzx_xxzb WHERE xxywlx = 3 AND xxly = 9 AND and czzt = 6  and xxch = 0 and parent_id != 0 AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(xxzb_id) FROM bigdata_xxzx_xxzb WHERE xxywlx = 3 AND xxly = 9 AND and czzt = 6  and xxch = 0 and parent_id != 0 AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(xxzb_id) FROM bigdata_xxzx_xxzb WHERE xxywlx = 3 AND xxly = 9 AND and czzt = 6  and xxch = 0 and parent_id != 0 AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -322,7 +326,7 @@ public class SyncTask {
      */
     private List<SqlTask> xxIndex40052_1() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(xxzb_id) FROM bigdata_xxzx_xxzb WHERE xxywlx = 3 AND and czzt = 6 and xxch = 0 and parent_id != 0 AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(xxzb_id) FROM bigdata_xxzx_xxzb WHERE xxywlx = 3 AND and czzt = 6 and xxch = 0 and parent_id != 0 AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(xxzb_id) FROM bigdata_xxzx_xxzb WHERE xxywlx = 3 AND and czzt = 6 and xxch = 0 and parent_id != 0 AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -340,7 +344,7 @@ public class SyncTask {
      */
     private List<SqlTask> nsrIndex10030_5() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND swjgbz IN (1,2) AND cysx=2 GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND swjgbz IN (1,2) AND cysx=2 GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND swjgbz IN (1,2) AND cysx=2 GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -358,7 +362,7 @@ public class SyncTask {
      */
     private List<SqlTask> nsrIndex10030_1() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND jhbj=1  swjgbz IN (1,2) AND cysx=2 {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND jhbj=1  swjgbz IN (1,2) AND cysx=2 {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND jhbj=1  swjgbz IN (1,2) AND cysx=2 {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -376,7 +380,7 @@ public class SyncTask {
      */
     private List<SqlTask> nsrIndex10010_5() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -394,7 +398,7 @@ public class SyncTask {
      */
     private List<SqlTask> nsrIndex10010_1() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(DISTINCT yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND jhbj=1  swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(DISTINCT yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND jhbj=1  swjgbz IN (1,2)  {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(DISTINCT yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND jhbj=1  swjgbz IN (1,2)  {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -412,7 +416,7 @@ public class SyncTask {
      */
     private List<SqlTask> nsrIndex10020_1() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND jhbj=1  swjgbz IN (1,2) AND cysx=1 {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND jhbj=1  swjgbz IN (1,2) AND cysx=1 {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND jhbj=1  swjgbz IN (1,2) AND cysx=1 {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -430,7 +434,7 @@ public class SyncTask {
      */
     private List<SqlTask> nsrIndex10020_5() throws Exception {
         String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND swjgbz IN (1,2) AND cysx=1 {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT xnzz_id,swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND swjgbz IN (1,2) AND cysx=1 {time_condition} GROUP BY  xnzz_id,swjg_dms";
+        String superiorSql = "SELECT swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh  WHERE is_delete=0 AND swjgbz IN (1,2) AND cysx=1 {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -449,7 +453,7 @@ public class SyncTask {
     private List<SqlTask> nsrIndex20060_1() throws Exception {
         //组织
         String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND jhbj=1 AND swjgbz IN (1,2) AND djzclx_flag =\"3\" {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND jhbj=1 AND swjgbz IN (1,2) AND djzclx_flag =\"3\" {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "SELECT  swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND jhbj=1 AND swjgbz IN (1,2) AND djzclx_flag =\"3\" {time_condition} GROUP BY  swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -468,7 +472,7 @@ public class SyncTask {
     private List<SqlTask> nsrIndex20060_5() throws Exception {
         //组织
         String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND djzclx_flag =\"3\" {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND djzclx_flag =\"3\" {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "SELECT  swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND djzclx_flag =\"3\" {time_condition} GROUP BY  swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -487,7 +491,7 @@ public class SyncTask {
     private List<SqlTask> nsrIndex20040_1() throws Exception {
         //组织
         String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND jhbj=1 AND swjgbz IN (1,2) AND djzclx_flag =\"2\" {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND jhbj=1 AND swjgbz IN (1,2) AND djzclx_flag =\"2\" {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "SELECT  swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND jhbj=1 AND swjgbz IN (1,2) AND djzclx_flag =\"2\" {time_condition} GROUP BY  swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -506,7 +510,7 @@ public class SyncTask {
     private List<SqlTask> nsrIndex20040_5() throws Exception {
         //组织
         String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND djzclx_flag =\"2\" {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND djzclx_flag =\"2\" {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "SELECT  swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND djzclx_flag =\"2\" {time_condition} GROUP BY  swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -525,7 +529,7 @@ public class SyncTask {
     private List<SqlTask> nsrIndex20070_1() throws Exception {
         //组织
         String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND jhbj=1 AND swjgbz IN (1,2) AND djzclx_flag =\"1\" {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND jhbj=1 AND swjgbz IN (1,2) AND djzclx_flag =\"1\" {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "SELECT  swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND jhbj=1 AND swjgbz IN (1,2) AND djzclx_flag =\"1\" {time_condition} GROUP BY  swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -544,7 +548,7 @@ public class SyncTask {
     private List<SqlTask> nsrIndex20070_5() throws Exception {
         //组织
         String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND djzclx_flag =\"1\" {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND djzclx_flag =\"1\" {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "SELECT  swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND djzclx_flag =\"1\" {time_condition} GROUP BY  swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -563,7 +567,7 @@ public class SyncTask {
     private List<SqlTask> nsrIndex20021_1() throws Exception {
         //组织
         String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=2 AND jhbj=1 {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=2 AND jhbj=1 {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "SELECT  swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=2 AND jhbj=1 {time_condition} GROUP BY  swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -582,7 +586,7 @@ public class SyncTask {
     private List<SqlTask> nsrIndex20021_5() throws Exception {
         //组织
         String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=2 {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=2 {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "SELECT  swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=2 {time_condition} GROUP BY  swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -601,7 +605,7 @@ public class SyncTask {
     private List<SqlTask> nsrIndex20020_1() throws Exception {
         //组织
         String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=1 AND jhbj=1 {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=1 AND jhbj=1 {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "SELECT  swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=1 AND jhbj=1 {time_condition} GROUP BY  swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -620,7 +624,7 @@ public class SyncTask {
     private List<SqlTask> nsrIndex20020_5() throws Exception {
         //组织
         String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=1 {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=1 {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "SELECT  swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) AND nsrlx_flag=1 {time_condition} GROUP BY  swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -639,7 +643,7 @@ public class SyncTask {
     private List<SqlTask> nsrIndex20010_1() throws Exception {
         //组织
         String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND jhbj=1 AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND jhbj=1 AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "SELECT  swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND jhbj=1 AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -658,7 +662,7 @@ public class SyncTask {
     private List<SqlTask> nsrIndex20010_5() throws Exception {
         //组织
         String selfSql = "SELECT  xnzz_id,swjg_dm,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "SELECT  xnzz_id,swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "SELECT  swjg_dms,COUNT(nsr_id) FROM  bigdata_yhzx_xnzz_nsr WHERE is_delete=0 AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -677,7 +681,7 @@ public class SyncTask {
     private List<SqlTask> qzIndex40040() throws Exception {
         //组织
         String selfSql = "select xnzz_id,swjg_dm,count(qz_id) from bigdata_yhzx_qz where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "select xnzz_id,swjg_dms,count(qz_id) from bigdata_yhzx_qz where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "select swjg_dms,count(qz_id) from bigdata_yhzx_qz where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -694,7 +698,7 @@ public class SyncTask {
     private List<SqlTask> qzIndex40042() throws Exception {
         //组织
         String selfSql = "select xnzz_id,swjg_dm,count(yh_id) from bigdata_yhzx_qz_cy where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "select xnzz_id,swjg_dms,count(yh_id) from bigdata_yhzx_qz_cy where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "select swjg_dms,count(yh_id) from bigdata_yhzx_qz_cy where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -711,7 +715,7 @@ public class SyncTask {
     private List<SqlTask> qzIndex40043() throws Exception {
         //组织
         String selfSql = "select xnzz_id,swjg_dm,count(nsr_id) from bigdata_yhzx_qz_cy where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "select xnzz_id,swjg_dms,count(nsr_id) from bigdata_yhzx_qz_cy where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "select swjg_dms,count(nsr_id) from bigdata_yhzx_qz_cy where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -728,7 +732,7 @@ public class SyncTask {
     private List<SqlTask> qzIndex40044() throws Exception {
         //组织
         String selfSql = "select xnzz_id,swjg_dm,count(nsr_id) from bigdata_yhzx_qz_cy where qlx=2 and is_deleted=0 and swjgbz in (1,2) and zzsnslx=1 {time_condition} group by xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "select xnzz_id,swjg_dms,count(nsr_id) from bigdata_yhzx_qz_cy where qlx=2 and is_deleted=0 and swjgbz in (1,2) and zzsnslx=1 {time_condition} group by xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "select swjg_dms,count(nsr_id) from bigdata_yhzx_qz_cy where qlx=2 and is_deleted=0 and swjgbz in (1,2) and zzsnslx=1 {time_condition} group by swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -745,7 +749,7 @@ public class SyncTask {
     private List<SqlTask> qzIndex40049() throws Exception {
         //组织
         String selfSql = "select xnzz_id,swjg_dm,count(qz_mb_id) from bigdata_yhzx_qz where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "select xnzz_id,swjg_dms,count(qz_mb_id) from bigdata_yhzx_qz where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by xnzz_id,swjg_dms limit 0 glimit 100000";
+        String superiorSql = "select swjg_dms,count(qz_mb_id) from bigdata_yhzx_qz where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -774,9 +778,9 @@ public class SyncTask {
         List<SingleAggregationSpecialFiledExtractor> specialSuperiorAgg = getSpecialSuperiorAgg(isQz);
         List<CommonFiledExtractor> commonAgg = getCommonAgg(commonFiledExtractorBuilder, isQz);
         List<SqlTask> selfSqlTasks =
-                SqlTransformDslUtil.doPreTransform(selfSql, true, !isQz, true, specialSelfAgg, commonAgg, timeFiled);
+                SqlTransformDslUtil.doPreTransform(selfSql, true, !isQz, true, specialSelfAgg, commonAgg, timeFiled, true);
         List<SqlTask> superiorSqlTasks =
-                SqlTransformDslUtil.doPreTransform(superiorSql, true, !isQz, true, specialSuperiorAgg, commonAgg, timeFiled);
+                SqlTransformDslUtil.doPreTransform(superiorSql, true, !isQz, true, specialSuperiorAgg, commonAgg, timeFiled, false);
         selfSqlTasks.addAll(superiorSqlTasks);
         return selfSqlTasks;
     }

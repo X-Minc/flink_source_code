@@ -5,17 +5,16 @@ import com.ifugle.rap.bigdata.task.service.BulkTemplateRepository;
 import com.ifugle.rap.elasticsearch.model.DataRequest;
 import com.ifugle.rap.elasticsearch.service.ElasticSearchBusinessService;
 import com.ifugle.rap.service.utils.CompriseUtils;
-import com.ifugle.rap.sqltransform.base.KeySelector;
-import com.ifugle.rap.sqltransform.base.BaseSqlTaskScheduleFactory;
-import com.ifugle.rap.sqltransform.base.TransformBase;
+import com.ifugle.rap.sqltransform.base.*;
 import com.ifugle.rap.sqltransform.entry.BoardIndexDayModel;
 import com.ifugle.rap.sqltransform.entry.IndexDayModel;
 import com.ifugle.rap.sqltransform.entry.SqlEntry;
 import com.ifugle.rap.sqltransform.entry.SqlTask;
-import com.ifugle.rap.sqltransform.keySelector.DayMergeBeforeSelector;
-import com.ifugle.rap.sqltransform.keySelector.Days30MergeBeforeSelector;
-import com.ifugle.rap.sqltransform.keySelector.MergeDayAndMonthKeySelector;
-import com.ifugle.rap.sqltransform.keySelector.MonthMergeBeforeSelector;
+import com.ifugle.rap.sqltransform.keyselector.MergeBeforeMd5KeySelector;
+import com.ifugle.rap.sqltransform.samekeyaction.DayMergeBeforeWorkerSame;
+import com.ifugle.rap.sqltransform.samekeyaction.Days30YesterdayMergeWorkerSame;
+import com.ifugle.rap.sqltransform.samekeyaction.MergeDayAndMonthSameKeyAction;
+import com.ifugle.rap.sqltransform.samekeyaction.LastMonthMergeWorkerSame;
 import com.ifugle.rap.sqltransform.specialfiledextractor.SimpleSelectSpecialFiledExtractor;
 import com.ifugle.rap.sync.service.InnerSyncService;
 import com.ifugle.rap.utils.MD5Util;
@@ -36,7 +35,7 @@ import java.util.*;
 public class SyncFactory extends BaseSqlTaskScheduleFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(SyncFactory.class);
     private static final String SELECT_SQL = "select * from {table_name}  where id=\"{id}\"";
-    private static final List<IndexDayModel> NOW_DAY_TOTAL_LIST = new ArrayList<>();
+    private final List<IndexDayModel> nowDayTotalList = new ArrayList<>();
     private static final String MID_INDEX_NAME_DAY = "bigdata_bi_index_day";
     private static final String MID_INDEX_NAME_30DAYS = "bigdata_bi_index_30days";
     private static final String MID_INDEX_NAME_MONTH = "bigdata_bi_index_month";
@@ -78,43 +77,131 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
                 resultJsonObj,
                 sqlTask.getSpecialFiledExtractorBase(),
                 sqlTask.getCommonFiledExtractor());
+//        if (!sqlTask.isLevel())
+//            getCorrectList(formatData, sqlTask.getTableType());
         map.put(sqlTask.getTableType(), formatData == null ? new ArrayList<>() : formatData);
         return map;
     }
 
+//    private void getCorrectList(List<IndexDayModel> formatData, Integer type) {
+//        if (type == 1) {
+//            //total
+//            Integer minTotalCount = getMinTotalCount(formatData);
+//            for (IndexDayModel formatDatum : formatData) {
+//                formatDatum.setTotalCount(minTotalCount);
+//            }
+//        } else {
+//            //inc
+//            Integer minIncCount = getMinIncCount(formatData);
+//            for (IndexDayModel formatDatum : formatData) {
+//                formatDatum.setIncCount(minIncCount);
+//            }
+//        }
+//    }
+//
+//    public Integer getMinIncCount(List<IndexDayModel> formatData) {
+//        int min = formatData.size() == 0 ? 1 : formatData.get(0).getIncCount();
+//        for (IndexDayModel formatDatum : formatData) {
+//            if (formatDatum.getIncCount() < min) {
+//                min = formatDatum.getIncCount();
+//            }
+//        }
+//        return min;
+//    }
+//
+//    public Integer getMinTotalCount(List<IndexDayModel> formatData) {
+//        int min = formatData.size() == 0 ? 1 : formatData.get(0).getTotalCount();
+//        for (IndexDayModel formatDatum : formatData) {
+//            if (formatDatum.getTotalCount() < min) {
+//                min = formatDatum.getTotalCount();
+//            }
+//        }
+//        return min;
+//    }
+
     @Override
     public void dealWithResult(Map<Integer, List<IndexDayModel>> map) throws Exception {
         for (Map.Entry<Integer, List<IndexDayModel>> entry : map.entrySet()) {
-            List<IndexDayModel> beforeList;
-            List<IndexDayModel> mid;
+            List<IndexDayModel> finalMergedList;
+            Integer key = entry.getKey();
+            List<IndexDayModel> value = entry.getValue();
             //插入
-            switch (entry.getKey()) {
+            switch (key) {
                 case 1:
-                    if (entry.getValue().size() > 0) {
-                        beforeList = outPutEs(entry.getValue(), MID_INDEX_NAME_DAY, Calendar.DAY_OF_MONTH, -1, "yyyyMMdd");
-                        NOW_DAY_TOTAL_LIST.clear();
-                        NOW_DAY_TOTAL_LIST.addAll(entry.getValue());
-                        mid = leftJoin(entry.getValue(), beforeList, new DayMergeBeforeSelector());
-                        innerSyncService.insertIndexDay(mid);
+                    if (value.size() > 0) {
+//                        outPutEs(value, MID_INDEX_NAME_DAY);
+//                        //前天的数据
+//                        List<IndexDayModel> indexListInLastMonth = getBeforeIndexModelList(value,
+//                                MID_INDEX_NAME_DAY,
+//                                new int[]{Calendar.DAY_OF_MONTH},
+//                                new int[]{-2},
+//                                "yyyyMMdd",
+//                                new SimpleSelectSpecialFiledExtractor(),
+//                                null);
+//                        //上个月昨天的数据
+//                        List<IndexDayModel> yesterdayLastMonthIndexList = getBeforeIndexModelList(value,
+//                                MID_INDEX_NAME_DAY,
+//                                new int[]{Calendar.DAY_OF_MONTH, Calendar.MONTH},
+//                                new int[]{-2, -1},
+//                                "yyyyMMdd",
+//                                new SimpleSelectSpecialFiledExtractor(),
+//                                null);
+//                        NOW_DAY_TOTAL_LIST.clear();
+//                        NOW_DAY_TOTAL_LIST.addAll(value);
+//                        finalMergedList = leftJoin(value, indexListInLastMonth, new DayMergeBeforeSelector());
+                        innerSyncService.insertIndexDay(judgeDayOr30DayAndGetMidList(value, MID_INDEX_NAME_DAY, key));
                     }
                     break;
                 case 2:
-                    if (entry.getValue().size() > 0) {
-                        beforeList = outPutEs(entry.getValue(), MID_INDEX_NAME_30DAYS, Calendar.DAY_OF_MONTH, -1, "yyyyMMdd");
-                        mid = leftJoin(entry.getValue(), beforeList, new Days30MergeBeforeSelector());
-                        innerSyncService.insertIndex30Day(mid);
+                    if (value.size() > 0) {
+//                        outPutEs(value, MID_INDEX_NAME_30DAYS);
+//                        //前天的数据
+//                        List<IndexDayModel> indexListInLastMonth = getBeforeIndexModelList(value,
+//                                MID_INDEX_NAME_30DAYS,
+//                                new int[]{Calendar.DAY_OF_MONTH},
+//                                new int[]{-2},
+//                                "yyyyMMdd",
+//                                new SimpleSelectSpecialFiledExtractor(),
+//                                null);
+//                        //上个月昨天的数据
+//                        List<IndexDayModel> yesterdayLastMonthIndexList = getBeforeIndexModelList(value,
+//                                MID_INDEX_NAME_30DAYS,
+//                                new int[]{Calendar.DAY_OF_MONTH, Calendar.MONTH},
+//                                new int[]{-2, -1},
+//                                "yyyyMMdd",
+//                                new SimpleSelectSpecialFiledExtractor(),
+//                                null);
+//                        finalMergedList = leftJoin(value, indexListInLastMonth, new Days30MergeBeforeSelector());
+                        List<IndexDayModel> indexDayModelList = judgeDayOr30DayAndGetMidList(value, MID_INDEX_NAME_30DAYS, key);
+                        innerSyncService.insertIndex30Day(indexDayModelList);
                     }
                     break;
                 case 3:
-                    List<IndexDayModel> mergedList = entry.getValue().size() == 0 ? leftJoin(NOW_DAY_TOTAL_LIST, entry.getValue(), null) : leftJoin(entry.getValue(), NOW_DAY_TOTAL_LIST, new MergeDayAndMonthKeySelector());
-                    beforeList = outPutEs(mergedList, MID_INDEX_NAME_MONTH, Calendar.MONTH, -1, "yyyyMM");
-                    mid = leftJoin(mergedList, beforeList, new MonthMergeBeforeSelector());
-                    if (mid.size() != 0) {
-                        for (IndexDayModel remain : mid) {
+                    List<IndexDayModel> mergedList = value.size() == 0 ? leftJoin(nowDayTotalList, value, null) : leftJoin(value, nowDayTotalList, new MergeDayAndMonthSameKeyAction(new MergeBeforeMd5KeySelector()));
+                    outPutEs(mergedList, MID_INDEX_NAME_MONTH);
+                    //上个月的数据
+                    List<IndexDayModel> indexListInLastMonth = getBeforeIndexModelList(mergedList,
+                            MID_INDEX_NAME_MONTH,
+                            new int[]{Calendar.MONTH},
+                            new int[]{-1},
+                            "yyyyMM",
+                            new SimpleSelectSpecialFiledExtractor(),
+                            null);
+                    //上一年上个月的数据
+                    List<IndexDayModel> indexListInLastMonthInLastYear = getBeforeIndexModelList(mergedList,
+                            MID_INDEX_NAME_MONTH,
+                            new int[]{Calendar.MONTH},
+                            new int[]{-13},
+                            "yyyyMM",
+                            new SimpleSelectSpecialFiledExtractor(),
+                            null);
+                    finalMergedList = leftJoin(mergedList, indexListInLastMonth, new LastMonthMergeWorkerSame(new MergeBeforeMd5KeySelector()));
+                    if (finalMergedList.size() != 0) {
+                        for (IndexDayModel remain : finalMergedList) {
                             remain.setCycleId(Integer.valueOf(remain.getCycleId().toString().substring(0, 6)));
                             remain.setNodeId(Integer.valueOf(remain.getNodeId().toString().substring(0, 6)));
                         }
-                        innerSyncService.insertIndexMonth(mid);
+                        innerSyncService.insertIndexMonth(finalMergedList);
                     }
                     break;
                 default:
@@ -124,47 +211,110 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
     }
 
     /**
+     * 获得（day 和30day）上个月昨天，以及前天的数据数据集
+     *
+     * @param indexListInYesterday 昨天的数据机
+     * @param index                索引
+     * @param key                  关键值
+     * @return 中间集合
+     * @throws Exception 异常
+     */
+    public List<IndexDayModel> judgeDayOr30DayAndGetMidList(List<IndexDayModel> indexListInYesterday, String index, int key) throws Exception {
+        List<IndexDayModel> finalMergedList;
+        outPutEs(indexListInYesterday, index);
+        //前天的数据
+        List<IndexDayModel> indexListOnTheDatBeforeYesterday = getBeforeIndexModelList(indexListInYesterday,
+                index,
+                new int[]{Calendar.DAY_OF_MONTH},
+                new int[]{-2},
+                "yyyyMMdd",
+                new SimpleSelectSpecialFiledExtractor(),
+                null);
+        //上个月昨天的数据
+        List<IndexDayModel> indexListOnYesterdayInLastMonth = getBeforeIndexModelList(indexListInYesterday,
+                index,
+                new int[]{Calendar.DAY_OF_MONTH, Calendar.MONTH},
+                new int[]{-2, -1},
+                "yyyyMMdd",
+                new SimpleSelectSpecialFiledExtractor(),
+                null);
+        if (key == 1) {
+            nowDayTotalList.clear();
+            nowDayTotalList.addAll(indexListInYesterday);
+            //对昨天数据和
+            finalMergedList = leftJoin(indexListInYesterday, indexListOnTheDatBeforeYesterday, new DayMergeBeforeWorkerSame(new MergeBeforeMd5KeySelector()));
+        } else {
+            finalMergedList = leftJoin(indexListInYesterday, indexListOnTheDatBeforeYesterday, new Days30YesterdayMergeWorkerSame(new MergeBeforeMd5KeySelector()));
+        }
+        return finalMergedList;
+    }
+
+    /**
      * 输出 es，返回之前的数据
      *
      * @param formatData 数据集
      * @param indexName  索引名称
      */
-    private List<IndexDayModel> outPutEs(List<IndexDayModel> formatData, String indexName, Integer type, Integer offset, String format) throws Exception {
-        List<IndexDayModel> beforeListData = new ArrayList<>();
+    private void outPutEs(List<IndexDayModel> formatData, String indexName) throws Exception {
         StringBuilder dslInsert = new StringBuilder(32);
         for (IndexDayModel formatDatum : formatData) {
-            IndexDayModel clone = formatDatum.clone();
-            Integer date = Integer.valueOf(TimeUtil.getBeforeTime(type, offset - 1, format));
-            clone.setCycleId(date);
-            clone.setNodeId(date);
-            String indexKey = compriseUtils.getIndexKey(clone);
-            String selectSql = SyncFactory.SELECT_SQL.replace("{table_name}", indexName).replace("{id}", MD5Util.stringToMD5(indexKey));
-            SqlTask sqlTask = new SqlTask(selectSql, 1, new SimpleSelectSpecialFiledExtractor(), null);
-            Map<Integer, List<IndexDayModel>> integerListMap = doSearchAndGainResult(sqlTask, this.baseTransforms);
-            beforeListData.addAll(integerListMap.get(1));
             DataRequest request = compriseUtils.IndexDetailDataRequest(formatDatum);
             dslInsert.append(elasticSearchBusinessService.formatSaveOrUpdateDSL(indexName, request));
         }
         elasticSearchBusinessService.bulkOperation(dslInsert.toString());
+    }
+
+    /**
+     * 查询之前日期的数据集
+     *
+     * @param indexDayModels            day实体类
+     * @param indexName                 索引名称
+     * @param type                      {@link Calendar}的静态变量，比如 Calendar.DAY_OF_MONTH
+     * @param offset                    偏移 的长度，支持正负数
+     * @param format                    日期格式
+     * @param specialFiledExtractorBase 特殊字段提取器
+     * @param commonFiledExtractorBase  公共字段提取器
+     * @return 偏移日期后的数据集合
+     * @throws Exception 异常
+     */
+    private List<IndexDayModel> getBeforeIndexModelList(List<IndexDayModel> indexDayModels,
+                                                        String indexName,
+                                                        int[] type,
+                                                        int[] offset,
+                                                        String format,
+                                                        SpecialFiledExtractorBase<JSONObject, List<IndexDayModel>> specialFiledExtractorBase,
+                                                        CommonFiledExtractorBase<JSONObject, List<IndexDayModel>> commonFiledExtractorBase) throws Exception {
+        List<IndexDayModel> beforeListData = new ArrayList<>();
+        for (IndexDayModel indexDayModel : indexDayModels) {
+            IndexDayModel clone = indexDayModel.clone();
+            Integer date = Integer.valueOf(TimeUtil.getBeforeTime(type, offset, format));
+            clone.setCycleId(date);
+            clone.setNodeId(date);
+            String indexKey = compriseUtils.getIndexKey(clone);
+            String selectSql = SyncFactory.SELECT_SQL.replace("{table_name}", indexName).replace("{id}", MD5Util.stringToMD5(indexKey));
+            SqlTask sqlTask = new SqlTask(selectSql, 1, specialFiledExtractorBase, commonFiledExtractorBase, true);
+            Map<Integer, List<IndexDayModel>> integerListMap = doSearchAndGainResult(sqlTask, this.baseTransforms);
+            beforeListData.addAll(integerListMap.get(1));
+        }
         return beforeListData;
     }
 
     /**
      * 对相同的自定义key进行自定义操作
      *
-     * @param remain      返回的集合
-     * @param leave       丢弃的集合
-     * @param keySelector 合并集合key选择器以及合并操作
+     * @param remain        返回的集合
+     * @param leave         丢弃的集合
+     * @param sameKeyAction 合并集合key选择器以及合并操作
      * @return 集合
      */
-    private List<IndexDayModel> leftJoin(List<IndexDayModel> remain, List<IndexDayModel> leave, KeySelector<IndexDayModel> keySelector) throws Exception {
-        if (keySelector != null) {
+    private List<IndexDayModel> leftJoin(List<IndexDayModel> remain, List<IndexDayModel> leave, SameKeyAction<IndexDayModel> sameKeyAction) throws Exception {
+        if (sameKeyAction != null) {
             for (IndexDayModel indexDayModel : remain) {
-                String key = keySelector.getKey(indexDayModel);
+                String key = sameKeyAction.getInKeySelector().getKey(indexDayModel);
                 for (IndexDayModel dayModel : leave) {
-                    String key1 = keySelector.getKey(dayModel);
+                    String key1 = sameKeyAction.getInKeySelector().getKey(dayModel);
                     if (key.equals(key1)) {
-                        keySelector.sameKeyDone(indexDayModel, dayModel);
+                        sameKeyAction.sameKeyDone(indexDayModel, dayModel);
                     }
                 }
             }

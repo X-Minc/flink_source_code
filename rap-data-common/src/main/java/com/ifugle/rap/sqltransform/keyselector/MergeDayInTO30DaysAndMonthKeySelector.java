@@ -1,19 +1,18 @@
-package com.ifugle.rap.sqltransform.keySelector;
+package com.ifugle.rap.sqltransform.keyselector;
 
 import com.ifugle.rap.sqltransform.base.KeySelector;
 import com.ifugle.rap.sqltransform.entry.IndexDayModel;
 
-import java.security.Key;
-
 /**
  * @author Minc
- * @date 2022/1/7 10:33
+ * @date 2022/1/17 11:32
  */
-public class MergeDayAndMonthKeySelector implements KeySelector<IndexDayModel> {
+public class MergeDayInTO30DaysAndMonthKeySelector implements KeySelector<IndexDayModel> {
     @Override
     public String getKey(IndexDayModel indexDayModel) {
-        return indexDayModel.getCycleId() + "," +
-                indexDayModel.getNodeId() + "," +
+        return
+//                indexDayModel.getCycleId() + "," +
+//                indexDayModel.getNodeId() + "," +
                 indexDayModel.getIndex() + "," +
                 indexDayModel.getOrgId() + "," +
                 indexDayModel.getDim1() + "," +
@@ -22,10 +21,5 @@ public class MergeDayAndMonthKeySelector implements KeySelector<IndexDayModel> {
                 indexDayModel.getDimData2() + "," +
                 indexDayModel.getDim3() + "," +
                 indexDayModel.getDimData3();
-    }
-
-    @Override
-    public void sameKeyDone(IndexDayModel remain, IndexDayModel leave) {
-        remain.setTotalCount(leave.getTotalCount());
     }
 }

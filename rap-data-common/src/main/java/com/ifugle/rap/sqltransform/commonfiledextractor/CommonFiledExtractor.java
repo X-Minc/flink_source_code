@@ -30,7 +30,7 @@ public class CommonFiledExtractor implements CommonFiledExtractorBase<JSONObject
 
     @Override
     public List<IndexDayModel> customSetData(List<IndexDayModel> indexDayModelList) throws Exception {
-        String cycleIdAndNodeId = isMonthTask ? TimeUtil.getBeforeTime(Calendar.MONTH, -1, "yyyyMM") :
+        String cycleIdAndNodeId = isMonthTask ? TimeUtil.getBeforeTime(new int[]{Calendar.MONTH}, new int[]{0}, "yyyyMM") :
                 TimeUtil.getStringDate(System.currentTimeMillis(), "yyyyMMdd", -1000L * 60 * 60 * 24);
         for (IndexDayModel indexDayModel : indexDayModelList) {
             indexDayModel.setCycleId(Integer.parseInt(cycleIdAndNodeId));

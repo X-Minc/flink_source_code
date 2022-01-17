@@ -69,6 +69,12 @@ public class SimpleSelectSpecialFiledExtractor implements SpecialFiledExtractorB
         Integer inc_count = jsonObject.getInteger("inc_count");
         if (inc_count != null)
             builder.setIncCount(inc_count);
+        Integer dec_count = jsonObject.getInteger("dec_count");
+        if (dec_count != null)
+            builder.setDecCount(dec_count);
+        Integer net_inc_count = jsonObject.getInteger("net_inc_count");
+        if (net_inc_count != null)
+            builder.setNetIncCount(net_inc_count);
         return builder.build();
     }
 }

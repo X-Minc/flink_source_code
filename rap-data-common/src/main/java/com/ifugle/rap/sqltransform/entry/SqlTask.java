@@ -13,6 +13,7 @@ import java.util.List;
  * @date 2022/1/6 10:16
  */
 public class SqlTask {
+    private boolean isLevel;
     private String sql;
     /**
      * 1. bi_index_day
@@ -23,11 +24,20 @@ public class SqlTask {
     private SpecialFiledExtractorBase<JSONObject, List<IndexDayModel>> specialFiledExtractorBase;
     private CommonFiledExtractorBase<JSONObject, List<IndexDayModel>> commonFiledExtractor;
 
-    public SqlTask(String sql, Integer tableType, SpecialFiledExtractorBase<JSONObject, List<IndexDayModel>> specialFiledExtractorBase, CommonFiledExtractor commonFiledExtractor) {
+    public SqlTask(String sql, Integer tableType, SpecialFiledExtractorBase<JSONObject, List<IndexDayModel>> specialFiledExtractorBase,  CommonFiledExtractorBase<JSONObject, List<IndexDayModel>> commonFiledExtractor,boolean isLevel) {
         this.sql = sql;
         this.tableType = tableType;
         this.specialFiledExtractorBase = specialFiledExtractorBase;
         this.commonFiledExtractor = commonFiledExtractor;
+        this.isLevel=isLevel;
+    }
+
+    public boolean isLevel() {
+        return isLevel;
+    }
+
+    public void setLevel(boolean level) {
+        isLevel = level;
     }
 
     public String getSql() {

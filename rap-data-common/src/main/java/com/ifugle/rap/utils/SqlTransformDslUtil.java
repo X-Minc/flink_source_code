@@ -25,12 +25,12 @@ public class SqlTransformDslUtil {
     /**
      * 预处理
      *
-     * @param sql                              sql，请在where条件中加上{time_condition}
-     * @param day                              是否查询day
-     * @param days30                           是否查询30day
-     * @param month                            是否按照month查询
+     * @param sql                                    sql，请在where条件中加上{time_condition}
+     * @param day                                    是否查询day
+     * @param days30                                 是否查询30day
+     * @param month                                  是否按照month查询
      * @param singleAggregationSpecialFiledExtractor 特殊字段提取集合，数量和公共字段集合保持一致
-     * @param commonFiledExtractors            公共字段提取集合，数量和特殊字段集合保持一致
+     * @param commonFiledExtractors                  公共字段提取集合，数量和特殊字段集合保持一致
      * @throws Exception 异常
      */
     public static List<SqlTask> doPreTransform(String sql,
@@ -39,7 +39,8 @@ public class SqlTransformDslUtil {
                                                Boolean month,
                                                List<SingleAggregationSpecialFiledExtractor> singleAggregationSpecialFiledExtractor,
                                                List<CommonFiledExtractor> commonFiledExtractors,
-                                               String timeFiled) throws Exception {
+                                               String timeFiled,
+                                               boolean isLevel) throws Exception {
         sql = sql.toLowerCase(Locale.ROOT);
         List<SqlTask> sqls = new ArrayList<>();
         for (int i = 0; i < Math.max(commonFiledExtractors.size(), singleAggregationSpecialFiledExtractor.size()); i++) {
@@ -49,7 +50,8 @@ public class SqlTransformDslUtil {
                                 sql.replace("{time_condition}", dayCondition.getCondition()),
                                 dayCondition.getTableType(),
                                 singleAggregationSpecialFiledExtractor.get(i),
-                                commonFiledExtractors.get(i)
+                                commonFiledExtractors.get(i),
+                                isLevel
                         )
                 );
                 day = false;
@@ -62,7 +64,8 @@ public class SqlTransformDslUtil {
                                 sql.replace("{time_condition}", days30Condition.getCondition().replace("{time}", date).replace("{time_filed}", timeFiled)),
                                 days30Condition.getTableType(),
                                 singleAggregationSpecialFiledExtractor.get(i),
-                                commonFiledExtractors.get(i)
+                                commonFiledExtractors.get(i),
+                                isLevel
                         )
                 );
                 days30 = false;
@@ -75,7 +78,8 @@ public class SqlTransformDslUtil {
                                 sql.replace("{time_condition}", monthCondition.getCondition().replace("{time}", time).replace("{time_filed}", timeFiled)),
                                 monthCondition.getTableType(),
                                 singleAggregationSpecialFiledExtractor.get(i),
-                                commonFiledExtractors.get(i)
+                                commonFiledExtractors.get(i),
+                                isLevel
                         )
                 );
                 month = false;

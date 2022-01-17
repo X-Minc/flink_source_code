@@ -46,11 +46,11 @@ public class GroupBySqlTransformRule extends TransformBase<String> {
                 else BUILDER.append(",").append(elementModel);
             }
             String groupSize = getGroupSize(sqlEntry, hasGroupBy);
-            String countDsl = getKeyDsl(COUNT_DISTINCT_MODEL, getKeyVar(sqlEntry, "count"));
-            String sumDsl = getKeyDsl(SUM_MODEL, getKeyVar(sqlEntry, "sum"));
+//            String countDsl = getKeyDsl(COUNT_DISTINCT_MODEL, getKeyVar(sqlEntry, "count"));
+//            String sumDsl = getKeyDsl(SUM_MODEL, getKeyVar(sqlEntry, "sum"));
             List<String> dslPart = new ArrayList<>();
-            dslPart.add(countDsl);
-            dslPart.add(sumDsl);
+//            dslPart.add(countDsl);
+//            dslPart.add(sumDsl);
             String totalDsl = getKeyDsl(null, dslPart);
             return groupSize.equals("") ?
                     GROUP_MODEL.replace("{sizeValue}", "100000").replace("{var}", BUILDER.toString()).replace("{agg}", totalDsl) :

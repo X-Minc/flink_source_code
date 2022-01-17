@@ -40,7 +40,7 @@ public class SingleAggregationSpecialFiledExtractor implements SpecialFiledExtra
 
         @Override
         public void dealWith(IndexDayModel indexDayModel, JSONObject data) {
-            Integer idCount = data.getJSONObject("count").getInteger("value");
+            Integer idCount = data.getInteger("doc_count");
             String swjgDm = data.getJSONObject("key").getString("swjg_dms");
             if (idCount != null)
                 indexDayModel.setIncCount(idCount);
@@ -54,7 +54,7 @@ public class SingleAggregationSpecialFiledExtractor implements SpecialFiledExtra
 
         @Override
         public void dealWith(IndexDayModel indexDayModel, JSONObject data) {
-            Integer idCount = data.getJSONObject("count").getInteger("value");
+            Integer idCount = data.getInteger("doc_count");
             Integer xnzzId = data.getJSONObject("key").getInteger("xnzz_id");
             String swjgDm = data.getJSONObject("key").getString("swjg_dm");
             if (idCount != null)
@@ -70,7 +70,7 @@ public class SingleAggregationSpecialFiledExtractor implements SpecialFiledExtra
 
         @Override
         public void dealWith(IndexDayModel indexDayModel, JSONObject data) {
-            Integer idCount = data.getJSONObject("count").getInteger("value");
+            Integer idCount = data.getInteger("doc_count");
             String swjgDm = data.getJSONObject("key").getString("swjg_dms");
             if (idCount != null)
                 indexDayModel.setTotalCount(idCount);
@@ -84,7 +84,7 @@ public class SingleAggregationSpecialFiledExtractor implements SpecialFiledExtra
 
         @Override
         public void dealWith(IndexDayModel indexDayModel, JSONObject data) {
-            Integer idCount = data.getJSONObject("count").getInteger("value");
+            Integer idCount = data.getInteger("doc_count");
             Integer xnzzId = data.getJSONObject("key").getInteger("xnzz_id");
             String swjgDm = data.getJSONObject("key").getString("swjg_dm");
             if (idCount != null)

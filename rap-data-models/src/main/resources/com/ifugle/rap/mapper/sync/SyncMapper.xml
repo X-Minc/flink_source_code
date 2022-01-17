@@ -971,9 +971,9 @@
     </select>
 
     <select id="getIndexMonthList" resultMap="indexDay">
-        select DATE_FORMAT(date_sub(CURRENT_DATE, interval 1 month), '%Y%m')             as cycle_id,
+        select DATE_FORMAT(CURRENT_DATE, '%Y%m')                                         as cycle_id,
 
-               DATE_FORMAT(date_sub(CURRENT_DATE, interval 1 month), '%Y%m')             as node_id,
+               DATE_FORMAT(CURRENT_DATE, '%Y%m')                                         as node_id,
 
                case when d.org_id is not null then d.org_id else s.org_id end            as org_id,
 
@@ -1288,7 +1288,7 @@
                                      and d.dim_data2 = s.dim_data2
                                      and d.dim3 = s.dim3
                                      and d.dim_data3 = s.dim_data3
-                                     and d.cycle_id = DATE_FORMAT(date_sub(CURRENT_DATE, interval 1 month), '%Y%m');
+                                     and d.cycle_id = DATE_FORMAT(CURRENT_DATE, '%Y%m');
     </select>
 
     <select id="sweepUp" resultMap="BoardIndexDay">
