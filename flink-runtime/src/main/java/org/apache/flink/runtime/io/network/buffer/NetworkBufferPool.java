@@ -84,9 +84,11 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
         this(numberOfSegmentsToAllocate, segmentSize, Duration.ofMillis(Integer.MAX_VALUE));
     }
 
-    /** Allocates all {@link MemorySegment} instances managed by this pool. */
+    /** 分配此池管理的所有{@link MemorySegment}实例。 */
     public NetworkBufferPool(
-            int numberOfSegmentsToAllocate, int segmentSize, Duration requestSegmentsTimeout) {
+            int numberOfSegmentsToAllocate,
+            int segmentSize,
+            Duration requestSegmentsTimeout) {
         this.totalNumberOfMemorySegments = numberOfSegmentsToAllocate;
         this.memorySegmentSize = segmentSize;
 
@@ -116,11 +118,14 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
         } catch (OutOfMemoryError err) {
             int allocated = availableMemorySegments.size();
 
-            // free some memory
+            // 释放一些内存
             availableMemorySegments.clear();
 
+            //用户请求的内存数量
             long requiredMb = (sizeInLong * numberOfSegmentsToAllocate) >> 20;
+            //已经分配的内存数量
             long allocatedMb = (sizeInLong * allocated) >> 20;
+            //当前缓冲池缺少得内存
             long missingMb = requiredMb - allocatedMb;
 
             throw new OutOfMemoryError(
@@ -159,9 +164,7 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
     }
 
     public void recycle(MemorySegment segment) {
-        // Adds the segment back to the queue, which does not immediately free the memory
-        // however, since this happens when references to the global pool are also released,
-        // making the availableMemorySegments queue and its contained object reclaimable
+        // 将段添加回队列，但不会立即释放内存，因为在释放对全局池的引用时会发生这种情况，从而使availableMemorySegments队列及其包含的对象可回收
         internalRecycleMemorySegments(Collections.singleton(checkNotNull(segment)));
     }
 
@@ -262,10 +265,13 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
     private void internalRecycleMemorySegments(Collection<MemorySegment> segments) {
         CompletableFuture<?> toNotify = null;
         synchronized (availableMemorySegments) {
+            //剩余内存块用尽，且还需请求内存块
             if (availableMemorySegments.isEmpty() && !segments.isEmpty()) {
                 toNotify = availabilityHelper.getUnavailableToResetAvailable();
             }
+            //将回收的内存块释放，并加入可用剩余内存块
             availableMemorySegments.addAll(segments);
+            //当本地缓冲池中的所有内存块用尽，本地缓冲池处于阻塞状态
             availableMemorySegments.notifyAll();
         }
 
@@ -274,6 +280,7 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
         }
     }
 
+    //使用缓存池的内存
     public void destroy() {
         synchronized (factoryLock) {
             isDestroyed = true;

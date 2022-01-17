@@ -28,8 +28,8 @@ import java.util.concurrent.CompletableFuture;
 @Internal
 public interface AvailabilityProvider {
     /**
-     * Constant that allows to avoid volatile checks {@link CompletableFuture#isDone()}. Check
-     * {@link #isAvailable()} and {@link #isApproximatelyAvailable()} for more explanation.
+     * 允许避免易失性检查的常量 {@link CompletableFuture#isDone()}。
+     * 检查 {@link #isAvailable()} 和 {@link #isApproximatelyAvailable()} 以获得更多解释。
      */
     CompletableFuture<?> AVAILABLE = CompletableFuture.completedFuture(null);
 
@@ -117,14 +117,13 @@ public interface AvailabilityProvider {
             }
         }
 
-        /** Resets the constant completed {@link #AVAILABLE} as the current state. */
+        /** 将已完成的常量 {@link #AVAILABLE} 重置为当前状态。 */
         public void resetAvailable() {
             availableFuture = AVAILABLE;
         }
 
         /**
-         * Returns the previously not completed future and resets the constant completed {@link
-         * #AVAILABLE} as the current state.
+         * 返回以前未完成的将来，并将常量completed{@link #AVAILABLE}重置为当前状态。
          */
         public CompletableFuture<?> getUnavailableToResetAvailable() {
             CompletableFuture<?> toNotify = availableFuture;

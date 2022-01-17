@@ -26,14 +26,14 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeoutException;
 
-/** This class stores a deadline, as obtained via {@link #now()} or from {@link #plus(Duration)}. */
+/** 此类存储截止日期，通过 {@link #now()} 或 {@link #plus(Duration)} 获得。 */
 @Internal
 public class Deadline {
 
-    /** The deadline, relative to {@link System#nanoTime()}. */
+    /** 截止日期，相对于 {@link System#nanoTime()}。 */
     private final long timeNanos;
 
-    /** Clock providing the time for this deadline. */
+    /** 提供此截止日期时间的时钟。 */
     private final Clock clock;
 
     private Deadline(long deadline, Clock clock) {
@@ -46,8 +46,8 @@ public class Deadline {
     }
 
     /**
-     * Returns the time left between the deadline and now. The result is negative if the deadline
-     * has passed.
+     * 返回截止日期和现在之间的剩余时间。
+     * 如果截止日期已过，则结果是否定的。
      */
     public Duration timeLeft() {
         return Duration.ofNanos(Math.subtractExact(timeNanos, clock.relativeTimeNanos()));
