@@ -77,47 +77,9 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
                 resultJsonObj,
                 sqlTask.getSpecialFiledExtractorBase(),
                 sqlTask.getCommonFiledExtractor());
-//        if (!sqlTask.isLevel())
-//            getCorrectList(formatData, sqlTask.getTableType());
         map.put(sqlTask.getTableType(), formatData == null ? new ArrayList<>() : formatData);
         return map;
     }
-
-//    private void getCorrectList(List<IndexDayModel> formatData, Integer type) {
-//        if (type == 1) {
-//            //total
-//            Integer minTotalCount = getMinTotalCount(formatData);
-//            for (IndexDayModel formatDatum : formatData) {
-//                formatDatum.setTotalCount(minTotalCount);
-//            }
-//        } else {
-//            //inc
-//            Integer minIncCount = getMinIncCount(formatData);
-//            for (IndexDayModel formatDatum : formatData) {
-//                formatDatum.setIncCount(minIncCount);
-//            }
-//        }
-//    }
-//
-//    public Integer getMinIncCount(List<IndexDayModel> formatData) {
-//        int min = formatData.size() == 0 ? 1 : formatData.get(0).getIncCount();
-//        for (IndexDayModel formatDatum : formatData) {
-//            if (formatDatum.getIncCount() < min) {
-//                min = formatDatum.getIncCount();
-//            }
-//        }
-//        return min;
-//    }
-//
-//    public Integer getMinTotalCount(List<IndexDayModel> formatData) {
-//        int min = formatData.size() == 0 ? 1 : formatData.get(0).getTotalCount();
-//        for (IndexDayModel formatDatum : formatData) {
-//            if (formatDatum.getTotalCount() < min) {
-//                min = formatDatum.getTotalCount();
-//            }
-//        }
-//        return min;
-//    }
 
     @Override
     public void dealWithResult(Map<Integer, List<IndexDayModel>> map) throws Exception {
@@ -129,49 +91,11 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
             switch (key) {
                 case 1:
                     if (value.size() > 0) {
-//                        outPutEs(value, MID_INDEX_NAME_DAY);
-//                        //前天的数据
-//                        List<IndexDayModel> indexListInLastMonth = getBeforeIndexModelList(value,
-//                                MID_INDEX_NAME_DAY,
-//                                new int[]{Calendar.DAY_OF_MONTH},
-//                                new int[]{-2},
-//                                "yyyyMMdd",
-//                                new SimpleSelectSpecialFiledExtractor(),
-//                                null);
-//                        //上个月昨天的数据
-//                        List<IndexDayModel> yesterdayLastMonthIndexList = getBeforeIndexModelList(value,
-//                                MID_INDEX_NAME_DAY,
-//                                new int[]{Calendar.DAY_OF_MONTH, Calendar.MONTH},
-//                                new int[]{-2, -1},
-//                                "yyyyMMdd",
-//                                new SimpleSelectSpecialFiledExtractor(),
-//                                null);
-//                        NOW_DAY_TOTAL_LIST.clear();
-//                        NOW_DAY_TOTAL_LIST.addAll(value);
-//                        finalMergedList = leftJoin(value, indexListInLastMonth, new DayMergeBeforeSelector());
                         innerSyncService.insertIndexDay(judgeDayOr30DayAndGetMidList(value, MID_INDEX_NAME_DAY, key));
                     }
                     break;
                 case 2:
                     if (value.size() > 0) {
-//                        outPutEs(value, MID_INDEX_NAME_30DAYS);
-//                        //前天的数据
-//                        List<IndexDayModel> indexListInLastMonth = getBeforeIndexModelList(value,
-//                                MID_INDEX_NAME_30DAYS,
-//                                new int[]{Calendar.DAY_OF_MONTH},
-//                                new int[]{-2},
-//                                "yyyyMMdd",
-//                                new SimpleSelectSpecialFiledExtractor(),
-//                                null);
-//                        //上个月昨天的数据
-//                        List<IndexDayModel> yesterdayLastMonthIndexList = getBeforeIndexModelList(value,
-//                                MID_INDEX_NAME_30DAYS,
-//                                new int[]{Calendar.DAY_OF_MONTH, Calendar.MONTH},
-//                                new int[]{-2, -1},
-//                                "yyyyMMdd",
-//                                new SimpleSelectSpecialFiledExtractor(),
-//                                null);
-//                        finalMergedList = leftJoin(value, indexListInLastMonth, new Days30MergeBeforeSelector());
                         List<IndexDayModel> indexDayModelList = judgeDayOr30DayAndGetMidList(value, MID_INDEX_NAME_30DAYS, key);
                         innerSyncService.insertIndex30Day(indexDayModelList);
                     }

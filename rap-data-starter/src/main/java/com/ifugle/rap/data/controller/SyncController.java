@@ -2,6 +2,7 @@ package com.ifugle.rap.data.controller;
 
 import com.google.common.collect.Maps;
 import com.ifugle.rap.data.task.sync.SyncTask;
+import com.ifugle.rap.utils.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class SyncController {
 
     @RequestMapping(value = "/manual", method = RequestMethod.GET)
     public Map<String, Object> manualSync() {
+        LOGGER.info("时间={},调用同步接口", TimeUtil.getStringDate(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
         Map<String, Object> result = new HashMap<>();
         try {
             syncTask.getQuery();
@@ -39,6 +41,7 @@ public class SyncController {
 
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public Map<String, Object> initSync() {
+        LOGGER.info("时间={},调用初始化接口", TimeUtil.getStringDate(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
         Map<String, Object> result = new HashMap<>();
         try {
             syncTask.initDaily();
