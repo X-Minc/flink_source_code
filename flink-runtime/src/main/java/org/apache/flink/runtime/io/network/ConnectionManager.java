@@ -21,16 +21,15 @@ package org.apache.flink.runtime.io.network;
 import java.io.IOException;
 
 /**
- * The connection manager manages physical connections for the (logical) remote input channels at
- * runtime.
+ * 连接管理器在运行时管理（逻辑）远程输入通道的物理连接。
  */
 public interface ConnectionManager {
 
     /**
-     * Starts the internal related components for network connection and communication.
+     * 启动用于网络连接和通信的内部相关组件。
      *
      * @return a port to connect to the task executor for shuffle data exchange, -1 if only local
-     *     connection is possible.
+     *         connection is possible.
      */
     int start() throws IOException;
 

@@ -68,13 +68,11 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
 import static org.apache.flink.util.Preconditions.checkState;
 
 /**
- * An input gate consumes one or more partitions of a single produced intermediate result.
+ * 输入门消耗单个生成的中间结果的一个或多个分区。
  *
- * <p>Each intermediate result is partitioned over its producing parallel subtasks; each of these
- * partitions is furthermore partitioned into one or more subpartitions.
+ * <p>每个中间结果在其生成的并行子任务上进行分区；这些分区中的每一个都进一步划分为一个或多个子分区。
  *
- * <p>As an example, consider a map-reduce program, where the map operator produces data and the
- * reduce operator consumes the produced data.
+ * <p>作为一个例子，考虑Map Reduce程序，其中MAP操作符产生数据，并且Reduce运算符消耗生成的数据。
  *
  * <pre>{@code
  * +-----+              +---------------------+              +--------+
@@ -82,9 +80,8 @@ import static org.apache.flink.util.Preconditions.checkState;
  * +-----+              +---------------------+              +--------+
  * }</pre>
  *
- * <p>When deploying such a program in parallel, the intermediate result will be partitioned over
- * its producing parallel subtasks; each of these partitions is furthermore partitioned into one or
- * more subpartitions.
+ * <p>当并行部署这样一个程序时，中间结果将在其产生的并行子任务上进行分区；
+ * 这些分区中的每一个都进一步划分为一个或多个子分区。
  *
  * <pre>{@code
  *                            Intermediate result
@@ -103,56 +100,50 @@ import static org.apache.flink.util.Preconditions.checkState;
  *               +-----------------------------------------+
  * }</pre>
  *
- * <p>In the above example, two map subtasks produce the intermediate result in parallel, resulting
- * in two partitions (Partition 1 and 2). Each of these partitions is further partitioned into two
- * subpartitions -- one for each parallel reduce subtask.
+ * <p>在上面的示例中，两个map子任务并行生成中间结果，从而生成两个分区（分区1和分区2）。每个分区进一步划分为两个子分区——每个并行reduce子任务一个子分区。
  */
 public class SingleInputGate extends IndexedInputGate {
 
     private static final Logger LOG = LoggerFactory.getLogger(SingleInputGate.class);
 
-    /** Lock object to guard partition requests and runtime channel updates. */
+    /** 锁定对象以保护分区请求和运行时通道更新。 */
     private final Object requestLock = new Object();
 
-    /** The name of the owning task, for logging purposes. */
+    /** 所属任务的名称，用于日志记录。 */
     private final String owningTaskName;
 
     private final int gateIndex;
 
     /**
-     * The ID of the consumed intermediate result. Each input gate consumes partitions of the
-     * intermediate result specified by this ID. This ID also identifies the input gate at the
-     * consuming task.
+     * 已使用的中间结果的ID。每个输入门使用此ID指定的中间结果的分区。此ID还标识使用任务的输入门。
      */
     private final IntermediateDataSetID consumedResultId;
 
-    /** The type of the partition the input gate is consuming. */
+    /** 输入门正在使用的分区类型。 */
     private final ResultPartitionType consumedPartitionType;
 
     /**
-     * The index of the consumed subpartition of each consumed partition. This index depends on the
-     * {@link DistributionPattern} and the subtask indices of the producing and consuming task.
+     * 每个已用分区的已用子分区的索引。
+     * 此索引取决于{@link DistributionPattern}以及生产和消费任务的子任务索引。
      */
     private final int consumedSubpartitionIndex;
 
-    /** The number of input channels (equivalent to the number of consumed partitions). */
+    /** 输入通道的数量（相当于已使用分区的数量）。 */
     private final int numberOfInputChannels;
 
     /**
-     * Input channels. There is a one input channel for each consumed intermediate result partition.
-     * We store this in a map for runtime updates of single channels.
+     * 输入通道。每个消耗的中间结果分区都有一个输入通道。我们将其存储在映射中，用于单个通道的运行时更新。
      */
     private final Map<IntermediateResultPartitionID, InputChannel> inputChannels;
 
     @GuardedBy("requestLock")
     private final InputChannel[] channels;
 
-    /** Channels, which notified this input gate about available data. */
+    /** 通道，它将可用数据通知此输入门。 */
     private final PrioritizedDeque<InputChannel> inputChannelsWithData = new PrioritizedDeque<>();
 
     /**
-     * Field guaranteeing uniqueness for inputChannelsWithData queue. Both of those fields should be
-     * unified onto one.
+     * 保证inputChannelsWithData队列唯一性的字段。这两个字段应该统一到一个字段中。
      */
     @GuardedBy("inputChannelsWithData")
     private final BitSet enqueuedInputChannelsWithData;
@@ -166,40 +157,42 @@ public class SingleInputGate extends IndexedInputGate {
     @GuardedBy("inputChannelsWithData")
     private int[] lastPrioritySequenceNumber;
 
-    /** The partition producer state listener. */
+    /** 分区生产者状态侦听器。 */
     private final PartitionProducerStateProvider partitionProducerStateProvider;
 
     /**
-     * Buffer pool for incoming buffers. Incoming data from remote channels is copied to buffers
-     * from this pool.
+     * 传入缓冲区的缓冲池。来自远程通道的传入数据将从此池复制到缓冲区。
      */
     private BufferPool bufferPool;
 
+    //已收到所有分区结束事件
     private boolean hasReceivedAllEndOfPartitionEvents;
 
+    //已收到数据的结尾
     private boolean hasReceivedEndOfData;
 
-    /** Flag indicating whether partitions have been requested. */
+    /** 指示是否已请求分区的标志。 */
     private boolean requestedPartitionsFlag;
 
     private final List<TaskEvent> pendingEvents = new ArrayList<>();
 
+    //未初始化的通道数
     private int numberOfUninitializedChannels;
 
-    /** A timer to retrigger local partition requests. Only initialized if actually needed. */
+    /** 用于重新触发本地分区请求的计时器。仅在实际需要时初始化。*/
     private Timer retriggerLocalRequestTimer;
 
     private final SupplierWithException<BufferPool, IOException> bufferPoolFactory;
 
     private final CompletableFuture<Void> closeFuture;
 
-    @Nullable private final BufferDecompressor bufferDecompressor;
+    @Nullable
+    private final BufferDecompressor bufferDecompressor;
 
     private final MemorySegmentProvider memorySegmentProvider;
 
     /**
-     * The segment to read data from file region of bounded blocking partition by local input
-     * channel.
+     * 通过本地输入通道从有界块分区的文件区域读取数据的段。
      */
     private final MemorySegment unpooledSegment;
 
@@ -365,8 +358,8 @@ public class SingleInputGate extends IndexedInputGate {
                         numberOfInputChannels - channelsWithEndOfPartitionEvents.cardinality());
         synchronized (inputChannelsWithData) {
             for (int i = channelsWithEndOfPartitionEvents.nextClearBit(0);
-                    i < numberOfInputChannels;
-                    i = channelsWithEndOfPartitionEvents.nextClearBit(i + 1)) {
+                 i < numberOfInputChannels;
+                 i = channelsWithEndOfPartitionEvents.nextClearBit(i + 1)) {
                 unfinishedChannels.add(getChannel(i).getChannelInfo());
             }
         }
@@ -922,15 +915,15 @@ public class SingleInputGate extends IndexedInputGate {
     private void queueChannel(
             InputChannel channel, @Nullable Integer prioritySequenceNumber, boolean forcePriority) {
         try (GateNotificationHelper notification =
-                new GateNotificationHelper(this, inputChannelsWithData)) {
+                     new GateNotificationHelper(this, inputChannelsWithData)) {
             synchronized (inputChannelsWithData) {
                 boolean priority = prioritySequenceNumber != null || forcePriority;
 
                 if (!forcePriority
                         && priority
                         && isOutdated(
-                                prioritySequenceNumber,
-                                lastPrioritySequenceNumber[channel.getChannelIndex()])) {
+                        prioritySequenceNumber,
+                        lastPrioritySequenceNumber[channel.getChannelIndex()])) {
                     // priority event at the given offset already polled (notification is not atomic
                     // in respect to
                     // buffer enqueuing), so just ignore the notification
@@ -965,7 +958,7 @@ public class SingleInputGate extends IndexedInputGate {
      * raising the priority.
      *
      * @return true iff it has been enqueued/prioritized = some change to {@link
-     *     #inputChannelsWithData} happened
+     *         #inputChannelsWithData} happened
      */
     private boolean queueChannelUnsafe(InputChannel channel, boolean priority) {
         assert Thread.holdsLock(inputChannelsWithData);

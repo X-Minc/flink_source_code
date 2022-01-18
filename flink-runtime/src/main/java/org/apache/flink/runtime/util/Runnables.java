@@ -20,12 +20,11 @@ package org.apache.flink.runtime.util;
 
 import org.apache.flink.util.FatalExitExceptionHandler;
 
-/** Utils related to {@link Runnable}. */
+/** 与 {@link Runnable} 相关的实用程序。 */
 public class Runnables {
 
     /**
-     * Asserts that the given {@link Runnable} does not throw exceptions. If the runnable throws
-     * exceptions, then it will call the {@link FatalExitExceptionHandler}.
+     * 断言给定的 {@link Runnable} 不会引发异常。如果 runnable 抛出异常，那么它将调用 {@link FatalExitExceptionHandler}。
      *
      * @param runnable to assert for no exceptions
      */

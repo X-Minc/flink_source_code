@@ -24,11 +24,11 @@ import org.apache.flink.runtime.io.network.partition.consumer.RemoteInputChannel
 
 import java.io.IOException;
 
-/** Client to send messages or task events via network for {@link RemoteInputChannel}. */
+/** 客户端通过网络为{@link RemoteInputChannel}发送消息或任务事件。*/
 public interface PartitionRequestClient {
 
     /**
-     * Requests a remote sub partition.
+     * 请求远程子分区。
      *
      * @param partitionId The identifier of result partition to be requested.
      * @param subpartitionIndex The sub partition index in the requested result partition.

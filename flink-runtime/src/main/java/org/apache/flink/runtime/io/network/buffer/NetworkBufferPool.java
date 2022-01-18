@@ -376,15 +376,13 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
             int maxBuffersPerChannel)
             throws IOException {
 
-        // It is necessary to use a separate lock from the one used for buffer
-        // requests to ensure deadlock freedom for failure cases.
+        // 有必要使用与用于缓冲请求的锁不同的锁，以确保在失败情况下不会出现死锁。
         synchronized (factoryLock) {
             if (isDestroyed) {
                 throw new IllegalStateException("Network buffer pool has already been destroyed.");
             }
 
-            // Ensure that the number of required buffers can be satisfied.
-            // With dynamic memory management this should become obsolete.
+            // 确保可以满足所需缓冲区的数量。使用动态内存管理，这应该会过时。
             if (numTotalRequiredBuffers + numRequiredBuffers > totalNumberOfMemorySegments) {
                 throw new IOException(
                         String.format(
@@ -397,8 +395,7 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
 
             this.numTotalRequiredBuffers += numRequiredBuffers;
 
-            // We are good to go, create a new buffer pool and redistribute
-            // non-fixed size buffers.
+            // 我们很高兴，创建一个新的缓冲池并重新分配非固定大小的缓冲区。
             LocalBufferPool localBufferPool =
                     new LocalBufferPool(
                             this,
@@ -431,8 +428,7 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
     }
 
     /**
-     * Destroys all buffer pools that allocate their buffers from this buffer pool (created via
-     * {@link #createBufferPool(int, int)}).
+     * 销毁从该缓冲池（通过 {@link #createBufferPool(int, int)} 创建的）分配缓冲区的所有缓冲池。
      */
     public void destroyAllBufferPools() {
         synchronized (factoryLock) {
@@ -452,7 +448,7 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
         }
     }
 
-    // Must be called from synchronized block
+    // 必须从同步块调用
     private void tryRedistributeBuffers(int numberOfSegmentsToRequest) throws IOException {
         assert Thread.holdsLock(factoryLock);
 
@@ -478,15 +474,15 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
         }
     }
 
-    // Must be called from synchronized block
+    // 必须从同步块调用
     private void redistributeBuffers() {
         assert Thread.holdsLock(factoryLock);
 
-        // All buffers, which are not among the required ones
+        // 所有缓冲区，不在所需缓冲区中
         final int numAvailableMemorySegment = totalNumberOfMemorySegments - numTotalRequiredBuffers;
 
         if (numAvailableMemorySegment == 0) {
-            // in this case, we need to redistribute buffers so that every pool gets its minimum
+            // 在这种情况下，我们需要重新分配缓冲区，以便每个池都获得其最小值
             for (LocalBufferPool bufferPool : allBufferPools) {
                 bufferPool.setNumBuffers(bufferPool.getNumberOfRequiredMemorySegments());
             }
@@ -494,14 +490,12 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
         }
 
         /*
-         * With buffer pools being potentially limited, let's distribute the available memory
-         * segments based on the capacity of each buffer pool, i.e. the maximum number of segments
-         * an unlimited buffer pool can take is numAvailableMemorySegment, for limited buffer pools
-         * it may be less. Based on this and the sum of all these values (totalCapacity), we build
-         * a ratio that we use to distribute the buffers.
+         * 由于缓冲池可能受到限制，让我们根据每个缓冲池的容量分配可用内存段，
+         * 即无限缓冲池可以占用的最大段数为 numAvailableMemorySegment，对于有限缓冲池，
+         * 它可能会更少。基于此以及所有这些值的总和（totalCapacity），我们构建了一个用于分配缓冲区的比率。
          */
 
-        long totalCapacity = 0; // long to avoid int overflow
+        long totalCapacity = 0; // long 以避免 int 溢出
 
         for (LocalBufferPool bufferPool : allBufferPools) {
             int excessMax =
@@ -510,14 +504,13 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
             totalCapacity += Math.min(numAvailableMemorySegment, excessMax);
         }
 
-        // no capacity to receive additional buffers?
+        // 没有能力接收额外的缓冲区？
         if (totalCapacity == 0) {
-            return; // necessary to avoid div by zero when nothing to re-distribute
+            return; // 有必要在没有重新分配的情况下避免 div 为零
         }
 
-        // since one of the arguments of 'min(a,b)' is a positive int, this is actually
-        // guaranteed to be within the 'int' domain
-        // (we use a checked downCast to handle possible bugs more gracefully).
+        //因为 'min(a,b)' 的参数之一是一个正整数，所以这实际上保证在 'int' 域内
+        // （我们使用检查的 downCast 来更优雅地处理可能的错误）。
         final int memorySegmentsToDistribute =
                 MathUtils.checkedDownCast(Math.min(numAvailableMemorySegment, totalCapacity));
 

@@ -63,43 +63,41 @@ import static org.apache.flink.util.Preconditions.checkArgument;
 import static org.apache.flink.util.Preconditions.checkNotNull;
 import static org.apache.flink.util.Preconditions.checkState;
 
-/** An input channel, which requests a remote partition queue. */
+/** 输入通道，请求远程分区队列。 */
 public class RemoteInputChannel extends InputChannel {
     private static final Logger LOG = LoggerFactory.getLogger(RemoteInputChannel.class);
 
     private static final int NONE = -1;
 
-    /** ID to distinguish this channel from other channels sharing the same TCP connection. */
+    /** ID将此通道与共享相同TCP连接的其他通道区分开来。 */
     private final InputChannelID id = new InputChannelID();
 
-    /** The connection to use to request the remote partition. */
+    /** 用于请求远程分区的连接。 */
     private final ConnectionID connectionId;
 
-    /** The connection manager to use connect to the remote partition provider. */
+    /** 要使用连接到远程分区提供程序的连接管理器。 */
     private final ConnectionManager connectionManager;
 
     /**
-     * The received buffers. Received buffers are enqueued by the network I/O thread and the queue
-     * is consumed by the receiving task thread.
+     * 接收到的缓冲区。接收的缓冲区由网络IO线程排队，队列由接收任务线程使用。
      */
     private final PrioritizedDeque<SequenceBuffer> receivedBuffers = new PrioritizedDeque<>();
 
     /**
-     * Flag indicating whether this channel has been released. Either called by the receiving task
-     * thread or the task manager actor.
+     * 指示此通道是否已释放的标志。由接收任务线程或任务管理器参与者调用。
      */
     private final AtomicBoolean isReleased = new AtomicBoolean();
 
-    /** Client to establish a (possibly shared) TCP connection and request the partition. */
+    /** 客户端建立（可能是共享的）TCP连接并请求分区。 */
     private volatile PartitionRequestClient partitionRequestClient;
 
-    /** The next expected sequence number for the next buffer. */
+    /** 下一个缓冲区的下一个预期序列号。 */
     private int expectedSequenceNumber = 0;
 
-    /** The initial number of exclusive buffers assigned to this channel. */
+    /** 分配给此通道的独占缓冲区的初始数目。 */
     private final int initialCredit;
 
-    /** The number of available buffers that have not been announced to the producer yet. */
+    /** 尚未向生产商宣布的可用缓冲区数。*/
     private final AtomicInteger unannouncedCredit = new AtomicInteger(0);
 
     private final BufferManager bufferManager;
@@ -630,7 +628,8 @@ public class RemoteInputChannel extends InputChannel {
                 throw new CheckpointException(
                         String.format(
                                 "Sequence number for checkpoint %d is not known (it was likely been overwritten by a newer checkpoint %d)",
-                                barrier.getId(), lastBarrierId),
+                                barrier.getId(),
+                                lastBarrierId),
                         CheckpointFailureReason
                                 .CHECKPOINT_SUBSUMED); // currently, at most one active unaligned
                 // checkpoint is possible
@@ -740,10 +739,10 @@ public class RemoteInputChannel extends InputChannel {
 
     /**
      * @return if given {@param sequenceNumber} should be spilled given {@link
-     *     #lastBarrierSequenceNumber}. We might not have yet received {@link CheckpointBarrier} and
-     *     we might need to spill everything. If we have already received it, there is a bit nasty
-     *     corner case of {@link SequenceBuffer#sequenceNumber} overflowing that needs to be handled
-     *     as well.
+     *         #lastBarrierSequenceNumber}. We might not have yet received {@link CheckpointBarrier} and
+     *         we might need to spill everything. If we have already received it, there is a bit nasty
+     *         corner case of {@link SequenceBuffer#sequenceNumber} overflowing that needs to be handled
+     *         as well.
      */
     private boolean shouldBeSpilled(int sequenceNumber) {
         if (lastBarrierSequenceNumber == NONE) {

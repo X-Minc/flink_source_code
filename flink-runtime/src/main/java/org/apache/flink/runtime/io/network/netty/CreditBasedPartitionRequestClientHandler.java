@@ -44,10 +44,9 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Channel handler to read the messages of buffer response or error response from the producer, to
- * write and flush the unannounced credits for the producer.
+ * 通道处理程序从生产者读取缓冲区响应或错误响应的消息，为生产者写入和刷新未通知的信用。
  *
- * <p>It is used in the new network credit-based mode.
+ * <p>用于新的基于网络信用的模式。
  */
 class CreditBasedPartitionRequestClientHandler extends ChannelInboundHandlerAdapter
         implements NetworkClientHandler {
@@ -55,11 +54,11 @@ class CreditBasedPartitionRequestClientHandler extends ChannelInboundHandlerAdap
     private static final Logger LOG =
             LoggerFactory.getLogger(CreditBasedPartitionRequestClientHandler.class);
 
-    /** Channels, which already requested partitions from the producers. */
+    /** 已从生产者请求分区的通道。 */
     private final ConcurrentMap<InputChannelID, RemoteInputChannel> inputChannels =
             new ConcurrentHashMap<>();
 
-    /** Messages to be sent to the producers (credit announcement or resume consumption request). */
+    /** 发送给生产商的消息（信用公告或恢复消费请求）。 */
     private final ArrayDeque<ClientOutboundMessage> clientOutboundMessages = new ArrayDeque<>();
 
     private final AtomicReference<Throwable> channelError = new AtomicReference<>();
