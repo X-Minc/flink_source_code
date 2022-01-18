@@ -8,11 +8,11 @@ import com.ifugle.rap.sqltransform.entry.IndexDayModel;
  * @author Minc
  * @date 2022/1/7 11:11
  */
-public class Days30YesterdayMergeWorkerSame extends SameKeyAction<IndexDayModel> {
+public class Days30YesterdayMergeWorkerSameKeyAction extends SameKeyAction<IndexDayModel> {
 
 
 
-    public Days30YesterdayMergeWorkerSame(KeySelector<IndexDayModel> indexDayModelKeySelector) {
+    public Days30YesterdayMergeWorkerSameKeyAction(KeySelector<IndexDayModel> indexDayModelKeySelector) {
         super(indexDayModelKeySelector);
     }
 

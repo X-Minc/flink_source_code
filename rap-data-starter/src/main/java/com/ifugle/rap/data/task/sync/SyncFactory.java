@@ -11,10 +11,7 @@ import com.ifugle.rap.sqltransform.entry.IndexDayModel;
 import com.ifugle.rap.sqltransform.entry.SqlEntry;
 import com.ifugle.rap.sqltransform.entry.SqlTask;
 import com.ifugle.rap.sqltransform.keyselector.MergeBeforeMd5KeySelector;
-import com.ifugle.rap.sqltransform.samekeyaction.DayMergeBeforeWorkerSame;
-import com.ifugle.rap.sqltransform.samekeyaction.Days30YesterdayMergeWorkerSame;
-import com.ifugle.rap.sqltransform.samekeyaction.MergeDayAndMonthSameKeyAction;
-import com.ifugle.rap.sqltransform.samekeyaction.LastMonthMergeWorkerSame;
+import com.ifugle.rap.sqltransform.samekeyaction.*;
 import com.ifugle.rap.sqltransform.specialfiledextractor.SimpleSelectSpecialFiledExtractor;
 import com.ifugle.rap.sync.service.InnerSyncService;
 import com.ifugle.rap.utils.MD5Util;
@@ -119,7 +116,9 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
                             "yyyyMM",
                             new SimpleSelectSpecialFiledExtractor(),
                             null);
-                    finalMergedList = leftJoin(mergedList, indexListInLastMonth, new LastMonthMergeWorkerSame(new MergeBeforeMd5KeySelector()));
+                    finalMergedList = leftJoin(mergedList, indexListInLastMonth, new LastMonthMergeWorkerSameKeyAction(new MergeBeforeMd5KeySelector()));
+                    finalMergedList = leftJoin(finalMergedList, indexListInLastMonth, new RateSameKeyAction(new MergeBeforeMd5KeySelector(), false));
+                    finalMergedList = leftJoin(finalMergedList, indexListInLastMonthInLastYear, new RateSameKeyAction(new MergeBeforeMd5KeySelector(), true));
                     if (finalMergedList.size() != 0) {
                         for (IndexDayModel remain : finalMergedList) {
                             remain.setCycleId(Integer.valueOf(remain.getCycleId().toString().substring(0, 6)));
@@ -159,7 +158,7 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
         List<IndexDayModel> indexListOnYesterdayInLastMonth = getBeforeIndexModelList(indexListInYesterday,
                 index,
                 new int[]{Calendar.DAY_OF_MONTH, Calendar.MONTH},
-                new int[]{-2, -1},
+                new int[]{-1, -1},
                 "yyyyMMdd",
                 new SimpleSelectSpecialFiledExtractor(),
                 null);
@@ -167,10 +166,12 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
             nowDayTotalList.clear();
             nowDayTotalList.addAll(indexListInYesterday);
             //对昨天数据和
-            finalMergedList = leftJoin(indexListInYesterday, indexListOnTheDatBeforeYesterday, new DayMergeBeforeWorkerSame(new MergeBeforeMd5KeySelector()));
+            finalMergedList = leftJoin(indexListInYesterday, indexListOnTheDatBeforeYesterday, new DayMergeBeforeWorkerSameKeyAction(new MergeBeforeMd5KeySelector()));
         } else {
-            finalMergedList = leftJoin(indexListInYesterday, indexListOnTheDatBeforeYesterday, new Days30YesterdayMergeWorkerSame(new MergeBeforeMd5KeySelector()));
+            finalMergedList = leftJoin(indexListInYesterday, indexListOnTheDatBeforeYesterday, new Days30YesterdayMergeWorkerSameKeyAction(new MergeBeforeMd5KeySelector()));
         }
+        finalMergedList = leftJoin(finalMergedList, indexListOnTheDatBeforeYesterday, new RateSameKeyAction(new MergeBeforeMd5KeySelector(), false));
+        finalMergedList = leftJoin(finalMergedList, indexListOnYesterdayInLastMonth, new RateSameKeyAction(new MergeBeforeMd5KeySelector(), true));
         return finalMergedList;
     }
 
