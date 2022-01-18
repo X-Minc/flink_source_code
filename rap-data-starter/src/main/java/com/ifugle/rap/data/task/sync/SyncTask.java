@@ -12,7 +12,6 @@ import com.ifugle.rap.utils.SqlTransformDslUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -106,6 +105,10 @@ public class SyncTask {
 
     // --------------------------------------------------------------------------------------------
     //   get sql tasks
+    // --------------------------------------------------------------------------------------------
+
+    // --------------------------------------------------------------------------------------------
+    //   消息
     // --------------------------------------------------------------------------------------------
 
     /**
@@ -335,6 +338,10 @@ public class SyncTask {
         //组织
         return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, false, "cjsj");
     }
+
+    // --------------------------------------------------------------------------------------------
+    //   纳税人
+    // --------------------------------------------------------------------------------------------
 
     /**
      * 纳税人—10030-5 企业总人数
@@ -672,6 +679,10 @@ public class SyncTask {
         return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, false, "cjsj");
     }
 
+    // --------------------------------------------------------------------------------------------
+    //   群组
+    // --------------------------------------------------------------------------------------------
+
     /**
      * 群组—40040  群组钉钉群总数
      */
@@ -704,7 +715,7 @@ public class SyncTask {
         /*----------------------------------------------action-----------------------------------------------*/
         //组织
         return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, true, "cjsj");
-    }
+    }//
 
     /**
      * 群组—40043 群组纳税人数（户）
@@ -721,7 +732,7 @@ public class SyncTask {
         /*----------------------------------------------action-----------------------------------------------*/
         //组织
         return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, true, "cjsj");
-    }
+    }//
 
     /**
      * 群组—40044 群组一般纳税人数（户）
@@ -738,7 +749,7 @@ public class SyncTask {
         /*----------------------------------------------action-----------------------------------------------*/
         //组织
         return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, true, "cjsj");
-    }
+    }//
 
     /**
      * 群组—40049群组平台群总数
