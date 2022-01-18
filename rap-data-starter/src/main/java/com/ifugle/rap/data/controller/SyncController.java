@@ -30,7 +30,7 @@ public class SyncController {
         LOGGER.info("时间={},调用同步接口", TimeUtil.getStringDate(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
         Map<String, Object> result = new HashMap<>();
         try {
-            syncTask.getQuery();
+            syncTask.setTaskAndRun();
             result.put("200", "调用成功");
         } catch (Exception e) {
             result.put("500", "调用失败！请查看日志");
@@ -44,7 +44,7 @@ public class SyncController {
         LOGGER.info("时间={},调用初始化接口", TimeUtil.getStringDate(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
         Map<String, Object> result = new HashMap<>();
         try {
-            syncTask.initDaily();
+            syncTask.init();
             result.put("200", "调用成功");
         } catch (Exception e) {
             result.put("500", "调用失败！请查看日志");

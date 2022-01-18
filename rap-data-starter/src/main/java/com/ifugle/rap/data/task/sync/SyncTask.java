@@ -44,63 +44,79 @@ public class SyncTask {
     @Autowired
     SyncFactory syncFactory;
 
-    @Scheduled(cron = "0 1 0 * * ?")
-    public void getQuery() {
+    @Scheduled(fixedDelay = 1000L * 60 * 60 * 24 * 365 * 100)
+    private void addOperate() {
         try {
             syncFactory.addTransforms(
                     new GroupBySqlTransformRule(),
                     new WhereSqlTransformRule()
             );
-            syncFactory.addSqlTasks(
-                    xxIndex40055_1_3(),
-                    xxIndex40055_1_2(),
-                    xxIndex40055_1_1(),
-                    xxIndex40054_1_3(),
-                    xxIndex40054_1_2(),
-                    xxIndex40054_1_1(),
-                    xxIndex40066_1(),
-                    xxIndex40062_1(),
-                    xxIndex40055_1(),
-                    xxIndex40054_1(),
-                    xxIndex40053_1(),
-                    xxIndex40052_1(),
-                    nsrIndex20020_1(),
-                    nsrIndex20020_5(),
-                    nsrIndex20021_1(),
-                    nsrIndex20021_5(),
-                    nsrIndex10030_5(),
-                    nsrIndex10030_1(),
-                    nsrIndex10010_5(),
-                    nsrIndex10010_1(),
-                    nsrIndex10020_1(),
-                    nsrIndex10020_5(),
-                    nsrIndex20060_1(),
-                    nsrIndex20060_5(),
-                    nsrIndex20070_1(),
-                    nsrIndex20070_5(),
-                    nsrIndex20040_1(),
-                    nsrIndex20040_5(),
-                    nsrIndex20010_5(),
-                    nsrIndex20010_1(),
-                    qzIndex40049(),
-                    qzIndex40044(),
-                    qzIndex40043(),
-                    qzIndex40042(),
-                    qzIndex40040()
-            );
-            syncFactory.runAllTask();
+        } catch (Exception e) {
+            LOGGER.info("添加操作符时发生错误", e);
+        }
+    }
+
+    @Scheduled(cron = "0 1 0 * * ?")
+    private void getQuery() {
+        try {
+            setTaskAndRun();
         } catch (Exception e) {
             LOGGER.error("产生错误！", e);
         }
     }
 
     @Scheduled(cron = "0 0 0 * * ?")
-    public void initDaily() {
+    private void initDaily() {
         try {
-            syncFactory.init();
+            init();
         } catch (Exception e) {
             LOGGER.error("初始化时发生错误！" + e);
         }
+    }
+
+    public void setTaskAndRun() throws Exception {
+        syncFactory.addSqlTasks(
+                xxIndex40055_1_3(),
+                xxIndex40055_1_2(),
+                xxIndex40055_1_1(),
+                xxIndex40054_1_3(),
+                xxIndex40054_1_2(),
+                xxIndex40054_1_1(),
+                xxIndex40066_1(),
+                xxIndex40062_1(),
+                xxIndex40055_1(),
+                xxIndex40054_1(),
+                xxIndex40053_1(),
+                xxIndex40052_1(),
+                nsrIndex20020_1(),
+                nsrIndex20020_5(),
+                nsrIndex20021_1(),
+                nsrIndex20021_5(),
+                nsrIndex10030_5(),
+                nsrIndex10030_1(),
+                nsrIndex10010_5(),
+                nsrIndex10010_1(),
+                nsrIndex10020_1(),
+                nsrIndex10020_5(),
+                nsrIndex20060_1(),
+                nsrIndex20060_5(),
+                nsrIndex20070_1(),
+                nsrIndex20070_5(),
+                nsrIndex20040_1(),
+                nsrIndex20040_5(),
+                nsrIndex20010_5(),
+                nsrIndex20010_1(),
+                qzIndex40049(),
+                qzIndex40044(),
+                qzIndex40043(),
+                qzIndex40042(),
+                qzIndex40040()
+        );
+        syncFactory.runAllTask();
+    }
+
+    public void init() throws Exception {
+        syncFactory.init();
     }
 
     // --------------------------------------------------------------------------------------------
