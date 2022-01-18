@@ -836,6 +836,4 @@ public class SyncTask {
         singleAggregationSpecialFiledExtractorArrayList.add(singleAggregationSpecialFiledExtractorInc);
         return singleAggregationSpecialFiledExtractorArrayList;
     }
-
-
 }
