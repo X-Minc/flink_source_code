@@ -7,7 +7,7 @@ import com.ifugle.rap.sqltransform.entry.IndexDayModel;
  * @author Minc
  * @date 2022/1/17 11:32
  */
-public class MergeDayInTO30DaysAndMonthKeySelector implements KeySelector<IndexDayModel> {
+public class MergeDayInTo30DaysAndMonthKeySelector implements KeySelector<IndexDayModel> {
     @Override
     public String getKey(IndexDayModel indexDayModel) {
         return

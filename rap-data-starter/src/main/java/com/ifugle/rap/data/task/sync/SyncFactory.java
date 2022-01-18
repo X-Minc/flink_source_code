@@ -35,7 +35,7 @@ import java.util.*;
 public class SyncFactory extends BaseSqlTaskScheduleFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(SyncFactory.class);
     private static final String SELECT_SQL = "select * from {table_name}  where id=\"{id}\"";
-    private final List<IndexDayModel> nowDayTotalList = new ArrayList<>();
+    private static final List<IndexDayModel> nowDayTotalList = new ArrayList<>();
     private static final String MID_INDEX_NAME_DAY = "bigdata_bi_index_day";
     private static final String MID_INDEX_NAME_30DAYS = "bigdata_bi_index_30days";
     private static final String MID_INDEX_NAME_MONTH = "bigdata_bi_index_month";
@@ -202,6 +202,7 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
                             remain.setNodeId(Integer.valueOf(remain.getNodeId().toString().substring(0, 6)));
                         }
                         innerSyncService.insertIndexMonth(finalMergedList);
+                        nowDayTotalList.clear();
                     }
                     break;
                 default:
