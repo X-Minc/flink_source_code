@@ -711,8 +711,8 @@ public class SyncTask {
      */
     private List<SqlTask> qzIndex40043() throws Exception {
         //组织
-        String selfSql = "select xnzz_id,swjg_dm,count(nsr_id) from bigdata_yhzx_qz_cy where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "select swjg_dms,count(nsr_id) from bigdata_yhzx_qz_cy where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by swjg_dms limit 0 glimit 100000";
+        String selfSql = "select xnzz_id,swjg_dm,count(nsr_id) from bigdata_yhzx_qz_cy_nsr  where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by xnzz_id,swjg_dm limit 0 glimit 100000";
+        String superiorSql = "select swjg_dms,count(nsr_id) from bigdata_yhzx_qz_cy_nsr  where qlx=2 and is_deleted=0 and swjgbz in (1,2) {time_condition} group by swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -728,8 +728,8 @@ public class SyncTask {
      */
     private List<SqlTask> qzIndex40044() throws Exception {
         //组织
-        String selfSql = "select xnzz_id,swjg_dm,count(nsr_id) from bigdata_yhzx_qz_cy where qlx=2 and is_deleted=0 and swjgbz in (1,2) and zzsnslx=1 {time_condition} group by xnzz_id,swjg_dm limit 0 glimit 100000";
-        String superiorSql = "select swjg_dms,count(nsr_id) from bigdata_yhzx_qz_cy where qlx=2 and is_deleted=0 and swjgbz in (1,2) and zzsnslx=1 {time_condition} group by swjg_dms limit 0 glimit 100000";
+        String selfSql = "select xnzz_id,swjg_dm,count(nsr_id) from bigdata_yhzx_qz_cy_nsr  where qlx=2 and is_deleted=0 and swjgbz in (1,2) and zzsnslx=1 {time_condition} group by xnzz_id,swjg_dm limit 0 glimit 100000";
+        String superiorSql = "select swjg_dms,count(nsr_id) from bigdata_yhzx_qz_cy_nsr  where qlx=2 and is_deleted=0 and swjgbz in (1,2) and zzsnslx=1 {time_condition} group by swjg_dms limit 0 glimit 100000";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
