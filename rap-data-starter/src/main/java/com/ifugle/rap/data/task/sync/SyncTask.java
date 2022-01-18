@@ -45,11 +45,9 @@ public class SyncTask {
     @Autowired
     SyncFactory syncFactory;
 
-    @Async
-    @Scheduled(fixedDelay = 1000L * 60 * 30)
+    @Scheduled(cron = "0 1 0 * * ?")
     public void getQuery() {
         try {
-            initDaily();
             syncFactory.addTransforms(
                     new GroupBySqlTransformRule(),
                     new WhereSqlTransformRule()
@@ -97,7 +95,6 @@ public class SyncTask {
         }
     }
 
-    @Async
     @Scheduled(cron = "0 0 0 * * ?")
     public void initDaily() {
         try {
