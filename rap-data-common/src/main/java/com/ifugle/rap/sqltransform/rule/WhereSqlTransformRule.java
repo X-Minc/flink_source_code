@@ -11,7 +11,6 @@ import com.ifugle.rap.sqltransform.entry.SqlEntry;
  * @date 2022/1/4 14:12
  */
 public class WhereSqlTransformRule extends TransformBase<String> {
-    private static final StringBuilder BUILDER = new StringBuilder();
     private static final String orModel = "{\"terms\":{\"{var}\":{value}}}";
     private static final String whereModel = "\"query\":{\"bool\":{\"must\":[{mustVar}],\"must_not\":[{mustNotVar}]}}";
     private static final String whereSize = "\"size\":{var}";
@@ -27,7 +26,6 @@ public class WhereSqlTransformRule extends TransformBase<String> {
 
     @Override
     public String getTransformPart(SqlEntry sqlEntry) throws Exception {
-        initBuilder();
         DataType where = sqlEntry.getWhere();
         if (where.getValue().equals("")) {
             return "";
@@ -105,10 +103,6 @@ public class WhereSqlTransformRule extends TransformBase<String> {
         if (mustNotStringBuilder.length() != 0)
             mustNot = mustNotStringBuilder.substring(0, mustNotStringBuilder.length() - 1);
         return whereModel.replace("{mustVar}", must).replace("{mustNotVar}", mustNot);
-    }
-
-    private void initBuilder() {
-        BUILDER.delete(0, BUILDER.length());
     }
 
     private Compare getFitCompareOperate(String value) throws Exception {

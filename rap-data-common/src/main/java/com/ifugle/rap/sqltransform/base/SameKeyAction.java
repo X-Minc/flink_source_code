@@ -6,19 +6,15 @@ package com.ifugle.rap.sqltransform.base;
  * @param <IN>
  */
 public abstract class SameKeyAction<IN> {
-    private KeySelector<IN> inKeySelector;
+    private final KeySelector<IN> inKeySelector;
 
     public SameKeyAction(KeySelector<IN> inKeySelector) {
         this.inKeySelector = inKeySelector;
     }
 
-    public abstract void sameKeyDone(IN remain, IN leave);
+    public abstract void sameKeyAction(IN remain, IN leave) throws Exception;
 
     public KeySelector<IN> getInKeySelector() {
         return inKeySelector;
-    }
-
-    public void setInKeySelector(KeySelector<IN> inKeySelector) {
-        this.inKeySelector = inKeySelector;
     }
 }

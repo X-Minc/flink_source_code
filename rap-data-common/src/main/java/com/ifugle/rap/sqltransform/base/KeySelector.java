@@ -7,5 +7,5 @@ package com.ifugle.rap.sqltransform.base;
  * @date 2022/1/17 11:34
  */
 public interface KeySelector<IN> {
-    String getKey(IN in);
+    String getKey(IN in) throws Exception;
 }

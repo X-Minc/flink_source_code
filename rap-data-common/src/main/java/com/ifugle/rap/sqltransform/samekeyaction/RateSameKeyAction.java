@@ -6,7 +6,7 @@ import com.ifugle.rap.sqltransform.entry.IndexDayModel;
 
 /**
  * LINK_RATE=昨天（月）/前天（月）
- *
+ *CHAIN_RATE=昨月（天）/（去年或者上个月）前月（天）
  * @author Minc
  * @date 2022/1/18 17:37
  */
@@ -20,7 +20,7 @@ public class RateSameKeyAction extends SameKeyAction<IndexDayModel> {
     }
 
     @Override
-    public void sameKeyDone(IndexDayModel remain, IndexDayModel leave) {
+    public void sameKeyAction(IndexDayModel remain, IndexDayModel leave) throws Exception {
         double incCountRate = leave.getIncCount() != 0 ? (remain.getIncCount() - leave.getIncCount()) * 1.0 / leave.getIncCount() : 0;
         double netIncCountRate = leave.getNetIncCount() != 0 ? (remain.getNetIncCount() - leave.getNetIncCount()) * 1.0 / leave.getNetIncCount() : 0;
         double decCountRate = leave.getDecCount() != 0 ? (remain.getDecCount() - leave.getDecCount()) * 1.0 / leave.getDecCount() : 0;

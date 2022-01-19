@@ -98,7 +98,7 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
                     }
                     break;
                 case 3:
-                    List<IndexDayModel> mergedList = value.size() == 0 ? leftJoin(nowDayTotalList, value, null) : leftJoin(value, nowDayTotalList, new MergeDayAndMonthSameKeyAction(new MergeBeforeMd5KeySelector()));
+                    List<IndexDayModel> mergedList = value.size() == 0 ? leftJoin(nowDayTotalList, value, null) : leftJoin(value, nowDayTotalList, new MergeTotalCountInLastMonthAndYesterdaySameKeyAction(new MergeBeforeMd5KeySelector()));
                     outPutEs(mergedList, MID_INDEX_NAME_MONTH);
                     //上个月的数据
                     List<IndexDayModel> indexListInLastMonth = getBeforeIndexModelList(mergedList,
@@ -116,7 +116,7 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
                             "yyyyMM",
                             new SimpleSelectSpecialFiledExtractor(),
                             null);
-                    finalMergedList = leftJoin(mergedList, indexListInLastMonth, new LastMonthMergeWorkerSameKeyAction(new MergeBeforeMd5KeySelector()));
+                    finalMergedList = leftJoin(mergedList, indexListInLastMonth, new MergeLastMonthAndLastTwoMonthInMonthlyTaskSameKeyAction(new MergeBeforeMd5KeySelector()));
                     finalMergedList = leftJoin(finalMergedList, indexListInLastMonth, new RateSameKeyAction(new MergeBeforeMd5KeySelector(), false));
                     finalMergedList = leftJoin(finalMergedList, indexListInLastMonthInLastYear, new RateSameKeyAction(new MergeBeforeMd5KeySelector(), true));
                     if (finalMergedList.size() != 0) {
@@ -143,7 +143,7 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
      * @return 中间集合
      * @throws Exception 异常
      */
-    public List<IndexDayModel> judgeDayOr30DayAndGetMidList(List<IndexDayModel> indexListInYesterday, String index, int key) throws Exception {
+    private List<IndexDayModel> judgeDayOr30DayAndGetMidList(List<IndexDayModel> indexListInYesterday, String index, int key) throws Exception {
         List<IndexDayModel> finalMergedList;
         outPutEs(indexListInYesterday, index);
         //前天的数据
@@ -166,9 +166,9 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
             nowDayTotalList.clear();
             nowDayTotalList.addAll(indexListInYesterday);
             //对昨天数据和
-            finalMergedList = leftJoin(indexListInYesterday, indexListOnTheDatBeforeYesterday, new DayMergeBeforeWorkerSameKeyAction(new MergeBeforeMd5KeySelector()));
+            finalMergedList = leftJoin(indexListInYesterday, indexListOnTheDatBeforeYesterday, new MergeYesterdayAndTheDayBeforeYesterdayInDailyTaskSameKeyAction(new MergeBeforeMd5KeySelector()));
         } else {
-            finalMergedList = leftJoin(indexListInYesterday, indexListOnTheDatBeforeYesterday, new Days30YesterdayMergeWorkerSameKeyAction(new MergeBeforeMd5KeySelector()));
+            finalMergedList = leftJoin(indexListInYesterday, indexListOnTheDatBeforeYesterday, new MergeYesterdayAndTheDayBeforeYesterdayInDays30TaskSameKeyAction(new MergeBeforeMd5KeySelector()));
         }
         finalMergedList = leftJoin(finalMergedList, indexListOnTheDatBeforeYesterday, new RateSameKeyAction(new MergeBeforeMd5KeySelector(), false));
         finalMergedList = leftJoin(finalMergedList, indexListOnYesterdayInLastMonth, new RateSameKeyAction(new MergeBeforeMd5KeySelector(), true));
@@ -240,7 +240,7 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
                 for (IndexDayModel dayModel : leave) {
                     String key1 = sameKeyAction.getInKeySelector().getKey(dayModel);
                     if (key.equals(key1)) {
-                        sameKeyAction.sameKeyDone(indexDayModel, dayModel);
+                        sameKeyAction.sameKeyAction(indexDayModel, dayModel);
                     }
                 }
             }
@@ -292,7 +292,7 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
     }
 
     /**
-     * 扫尾工作
+     * 插入看板数据
      */
     private void sweepUp() throws Exception {
         try {

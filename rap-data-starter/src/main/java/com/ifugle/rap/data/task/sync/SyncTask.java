@@ -1,5 +1,8 @@
 package com.ifugle.rap.data.task.sync;
 
+import com.ifugle.rap.cache.IndexDataDayCycleIdCache;
+import com.ifugle.rap.cache.IndexDataMonCycleIdCache;
+import com.ifugle.rap.cache.IndexDdDataDayCycleIdCache;
 import com.ifugle.rap.sqltransform.base.CommonFiledExtractorBase;
 import com.ifugle.rap.sqltransform.base.SpecialFiledExtractorBase;
 import com.ifugle.rap.sqltransform.base.TransformBase;
@@ -9,6 +12,7 @@ import com.ifugle.rap.sqltransform.rule.GroupBySqlTransformRule;
 import com.ifugle.rap.sqltransform.rule.WhereSqlTransformRule;
 import com.ifugle.rap.sqltransform.specialfiledextractor.SingleAggregationSpecialFiledExtractor;
 import com.ifugle.rap.utils.SqlTransformDslUtil;
+import com.ifugle.rap.utils.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +42,21 @@ import java.util.*;
  */
 @Component
 public class SyncTask {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(SyncTask.class);
+    @Autowired
+    private IndexDataDayCycleIdCache indexDataDayCycleIdCache;
+
+    @Autowired
+    private IndexDataMonCycleIdCache indexDataMonCycleIdCache;
+
+    @Autowired
+    private IndexDdDataDayCycleIdCache indexDdDataDayCycleIdCache;
 
     @Autowired
     SyncFactory syncFactory;
 
     @Scheduled(fixedDelay = 1000L * 60 * 60 * 24 * 365 * 100)
-    private void addOperate() {
+    private void addOperator() {
         try {
             syncFactory.addTransforms(
                     new GroupBySqlTransformRule(),
@@ -57,7 +68,7 @@ public class SyncTask {
     }
 
     @Scheduled(cron = "0 1 0 * * ?")
-    private void getQuery() {
+    private void runTask() {
         try {
             setTaskAndRun();
         } catch (Exception e) {
@@ -113,6 +124,8 @@ public class SyncTask {
                 qzIndex40040()
         );
         syncFactory.runAllTask();
+        indexDataDayCycleIdCache.putCacha(Integer.parseInt(TimeUtil.getStringDate(System.currentTimeMillis(), "yyyyMMdd", -1000L * 60 * 60 * 24)));
+        indexDataMonCycleIdCache.putCacha(Integer.parseInt(TimeUtil.getBeforeTime(new int[]{Calendar.MONTH}, new int[]{0}, "yyyyMM")));
     }
 
     public void init() throws Exception {

@@ -10,7 +10,7 @@ import com.ifugle.rap.utils.MD5Util;
  */
 public class MergeBeforeMd5KeySelector implements KeySelector<IndexDayModel> {
     @Override
-    public String getKey(IndexDayModel indexDayModel) {
+    public String getKey(IndexDayModel indexDayModel) throws Exception{
         return MD5Util.stringToMD5(
                 indexDayModel.getIndex() + "," +
                 indexDayModel.getOrgId() + "," +

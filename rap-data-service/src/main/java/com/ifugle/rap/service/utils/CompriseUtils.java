@@ -447,7 +447,7 @@ public class CompriseUtils {
         return request;
     }
 
-    public DataRequest IndexDetailDataRequest(IndexDayModel indexDayModel) {
+    public DataRequest IndexDetailDataRequest(IndexDayModel indexDayModel) throws Exception{
         DataRequest request = new DataRequest();
         request.setCatalogType("_doc");
         Map<String, Object> hashMap = new HashMap<>(32);

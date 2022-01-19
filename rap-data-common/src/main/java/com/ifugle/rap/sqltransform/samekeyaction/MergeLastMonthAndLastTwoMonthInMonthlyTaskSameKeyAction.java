@@ -8,15 +8,15 @@ import com.ifugle.rap.sqltransform.entry.IndexDayModel;
  * @author Minc
  * @date 2022/1/7 11:11
  */
-public class LastMonthMergeWorkerSameKeyAction extends SameKeyAction<IndexDayModel> {
+public class MergeLastMonthAndLastTwoMonthInMonthlyTaskSameKeyAction extends SameKeyAction<IndexDayModel> {
 
 
-    public LastMonthMergeWorkerSameKeyAction(KeySelector<IndexDayModel> indexDayModelKeySelector) {
+    public MergeLastMonthAndLastTwoMonthInMonthlyTaskSameKeyAction(KeySelector<IndexDayModel> indexDayModelKeySelector) {
         super(indexDayModelKeySelector);
     }
 
     @Override
-    public void sameKeyDone(IndexDayModel remain, IndexDayModel leave) {
+    public void sameKeyAction(IndexDayModel remain, IndexDayModel leave) throws Exception {
         int num = remain.getTotalCount() - leave.getTotalCount();
         if (num < 0)
             remain.setDecCount(Math.abs(num));
