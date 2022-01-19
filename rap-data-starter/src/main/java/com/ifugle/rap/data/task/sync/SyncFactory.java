@@ -88,7 +88,8 @@ public class SyncFactory extends BaseSqlTaskScheduleFactory {
             switch (key) {
                 case 1:
                     if (value.size() > 0) {
-                        innerSyncService.insertIndexDay(judgeDayOr30DayAndGetMidList(value, MID_INDEX_NAME_DAY, key));
+                        List<IndexDayModel> indexDayModelList = judgeDayOr30DayAndGetMidList(value, MID_INDEX_NAME_DAY, key);
+                        innerSyncService.insertIndexDay(indexDayModelList);
                     }
                     break;
                 case 2:

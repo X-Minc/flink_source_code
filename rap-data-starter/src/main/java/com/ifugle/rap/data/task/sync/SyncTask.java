@@ -2,7 +2,6 @@ package com.ifugle.rap.data.task.sync;
 
 import com.ifugle.rap.cache.IndexDataDayCycleIdCache;
 import com.ifugle.rap.cache.IndexDataMonCycleIdCache;
-import com.ifugle.rap.cache.IndexDdDataDayCycleIdCache;
 import com.ifugle.rap.sqltransform.base.CommonFiledExtractorBase;
 import com.ifugle.rap.sqltransform.base.SpecialFiledExtractorBase;
 import com.ifugle.rap.sqltransform.base.TransformBase;
