@@ -50,9 +50,6 @@ public class SyncTask {
     private IndexDataMonCycleIdCache indexDataMonCycleIdCache;
 
     @Autowired
-    private IndexDdDataDayCycleIdCache indexDdDataDayCycleIdCache;
-
-    @Autowired
     SyncFactory syncFactory;
 
     @Scheduled(fixedDelay = 1000L * 60 * 60 * 24 * 365 * 100)
@@ -124,8 +121,12 @@ public class SyncTask {
                 qzIndex40040()
         );
         syncFactory.runAllTask();
-        indexDataDayCycleIdCache.putCacha(Integer.parseInt(TimeUtil.getStringDate(System.currentTimeMillis(), "yyyyMMdd", -1000L * 60 * 60 * 24)));
-        indexDataMonCycleIdCache.putCacha(Integer.parseInt(TimeUtil.getBeforeTime(new int[]{Calendar.MONTH}, new int[]{0}, "yyyyMM")));
+        int dayCycle = Integer.parseInt(TimeUtil.getStringDate(System.currentTimeMillis(), "yyyyMMdd", -1000L * 60 * 60 * 24));
+        int monthCycle = Integer.parseInt(TimeUtil.getBeforeTime(new int[]{Calendar.MONTH}, new int[]{0}, "yyyyMM"));
+        indexDataDayCycleIdCache.putCacha(dayCycle);
+        LOGGER.info("redis天更新cycleId={}", dayCycle);
+        indexDataMonCycleIdCache.putCacha(monthCycle);
+        LOGGER.info("redis月更新cycleId={}", monthCycle);
     }
 
     public void init() throws Exception {
