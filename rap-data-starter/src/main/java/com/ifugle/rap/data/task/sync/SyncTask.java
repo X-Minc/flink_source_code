@@ -124,9 +124,13 @@ public class SyncTask {
         int dayCycle = Integer.parseInt(TimeUtil.getStringDate(System.currentTimeMillis(), "yyyyMMdd", -1000L * 60 * 60 * 24));
         int monthCycle = Integer.parseInt(TimeUtil.getBeforeTime(new int[]{Calendar.MONTH}, new int[]{0}, "yyyyMM"));
         indexDataDayCycleIdCache.putCacha(dayCycle);
+        Integer cache = indexDataDayCycleIdCache.getCacha();
         LOGGER.info("redis天更新cycleId={}", dayCycle);
+        LOGGER.info("redis天最新cycleId={}", cache);
         indexDataMonCycleIdCache.putCacha(monthCycle);
+        Integer cache1 = indexDataMonCycleIdCache.getCacha();
         LOGGER.info("redis月更新cycleId={}", monthCycle);
+        LOGGER.info("redis月最新cycleId={}", cache1);
     }
 
     public void init() throws Exception {
