@@ -62,17 +62,15 @@ class LocalBufferPool implements BufferPool {
     /** 从中获取缓冲区的全局网络缓冲池。 */
     private final NetworkBufferPool networkBufferPool;
 
-    /** 此池所需的最小段数。 */
+    /** 此池所需的最小段数。 初始化时为网络缓冲区的最小数量 */
     private final int numberOfRequiredMemorySegments;
 
     /**
      * 当前可用的内存段。这些是从网络缓冲池中请求的段，当前没有作为 Buffer 实例分发。
      *
-     * <p><strong>BEWARE:</strong> Take special care with the interactions between this lock and
-     * locks acquired before entering this class vs. locks being acquired during calls to external
-     * code inside this class, e.g. with {@link
-     * org.apache.flink.runtime.io.network.partition.consumer.BufferManager #bufferQueue} via the
-     * {@link #registeredListeners} callback.
+     * <p><strong>当心:</strong> 特别注意这个锁和进入这个类之前获得的锁之间的交互，
+     * 而不是在调用这个类内部的外部代码时获得的锁，
+     * 例如通过{@link #registeredListeners}回调使用{@link org.apache.flink.runtime.io.network.partition.consumer.BufferManager bufferQueue}。
      */
     private final ArrayDeque<MemorySegment> availableMemorySegments =
             new ArrayDeque<MemorySegment>();
@@ -86,7 +84,7 @@ class LocalBufferPool implements BufferPool {
     /** 要分配的最大网络缓冲区数。 */
     private final int maxNumberOfMemorySegments;
 
-    /** 此池的当前大小。 */
+    /** 此池的当前大小。 初始化时网络缓冲区的最小数量 */
     @GuardedBy("availableMemorySegments")
     private int currentPoolSize;
 
@@ -102,6 +100,7 @@ class LocalBufferPool implements BufferPool {
     @GuardedBy("availableMemorySegments")
     private final int[] subpartitionBuffersCount;
 
+    /** 子分区缓冲区回收器数组中具有n个LocalBufferPool。 */
     private final BufferRecycler[] subpartitionBufferRecyclers;
 
     @GuardedBy("availableMemorySegments")
@@ -157,11 +156,11 @@ class LocalBufferPool implements BufferPool {
      * Local buffer pool based on the given <tt>networkBufferPool</tt> and <tt>bufferPoolOwner</tt>
      * with a minimal and maximal number of network buffers being available.
      *
-     * @param networkBufferPool global network buffer pool to get buffers from
-     * @param numberOfRequiredMemorySegments minimum number of network buffers
-     * @param maxNumberOfMemorySegments maximum number of network buffers to allocate
-     * @param numberOfSubpartitions number of subpartitions
-     * @param maxBuffersPerChannel maximum number of buffers to use for each channel
+     * @param networkBufferPool 从中获取缓冲区的全局网络缓冲池
+     * @param numberOfRequiredMemorySegments 网络缓冲区的最小数量
+     * @param maxNumberOfMemorySegments 要分配的最大网络缓冲区数
+     * @param numberOfSubpartitions 子分区数
+     * @param maxBuffersPerChannel 每个通道使用的最大缓冲区数
      */
     LocalBufferPool(
             NetworkBufferPool networkBufferPool,
@@ -205,8 +204,7 @@ class LocalBufferPool implements BufferPool {
         }
         this.maxBuffersPerChannel = maxBuffersPerChannel;
 
-        // Lock is only taken, because #checkAvailability asserts it. It's a small penalty for
-        // thread safety.
+        // 由于checkAvailability断言了锁，所以只获取锁。这是对线程安全的一个小小的惩罚。
         synchronized (this.availableMemorySegments) {
             if (checkAvailability()) {
                 availabilityHelper.resetAvailable();
@@ -381,13 +379,26 @@ class LocalBufferPool implements BufferPool {
         return requestMemorySegment(UNKNOWN_CHANNEL);
     }
 
+    /**
+     * 从全局请求内存段
+     *
+     * @return 是否请求到内存块
+     */
     private boolean requestMemorySegmentFromGlobal() {
         assert Thread.holdsLock(availableMemorySegments);
 
+        /**
+         *  如果所拥有内存段的数量{@link #numberOfRequestedMemorySegments} 大于等于当前缓冲池最小数量{@link #currentPoolSize}，
+         *  则不需要向{@link  NetworkBufferPool}请求内存段
+         */
         if (isRequestedSizeReached()) {
             return false;
         }
 
+        /**
+         * 如果所拥有内存段的数量未达到当前缓冲池最小数量，
+         * 则需要向{@link NetworkBufferPool}请求内存段直至所用有的内存段达到当前缓冲池最小的内存段数量
+         */
         checkState(
                 !isDestroyed,
                 "Destroyed buffer pools should never acquire segments - this will lead to buffer leaks.");
@@ -423,8 +434,7 @@ class LocalBufferPool implements BufferPool {
         synchronized (availableMemorySegments) {
             requestingWhenAvailable = false;
             if (isDestroyed || availabilityHelper.isApproximatelyAvailable()) {
-                // there is currently no benefit to obtain buffer from global; give other pools
-                // precedent
+                // 目前没有从global获得缓冲的好处；先例
                 return;
             }
 
@@ -446,12 +456,22 @@ class LocalBufferPool implements BufferPool {
         return !availableMemorySegments.isEmpty() && unavailableSubpartitionsCount == 0;
     }
 
+    //检查内存块是否可用
     private boolean checkAvailability() {
+        /**
+         *    断言{@link #availableMemorySegments}存在锁
+         *    若不存在则抛出异常
+         */
         assert Thread.holdsLock(availableMemorySegments);
 
+        //当前可用的有效内存块集合不为空
         if (!availableMemorySegments.isEmpty()) {
             return unavailableSubpartitionsCount == 0;
         }
+        /**
+         * 如果所拥有内存段的数量未达到当前缓冲池最小数量，
+         * 则需要向{@link NetworkBufferPool}请求内存段直至所用有的内存段达到当前缓冲池最小的内存段数量
+         */
         if (!isRequestedSizeReached()) {
             if (requestMemorySegmentFromGlobal()) {
                 return unavailableSubpartitionsCount == 0;

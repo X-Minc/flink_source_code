@@ -24,13 +24,13 @@ import org.apache.flink.core.memory.MemorySegment;
 public interface BufferRecycler {
 
     /**
-     * Recycles the {@link MemorySegment} to its original {@link BufferPool} instance.
+     * 将{@link MemorySegment}回收到其原始{@link BufferPool}实例。
      *
      * @param memorySegment The memory segment to be recycled.
      */
     void recycle(MemorySegment memorySegment);
 
-    /** The buffer recycler does nothing for recycled segment. */
+    /** 缓冲区回收器对回收段不做任何操作。 */
     final class DummyBufferRecycler implements BufferRecycler {
 
         public static final BufferRecycler INSTANCE = new DummyBufferRecycler();

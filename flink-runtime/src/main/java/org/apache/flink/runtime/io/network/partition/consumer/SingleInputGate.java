@@ -179,7 +179,7 @@ public class SingleInputGate extends IndexedInputGate {
     //未初始化的通道数
     private int numberOfUninitializedChannels;
 
-    /** 用于重新触发本地分区请求的计时器。仅在实际需要时初始化。*/
+    /** 用于重新触发本地分区请求的计时器。仅在实际需要时初始化。 */
     private Timer retriggerLocalRequestTimer;
 
     private final SupplierWithException<BufferPool, IOException> bufferPoolFactory;
@@ -450,14 +450,13 @@ public class SingleInputGate extends IndexedInputGate {
         this.bufferPool = checkNotNull(bufferPool);
     }
 
-    /** Assign the exclusive buffers to all remote input channels directly for credit-based mode. */
+    /** 为基于信用的模式直接分配独占缓冲区给所有远程输入通道。 */
     @VisibleForTesting
     public void setupChannels() throws IOException {
-        // Allocate enough exclusive and floating buffers to guarantee that job can make progress.
-        // Note: An exception will be thrown if there is no buffer available in the given timeout.
+        // 分配足够的独占和浮动缓冲区以保证作业可以取得进展。
+        // 注意：如果在给定的超时时间内没有可用的缓冲区，则会引发异常。
 
-        // First allocate a single floating buffer to avoid potential deadlock when the exclusive
-        // buffer is 0. See FLINK-24035 for more information.
+        // 当独占缓冲区为 0 时，首先分配一个浮动缓冲区以避免潜在的死锁。有关更多信息，请参阅 FLINK-24035。
         bufferPool.reserveSegments(1);
 
         // Next allocate the exclusive buffers per channel when the number of exclusive buffer is

@@ -24,8 +24,7 @@ import java.io.IOException;
 public interface BufferPool extends BufferProvider, BufferRecycler {
 
     /**
-     * Reserves the target number of segments to this pool. Will throw an exception if it can not
-     * allocate enough segments.
+     * 为该池保留目标段数。如果无法分配足够的段，将抛出异常。
      */
     void reserveSegments(int numberOfSegmentsToReserve) throws IOException;
 
