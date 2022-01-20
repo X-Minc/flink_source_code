@@ -93,7 +93,6 @@ public abstract class RecordWriter<T extends IOReadableWritable> implements Avai
                     taskName == null
                             ? DEFAULT_OUTPUT_FLUSH_THREAD_NAME
                             : DEFAULT_OUTPUT_FLUSH_THREAD_NAME + " for " + taskName;
-
             outputFlusher = new OutputFlusher(threadName, timeout);
             outputFlusher.start();
         }
@@ -101,9 +100,7 @@ public abstract class RecordWriter<T extends IOReadableWritable> implements Avai
 
     protected void emit(T record, int targetSubpartition) throws IOException {
         checkErroneous();
-
         targetPartition.emitRecord(serializeRecord(serializer, record), targetSubpartition);
-
         if (flushAlways) {
             targetPartition.flush(targetSubpartition);
         }

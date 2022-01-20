@@ -250,7 +250,7 @@ public abstract class ResultPartition implements ResultPartitionWriter {
         }
     }
 
-    /** Releases all produced data including both those stored in memory and persisted on disk. */
+    /** 释放所有生成的数据，包括存储在内存中和保存在磁盘上的数据。 */
     protected abstract void releaseInternal();
 
     private void closeBufferPool() {
@@ -315,7 +315,7 @@ public abstract class ResultPartition implements ResultPartitionWriter {
 
     // ------------------------------------------------------------------------
 
-    /** Notification when a subpartition is released. */
+    /** 释放子分区时的通知。 */
     void onConsumedSubpartition(int subpartitionIndex) {
 
         if (isReleased.get()) {

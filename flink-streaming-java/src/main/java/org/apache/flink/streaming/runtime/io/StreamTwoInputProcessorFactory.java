@@ -55,7 +55,7 @@ import java.util.function.Function;
 import static org.apache.flink.streaming.api.graph.StreamConfig.requiresSorting;
 import static org.apache.flink.util.Preconditions.checkNotNull;
 
-/** A factory to create {@link StreamMultipleInputProcessor} for two input case. */
+/** 为两个输入案例创建{@link StreamMultipleInputProcessor}的工厂。 */
 public class StreamTwoInputProcessorFactory {
     public static <IN1, IN2> StreamMultipleInputProcessor create(
             TaskInvokable ownerTask,
