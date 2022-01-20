@@ -59,11 +59,21 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
 
     private static final Logger LOG = LoggerFactory.getLogger(NetworkBufferPool.class);
 
+    /**
+     * 内存段的总数
+     */
     private final int totalNumberOfMemorySegments;
 
+    /**
+     * 内存段大小
+     */
     private final int memorySegmentSize;
 
+    /**
+     * 可用内存段
+     */
     private final ArrayDeque<MemorySegment> availableMemorySegments;
+
 
     private volatile boolean isDestroyed;
 
@@ -73,6 +83,9 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
 
     private final Set<LocalBufferPool> allBufferPools = new HashSet<>();
 
+    /**
+     * 所需缓冲区总数
+     */
     private int numTotalRequiredBuffers;
 
     private final Duration requestSegmentsTimeout;
@@ -84,7 +97,13 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
         this(numberOfSegmentsToAllocate, segmentSize, Duration.ofMillis(Integer.MAX_VALUE));
     }
 
-    /** 分配此池管理的所有{@link MemorySegment}实例。 */
+    /**
+     * 分配此池管理的所有{@link MemorySegment}实例。
+     *
+     * @param numberOfSegmentsToAllocate 要分配的段数
+     * @param segmentSize 段大小
+     * @param requestSegmentsTimeout 请求段超时长
+     */
     public NetworkBufferPool(
             int numberOfSegmentsToAllocate,
             int segmentSize,
@@ -98,7 +117,7 @@ public class NetworkBufferPool implements BufferPoolFactory, MemorySegmentProvid
                 "The timeout for requesting exclusive buffers should be positive.");
         this.requestSegmentsTimeout = requestSegmentsTimeout;
 
-        final long sizeInLong = (long) segmentSize;
+        final long sizeInLong = segmentSize;
 
         try {
             this.availableMemorySegments = new ArrayDeque<>(numberOfSegmentsToAllocate);

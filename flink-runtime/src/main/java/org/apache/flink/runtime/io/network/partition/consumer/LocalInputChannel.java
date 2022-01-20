@@ -50,7 +50,7 @@ import java.util.TimerTask;
 import static org.apache.flink.util.Preconditions.checkNotNull;
 import static org.apache.flink.util.Preconditions.checkState;
 
-/** An input channel, which requests a local subpartition. */
+/** 一种输入通道，用于请求本地子分区。 */
 public class LocalInputChannel extends InputChannel implements BufferAvailabilityListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(LocalInputChannel.class);
@@ -59,13 +59,13 @@ public class LocalInputChannel extends InputChannel implements BufferAvailabilit
 
     private final Object requestLock = new Object();
 
-    /** The local partition manager. */
+    /** 本地分区管理器。*/
     private final ResultPartitionManager partitionManager;
 
-    /** Task event dispatcher for backwards events. */
+    /** 向后事件的任务事件调度程序。*/
     private final TaskEventPublisher taskEventPublisher;
 
-    /** The consumed subpartition. */
+    /** 被消耗的子分区。*/
     @Nullable private volatile ResultSubpartitionView subpartitionView;
 
     private volatile boolean isReleased;
@@ -116,7 +116,7 @@ public class LocalInputChannel extends InputChannel implements BufferAvailabilit
         boolean retriggerRequest = false;
         boolean notifyDataAvailable = false;
 
-        // The lock is required to request only once in the presence of retriggered requests.
+        // 在存在重新触发的请求时，锁只需要请求一次。
         synchronized (requestLock) {
             checkState(!isReleased, "LocalInputChannel has been released already");
 

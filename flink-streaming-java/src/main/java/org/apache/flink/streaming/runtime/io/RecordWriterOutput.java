@@ -39,7 +39,7 @@ import java.io.IOException;
 
 import static org.apache.flink.util.Preconditions.checkNotNull;
 
-/** Implementation of {@link Output} that sends data using a {@link RecordWriter}. */
+/** 使用{@link RecordWriter}发送数据的{@link Output}的实现。 */
 @Internal
 public class RecordWriterOutput<OUT> implements WatermarkGaugeExposingOutput<StreamRecord<OUT>> {
 
@@ -64,8 +64,7 @@ public class RecordWriterOutput<OUT> implements WatermarkGaugeExposingOutput<Str
 
         checkNotNull(recordWriter);
         this.outputTag = outputTag;
-        // generic hack: cast the writer to generic Object type so we can use it
-        // with multiplexed records and watermarks
+        // 泛型黑客：将编写器转换为泛型对象类型，以便我们可以将其用于多路复用记录和水印
         this.recordWriter =
                 (RecordWriter<SerializationDelegate<StreamElement>>) (RecordWriter<?>) recordWriter;
 
@@ -82,7 +81,7 @@ public class RecordWriterOutput<OUT> implements WatermarkGaugeExposingOutput<Str
     @Override
     public void collect(StreamRecord<OUT> record) {
         if (this.outputTag != null) {
-            // we are not responsible for emitting to the main output.
+            //我们不负责向主要输出进行排放。
             return;
         }
 
@@ -111,10 +110,8 @@ public class RecordWriterOutput<OUT> implements WatermarkGaugeExposingOutput<Str
         if (announcedStatus.isIdle()) {
             return;
         }
-
         watermarkGauge.setCurrentWatermark(mark.getTimestamp());
         serializationDelegate.setInstance(mark);
-
         try {
             recordWriter.broadcastEmit(serializationDelegate);
         } catch (Exception e) {

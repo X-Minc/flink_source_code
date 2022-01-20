@@ -22,68 +22,50 @@ package org.apache.flink.runtime.io.network.partition;
 public enum ResultPartitionType {
 
     /**
-     * Blocking partitions represent blocking data exchanges, where the data stream is first fully
-     * produced and then consumed. This is an option that is only applicable to bounded streams and
-     * can be used in bounded stream runtime and recovery.
+     * 阻塞分区表示阻塞数据交换，数据流首先被完全生成，然后被消耗。这是一个仅适用于有界流的选项，可用于有界流运行时和恢复。
      *
-     * <p>Blocking partitions can be consumed multiple times and concurrently.
+     * <p>阻塞分区可以被多次并发使用。
      *
-     * <p>The partition is not automatically released after being consumed (like for example the
-     * {@link #PIPELINED} partitions), but only released through the scheduler, when it determines
-     * that the partition is no longer needed.
+     * <p>分区在被使用后不会自动释放（例如{@link #PIPELINED}分区），但只有在调度程序确定不再需要该分区时，才会通过调度程序释放。
      */
     BLOCKING(false, false, false, false, true),
 
     /**
-     * BLOCKING_PERSISTENT partitions are similar to {@link #BLOCKING} partitions, but have a
-     * user-specified life cycle.
+     * BLOCKING_持久性分区类似于{@link #BLOCKING}分区，但具有用户指定的生命周期。
      *
-     * <p>BLOCKING_PERSISTENT partitions are dropped upon explicit API calls to the JobManager or
-     * ResourceManager, rather than by the scheduler.
+     * <p>在对JobManager或ResourceManager进行显式API调用时，而不是由调度程序删除持久性分区。
      *
-     * <p>Otherwise, the partition may only be dropped by safety-nets during failure handling
-     * scenarios, like when the TaskManager exits or when the TaskManager looses connection to
-     * JobManager / ResourceManager for too long.
+     * <p>否则，只有在故障处理场景中，如TaskManager退出或TaskManager长时间断开与JobManager ResourceManager的连接时，安全网才会删除分区。
      */
     BLOCKING_PERSISTENT(false, false, false, true, true),
 
     /**
-     * A pipelined streaming data exchange. This is applicable to both bounded and unbounded
-     * streams.
+     * 流水线流式数据交换。这适用于有界流和无界流。
      *
-     * <p>Pipelined results can be consumed only once by a single consumer and are automatically
-     * disposed when the stream has been consumed.
+     * <p>管道化结果只能由单个使用者使用一次，并在使用流时自动进行处理。
      *
-     * <p>This result partition type may keep an arbitrary amount of data in-flight, in contrast to
-     * the {@link #PIPELINED_BOUNDED} variant.
+     * <p>与{@link #PIPELINED_BOUNDED}变量不同，此结果分区类型可以保留任意数量的数据。
      */
     PIPELINED(true, true, false, false, false),
 
     /**
-     * Pipelined partitions with a bounded (local) buffer pool.
+     * 具有有界（本地）缓冲池的流水线分区。
      *
-     * <p>For streaming jobs, a fixed limit on the buffer pool size should help avoid that too much
-     * data is being buffered and checkpoint barriers are delayed. In contrast to limiting the
-     * overall network buffer pool size, this, however, still allows to be flexible with regards to
-     * the total number of partitions by selecting an appropriately big network buffer pool size.
+     * <p>对于流作业，缓冲池大小的固定限制应有助于避免缓冲过多数据和延迟检查点屏障。
+     * 但是，与限制整个网络缓冲池大小不同，这仍然允许通过选择适当大的网络缓冲池大小来灵活地控制分区总数。
      *
-     * <p>For batch jobs, it will be best to keep this unlimited ({@link #PIPELINED}) since there
-     * are no checkpoint barriers.
+     * <p>对于批处理作业，最好保持此无限制（{@link #PIPELINED}），因为没有检查点障碍。
      */
     PIPELINED_BOUNDED(true, true, true, false, false),
 
     /**
-     * Pipelined partitions with a bounded (local) buffer pool to support downstream task to
-     * continue consuming data after reconnection in Approximate Local-Recovery.
+     * 具有有界（本地）缓冲池的流水线分区，支持下游任务在近似本地恢复中重新连接后继续使用数据。
      *
-     * <p>Pipelined results can be consumed only once by a single consumer at one time. {@link
-     * #PIPELINED_APPROXIMATE} is different from {@link #PIPELINED} and {@link #PIPELINED_BOUNDED}
-     * in that {@link #PIPELINED_APPROXIMATE} partition can be reconnected after down stream task
-     * fails.
+     * <p>流水线结果一次只能由单个使用者使用一次。{@link #PIPELINED_APPROXIMATE}不同于{@link #PIPELINED}和{@link #PIPELINED_BOUNDED}，因为{@link #PIPELINED_APPROXIMATE}分区可以在下游任务失败后重新连接。
      */
     PIPELINED_APPROXIMATE(true, true, true, false, true);
 
-    /** Can the partition be consumed while being produced? */
+    /** 分区是否可以在生成时使用？ */
     private final boolean isPipelined;
 
     /** Does the partition produce back pressure when not consumed? */

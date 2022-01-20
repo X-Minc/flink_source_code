@@ -27,21 +27,20 @@ import static org.apache.flink.util.Preconditions.checkArgument;
 import static org.apache.flink.util.Preconditions.checkNotNull;
 import static org.apache.flink.util.Preconditions.checkState;
 
-/** Compressor for {@link Buffer}. */
+/** {@link Buffer}的压缩器。 */
 public class BufferCompressor {
 
-    /** The backing block compressor for data compression. */
+    /** 用于数据压缩的后备块压缩器。 */
     private final BlockCompressor blockCompressor;
 
-    /** The intermediate buffer for the compressed data. */
+    /** 压缩数据的中间缓冲区。 */
     private final NetworkBuffer internalBuffer;
 
     public BufferCompressor(int bufferSize, String factoryName) {
         checkArgument(bufferSize > 0);
         checkNotNull(factoryName);
-        // the size of this intermediate heap buffer will be gotten from the
-        // plugin configuration in the future, and currently, double size of
-        // the input buffer is enough for lz4-java compression library.
+        //这个中间堆缓冲区的大小将在将来从插件配置中获得，
+        // 目前，输入缓冲区的两倍大小足以满足LZ4Java压缩库的需要。
         final byte[] heapBuffer = new byte[2 * bufferSize];
         this.internalBuffer =
                 new NetworkBuffer(

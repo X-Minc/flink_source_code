@@ -89,7 +89,7 @@ public class Deadline {
         return new Deadline(System.nanoTime(), SystemClock.getInstance());
     }
 
-    /** Constructs a Deadline that is a given duration after now. */
+    /** 构造一个截止日期，该截止日期是现在之后的给定持续时间。 */
     public static Deadline fromNow(Duration duration) {
         return new Deadline(
                 Math.addExact(System.nanoTime(), duration.toNanos()), SystemClock.getInstance());

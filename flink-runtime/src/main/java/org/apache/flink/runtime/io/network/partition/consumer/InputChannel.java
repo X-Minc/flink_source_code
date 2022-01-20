@@ -49,7 +49,7 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
  * </ol>
  */
 public abstract class InputChannel {
-    /** The info of the input channel to identify it globally within a task. */
+    /** 用于在任务中全局标识输入通道的信息。 */
     protected final InputChannelInfo channelInfo;
 
     protected final ResultPartitionID partitionId;
@@ -62,10 +62,10 @@ public abstract class InputChannel {
 
     // - Partition request backoff --------------------------------------------
 
-    /** The initial backoff (in ms). */
+    /** 初始退避（毫秒）。 */
     protected final int initialBackoff;
 
-    /** The maximum backoff (in ms). */
+    /** 最大回退（毫秒）。 */
     protected final int maxBackoff;
 
     protected final Counter numBytesIn;
@@ -107,14 +107,13 @@ public abstract class InputChannel {
     // Properties
     // ------------------------------------------------------------------------
 
-    /** Returns the index of this channel within its {@link SingleInputGate}. */
+    /** 返回此通道在其{@link SingleInputGate}内的索引。 */
     public int getChannelIndex() {
         return channelInfo.getInputChannelIdx();
     }
 
     /**
-     * Returns the info of this channel, which uniquely identifies the channel in respect to its
-     * operator instance.
+     * 返回此通道的信息，该信息根据其运算符实例唯一标识通道。
      */
     public InputChannelInfo getChannelInfo() {
         return channelInfo;
@@ -125,28 +124,23 @@ public abstract class InputChannel {
     }
 
     /**
-     * After sending a {@link org.apache.flink.runtime.io.network.api.CheckpointBarrier} of
-     * exactly-once mode, the upstream will be blocked and become unavailable. This method tries to
-     * unblock the corresponding upstream and resume data consumption.
+     * 在发送恰好一次模式的{@link org.apache.flink.runtime.io.network.api.CheckpointBarrier}后，
+     * 上游将被阻塞并变得不可用。此方法尝试取消阻止相应的上游并恢复数据消耗。
      */
     public abstract void resumeConsumption() throws IOException;
 
     /**
-     * When received {@link EndOfData} from one channel, it need to acknowledge after this event get
-     * processed.
+     * 当从一个通道接收到{@link EndOfData}时，需要在处理此事件后进行确认。
      */
     public abstract void acknowledgeAllRecordsProcessed() throws IOException;
 
     /**
-     * Notifies the owning {@link SingleInputGate} that this channel became non-empty.
+     * 通知拥有者{@link SingleInputGate}此通道变为非空。
      *
-     * <p>This is guaranteed to be called only when a Buffer was added to a previously empty input
-     * channel. The notion of empty is atomically consistent with the flag {@link
-     * BufferAndAvailability#moreAvailable()} when polling the next buffer from this channel.
+     * <p>只有在将缓冲区添加到以前为空的输入通道时，才能保证调用此函数。
+     * 当从此通道轮询下一个缓冲区时，空的概念在原子上与标志{@link BufferAndAvailability #moreAvailable()}一致。
      *
-     * <p><b>Note:</b> When the input channel observes an exception, this method is called
-     * regardless of whether the channel was empty before. That ensures that the parent InputGate
-     * will always be notified about the exception.
+     * <p><b>笔记:</b> 当输入通道观察到异常时，不管通道之前是否为空，都会调用此方法。这样可以确保父InputGate始终收到异常通知。
      */
     protected void notifyChannelNonEmpty() {
         inputGate.notifyChannelNonEmpty(this);
@@ -156,50 +150,52 @@ public abstract class InputChannel {
         inputGate.notifyPriorityEvent(this, priorityBufferNumber);
     }
 
-    protected void notifyBufferAvailable(int numAvailableBuffers) throws IOException {}
+    protected void notifyBufferAvailable(int numAvailableBuffers) throws IOException {
+    }
 
     // ------------------------------------------------------------------------
     // Consume
     // ------------------------------------------------------------------------
 
     /**
-     * Requests the queue with the specified index of the source intermediate result partition.
+     * 使用源中间结果分区的指定索引请求队列。
      *
-     * <p>The queue index to request depends on which sub task the channel belongs to and is
-     * specified by the consumer of this channel.
+     * <p>请求的队列索引取决于通道所属的子任务，并由该通道的使用者指定。
      */
     abstract void requestSubpartition(int subpartitionIndex)
             throws IOException, InterruptedException;
 
     /**
-     * Returns the next buffer from the consumed subpartition or {@code Optional.empty()} if there
-     * is no data to return.
+     * 返回已使用子分区的下一个缓冲区，
+     * 如果没有要返回的数据，则返回{@code Optional.empty（）}。
      */
     abstract Optional<BufferAndAvailability> getNextBuffer()
             throws IOException, InterruptedException;
 
     /**
-     * Called by task thread when checkpointing is started (e.g., any input channel received
-     * barrier).
+     * 启动检查点时由任务线程调用（例如，任何接收到的输入通道）。
      */
-    public void checkpointStarted(CheckpointBarrier barrier) throws CheckpointException {}
+    public void checkpointStarted(CheckpointBarrier barrier) throws CheckpointException {
+    }
 
-    /** Called by task thread on cancel/complete to clean-up temporary data. */
-    public void checkpointStopped(long checkpointId) {}
+    /** 在cancel/complete上由任务线程调用以清理临时数据。 */
+    public void checkpointStopped(long checkpointId) {
+    }
 
-    public void convertToPriorityEvent(int sequenceNumber) throws IOException {}
+    public void convertToPriorityEvent(int sequenceNumber) throws IOException {
+    }
 
     // ------------------------------------------------------------------------
     // Task events
     // ------------------------------------------------------------------------
 
     /**
-     * Sends a {@link TaskEvent} back to the task producing the consumed result partition.
+     * 将{@link TaskEvent}发送回生成已使用结果分区的任务。
      *
-     * <p><strong>Important</strong>: The producing task has to be running to receive backwards
-     * events. This means that the result type needs to be pipelined and the task logic has to
-     * ensure that the producer will wait for all backwards events. Otherwise, this will lead to an
-     * Exception at runtime.
+     * <p><strong>重要的</strong>:
+     * 生产任务必须运行才能接收向后的事件。
+     * 这意味着结果类型需要管道化，任务逻辑必须确保生产者将等待所有向后的事件。
+     * 否则，这将导致运行时出现异常。
      */
     abstract void sendTaskEvent(TaskEvent event) throws IOException;
 
@@ -209,7 +205,7 @@ public abstract class InputChannel {
 
     abstract boolean isReleased();
 
-    /** Releases all resources of the channel. */
+    /** 释放频道的所有资源。 */
     abstract void releaseAllResources() throws IOException;
 
     abstract void announceBufferSize(int newBufferSize);
@@ -221,10 +217,10 @@ public abstract class InputChannel {
     // ------------------------------------------------------------------------
 
     /**
-     * Checks for an error and rethrows it if one was reported.
+     * 检查是否存在错误，如果报告了错误，则重新执行。
      *
-     * <p>Note: Any {@link PartitionException} instances should not be transformed and make sure
-     * they are always visible in task failure cause.
+     * <p>注意：不应转换任何{@link PartitionException}实例，
+     * 并确保它们在任务失败原因中始终可见。
      */
     protected void checkError() throws IOException {
         final Throwable t = cause.get();
@@ -242,12 +238,11 @@ public abstract class InputChannel {
     }
 
     /**
-     * Atomically sets an error for this channel and notifies the input gate about available data to
-     * trigger querying this channel by the task thread.
+     * 原子地为此通道设置错误，并将可用数据通知输入门，以触发任务线程查询此通道。
      */
     protected void setError(Throwable cause) {
         if (this.cause.compareAndSet(null, checkNotNull(cause))) {
-            // Notify the input gate.
+            // 通知输入门。
             notifyChannelNonEmpty();
         }
     }
@@ -256,15 +251,15 @@ public abstract class InputChannel {
     // Partition request exponential backoff
     // ------------------------------------------------------------------------
 
-    /** Returns the current backoff in ms. */
+    /** 以毫秒为单位返回当前回退。 */
     protected int getCurrentBackoff() {
         return currentBackoff <= 0 ? 0 : currentBackoff;
     }
 
     /**
-     * Increases the current backoff and returns whether the operation was successful.
+     * 增加当前退避并返回操作是否成功。
      *
-     * @return <code>true</code>, iff the operation was successful. Otherwise, <code>false</code>.
+     * @return <code>true<code>，如果操作成功。否则，<code>false<code>。
      */
     protected boolean increaseBackoff() {
         // Backoff is disabled
@@ -301,8 +296,7 @@ public abstract class InputChannel {
     // ------------------------------------------------------------------------
 
     /**
-     * A combination of a {@link Buffer} and a flag indicating availability of further buffers, and
-     * the backlog length indicating how many non-event buffers are available in the subpartition.
+     * {@link Buffer}和一个标志的组合，该标志指示进一步缓冲区的可用性，而backlog长度指示子分区中有多少非事件缓冲区可用。
      */
     public static final class BufferAndAvailability {
 
@@ -361,5 +355,6 @@ public abstract class InputChannel {
         }
     }
 
-    void setup() throws IOException {}
+    void setup() throws IOException {
+    }
 }

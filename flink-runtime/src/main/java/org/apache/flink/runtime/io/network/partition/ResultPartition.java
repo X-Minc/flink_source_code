@@ -48,20 +48,20 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
 import static org.apache.flink.util.Preconditions.checkState;
 
 /**
- * A result partition for data produced by a single task.
+ * 单个任务生成的数据的结果分区。
  *
- * <p>This class is the runtime part of a logical {@link IntermediateResultPartition}. Essentially,
- * a result partition is a collection of {@link Buffer} instances. The buffers are organized in one
- * or more {@link ResultSubpartition} instances or in a joint structure which further partition the
- * data depending on the number of consuming tasks and the data {@link DistributionPattern}.
+ * <p>此类是逻辑{@link IntermediateResultPartition}的运行时部分。
+ * 本质上，结果分区是{@link Buffer}实例的集合。
+ * 缓冲区被组织在一个或多个{@link ResultSubpartition}实例中，或者被组织在一个联合结构中，
+ * 该联合结构根据使用任务的数量和数据{@link DistributionPattern}进一步划分数据。
  *
- * <p>Tasks, which consume a result partition have to request one of its subpartitions. The request
- * happens either remotely (see {@link RemoteInputChannel}) or locally (see {@link
- * LocalInputChannel})
+ * <p>使用结果分区的任务必须请求其一个子分区。
+ * 请求发生在远程（请参见{@link RemoteInputChannel}）、
+ * 或本地（请参见{@link LocalInputChannel}）
  *
- * <h2>Life-cycle</h2>
+ * <h2>生命周期</h2>
  *
- * <p>The life-cycle of each result partition has three (possibly overlapping) phases:
+ * <p>每个结果分区的生命周期有三个（可能重叠）阶段：
  *
  * <ol>
  *   <li><strong>Produce</strong>:
@@ -83,11 +83,12 @@ public abstract class ResultPartition implements ResultPartitionWriter {
 
     protected final ResultPartitionID partitionId;
 
-    /** Type of this partition. Defines the concrete subpartition implementation to use. */
+    /** 此分区的类型。定义要使用的具体子分区实现。 */
     protected final ResultPartitionType partitionType;
 
     protected final ResultPartitionManager partitionManager;
 
+    //子分区数量
     protected final int numSubpartitions;
 
     private final int numTargetKeyGroups;
@@ -104,8 +105,9 @@ public abstract class ResultPartition implements ResultPartitionWriter {
 
     private final SupplierWithException<BufferPool, IOException> bufferPoolFactory;
 
-    /** Used to compress buffer to reduce IO. */
-    @Nullable protected final BufferCompressor bufferCompressor;
+    /** 用于压缩缓冲区以减少IO。 */
+    @Nullable
+    protected final BufferCompressor bufferCompressor;
 
     protected Counter numBytesOut = new SimpleCounter();
 
@@ -135,12 +137,12 @@ public abstract class ResultPartition implements ResultPartitionWriter {
     }
 
     /**
-     * Registers a buffer pool with this result partition.
+     * 使用此结果分区注册缓冲池。
      *
-     * <p>There is one pool for each result partition, which is shared by all its sub partitions.
+     * <p>每个结果分区都有一个池，由其所有子分区共享。
      *
-     * <p>The pool is registered with the partition *after* it as been constructed in order to
-     * conform to the life-cycle of task registrations in the {@link TaskExecutor}.
+     * <p>池在构建完成后向分区注册，
+     * 以符合{@link TaskExecutor}中任务注册的生命周期。
      */
     @Override
     public void setup() throws IOException {
@@ -174,16 +176,16 @@ public abstract class ResultPartition implements ResultPartitionWriter {
         return bufferPool;
     }
 
-    /** Returns the total number of queued buffers of all subpartitions. */
+    /** 返回所有子分区的排队缓冲区总数。 */
     public abstract int getNumberOfQueuedBuffers();
 
-    /** Returns the number of queued buffers of the given target subpartition. */
+    /** 返回给定目标子分区的排队缓冲区数。 */
     public abstract int getNumberOfQueuedBuffers(int targetSubpartition);
 
     /**
-     * Returns the type of this result partition.
+     * 返回此结果分区的类型。
      *
-     * @return result partition type
+     * @return 结果分区类型
      */
     public ResultPartitionType getPartitionType() {
         return partitionType;
@@ -202,16 +204,17 @@ public abstract class ResultPartition implements ResultPartitionWriter {
     }
 
     /**
-     * The subpartition notifies that the corresponding downstream task have processed all the user
-     * records.
+     * 子分区通知相应的下游任务已处理所有用户记录。
+     *
+     * @param subpartition 发送通知的子分区的索引。
      *
      * @see EndOfData
-     * @param subpartition The index of the subpartition sending the notification.
      */
-    public void onSubpartitionAllDataProcessed(int subpartition) {}
+    public void onSubpartitionAllDataProcessed(int subpartition) {
+    }
 
     /**
-     * Finishes the result partition.
+     * 完成结果分区。
      *
      * <p>After this operation, it is not possible to add further data to the result partition.
      *

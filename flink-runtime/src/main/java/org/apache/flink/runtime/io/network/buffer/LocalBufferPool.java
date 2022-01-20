@@ -132,12 +132,12 @@ class LocalBufferPool implements BufferPool {
     }
 
     /**
-     * Local buffer pool based on the given <tt>networkBufferPool</tt> with a minimal and maximal
-     * number of network buffers being available.
+     * 本地缓冲池基于给定的<tt>网络缓冲池<tt>，
+     * 具有最小和最大可用网络缓冲区数量。
      *
-     * @param networkBufferPool global network buffer pool to get buffers from
-     * @param numberOfRequiredMemorySegments minimum number of network buffers
-     * @param maxNumberOfMemorySegments maximum number of network buffers to allocate
+     * @param networkBufferPool 从中获取缓冲区的全局网络缓冲池
+     * @param numberOfRequiredMemorySegments 网络缓冲区的最小数量
+     * @param maxNumberOfMemorySegments 要分配的最大网络缓冲区数
      */
     LocalBufferPool(
             NetworkBufferPool networkBufferPool,
@@ -153,8 +153,8 @@ class LocalBufferPool implements BufferPool {
     }
 
     /**
-     * Local buffer pool based on the given <tt>networkBufferPool</tt> and <tt>bufferPoolOwner</tt>
-     * with a minimal and maximal number of network buffers being available.
+     * 本地缓冲池基于给定的<tt>networkBufferPool<tt>和<tt>bufferPoolOwner<tt>，
+     * 具有最小和最大可用网络缓冲区数量。
      *
      * @param networkBufferPool 从中获取缓冲区的全局网络缓冲池
      * @param numberOfRequiredMemorySegments 网络缓冲区的最小数量
@@ -347,7 +347,7 @@ class LocalBufferPool implements BufferPool {
                 throw new IllegalStateException("Buffer pool is destroyed.");
             }
 
-            // target channel over quota; do not return a segment
+            // 目标渠道超限额；不返回段
             if (targetChannel != UNKNOWN_CHANNEL
                     && subpartitionBuffersCount[targetChannel] >= maxBuffersPerChannel) {
                 return null;
@@ -438,11 +438,9 @@ class LocalBufferPool implements BufferPool {
                 return;
             }
 
-            // Check availability and potentially request the memory segment. The call may also
-            // result in invoking
-            // #requestMemorySegmentFromGlobalWhenAvailable again if no segment could be fetched
-            // because of
-            // concurrent requests from different LocalBufferPools.
+            // 检查可用性并可能请求内存段。
+            // 如果由于来自不同LocalBufferPool的并发请求而无法提取任何段，
+            // 则调用requestMemorySegmentFromGlobalWhenAvailable也可能导致再次调用requestMemorySegmentFromGlobalWhenAvailable。
             if (checkAvailability()) {
                 toNotify = availabilityHelper.getUnavailableToResetAvailable();
             }
@@ -515,8 +513,8 @@ class LocalBufferPool implements BufferPool {
                     listener = registeredListeners.poll();
                     if (listener == null) {
                         availableMemorySegments.add(segment);
-                        // only need to check unavailableSubpartitionsCount here because
-                        // availableMemorySegments is not empty
+                        // 因为availableMemorySegments不是空的，
+                        // 所以只需要在此处检查unavailableSubpartitionsCount
                         if (!availabilityHelper.isApproximatelyAvailable()
                                 && unavailableSubpartitionsCount == 0) {
                             toNotify = availabilityHelper.getUnavailableToResetAvailable();
@@ -534,14 +532,13 @@ class LocalBufferPool implements BufferPool {
 
     private boolean fireBufferAvailableNotification(
             BufferListener listener, MemorySegment segment) {
-        // We do not know which locks have been acquired before the recycle() or are needed in the
-        // notification and which other threads also access them.
-        // -> call notifyBufferAvailable() outside of the synchronized block to avoid a deadlock
-        // (FLINK-9676)
+        // 我们不知道在recycle（）之前获得了哪些锁，或者通知中需要哪些锁，
+        // 以及哪些其他线程也可以访问这些锁。
+        // ->在同步块外调用notifyBufferAvailable（）以避免死锁（FLINK-9676）
         return listener.notifyBufferAvailable(new NetworkBuffer(segment, this));
     }
 
-    /** Destroy is called after the produce or consume phase of a task finishes. */
+    /** 销毁在任务的生产或消费阶段完成后调用。 */
     @Override
     public void lazyDestroy() {
         // 注意：如果您更改此逻辑，请务必更新 recycle() ！
@@ -598,10 +595,8 @@ class LocalBufferPool implements BufferPool {
             returnExcessMemorySegments();
 
             if (isDestroyed) {
-                // FLINK-19964: when two local buffer pools are released concurrently, one of them
-                // gets buffers assigned
-                // make sure that checkAvailability is not called as it would pro-actively acquire
-                // one buffer from NetworkBufferPool
+                // FLINK-19964：当同时释放两个本地缓冲池时，其中一个会分配缓冲区。
+                // 请确保未调用checkAvailability，因为它会主动从NetworkBufferPool获取一个缓冲区
                 return;
             }
 
@@ -643,8 +638,7 @@ class LocalBufferPool implements BufferPool {
     // ------------------------------------------------------------------------
 
     /**
-     * Notifies the potential segment consumer of the new available segments by completing the
-     * previous uncompleted future.
+     * 通过完成以前未完成的未来，通知潜在的细分消费者新的可用细分。
      */
     private void mayNotifyAvailable(@Nullable CompletableFuture<?> toNotify) {
         if (toNotify != null) {

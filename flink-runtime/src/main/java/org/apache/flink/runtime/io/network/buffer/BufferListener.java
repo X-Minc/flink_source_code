@@ -19,8 +19,7 @@
 package org.apache.flink.runtime.io.network.buffer;
 
 /**
- * Interface of the availability of buffers. Listeners can opt for a one-time only notification or
- * to be notified repeatedly.
+ * 缓冲区可用性的接口。侦听器可以选择一次性通知或重复通知。
  */
 public interface BufferListener {
 
@@ -38,6 +37,7 @@ public interface BufferListener {
      * stack!
      *
      * @param buffer buffer that becomes available in buffer pool.
+     *
      * @return true if the buffer is accepted by the listener.
      */
     boolean notifyBufferAvailable(Buffer buffer);

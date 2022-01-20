@@ -40,16 +40,15 @@ import java.util.concurrent.CompletableFuture;
 import static org.apache.flink.util.Preconditions.checkArgument;
 
 /**
- * An abstract record-oriented runtime result writer.
+ * 面向抽象记录的运行时结果编写器。
  *
- * <p>The RecordWriter wraps the runtime's {@link ResultPartitionWriter} and takes care of channel
- * selection and serializing records into bytes.
+ * <p>RecordWriter包装运行时的{@link ResultPartitionWriter}，并负责通道选择和将记录序列化为字节。
  *
- * @param <T> the type of the record that can be emitted with this record writer
+ * @param <T>可以使用此记录编写器发出的记录的类型
  */
 public abstract class RecordWriter<T extends IOReadableWritable> implements AvailabilityProvider {
 
-    /** Default name for the output flush thread, if no name with a task reference is given. */
+    /** 如果未提供带有任务引用的名称，则输出刷新线程的默认名称。 */
     @VisibleForTesting
     public static final String DEFAULT_OUTPUT_FLUSH_THREAD_NAME = "OutputFlusher";
 
@@ -65,12 +64,12 @@ public abstract class RecordWriter<T extends IOReadableWritable> implements Avai
 
     protected final boolean flushAlways;
 
-    /** The thread that periodically flushes the output, to give an upper latency bound. */
-    @Nullable private final OutputFlusher outputFlusher;
+    /** 定期刷新输出的线程，以给出延迟上限。 */
+    @Nullable
+    private final OutputFlusher outputFlusher;
 
     /**
-     * To avoid synchronization overhead on the critical path, best-effort error tracking is enough
-     * here.
+     * 为了避免关键路径上的同步开销，这里的尽力而为错误跟踪就足够了。
      */
     private Throwable flusherException;
 
@@ -151,7 +150,7 @@ public abstract class RecordWriter<T extends IOReadableWritable> implements Avai
         return targetPartition.getAvailableFuture();
     }
 
-    /** This is used to send regular records. */
+    /** 这用于发送常规记录。 */
     public abstract void emit(T record) throws IOException;
 
     /** This is used to send LatencyMarks to a random target channel. */
@@ -197,8 +196,8 @@ public abstract class RecordWriter<T extends IOReadableWritable> implements Avai
         // For performance reasons, we are not checking volatile field every single time.
         if (flusherException != null
                 || (volatileFlusherExceptionCheckSkipCount
-                                >= VOLATILE_FLUSHER_EXCEPTION_MAX_CHECK_SKIP_COUNT
-                        && volatileFlusherException != null)) {
+                >= VOLATILE_FLUSHER_EXCEPTION_MAX_CHECK_SKIP_COUNT
+                && volatileFlusherException != null)) {
             throw new IOException(
                     "An exception happened while flushing the outputs", volatileFlusherException);
         }
@@ -239,15 +238,12 @@ public abstract class RecordWriter<T extends IOReadableWritable> implements Avai
                     try {
                         Thread.sleep(timeout);
                     } catch (InterruptedException e) {
-                        // propagate this if we are still running, because it should not happen
-                        // in that case
+                        // 如果我们还在运行，就传播它，因为在这种情况下不应该发生
                         if (running) {
                             throw new Exception(e);
                         }
                     }
-
-                    // any errors here should let the thread come to a halt and be
-                    // recognized by the writer
+                    // 这里的任何错误都应该让线程停止并被写入程序识别
                     flushAll();
                 }
             } catch (Throwable t) {
