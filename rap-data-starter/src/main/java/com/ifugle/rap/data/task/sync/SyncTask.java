@@ -148,8 +148,8 @@ public class SyncTask {
      * 消息—40055-1-3 消息推送已读其他数
      */
     private List<SqlTask> xxIndex40055_1_3() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) ANDdjzclx_flag =\"3\" {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"3\" {time_condition} GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) ANDdjzclx_flag =\"3\" {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"3\" {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -168,8 +168,8 @@ public class SyncTask {
      * 消息—40055-1-2 消息推送已读个体数
      */
     private List<SqlTask> xxIndex40055_1_2() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) ANDdjzclx_flag =\"2\" {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"2\" {time_condition} GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) ANDdjzclx_flag =\"2\" {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"2\" {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -188,8 +188,8 @@ public class SyncTask {
      * 消息—40055-1-1 消息推送已读企业数
      */
     private List<SqlTask> xxIndex40055_1_1() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"1\" {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"1\" {time_condition} GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"1\" {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"1\" {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -208,8 +208,8 @@ public class SyncTask {
      * 消息—40054-1-3 消息推送通知其他数
      */
     private List<SqlTask> xxIndex40054_1_3() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"3\"  {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"3\" {time_condition} GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"3\"  {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"3\" {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -228,8 +228,8 @@ public class SyncTask {
      * 消息—40054-1-2 消息推送通知个体数
      */
     private List<SqlTask> xxIndex40054_1_2() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"2\"  {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"2\" {time_condition} GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"2\"  {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"2\" {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -248,8 +248,8 @@ public class SyncTask {
      * 消息—40054-1-1 消息推送通知企业数
      */
     private List<SqlTask> xxIndex40054_1_1() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"1\" GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"1\" GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"1\" GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) AND djzclx_flag =\"1\" GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -268,8 +268,8 @@ public class SyncTask {
      * 消息—40066-1 月消息通知公告已读企业数
      */
     private List<SqlTask> xxIndex40066_1() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -286,8 +286,8 @@ public class SyncTask {
      * 消息—40062-1 月推送通知公告企业数
      */
     private List<SqlTask> xxIndex40062_1() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -304,8 +304,8 @@ public class SyncTask {
      * 消息—40055-1 涉税通知已读纳税人数
      */
     private List<SqlTask> xxIndex40055_1() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -322,8 +322,8 @@ public class SyncTask {
      * 消息—40054-1 涉税通知推送纳税人数
      */
     private List<SqlTask> xxIndex40054_1() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND and czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -340,8 +340,8 @@ public class SyncTask {
      * 消息—40053-1 涉税通知接口推送次数
      */
     private List<SqlTask> xxIndex40053_1() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(xxzb_id) FROM bigdata_xxzx_xxzb WHERE xxywlx = 3 AND xxly = 9 AND and czzt = 6  and xxch = 0 and parent_id != 0 AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(xxzb_id) FROM bigdata_xxzx_xxzb WHERE xxywlx = 3 AND xxly = 9 AND and czzt = 6  and xxch = 0 and parent_id != 0 AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(xxzb_id) FROM bigdata_xxzx_xxzb WHERE xxywlx = 3 AND xxly = 9 AND  czzt = 6  and xxch = 0 and parent_id != 0 AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(xxzb_id) FROM bigdata_xxzx_xxzb WHERE xxywlx = 3 AND xxly = 9 AND  czzt = 6  and xxch = 0 and parent_id != 0 AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -358,8 +358,8 @@ public class SyncTask {
      * 消息—40052-1 涉税通知推送次数
      */
     private List<SqlTask> xxIndex40052_1() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(xxzb_id) FROM bigdata_xxzx_xxzb WHERE xxywlx = 3 AND and czzt = 6 and xxch = 0 and parent_id != 0 AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(xxzb_id) FROM bigdata_xxzx_xxzb WHERE xxywlx = 3 AND and czzt = 6 and xxch = 0 and parent_id != 0 AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(xxzb_id) FROM bigdata_xxzx_xxzb WHERE xxywlx = 3 AND  czzt = 6 and xxch = 0 and parent_id != 0 AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(xxzb_id) FROM bigdata_xxzx_xxzb WHERE xxywlx = 3 AND  czzt = 6 and xxch = 0 and parent_id != 0 AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -398,8 +398,8 @@ public class SyncTask {
      * 纳税人—10030-1 企业激活人数
      */
     private List<SqlTask> nsrIndex10030_1() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh_qy  WHERE is_delete=0 AND jhbj=1  swjgbz IN (1,2) AND cysx=2 {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh_qy  WHERE is_delete=0 AND jhbj=1  swjgbz IN (1,2) AND cysx=2 {time_condition} GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh_qy  WHERE is_delete=0 AND jhbj=1  and  swjgbz IN (1,2) AND cysx=2 {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh_qy  WHERE is_delete=0 AND jhbj=1  and  swjgbz IN (1,2) AND cysx=2 {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -416,8 +416,8 @@ public class SyncTask {
      * 纳税人—10010-5 人员总数
      */
     private List<SqlTask> nsrIndex10010_5() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh_all  WHERE is_delete=0 AND swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh_all  WHERE is_delete=0 AND swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh_all  WHERE is_delete=0 AND   swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh_all  WHERE is_delete=0 AND  swjgbz IN (1,2) {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
@@ -434,10 +434,11 @@ public class SyncTask {
      * 纳税人—10010-1 激活人数
      */
     private List<SqlTask> nsrIndex10010_1() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(DISTINCT yh_id) FROM bigdata_yhzx_xnzz_yh_all  WHERE is_delete=0 AND jhbj=1  swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(DISTINCT yh_id) FROM bigdata_yhzx_xnzz_yh_all  WHERE is_delete=0 AND jhbj=1  swjgbz IN (1,2)  {time_condition} GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(DISTINCT yh_id) FROM bigdata_yhzx_xnzz_yh_all  WHERE is_delete=0 AND jhbj=1 and swjgbz IN (1,2) {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(DISTINCT yh_id) FROM bigdata_yhzx_xnzz_yh_all  WHERE is_delete=0 AND jhbj=1 and swjgbz IN (1,2)  {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
+
                 .builder()
                 .setIndex("10010")
                 .setDim1("1001")
@@ -452,8 +453,8 @@ public class SyncTask {
      * 纳税人—10020-1 机构激活人数
      */
     private List<SqlTask> nsrIndex10020_1() throws Exception {
-        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh_jg  WHERE is_delete=0 AND jhbj=1  swjgbz IN (1,2) AND cysx=1 {time_condition} GROUP BY  xnzz_id,swjg_dm";
-        String superiorSql = "SELECT swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh_jg  WHERE is_delete=0 AND jhbj=1  swjgbz IN (1,2) AND cysx=1 {time_condition} GROUP BY  swjg_dms";
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh_jg  WHERE is_delete=0 AND jhbj=1  and swjgbz IN (1,2) AND cysx=1 {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(yh_id) FROM bigdata_yhzx_xnzz_yh_jg  WHERE is_delete=0 AND jhbj=1  and swjgbz IN (1,2) AND cysx=1 {time_condition} GROUP BY  swjg_dms";
         //通用字段提取
         CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
                 .builder()
