@@ -90,7 +90,13 @@ public class SyncTask {
                 xxIndex40054_1_2(),
                 xxIndex40054_1_1(),
                 xxIndex40066_1(),
+                xxIndex40066_1_1(),
+                xxIndex40066_1_2(),
+                xxIndex40066_1_3(),
                 xxIndex40062_1(),
+                xxIndex40062_1_1(),
+                xxIndex40062_1_2(),
+                xxIndex40062_1_3(),
                 xxIndex40055_1(),
                 xxIndex40054_1(),
                 xxIndex40053_1(),
@@ -277,6 +283,126 @@ public class SyncTask {
                 .setDim1("1001")
                 .setDim2("1005")
                 .setDimData2("1");
+        /*----------------------------------------------action-----------------------------------------------*/
+        //组织
+        return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, false, "cjsj");
+    }
+
+    /**
+     * 消息—40066-1-1 消息推送已读企业数
+     */
+    private List<SqlTask> xxIndex40066_1_1() throws Exception {
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) and djzclx_flag =\"1\" {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) and djzclx_flag =\"1\" {time_condition} GROUP BY  swjg_dms";
+        //通用字段提取
+        CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
+                .builder()
+                .setIndex("40062")
+                .setDim1("1001")
+                .setDim2("1005")
+                .setDim3("1011")
+                .setDimData2("1")
+                .setDimData3("1");
+        /*----------------------------------------------action-----------------------------------------------*/
+        //组织
+        return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, false, "cjsj");
+    }
+
+    /**
+     * 消息—40066-1-2 消息推送已读个体户数
+     */
+    private List<SqlTask> xxIndex40066_1_2() throws Exception {
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) and djzclx_flag =\"2\" {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) and djzclx_flag =\"2\" {time_condition} GROUP BY  swjg_dms";
+        //通用字段提取
+        CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
+                .builder()
+                .setIndex("40062")
+                .setDim1("1001")
+                .setDim2("1005")
+                .setDim3("1011")
+                .setDimData2("1")
+                .setDimData3("2");
+        /*----------------------------------------------action-----------------------------------------------*/
+        //组织
+        return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, false, "cjsj");
+    }
+
+    /**
+     * 消息—40066-1-3 消息推送其他已读数
+     */
+    private List<SqlTask> xxIndex40066_1_3() throws Exception {
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) and djzclx_flag =\"3\" {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE xxzt = 1 AND tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) and djzclx_flag =\"3\" {time_condition} GROUP BY  swjg_dms";
+        //通用字段提取
+        CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
+                .builder()
+                .setIndex("40062")
+                .setDim1("1001")
+                .setDim2("1005")
+                .setDim3("1011")
+                .setDimData2("1")
+                .setDimData3("3");
+        /*----------------------------------------------action-----------------------------------------------*/
+        //组织
+        return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, false, "cjsj");
+    }
+
+    /**
+     * 消息—40062-1-1 消息推送通知企业数
+     */
+    private List<SqlTask> xxIndex40062_1_1() throws Exception {
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2)  and djzclx_flag =\"1\" {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) and djzclx_flag =\"1\" {time_condition} GROUP BY  swjg_dms";
+        //通用字段提取
+        CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
+                .builder()
+                .setIndex("40062")
+                .setDim1("1001")
+                .setDim2("1005")
+                .setDim3("1011")
+                .setDimData2("1")
+                .setDimData3("1");
+        /*----------------------------------------------action-----------------------------------------------*/
+        //组织
+        return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, false, "cjsj");
+    }
+
+    /**
+     * 消息—40062-1-2  消息推送通知个体户数
+     */
+    private List<SqlTask> xxIndex40062_1_2() throws Exception {
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) and djzclx_flag =\"2\" {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) and djzclx_flag =\"2\" {time_condition} GROUP BY  swjg_dms";
+        //通用字段提取
+        CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
+                .builder()
+                .setIndex("40062")
+                .setDim1("1001")
+                .setDim2("1005")
+                .setDim3("1011")
+                .setDimData2("1")
+                .setDimData3("2");
+        /*----------------------------------------------action-----------------------------------------------*/
+        //组织
+        return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, false, "cjsj");
+    }
+
+    /**
+     * 消息—40062-1-3 消息推送其他通知数
+     */
+    private List<SqlTask> xxIndex40062_1_3() throws Exception {
+        String selfSql = "SELECT xnzz_id,swjg_dm,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) and djzclx_flag =\"3\" {time_condition} GROUP BY  xnzz_id,swjg_dm";
+        String superiorSql = "SELECT swjg_dms,COUNT(nsr_id) FROM bigdata_xxzx_xxmx WHERE tsdx=3 and fszt=1 AND xxywlx = 3 AND  czzt = 6 and xxch = 0  AND swjgbz IN (1,2) and djzclx_flag =\"3\" {time_condition} GROUP BY  swjg_dms";
+        //通用字段提取
+        CommonFiledExtractor.CommonFiledExtractorBuilder commonFiledExtractorBuilder = CommonFiledExtractor
+                .builder()
+                .setIndex("40062")
+                .setDim1("1001")
+                .setDim2("1005")
+                .setDim3("1011")
+                .setDimData2("1")
+                .setDimData3("3");
         /*----------------------------------------------action-----------------------------------------------*/
         //组织
         return sqlToSqlTask(selfSql, superiorSql, commonFiledExtractorBuilder, false, "cjsj");
