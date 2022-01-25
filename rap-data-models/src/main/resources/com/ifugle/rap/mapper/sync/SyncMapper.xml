@@ -555,7 +555,7 @@
 
                           from bi_dm_index d
 
-                          where d.code in (40040, 40042, 40043, 40044)
+                          where d.code in ('40040', '40042', '40043', '40044', '40049')
 
                           UNION ALL
 
@@ -574,7 +574,7 @@
 
                                    join bi_dm_dim_data m on m.dim_code = '1004' and m.code in ('1', '5')
 
-                          where d.code in ('20010', '20070', '20060', '20040')
+                          where d.code in ('20010', '20070', '20060', '20040', '20021', '20020')
 
                           UNION ALL
 
@@ -876,7 +876,7 @@
 
                           from bi_dm_index d
 
-                          where d.code in (40040, 40042, 40043, 40044)
+                          where d.code in ('40040', '40042', '40043', '40044', '40049')
 
                           UNION ALL
 
@@ -895,7 +895,7 @@
 
                                    join bi_dm_dim_data m on m.dim_code = '1004' and m.code in ('1', '5')
 
-                          where d.code in ('20010', '20070', '20060', '20040')
+                          where d.code in ('20010', '20070', '20060', '20040', '20021', '20020')
 
                           UNION ALL
 
@@ -1197,7 +1197,7 @@
 
                           from bi_dm_index d
 
-                          where d.code in (40040, 40042, 40043, 40044)
+                          where d.code in ('40040', '40042', '40043', '40044', '40049')
 
                           UNION ALL
 
@@ -1216,7 +1216,7 @@
 
                                    join bi_dm_dim_data m on m.dim_code = '1004' and m.code in ('1', '5')
 
-                          where d.code in ('20010', '20070', '20060', '20040')
+                          where d.code in ('20010', '20070', '20060', '20040', '20021', '20020')
 
                           UNION ALL
 
